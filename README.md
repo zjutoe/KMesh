@@ -44,7 +44,37 @@ KMesh 是一个研究项目，探索能否通过小范围的学习和更新，�
 
 项目优先获得可信证据，积极借鉴已有论文的方法。某种图结构没有收益、局部学习只在部分任务中有效，或者参数更新更少却没有节省总成本，都应如实记录。这些结果能帮助我们明确下一步该研究什么，也能说明当前假设的适用范围。
 
-截至 2026-09-13，项目处于实施准备阶段：研究计划和协作协议已建立，首项任务 **T0001：最小 Python 包与环境诊断命令** 的交接文档已就绪，尚未执行。目前没有可运行的研究原型或实验结果，以上内容描述的是待验证的目标与路径。
+## 安装与诊断
+
+仓库根目录下：
+
+```bash
+/opt/anaconda3/bin/python3 -m venv --system-site-packages .venv
+.venv/bin/python -m pip install --no-index --no-build-isolation --no-deps -e .[dev]
+```
+
+目前只实现了 `doctor` 诊断子命令（模块与控制台两种等价入口）：
+
+```bash
+.venv/bin/python -m kmesh.cli doctor --out reports/environment.json
+.venv/bin/kmesh doctor --out reports/T0001/environment-console.json
+```
+
+报告为运行时采集的真实环境信息（Python、平台、依赖元数据、PyTorch CUDA 探测），三种状态：
+
+- `ok`：torch 可用且探测到 CUDA 设备，退出码 0；
+- `cpu_only`：torch 可用但本进程看不到 CUDA 设备，退出码 0，stdout 明确显示 `cpu_only`；
+- `error`：依赖元数据缺失或 torch 导入/设备探测失败，报告仍会写出，退出码 1。
+
+`doctor` 只读环境，不证明 GPU 能通过 forward/backward 或可稳定训练。运行测试：
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_doctor.py
+```
+
+当前限制：T0001 仅覆盖最小包与环境诊断；配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+
+截至 2026-09-13，项目处于 M0 实施阶段：研究计划和协作协议已建立，首项任务 **T0001：最小 Python 包与环境诊断命令** 已按交接文档实现完毕，处于待验收（`awaiting_review`）状态；尚无实验结果，以上内容描述的目标与路径仍待验证。
 
 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
 
