@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-13T15:12:32.841137+00:00",
+  "python_executable": "/home/mye/src/llm/KMesh/.venv/bin/python",
+  "python_version": "3.13.9",
+  "platform": "Linux-5.14.0-721.el9.x86_64-x86_64-with-glibc2.34",
+  "packages": {
+    "torch": "fixture-version",
+    "numpy": "fixture-version",
+    "PyYAML": "fixture-version",
+    "pytest": "fixture-version",
+    "pip": "fixture-version",
+    "setuptools": "fixture-version"
+  },
+  "torch_import_ok": true,
+  "cuda": {
+    "runtime_version": "12.6",
+    "available": null,
+    "device_count": null,
+    "devices": []
+  },
+  "status": "error",
+  "errors": [
+    "torch.cuda.is_available() returned None, expected bool"
+  ]
+}

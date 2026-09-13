@@ -1,0 +1,10 @@
+usage: kmesh [-h] {doctor} ...
+
+KMesh research toolkit
+
+positional arguments:
+  {doctor}
+    doctor    collect a read-only JSON environment report
+
+options:
+  -h, --help  show this help message and exit

@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "accepted_implementation_commit": "39dabc73e035c8c2627a1e5db4deab31055a9c6d",
+  "documentation_links": "PASS",
+  "document_structure_and_whitespace": "PASS",
+  "acceptance_items_checked": 8,
+  "historical_review_retained": true,
+  "implementation_and_prior_artifacts_unchanged_during_review": true,
+  "new_commit_created": false
+}

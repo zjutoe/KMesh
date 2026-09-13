@@ -1,0 +1,106 @@
+[
+  {
+    "case": "missing-version",
+    "result": "PASS",
+    "synthetic": true,
+    "cli_return": 1,
+    "report": "synthetic-missing-version.json",
+    "stdout": "",
+    "stderr": "kmesh doctor: status=error (reading torch.version.cuda failed: AttributeError(\"module 'torch' has no attribute 'version'\")) report saved to /home/mye/src/llm/KMesh/reports/T0001/review-r2/synthetic-missing-version.json\n",
+    "cuda": {
+      "runtime_version": null,
+      "available": true,
+      "device_count": 1,
+      "devices": [
+        {
+          "index": 0,
+          "name": "Synthetic GPU",
+          "total_memory_bytes": 1024
+        }
+      ]
+    }
+  },
+  {
+    "case": "runtime-not-string",
+    "result": "PASS",
+    "synthetic": true,
+    "cli_return": 1,
+    "report": "synthetic-runtime-not-string.json",
+    "stdout": "",
+    "stderr": "kmesh doctor: status=error (torch.version.cuda=42, expected string or None) report saved to /home/mye/src/llm/KMesh/reports/T0001/review-r2/synthetic-runtime-not-string.json\n",
+    "cuda": {
+      "runtime_version": null,
+      "available": true,
+      "device_count": 1,
+      "devices": [
+        {
+          "index": 0,
+          "name": "Synthetic GPU",
+          "total_memory_bytes": 1024
+        }
+      ]
+    }
+  },
+  {
+    "case": "availability-none",
+    "result": "PASS",
+    "synthetic": true,
+    "cli_return": 1,
+    "report": "synthetic-availability-none.json",
+    "stdout": "",
+    "stderr": "kmesh doctor: status=error (torch.cuda.is_available() returned None, expected bool) report saved to /home/mye/src/llm/KMesh/reports/T0001/review-r2/synthetic-availability-none.json\n",
+    "cuda": {
+      "runtime_version": "12.6",
+      "available": null,
+      "device_count": null,
+      "devices": []
+    }
+  },
+  {
+    "case": "count-fraction",
+    "result": "PASS",
+    "synthetic": true,
+    "cli_return": 1,
+    "report": "synthetic-count-fraction.json",
+    "stdout": "",
+    "stderr": "kmesh doctor: status=error (CUDA device enumeration failed: ValueError('CUDA reported available but device_count=1.5')) report saved to /home/mye/src/llm/KMesh/reports/T0001/review-r2/synthetic-count-fraction.json\n",
+    "cuda": {
+      "runtime_version": "12.6",
+      "available": null,
+      "device_count": null,
+      "devices": []
+    }
+  },
+  {
+    "case": "count-bool",
+    "result": "PASS",
+    "synthetic": true,
+    "cli_return": 1,
+    "report": "synthetic-count-bool.json",
+    "stdout": "",
+    "stderr": "kmesh doctor: status=error (CUDA device enumeration failed: ValueError('CUDA reported available but device_count=True')) report saved to /home/mye/src/llm/KMesh/reports/T0001/review-r2/synthetic-count-bool.json\n",
+    "cuda": {
+      "runtime_version": "12.6",
+      "available": null,
+      "device_count": null,
+      "devices": []
+    }
+  },
+  {
+    "case": "help-guard-detects-regression",
+    "target": [
+      "--help"
+    ],
+    "result": "PASS",
+    "caught": "collector must not run for --help"
+  },
+  {
+    "case": "help-guard-detects-regression",
+    "target": [
+      "doctor",
+      "--help"
+    ],
+    "result": "PASS",
+    "caught": "collector must not run for --help"
+  }
+]

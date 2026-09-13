@@ -3,7 +3,7 @@
 ## 任务信息
 
 - 任务编号／修订号：T0001 / r1；创建于 2026-09-13。
-- 状态：`awaiting_review`（第 2 轮返工 R1–R3 完成并自检通过，待 Codex 复验）。原 r1 任务契约保留。
+- 状态：`accepted`（2026-09-13 Codex 第 2 轮复验通过，接受实现提交 `39dabc73e035c8c2627a1e5db4deab31055a9c6d`；不代表 M0 完成）。原 r1 任务契约保留。
 - 所属阶段：M0 的第一个子任务，为 E0 基础性质研究准备可运行入口；本任务通过不等于 M0 完成。
 - 研究依据：研究计划文档 v0.1.1；E0 协议 `e0_v2`，E1 协议 `e1_v2`。本任务不改变研究协议。
 - 规划者：Codex + `gpt-6-astra`，`xhigh`。
@@ -198,14 +198,14 @@ git diff --check
 
 ## 验收标准
 
-- [ ] A1：可编辑安装真实成功；导入来自本仓库；模块与控制台入口均可用，没有依赖 PYTHONPATH 或未声明的新库。
-- [ ] A2：采集函数满足全部字段与状态契约；报告为运行时采集，未把 CUDA 构建版本或可用性探测当作训练能力证明。
-- [ ] A3：依赖缺失、导入／设备探测异常与 CPU 降级可区分；未知信息为 null，错误附原因，CLI 退出码正确。
-- [ ] A4：help 无环境采集副作用；参数和 I/O 失败明确；三份真实报告可读回，两入口稳定字段一致，强制 CPU 报告符合预期。
-- [ ] A5：步骤 4 的边界测试在隔离插件、无真实 GPU 依赖的条件下通过；已审查 imports／fixtures，没有越界数据访问。
-- [ ] A6：真实命令、退出码、日志、包版本快照、已知来源与未知项、报告 hash 完整可追溯；无虚构结果或覆盖失败证据。
-- [ ] A7：README 与状态文档对应实际实现，准确列出 M0 未完成项；没有模型、数据或训练占位实现，没有扩大研究／资源范围。
-- [ ] A8：改动仅限授权路径，文档／diff 基础检查通过；Pi 已记录实际工具和模型并交回 `awaiting_review`，最终接受由 Codex 根据实际 diff 和独立核验决定。
+- [x] A1：可编辑安装真实成功；导入来自本仓库；模块与控制台入口均可用，没有依赖 PYTHONPATH 或未声明的新库。
+- [x] A2：采集函数满足全部字段与状态契约；报告为运行时采集，未把 CUDA 构建版本或可用性探测当作训练能力证明。
+- [x] A3：依赖缺失、导入／设备探测异常与 CPU 降级可区分；未知信息为 null，错误附原因，CLI 退出码正确。
+- [x] A4：help 无环境采集副作用；参数和 I/O 失败明确；三份真实报告可读回，两入口稳定字段一致，强制 CPU 报告符合预期。
+- [x] A5：步骤 4 的边界测试在隔离插件、无真实 GPU 依赖的条件下通过；已审查 imports／fixtures，没有越界数据访问。
+- [x] A6：真实命令、退出码、日志、包版本快照、已知来源与未知项、报告 hash 完整可追溯；无虚构结果或覆盖失败证据。
+- [x] A7：README 与状态文档对应实际实现，准确列出 M0 未完成项；没有模型、数据或训练占位实现，没有扩大研究／资源范围。
+- [x] A8：改动仅限授权路径，文档／diff 基础检查通过；Pi 已记录实际工具和模型并交回 `awaiting_review`，最终接受由 Codex 根据实际 diff 和独立核验决定。
 
 Codex 验收时冻结上述 diff，先审阅实现与测试 fixture，再独立重跑 editable import、help、真实 doctor、强制 CPU 路径及本任务单测，并核对报告和来源记录。实际 GPU 不可用不妨碍本任务通过；环境依赖损坏、诊断 error 或证据缺失则不能通过。T0001 接受后才据实拆分下一项 M0 工作，不预先把尚未编号的后续任务视为可执行。
 
@@ -316,6 +316,59 @@ Codex 将 T0001 明确交回 Pi + `qwen3.8-coding-27b`，仅修复 R1–R3，追
 验证补充：Pi 首轮日志已经记录 pytest 清理其他项目遗留临时目录的警告，后续运行必须使用本任务本轮独占、执行前不存在的 `--basetemp` 路径；pytest 会清理指定目录，不能使用共享临时目录或已存证据的目录。本轮验收已采用该做法，没有重现该警告。该补充落实原数据访问边界，不改变研究协议或原验收标准。
 
 最终状态：`needs_changes`。修复后返回 `awaiting_review`，由 Codex 对受影响 diff 与回归结果再次验收；T0001 尚未接受，M0 仍为 `in_progress`。
+
+### 第 2 轮：2026-09-13，accepted
+
+- 验收方：Codex；由原非作者审阅者 `gpt-6-astra`、`xhigh` 对 R1–R3 的受影响 diff 再审，主验收方独立复跑测试、CLI、合成异常与 guard 回归验证。未发现剩余实现阻塞。
+- 接受的实现提交：`39dabc73e035c8c2627a1e5db4deab31055a9c6d`；返工父提交：`dcbdaa5fc8961082b6a63039737d227fe6a71387`。开始复验时工作树干净。该提交同时收录此前未提交的 Codex 首轮验收证据，归属已由 commit message 说明；不把这些历史文件当作 Pi 新增实现。
+- 实现差异限于 `environment.py`、`test_doctor.py` 与 README 的安装参数。`cli.py`、构建配置、研究计划和工作协议未变；首轮通过且未变的部分沿用已有证据，不重新安装环境或扩大测试范围。
+- 本轮证据在 [reports/T0001/review-r2/](../../reports/T0001/review-r2/)。[commands.json](../../reports/T0001/review-r2/commands.json) 保存实际命令参数、cwd、环境覆盖、超时、退出码、耗时和完整 stdout/stderr 路径；[artifact-checks.json](../../reports/T0001/review-r2/artifact-checks.json) 保存历史 hash 与报告核验；[sha256.json](../../reports/T0001/review-r2/sha256.json) 标识本轮证据文件。
+
+#### 独立复跑结果
+
+工作目录 `/home/mye/src/llm/KMesh`。由 `subprocess.run` 为 pytest 设置 120 秒上限，其余命令 60 秒上限，以下命令均退出 0：
+
+```bash
+.venv/bin/python -c 'from pathlib import Path; import kmesh; p=Path(kmesh.__file__).resolve(); print(p); assert p==Path("src/kmesh/__init__.py").resolve()'
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_doctor.py --basetemp /home/mye/src/llm/KMesh/reports/T0001/review-r2/pytest-tmp
+.venv/bin/python -m kmesh.cli --help
+.venv/bin/kmesh --help
+.venv/bin/python -m kmesh.cli doctor --help
+.venv/bin/python -m kmesh.cli doctor --out /home/mye/src/llm/KMesh/reports/T0001/review-r2/environment-module.json
+.venv/bin/kmesh doctor --out /home/mye/src/llm/KMesh/reports/T0001/review-r2/environment-console.json
+CUDA_VISIBLE_DEVICES="" .venv/bin/python -m kmesh.cli doctor --out /home/mye/src/llm/KMesh/reports/T0001/review-r2/environment-cpu.json
+zsh -f -c "print -r -- '.[dev]'"
+.venv/bin/python -B reports/T0001/review-r2/check-regressions.py
+git diff --check dcbdaa5..39dabc7
+git diff --exit-code 39dabc7 -- pyproject.toml src tests
+```
+
+- pytest：`25 passed in 0.12s`，进程约 0.36 秒，stderr 为空；已先检查 imports／fixtures，使用本轮新建独占临时目录。
+- 三个 help 与 editable import 通过。三份 doctor 均退出 0，当前验收进程均为 `cpu_only`；两入口稳定字段一致，强制 CPU 的 available=false、count=0、devices=[]。
+- Pi 第 2 轮报告为 `ok`、`ok`、`cpu_only`，三份 hash 均与 `pi-r2/sha256.txt` 一致，字段及当前包版本核验通过。本轮未独立复现真实 GPU 的正向可用性，不据此猜测硬件变化原因；CPU 降级符合本任务契约。
+- 首轮 Pi 的 4 项报告／快照 hash、Codex `review-r1/sha256.json` 的 31 项 hash 全部一致，历史证据未被覆盖。
+- [check-regressions.py](../../reports/T0001/review-r2/check-regressions.py) 使用假 torch 和版本元数据验证 R1，结果见 [check-regressions.stdout.json](../../reports/T0001/review-r2/check-regressions.stdout.json)。五类历史反例全部返回可读的 error 报告、CLI 退出 1、stderr 有原因：缺失 version、整数 runtime、available=None、count=1.5、count=True。runtime 失败仍保留独立取得的设备信息；available/count 无效时清空探测字段并保留 runtime。
+- 同一脚本分别对根 help、doctor help 在内存中注入采集调用，再调用提交中的原测试函数；两次均捕获预期 `AssertionError: collector must not run for --help`。没有修改源码，没有导入真实 torch 或使用 GPU。该脚本退出 0 表示所有预期行为均已断言通过；合成案例不是机器真实状态。
+- zsh 参数验证退出 0，准确输出 `.[dev]`，R3 关闭；未为验证引号而重新安装包或创建 venv。
+
+#### R1–R3 关闭与 A1–A8 结论
+
+| 项目 | 结论与依据 |
+|---|---|
+| R1 / A2–A3 | 通过：runtime 与 CUDA 返回值边界修复正确，新增单测及独立 CLI 五类反例验证通过 |
+| R2 / A4–A5 | 通过：guard 已接到 `cli.collect_environment`，正常测试通过，两条 help 路径的回归均被拦截 |
+| R3 / A7 | 通过：README 安装参数可在 zsh 原样传递；研究目标、当前能力和 M0 未完成项保持准确 |
+| A1 | 通过：沿用首次安装证据，本轮 editable import 与两入口正常，无新增依赖 |
+| A6 | 通过：验收依据为已校验版本／hash 的产物及 Codex 完整复跑记录；Pi 历史自校验描述的限制见下，不把摘要补写为原始证据 |
+| A8 | 通过：仅授权范围有改动，指定实施者已提交复验；代码冻结核验与 diff 检查通过 |
+
+文档收尾：复验发现 `docs/implementation_status.md` 到 `reports/T0001/pi-r2/` 的相对链接多退了一层，Codex 在更新 accepted 状态时直接修正，并同步该文档中仍写“需返工”的旧表格与 README 状态。这些是验收文档修正，未代写 Pi 的实现或测试。
+
+记录限制与后续执行要求：Pi 第 2 轮记录称向 `cli._parse_args` 注入回归，但该函数在父提交和本次提交中均不存在，也未保存该次注入 diff 及完整失败输出，因此无法独立核验这一历史过程。原叙述保留，本轮以独立双路径 guard 验证作为接受依据。Pi 日志中的部分命令也是摘要；后续应直接保存实际 argv、stdout/stderr、退出码，以及临时回归注入的准确内容，不把摘要称为完整原始日志。此处不推断历史上究竟执行了哪个临时改动。
+
+最终状态：`accepted`。R1–R3 已全部关闭，接受上述实现提交及本轮核验证据；首轮失败和两轮审阅记录保留。T0001 可作为后续任务的已验收依赖；本次不创建或执行新的任务，不 commit 或 push。
+
+剩余研究限制：M0 仍为 `in_progress`。配置校验、CPU forward/backward、20-step smoke、完整实验环境锁定及 GPU 训练等未完成；doctor 通过不构成训练可用性、性能或科研假设成立的证据。
 
 ## 实施参考
 

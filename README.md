@@ -74,7 +74,7 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_doctor
 
 当前限制：T0001 仅覆盖最小包与环境诊断；配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
-截至 2026-09-13，项目处于 M0 实施阶段：研究计划和协作协议已建立，首项任务 **T0001：最小 Python 包与环境诊断命令** 已完成第 2 轮返工（R1–R3）并自检通过，处于待复验（`awaiting_review`）状态；尚无实验结果，以上内容描述的目标与路径仍待验证。
+截至 2026-09-13，项目处于 M0 实施阶段：研究计划和协作协议已建立，首项任务 **T0001：最小 Python 包与环境诊断命令** 已通过 Codex 第 2 轮验收（`accepted`），25 个测试与关键回归检查通过；M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
 

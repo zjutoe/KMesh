@@ -1,0 +1,31 @@
+{
+  "reviewed_commit": "39dabc73e035c8c2627a1e5db4deab31055a9c6d",
+  "historical_review_r1_hashes_verified": 31,
+  "original_pi_artifact_hashes_verified": 4,
+  "pi_r2_report_hashes": {
+    "reports/T0001/pi-r2/environment-console.json": "7bdeef63ef40bd1f6bdc16c5733f6ce9b766b5d7027a81d7fee824f090d9b7e7",
+    "reports/T0001/pi-r2/environment-cpu.json": "3201e6353648fdf12f2cd68104255eccc2607e3bfb98c8fdda8cb44e7ec30405",
+    "reports/T0001/pi-r2/environment-module.json": "99548c00be315c818d352667ce6860ff2c457a3af85db33b58fae4896b30c39a"
+  },
+  "report_schemas_and_entrypoint_equality": "PASS",
+  "round_statuses": {
+    "reports/T0001/pi-r2": [
+      "ok",
+      "ok",
+      "cpu_only"
+    ],
+    "reports/T0001/review-r2": [
+      "cpu_only",
+      "cpu_only",
+      "cpu_only"
+    ]
+  },
+  "frozen_implementation": "unchanged",
+  "out_of_scope_files": "unchanged",
+  "documentation_link_issues_before_acceptance": [
+    {
+      "path": "docs/implementation_status.md",
+      "target": "../../reports/T0001/pi-r2/"
+    }
+  ]
+}
