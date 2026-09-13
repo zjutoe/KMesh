@@ -1,0 +1,30 @@
+{
+  "result": "PASS",
+  "reviewed_commit": "dcbdaa5fc8961082b6a63039737d227fe6a71387",
+  "checks": [
+    "six real-report schemas and types",
+    "per-round entrypoint equality",
+    "both forced-CPU reports",
+    "runtime package metadata and snapshot consistency",
+    "four original artifact hashes",
+    "documentation links and whitespace",
+    "frozen implementation diff unchanged"
+  ],
+  "pi_report_statuses": [
+    "ok",
+    "ok",
+    "cpu_only"
+  ],
+  "review_report_statuses": [
+    "cpu_only",
+    "cpu_only",
+    "cpu_only"
+  ],
+  "original_artifact_sha256": {
+    "reports/environment.json": "a0639fe3d530d68c13491ef85d61669021f0599b825649530b86b34afa212b91",
+    "reports/T0001/environment-console.json": "8b1ce381c609f8b1a1a402275cf9666da5a5cf1e1836c7878f1dc60bdbfcc1b9",
+    "reports/T0001/environment-cpu.json": "a8271ceb712cb807e7d2db1aeddac26f863aa254ff55d2243619d1d7f641683d",
+    "reports/T0001/installed-packages.json": "8300a47582adb207ca7cbb0dc425430ceaf4ddb5afcc6b1cd384efa090cfd841"
+  },
+  "implementation_changed_during_review": false
+}

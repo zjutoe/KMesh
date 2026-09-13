@@ -41,22 +41,31 @@ class _CudaInfo:
 
 def _probe_cuda(torch, cuda: _CudaInfo, errors: list[str]) -> None:
     try:
-        cuda.available = bool(torch.cuda.is_available())
+        raw_available = torch.cuda.is_available()
     except Exception as exc:
         cuda.available = None
         cuda.device_count = None
         cuda.devices = []
         errors.append(f"torch.cuda.is_available() raised: {exc!r}")
         return
+    if not isinstance(raw_available, bool):
+        cuda.available = None
+        cuda.device_count = None
+        cuda.devices = []
+        errors.append(
+            f"torch.cuda.is_available() returned {raw_available!r}, expected bool"
+        )
+        return
+    cuda.available = raw_available
     if cuda.available is not True:
         if cuda.available is False:
             cuda.device_count = 0
             cuda.devices = []
         return
     try:
-        count = int(torch.cuda.device_count())
-        if count < 1:
-            raise ValueError(f"CUDA reported available but device_count={count}")
+        count = torch.cuda.device_count()
+        if isinstance(count, bool) or not isinstance(count, int) or count < 1:
+            raise ValueError(f"CUDA reported available but device_count={count!r}")
         devices: list[dict[str, object]] = []
         for index in range(count):
             props = torch.cuda.get_device_properties(index)
@@ -100,7 +109,20 @@ def collect_environment() -> dict[str, object]:
         errors.append(f"torch import failed: {exc!r}")
     else:
         torch_import_ok = True
-        cuda.runtime_version = torch.version.cuda
+        try:
+            runtime_raw = torch.version.cuda
+        except Exception as exc:
+            runtime = None
+            errors.append(f"reading torch.version.cuda failed: {exc!r}")
+        else:
+            if runtime_raw is not None and not isinstance(runtime_raw, str):
+                runtime = None
+                errors.append(
+                    f"torch.version.cuda={runtime_raw!r}, expected string or None"
+                )
+            else:
+                runtime = runtime_raw
+        cuda.runtime_version = runtime
         _probe_cuda(torch, cuda, errors)
 
     if errors:

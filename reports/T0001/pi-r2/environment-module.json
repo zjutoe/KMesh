@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-13T15:00:20.324518+00:00",
+  "python_executable": "/home/mye/src/llm/KMesh/.venv/bin/python",
+  "python_version": "3.13.9",
+  "platform": "Linux-5.14.0-721.el9.x86_64-x86_64-with-glibc2.34",
+  "packages": {
+    "torch": "2.10.0+cu126",
+    "numpy": "2.3.5",
+    "PyYAML": "6.0.3",
+    "pytest": "8.4.2",
+    "pip": "25.2",
+    "setuptools": "80.9.0"
+  },
+  "torch_import_ok": true,
+  "cuda": {
+    "runtime_version": "12.6",
+    "available": true,
+    "device_count": 1,
+    "devices": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 3090",
+        "total_memory_bytes": 25296044032
+      }
+    ]
+  },
+  "status": "ok",
+  "errors": []
+}

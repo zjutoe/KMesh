@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-13T14:22:09.678262+00:00",
+  "python_executable": "/home/mye/src/llm/KMesh/.venv/bin/python",
+  "python_version": "3.13.9",
+  "platform": "Linux-5.14.0-721.el9.x86_64-x86_64-with-glibc2.34",
+  "packages": {
+    "torch": "fixture-version",
+    "numpy": "fixture-version",
+    "PyYAML": "fixture-version",
+    "pytest": "fixture-version",
+    "pip": "fixture-version",
+    "setuptools": "fixture-version"
+  },
+  "torch_import_ok": true,
+  "cuda": {
+    "runtime_version": "12.6",
+    "available": true,
+    "device_count": 1,
+    "devices": [
+      {
+        "index": 0,
+        "name": "Synthetic GPU",
+        "total_memory_bytes": 1024
+      }
+    ]
+  },
+  "status": "ok",
+  "errors": []
+}

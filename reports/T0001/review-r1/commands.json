@@ -1,0 +1,183 @@
+{
+  "created_at_utc": "2026-09-13T14:20:42.016116+00:00",
+  "reviewed_commit": "dcbdaa5fc8961082b6a63039737d227fe6a71387",
+  "checks": [
+    {
+      "name": "editable-import",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path; import kmesh; p = Path(kmesh.__file__).resolve(); print(p); assert p == Path(\"src/kmesh/__init__.py\").resolve()"
+      ],
+      "env_overrides": {},
+      "command": ".venv/bin/python -c 'from pathlib import Path; import kmesh; p = Path(kmesh.__file__).resolve(); print(p); assert p == Path(\"src/kmesh/__init__.py\").resolve()'",
+      "timeout_s": 60,
+      "exit_code": 0,
+      "elapsed_s": 0.034,
+      "stdout": "editable-import.stdout.txt",
+      "stderr": "editable-import.stderr.txt"
+    },
+    {
+      "name": "module-help",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "--help"
+      ],
+      "env_overrides": {},
+      "command": ".venv/bin/python -m kmesh.cli --help",
+      "timeout_s": 60,
+      "exit_code": 0,
+      "elapsed_s": 0.077,
+      "stdout": "module-help.stdout.txt",
+      "stderr": "module-help.stderr.txt"
+    },
+    {
+      "name": "console-help",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        ".venv/bin/kmesh",
+        "--help"
+      ],
+      "env_overrides": {},
+      "command": ".venv/bin/kmesh --help",
+      "timeout_s": 60,
+      "exit_code": 0,
+      "elapsed_s": 0.076,
+      "stdout": "console-help.stdout.txt",
+      "stderr": "console-help.stderr.txt"
+    },
+    {
+      "name": "doctor-help",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "doctor",
+        "--help"
+      ],
+      "env_overrides": {},
+      "command": ".venv/bin/python -m kmesh.cli doctor --help",
+      "timeout_s": 60,
+      "exit_code": 0,
+      "elapsed_s": 0.075,
+      "stdout": "doctor-help.stdout.txt",
+      "stderr": "doctor-help.stderr.txt"
+    },
+    {
+      "name": "pytest",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0001/review-r1/pytest-tmp"
+      ],
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1"
+      },
+      "command": ".venv/bin/python -m pytest -q tests/test_doctor.py --basetemp /home/mye/src/llm/KMesh/reports/T0001/review-r1/pytest-tmp",
+      "timeout_s": 120,
+      "exit_code": 0,
+      "elapsed_s": 0.349,
+      "stdout": "pytest.stdout.txt",
+      "stderr": "pytest.stderr.txt"
+    },
+    {
+      "name": "doctor-module",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "doctor",
+        "--out",
+        "/home/mye/src/llm/KMesh/reports/T0001/review-r1/environment-module.json"
+      ],
+      "env_overrides": {},
+      "command": ".venv/bin/python -m kmesh.cli doctor --out /home/mye/src/llm/KMesh/reports/T0001/review-r1/environment-module.json",
+      "timeout_s": 60,
+      "exit_code": 0,
+      "elapsed_s": 2.081,
+      "stdout": "doctor-module.stdout.txt",
+      "stderr": "doctor-module.stderr.txt"
+    },
+    {
+      "name": "doctor-console",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        ".venv/bin/kmesh",
+        "doctor",
+        "--out",
+        "/home/mye/src/llm/KMesh/reports/T0001/review-r1/environment-console.json"
+      ],
+      "env_overrides": {},
+      "command": ".venv/bin/kmesh doctor --out /home/mye/src/llm/KMesh/reports/T0001/review-r1/environment-console.json",
+      "timeout_s": 60,
+      "exit_code": 0,
+      "elapsed_s": 2.064,
+      "stdout": "doctor-console.stdout.txt",
+      "stderr": "doctor-console.stderr.txt"
+    },
+    {
+      "name": "doctor-cpu",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "doctor",
+        "--out",
+        "/home/mye/src/llm/KMesh/reports/T0001/review-r1/environment-cpu.json"
+      ],
+      "env_overrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "command": ".venv/bin/python -m kmesh.cli doctor --out /home/mye/src/llm/KMesh/reports/T0001/review-r1/environment-cpu.json",
+      "timeout_s": 60,
+      "exit_code": 0,
+      "elapsed_s": 2.059,
+      "stdout": "doctor-cpu.stdout.txt",
+      "stderr": "doctor-cpu.stderr.txt"
+    },
+    {
+      "name": "readme-zsh-glob",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        "zsh",
+        "-f",
+        "-c",
+        "print -r -- .[dev]"
+      ],
+      "env_overrides": {},
+      "command": "zsh -f -c 'print -r -- .[dev]'",
+      "timeout_s": 60,
+      "exit_code": 1,
+      "elapsed_s": 0.003,
+      "stdout": "readme-zsh-glob.stdout.txt",
+      "stderr": "readme-zsh-glob.stderr.txt"
+    },
+    {
+      "name": "synthetic-boundaries-and-help-test",
+      "cwd": "/home/mye/src/llm/KMesh",
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "reports/T0001/review-r1/repro-boundaries.py"
+      ],
+      "env_overrides": {},
+      "timeout_s": 60,
+      "exit_code": 0,
+      "elapsed_s": 0.215,
+      "stdout": "repro-boundaries.stdout.json",
+      "stderr": "repro-boundaries.stderr.txt"
+    }
+  ]
+}

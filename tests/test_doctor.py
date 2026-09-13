@@ -206,6 +206,76 @@ def test_device_properties_exception_is_error(monkeypatch):
     assert report["status"] == "error"
 
 
+# --- R1 round-2: broken torch internals must yield error reports ---
+
+
+def _broken_torch(cuda_obj):
+    """A torch module whose `version` attribute is missing entirely."""
+    module = types.ModuleType("torch")
+    module.cuda = cuda_obj
+    return module
+
+
+def test_missing_torch_version_attribute_is_error(monkeypatch):
+    _patch_metadata(monkeypatch)
+    monkeypatch.setitem(sys.modules, "torch", _broken_torch(_cpu_cuda()))
+    report = environment.collect_environment()
+    # torch imported fine; the report must keep that and other known info.
+    assert report["torch_import_ok"] is True
+    assert report["cuda"]["runtime_version"] is None
+    assert report["cuda"]["available"] is False
+    assert report["cuda"]["device_count"] == 0
+    assert report["cuda"]["devices"] == []
+    assert report["status"] == "error"
+    assert any("torch.version" in err for err in report["errors"])
+    json.dumps(report)  # must stay JSON-serializable
+
+
+def test_invalid_cuda_runtime_type_is_error(monkeypatch):
+    _patch_metadata(monkeypatch)
+    module = types.ModuleType("torch")
+    module.version = types.SimpleNamespace(cuda=42)  # not str or None
+    module.cuda = _cpu_cuda()
+    monkeypatch.setitem(sys.modules, "torch", module)
+    report = environment.collect_environment()
+    assert report["torch_import_ok"] is True
+    assert report["cuda"]["runtime_version"] is None
+    assert report["status"] == "error"
+    assert any("torch.version.cuda" in err for err in report["errors"])
+    json.dumps(report)
+
+
+@pytest.mark.parametrize("raw", [None, "yes", 0])
+def test_invalid_is_available_return_is_error(monkeypatch, raw):
+    bad = types.SimpleNamespace(
+        is_available=lambda: raw, device_count=None, get_device_properties=None
+    )
+    _patch_metadata(monkeypatch)
+    monkeypatch.setitem(sys.modules, "torch", _torch_stub(bad))
+    report = environment.collect_environment()
+    # Invalid probe results must not be coerced into a normal cpu_only fallback.
+    assert report["cuda"]["available"] is None
+    assert report["cuda"]["device_count"] is None
+    assert report["cuda"]["devices"] == []
+    assert report["status"] == "error"
+    assert any("is_available" in err for err in report["errors"])
+
+
+@pytest.mark.parametrize("count", [1.5, True, -1])
+def test_invalid_device_count_is_error(monkeypatch, count):
+    bad = types.SimpleNamespace(
+        is_available=lambda: True, device_count=lambda: count, get_device_properties=None
+    )
+    _patch_metadata(monkeypatch)
+    monkeypatch.setitem(sys.modules, "torch", _torch_stub(bad))
+    report = environment.collect_environment()
+    assert report["cuda"]["available"] is None
+    assert report["cuda"]["device_count"] is None
+    assert report["cuda"]["devices"] == []
+    assert report["status"] == "error"
+    assert any("device_count" in err for err in report["errors"])
+
+
 # --- lazy import of torch ---
 
 
@@ -234,7 +304,9 @@ def test_help_does_not_call_collector(monkeypatch, capsys):
     def boom():
         raise AssertionError("collector must not run for --help")
 
-    monkeypatch.setattr(environment, "collect_environment", boom)
+    # Patch the name the CLI module actually calls (cli imports
+    # collect_environment by name), not the one in the environment module.
+    monkeypatch.setattr(cli, "collect_environment", boom)
     assert cli.main(["--help"]) == 0
     assert cli.main(["doctor", "--help"]) == 0
     out = capsys.readouterr().out
@@ -287,6 +359,22 @@ def test_cli_error_writes_report_and_exits_1(monkeypatch, tmp_path, capsys):
     assert rc == 1
     report = _read(out)  # diagnostic report must still be saved
     assert report["status"] == "error"
+    assert report["errors"]
+    assert "error" in capsys.readouterr().err
+
+
+def test_cli_broken_torch_saves_error_report_and_exits_1(monkeypatch, tmp_path, capsys):
+    # torch imports but lacks `version`: a corrupted dependency must still
+    # produce a saved error report with exit code 1, not an unhandled crash.
+    _patch_metadata(monkeypatch)
+    monkeypatch.setitem(sys.modules, "torch", _broken_torch(_cpu_cuda()))
+    out = tmp_path / "report.json"
+    rc = cli.main(["doctor", "--out", str(out)])
+    assert rc == 1
+    report = _read(out)  # diagnostic report must still be saved
+    assert report["status"] == "error"
+    assert report["torch_import_ok"] is True
+    assert report["cuda"]["runtime_version"] is None
     assert report["errors"]
     assert "error" in capsys.readouterr().err
 

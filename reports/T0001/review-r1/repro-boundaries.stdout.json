@@ -1,0 +1,97 @@
+[
+  {
+    "case": "missing-version",
+    "synthetic": true,
+    "exception": "AttributeError: module 'torch' has no attribute 'version'",
+    "report_exists": false,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "case": "runtime-not-string",
+    "synthetic": true,
+    "cli_return": 0,
+    "report_exists": true,
+    "status": "ok",
+    "cuda": {
+      "runtime_version": 42,
+      "available": true,
+      "device_count": 1,
+      "devices": [
+        {
+          "index": 0,
+          "name": "Synthetic GPU",
+          "total_memory_bytes": 1024
+        }
+      ]
+    },
+    "errors": [],
+    "stdout": "kmesh doctor: status=ok; report written to /home/mye/src/llm/KMesh/reports/T0001/review-r1/synthetic-runtime-not-string.json\n",
+    "stderr": ""
+  },
+  {
+    "case": "availability-none",
+    "synthetic": true,
+    "cli_return": 0,
+    "report_exists": true,
+    "status": "cpu_only",
+    "cuda": {
+      "runtime_version": "12.6",
+      "available": false,
+      "device_count": 0,
+      "devices": []
+    },
+    "errors": [],
+    "stdout": "kmesh doctor: status=cpu_only (no CUDA device available in this process); report written to /home/mye/src/llm/KMesh/reports/T0001/review-r1/synthetic-availability-none.json\n",
+    "stderr": ""
+  },
+  {
+    "case": "count-fraction",
+    "synthetic": true,
+    "cli_return": 0,
+    "report_exists": true,
+    "status": "ok",
+    "cuda": {
+      "runtime_version": "12.6",
+      "available": true,
+      "device_count": 1,
+      "devices": [
+        {
+          "index": 0,
+          "name": "Synthetic GPU",
+          "total_memory_bytes": 1024
+        }
+      ]
+    },
+    "errors": [],
+    "stdout": "kmesh doctor: status=ok; report written to /home/mye/src/llm/KMesh/reports/T0001/review-r1/synthetic-count-fraction.json\n",
+    "stderr": ""
+  },
+  {
+    "case": "count-bool",
+    "synthetic": true,
+    "cli_return": 0,
+    "report_exists": true,
+    "status": "ok",
+    "cuda": {
+      "runtime_version": "12.6",
+      "available": true,
+      "device_count": 1,
+      "devices": [
+        {
+          "index": 0,
+          "name": "Synthetic GPU",
+          "total_memory_bytes": 1024
+        }
+      ]
+    },
+    "errors": [],
+    "stdout": "kmesh doctor: status=ok; report written to /home/mye/src/llm/KMesh/reports/T0001/review-r1/synthetic-count-bool.json\n",
+    "stderr": ""
+  },
+  {
+    "case": "help-test-with-in-memory-regression",
+    "submitted_test_passed": true,
+    "unexpected_collector_calls": 2
+  }
+]

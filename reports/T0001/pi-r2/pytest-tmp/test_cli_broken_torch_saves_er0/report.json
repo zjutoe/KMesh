@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-13T14:58:18.724343+00:00",
+  "python_executable": "/home/mye/src/llm/KMesh/.venv/bin/python",
+  "python_version": "3.13.9",
+  "platform": "Linux-5.14.0-721.el9.x86_64-x86_64-with-glibc2.34",
+  "packages": {
+    "torch": "2.10.0+cu126",
+    "numpy": "2.3.5",
+    "PyYAML": "6.0.3",
+    "pytest": "8.4.2",
+    "pip": "25.3",
+    "setuptools": "80.9.0"
+  },
+  "torch_import_ok": true,
+  "cuda": {
+    "runtime_version": null,
+    "available": false,
+    "device_count": 0,
+    "devices": []
+  },
+  "status": "error",
+  "errors": [
+    "reading torch.version.cuda failed: AttributeError(\"module 'torch' has no attribute 'version'\")"
+  ]
+}
