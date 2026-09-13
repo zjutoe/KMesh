@@ -1,0 +1,1354 @@
+# KMesh 研究与实施计划 v0.1
+
+## 统一知识图上的分阶段读取、局部更新与持续能力改进
+
+- **项目名称：** KMesh。名称不强制展开为英文缩写。
+- **愿景：** Local updates. Continually improving knowledge networks.
+- **文档日期：** 2026-09-13。
+- **面向读者：** 项目研究者与负责实施的 Codex。
+- **状态：** 待实施的研究协议；文中数值是初始预算或验收约定，不是实验结果。
+- **当前优先级：** 先完成可解释、可复现的小实验，再研究更大规模与系统优化。
+
+> **核心命题：** 一个小型共享计算核心，能否通过统一接口读取、组合和局部更新外部知识 patch，使整体能力持续改进，而无需每次重新训练整个核心和知识网络？
+>
+> **第一轮不承诺：** 自动发现抽象、无限知识容量、完全消除遗忘、计算成本与知识规模完全无关，或在消费级硬件上获得前沿通用模型能力。
+
+---
+
+# 0. 给 Codex 的执行摘要
+
+本项目不是实现一个生产级知识数据库，也不是复现一个大语言模型。请先实现一个小型、受控的规则推理研究仓库，并保留后续局部训练接口。
+
+## 0.1 按顺序实施，不把所有阶段一次铺开
+
+1. **E0：统一 patch 图与分阶段读取。** 用可精确求解的规则世界，测试外部知识使用、未见组合泛化，以及图结构和层间读取偏好的作用。
+2. **E1a：无梯度的持续知识更新。** 冻结模型，连续增加、替换、撤销 patch，测试新知识生效、旧知识保持与更新范围。
+3. **E1b：真正的局部梯度更新。** 冻结共享核心和编码器，仅训练指定 patch 的小型残差表示，测试相对于直接内容更新的额外收益与干扰。
+4. **E2：抽象 patch 的形成。** 后续研究，不默认实施。移除显式规则，检验能否从实例形成可复用知识。
+5. **E3：GPU／RAM／SSD 分层存储。** 后续研究，不默认实施。验证物理搬迁透明性和端到端性能。
+
+**E0 与 E1a 成功不等于 E1b 成功。** 替换外部资料后答对问题，不足以声称完成了局部参数学习。E0 中规则已由数据生成器提供，也不足以声称自动发现抽象。
+
+## 0.2 第一批交付物
+
+先交付以下可以运行和检查的东西：
+
+- 数据 schema、规则世界生成器、独立符号求解器与数据审计报告。
+- 单卡全读取诊断模型、四个等预算主实验配置。
+- 训练／评估／干预／汇总 CLI，以及完整测试。
+- E0 结果或诚实的失败诊断。
+- 稳定 patch 引用和版本接口，为 E1 保留位置，但不提前实现分页系统。
+
+**不要只交付空目录、接口桩和一份声称可运行的 README。** 每个已声明完成的里程碑必须有命令、退出状态、测试输出和产物路径。未运行项标记 `not_run`，不得填入推测结果。
+
+## 0.3 不得自行改变的研究边界
+
+- 不把正确证明、答案、推理深度、生成器角色标签送给模型。
+- 不用符号求解器替神经网络完成测试时推理。
+- 不预先分成 summary/fact 两个 memory pool，不指定某层只能读取某种知识。
+- 不把节点中心度、访问频率当作抽象能力标签。
+- 不给 patch ID 学习专属 embedding；ID 用于系统寻址，不是模型特征。
+- 不把 masked dense attention 宣称为已实现硬件稀疏加速。
+- 不用测试集选择模型、训练步数、阈值或更新策略。
+- 不因结果不显著而反复改变数据，继续使用同一个已打开的测试集。
+- 不自动下载大模型、使用付费教师 API、启动多机训练或修改生产环境。
+
+遇到实现问题可以做必要的工程调整，但涉及任务、模型信息、主指标、对照预算或训练目标的变更，必须写入 `docs/decisions.md`，升版本，并说明哪些旧比较失效。
+
+---
+
+# 1. 研究对象与设计原则
+
+## 1.1 KMesh 中的三个独立对象
+
+**知识对象：** patch 的内容、身份、版本与可读表示。
+
+**知识组织：** 内容检索与图关系。第一版是静态、内容派生的图；以后才探索可学习、动态演化的图。
+
+**计算核心：** 从任务状态选择知识、读取知识、组合信息并输出答案的小型 Transformer。
+
+这三者不应被 GPU 中的物理位置绑在一起。
+
+## 1.2 统一 patch 不等于没有语义差别
+
+所有 patch 使用同一容器和 reader 接口，但内容可以表达实例、规则、条件、例外或过程。允许它们在训练中表现出不同用途，不提前赋予“高级节点”身份。
+
+知识图不是严格树。局部图访问与覆盖全部节点的内容检索并存。第一版的图与层间偏好都是候选机制，不能预设它们一定优于普通全局检索。
+
+## 1.3 局部更新与整体改进的操作性定义
+
+- **参数局部性：** 只修改预先声明的 patch 参数集合；其他 patch、共享核心和相应优化器状态保持不变。
+- **语义影响：** 一次局部修改可以合理地改变很多相关问题的答案。参数局部性不等于输出影响只局限于一个问题。
+- **持续改进：** 在连续更新后，对当前有效知识的覆盖和正确使用改善，同时对仍有效的旧知识没有不可接受的损失。
+- **不要求逐步单调：** 不声称每次更新、每个问题都改善；应报告代价、干扰、回退和失效范围。
+
+## 1.4 稳定引用与重定位
+
+逻辑引用定义为：
+
+\[
+\mathrm{PatchRef}=(\mathrm{namespace},\mathrm{patch\_id},\mathrm{content\_version},\mathrm{representation\_version})
+\]
+
+存储行号是临时映射，不是知识身份。patch 内部 slot 次序有模型语义，但不同 patch 在 memory 矩阵中的排列没有预设语义。
+
+固定同一工作集、内容版本和元数据时，换行、打包、换出再加载不应改变模型函数；允许受控浮点误差。近似检索改变候选集合、量化改变表示、读取不同版本，不属于严格重定位等价。
+
+---
+
+# 2. 假设、证据等级与不允许的推论
+
+| 编号 | 假设 | 主要验证阶段 | 不能由成功直接推出什么 |
+|---|---|---|---|
+| H0 | 模型确实读取外部 patch 的具体内容，而不是仅靠查询和训练先验 | E0 反事实干预 | 推理算法已经全部外置 |
+| H1 | 统一格式能支持实例与规则的组合使用，并推广到未见组合 | E0 组合测试 | 统一格式优于所有显式分层格式 |
+| H2 | 图关系和可学习的阶段读取偏好，在相同预算下有额外价值 | E0 因子对照 | 某个高中心度节点就是抽象概念 |
+| H3a | 核心冻结后，局部内容更新可持续生效并保持不相关能力 | E1a | 已完成局部梯度学习 |
+| H3b | 仅更新少量 patch 参数，能产生超出内容替换的可迁移收益 | E1b | 不再需要任何全局训练或验证 |
+| H4 | 从实例可以形成新的可复用抽象 patch | E2 | 任意自然知识都可如此形成 |
+| H5 | 分层存储能保留学习语义，并改善实际资源效率 | E3 | 显存节省等于同比例 FLOPs 节省 |
+
+H1/H2 的负结果只约束本次数据、模型和预算。也不能把所有负结果都解释成“预算不够”而无限扩大实验。
+
+---
+
+# 3. 阶段范围与停止条件
+
+| 阶段 | 最小问题 | 默认实施状态 | 进入条件 |
+|---|---|---|---|
+| E0-D | 标签、划分、反事实是否正确 | 立即实施 | 无 |
+| E0-C | 小模型给足知识后能否求解 | 立即实施 | 数据审计通过 |
+| E0-R | 图和阶段偏好是否有效 | 立即实施 | E0-C 通过基本可学性检查 |
+| E1a | 不改权重的连续内容更新 | 第二批 | 至少有模型通过 H0，能够基本组合使用 patch |
+| E1b | 局部 latent 残差训练 | 第三批 | E1a 的版本／评测机制正确，存在改进空间 |
+| E2 | 实例到抽象的形成 | 仅写接口展望 | E0/E1 得到可解释结果 |
+| E3 | 真正分层存储 | 仅写接口展望 | 需要扩容且 memory 机制已成立 |
+
+即使 H2 不成立，也可以用最强、最简单的统一 patch reader 继续验证 H3。不得强制要求 M11 获胜才报告结果。
+
+---
+
+# 4. E0 数据：可精确求解的规则世界
+
+## 4.1 统一逻辑语言
+
+任务组织借鉴事实／规则／查询与可验证证明的研究路线 [R1]；以下符号语言、生成器和划分规则是 KMesh 的独立实验设计。
+
+使用有限实体、二元关系、无函数符号的正向 Horn 规则。第一版不引入否定、概率、默认规则和矛盾逻辑。
+
+每个 patch 是一个 clause：
+
+\[
+[\mathrm{body}_1,\ldots,\mathrm{body}_m]\rightarrow\mathrm{head},\quad m\in\{0,1,2\}
+\]
+
+`body=[]` 表示一个具体事实。非空 body 表示规则。规则必须 range-restricted：head 中的变量都出现在 body 中；变量作用域仅在单个 clause 内。
+
+允许的起始规则模板：
+
+```text
+COPY:   [p(x,y)]                 -> q(x,y)
+INV:    [p(x,y)]                 -> q(y,x)
+JOIN:   [p(x,y), q(y,z)]         -> r(x,z)
+INTER:  [p(x,y), q(x,y)]         -> r(x,y)
+FACT:   []                       -> p(a,b)
+```
+
+`COPY/INV/JOIN/INTER/FACT` 只用于生成器、证明规范化和分析，**不作为输入标签**。模型可看到 clause 语法，不需要故意隐藏变量或空前提的含义。
+
+起始数据使用关系依赖无环的世界，避免递归深度和证明循环成为第一轮混淆。关系的拓扑顺序只保存在审计端，随机重命名后不得泄露给模型。
+
+标签为：
+
+\[
+y=1\iff q\in\operatorname{Closure}(W)
+\]
+
+`y=0` 表示在该有限规则系统中不能推出，不宣称它等于开放世界语义中的“假”。
+
+## 4.2 正反事实例子
+
+```text
+P0: [] -> r1(a,b)
+P1: [] -> r2(b,c)
+P2: [r1(x,y), r2(y,z)] -> r3(x,z)
+P3: [r3(x,y)] -> r4(y,x)
+query: r4(c,a)       # 可推出
+```
+
+仅把 P3 改为：
+
+```text
+P3: [r3(x,y)] -> r4(x,y)
+query: r4(c,a)       # 在排除其他证明路径后不可推出
+```
+
+关系与实体符号集合不变，基于集合重叠的图可以保持不变，因此此配对特别适合排除“只看图形状”策略。
+
+反事实必须由求解器重新计算，不得凭模板直觉指定翻转标签。原世界与修改世界属于同一个 split family。
+
+## 4.3 默认规模
+
+| 项目 | 调试配置 | 正式起始配置 |
+|---|---:|---:|
+| 训练世界 | 2,000 | 20,000 |
+| 世界内实体 | 16 | 32 |
+| 世界内关系符号 | 8 | 16 |
+| 世界内 patch | 32 | 128 |
+| 具体事实／规则的生成配比 | 约 24／8 | 约 96／32 |
+| 每世界查询 | 8 | 8 |
+| 主要查询证明深度 | 1–2 | 1–3 |
+| 验证世界 | 200 | 1,000 IID＋1,000 开发组合 |
+| 锁定测试世界 | 不用于正式结论 | 2,000 IID＋2,000 未见组合 |
+| 反事实测试 | 100 对以上的单元／集成样例 | 至少 1,000 对，来自锁定测试 family |
+| 深度压力测试 | 不要求 | 4–5 步，单独报告 |
+
+默认每个待接受 world 最多尝试 1,000 次候选；达到上限就终止该生成任务并输出诊断，不能无限循环或静默跳过错误。
+
+上述数量是目标。若无法达到语义约束和去泄漏要求，应记录拒绝原因与实际数量，不得降低校验标准补足条数。
+
+深度定义：事实为 0；规则推导为 `1 + max(前提深度)`；使用最短有效证明深度。反事实负样本的“深度桶”沿用其配对正样本，仅供评估，不提供给模型。
+
+## 4.4 生成流程
+
+1. 先选择目标推理结构和 split family，再实例化关系与实体。
+2. 为主要组合测试构造唯一规范证明；存在其他有效证明的样例单列，不混入主指标。
+3. 加入干扰 facts/rules，重新计算完整闭包，检查是否出现捷径、意外证明或闭包饱和。
+4. 生成 hard negatives：改变实体绑定、方向或缺少一个必要条件，并由求解器确认不可推出。
+5. 随机重命名全部实体、关系；随机排列 patch；规则前提可做语义等价的交换增强。
+6. 平衡标签，并匹配正负样本的查询长度、符号出现频率、patch 数和尽可能一致的图统计。
+7. 写入模型可见内容；证明、模板、深度、依赖等另存审计文件。
+
+关系与实体在不同世界中没有固定业务含义。知识事实来自随机世界，而不是模型预训练常识。
+
+默认拒绝闭包占所有可表达 ground atoms 比例超过 25% 的世界，以降低随机饱和造成的捷径；该值是开发配置，正式冻结前报告敏感性。128 patch 的世界中完整原子上限仅为 `16 * 32 * 32 = 16,384`，可用精确闭包而非近似标签。
+
+## 4.5 求解器的角色与验证
+
+实现两个相互独立的求解路径：
+
+- 参考版：枚举变量绑定的朴素 forward chaining，用于小世界单元测试。
+- 主版：索引化 join 的 forward chaining，用于批量生成与审计。
+
+在随机小世界上交叉验证闭包完全一致。每条保存的证明还要经单独 verifier 检查变量替换、前提和结论。
+
+求解器可以生成训练答案、分析依赖和评估更新影响。**模型的 forward/predict 不得导入或调用求解器，也不得输入闭包或中间推导结论。**
+
+---
+
+# 5. 数据划分、组合保留与泄漏防护
+
+## 5.1 按世界 family 划分，而不是按问题随机划分
+
+同一逻辑世界的以下变体必须处于同一 family：重命名、patch 重排、语句等价改写、反事实版本及其查询。
+
+先分配 family，再产生样例。`family_id` 不传入模型。E1 使用与 E0 的训练、开发、测试世界均独立的 stream families。
+
+## 5.2 真正保留的是结构，不是符号名称
+
+对证明建立规范化 signature：保留 COPY/INV/JOIN/INTER 及共享变量绑定结构，消除实体与关系的任意命名、patch ID 和存储顺序。
+
+二前提的交换不能生成不同 signature；规范化必须保留不同参数位置，不能把 `q(x,y)` 与 `q(y,x)` 合并。
+
+将长度相同、深度相同的复合 motifs 分为 train、dev-composition 和 test-composition。测试 motif 中的基本操作必须出现在训练中。主测试优先深度 2–3，不能把所有 heldout 都放到更深层。
+
+训练查询不能存在包含测试保留 motif 的有效证明。第一版用“主查询唯一证明＋有限 proof enumerator”降低检查复杂性：发现第二种有效证明则拒绝该样例或转入非主测试集。不得只检查生成器计划的证明，忽略干扰规则形成的替代证明。
+
+**声明边界：** 保留的是有标签求解任务的组合方式；不声称训练 world 中从未共存过这些基本规则。
+
+## 5.3 模型输入白名单
+
+模型可见：clause 内容 tokens、查询 tokens、由内容生成的图、padding/active masks。
+
+模型不可见：答案、证明、支持 patch 集合、抽象角色、规则模板标签、深度、split 名称、事件是否翻转、来源 family、图中央性分数、生成器 DAG rank。
+
+`PatchRef` 仅用于运行时索引、trace 和一致性，不做 token 化或神经 embedding。数据库行号、文件名、版本数字也不作为预测特征。
+
+训练 labels 仅在 loss 处使用。为防止误用，`ModelBatch` 与 `EvalMeta` 使用不同类型、不同文件路径和不同 collator。
+
+## 5.4 必须输出的数据审计
+
+生成 `data_audit.json` 和可读报告，至少包括：
+
+- 每 split 的 world/family 数量、标签比例、深度与模板分布。
+- 重命名 family 的交叉集合检查、重复 clause 检查、重复世界候选审查。
+- 组合 signature 交叉表、替代证明拒绝率。
+- 原始与反事实样例的正确标签翻转率。
+- 模型可见字段检查、图构建依赖检查。
+- 正负查询的内容频率与图统计差异。
+- query-only 诊断基线及 shuffled-memory 诊断；若显著高于平衡随机水平，必须调查捷径。
+
+简单哈希不能证明全局图同构去重。最少要保证生成 family 不跨集合；对相同规范化统计／WL hash 的候选，可用小图同构检查复核。报告所采用的检查范围，不能把弱检查写成完全排除同构。
+
+---
+
+# 6. E0 图结构：简单、固定、无答案信息
+
+## 6.1 默认图构建
+
+局部图关系与全局交互可以分别设计 [R6]；本节的 Jaccard 图只是受控对照，不声称已捕获全部语义关系。
+
+对 patch 内容提取集合 `S_i`：关系符号与常量实体，排除变量、语法标点和 ID。
+
+\[
+w_{ij}=\frac{|S_i\cap S_j|}{|S_i\cup S_j|}
+\]
+
+每节点选择权重大于 0 的 top-8 邻居，进行对称化，随后加入权重为 1 的自环。对称化后节点度数可以超过 8。令：
+
+\[
+A=D^{-1}(W+I)
+\]
+
+`W` 不含自环，`D` 为对应行和。孤立节点的转移留在自身。padding 节点不能参与归一化。
+
+初版可以用 dense `N×N` 矩阵；N=128 的受控实验不需要图数据库或近似最近邻服务。**这种实现不具有已经验证的大规模可扩展性。**
+
+图与查询无关，不能用正确证明边替代内容边。所有事实与规则都采用同一图构建过程。
+
+## 6.2 与物理顺序无关的平局处理
+
+Jaccard 和 top-k 路由都可能出现并列。以稳定 PatchRef 的无标签随机优先级做 tie-break，仅用于索引选择，不作为数值特征输入模型。
+
+禁止按当前 tensor 行号打破平局，否则重排测试会错误地改变选中对象。随机优先级在 world 生成后固定，且必须独立于角色、标签、创建顺序与图等级。
+
+## 6.3 更新图的工程边界
+
+E1a 初版允许重建整个小图以确保正确；统计其时间，并明确这不是图索引局部维护的加速结果。
+
+以后只更新被修改节点的 outgoing 邻居可能不够：其他节点的 top-k 邻居也可能因新增／修改节点而改变。因此，没有实现一致的反向影响更新前，不得声称图维护严格局部。
+
+---
+
+# 7. E0 神经结构与精确读取协议
+
+## 7.1 起始配置
+
+多个读取层共享同一记忆池有研究先例 [R2]；以下 encoder、slots 和路由接口是本实验的具体选择。
+
+| 部件 | 默认设置 |
+|---|---|
+| 共享 token embedding | 小型符号词表，按训练配置固定；世界间随机重命名 |
+| patch 编码器 | 2 层 Transformer，hidden=256，heads=4，FFN=1024 |
+| 每 patch memory slots | 4 个，维度 256 |
+| patch 内容长度 | 默认上限 48 tokens；超长报错，不静默截断 |
+| 任务核心 | 6 层 Transformer，hidden=256，heads=4，FFN=1024 |
+| 任务状态 | 查询 tokens＋1 个 CLS＋4 个临时工作区 tokens |
+| memory read | 每层 1 次；所有层共用同一个 patch 池 |
+| 每次选中 patch | 8 个，最多 32 个 memory slots |
+| 模型输出 | 从最终 CLS 得到二分类 logits |
+| dropout | 训练 0.1；验证／重定位测试为 0 |
+| 模型大小 | 目标约千万参数，必须实际统计，不通过无用参数凑规模 |
+
+patch 编码器只在单个 patch 内 self-attention，不能提前让所有 patch 全局交互，否则共享 encoder 可能绕开待测试的图读取机制。
+
+输入每个 patch 的局部序列为 `[SLOT0..SLOT3, clause_tokens]`，采用局部位置编码；取四个 SLOT 输出为 `U_i`。槽位语义对全部 patch 共享。
+
+任务核心处理的是完整给定的逻辑查询，允许查询内部双向 attention；不存在生成答案 token 的 teacher forcing。模型永远看不到答案或未来更新事件。
+
+## 7.2 内容编码与 key
+
+\[
+U_i=E_\phi(C_i)\in\mathbb R^{s\times d},\qquad s=4
+\]
+
+\[
+k_i=\operatorname{LN}\bigl(W_k\operatorname{Mean}(U_i)\bigr)
+\]
+
+E0 中 `E_phi` 和 shared key projection 可训练，不存在每个知识对象的独立参数表。每个 optimizer step 更新编码器后，旧训练缓存必须失效；不能跨 step 复用未重算的 `U_i` 或保留旧 autograd 图。
+
+E0 使用全局精确打分，复杂度随所有候选节点数增长；它是功能验证，不是最终 ANN 路由性能实验。
+
+## 7.3 分阶段图／全局检索门控
+
+第 l 层先对任务状态做一次 self-attention，使用 CLS 与工作区的均值经过该层投影产生 query：
+
+\[
+q_l=W_{q,l}[h_{\mathrm{CLS},l};\operatorname{Mean}(H_{\mathrm{work},l})]
+\]
+
+全局分布：
+
+\[
+p_l^g=\operatorname{softmax}\left(q_lK^T/\sqrt d\right)
+\]
+
+l=1 强制只使用 `p_1^g`。l>1 时：
+
+\[
+p_l^n=\operatorname{stopgrad}(a_{l-1})A
+\]
+
+\[
+\gamma_l=0.9\,\sigma(\beta_l),\qquad
+p_l=(1-\gamma_l)p_l^g+\gamma_l p_l^n
+\]
+
+初始 `beta=-2`。上限 0.9 保留至少 10% 全局分布成分；这不保证每次 top-k 一定包含一个非局部节点，应单独报告候选多样性。
+
+`stopgrad` 是默认的梯度截断约定，只用于上一阶段路由分布，不截断当前层 `p_l`。四组模型保持一致。改变它属于可注册消融，不能私自为一个模型开启。
+
+第一层不分配无效的可训练 beta。共享门控方案在第 2–6 层共享一个 beta；分层方案各自一份。
+
+## 7.4 必须保留门控的可训练路径
+
+**仅用 `topk(p_l).indices` gather values，然后完全丢弃 `p_l`，通常不会让任务损失有效训练这些门控。** 索引选择是离散的，不能假定它自动可导。
+
+本协议采用如下确定实现：
+
+1. `I_l = stable_topk(p_l, k)`，选中索引本身不求导。
+2. 对选中项保留可导的概率，归一化为：
+
+\[
+\pi_{li}=p_{li}\Big/\sum_{j\in I_l}p_{lj},\quad i\in I_l
+\]
+
+3. 每个选中 patch 的 slot cross-attention logits 加入先验：
+
+\[
+B_{l,i,r}=\log(\max(\pi_{li},10^{-8}))-\log(s),\quad r=1,\ldots,s
+\]
+
+4. reader 计算：
+
+\[
+R_l=\operatorname{softmax}\left(Q_lK_{I_l,l}^{T}/\sqrt{d_h}+B_l\right)V_{I_l,l}
+\]
+
+各层对 `U_i` 有自己的 K/V 投影；共享内容不要求各层最终 K/V 相同。B 对各 query token 和 attention head 广播。再按标准 residual＋FFN 更新任务状态。
+
+5. 将实际 attention 在 head、任务 token 和 patch 内 slots 上聚合为归一化 patch 分布 `a_l`；未选中项置 0。这个分布用于下一层图转移和 trace。
+
+这提供了“选中候选的连续权重→任务损失”的梯度路径，**不解决未选中 patch 的信用分配，也不把硬 top-k 变成全局可导搜索**。
+
+必须写一个非退化的 router 单元测试：在随机不同 values、非对称输入和固定标签下，`beta.grad` 有限且非零。测试若失败，先修复梯度，不启动大训练。
+
+## 7.5 软读取预热
+
+所有四组主模型使用相同方案：
+
+- 前 1,000 个 optimizer steps 使用全部有效 patch，同时保留 p_l 的连续先验。
+- 此后严格 top-8，直到总计 10,000 steps。
+- `a_l` 在软阶段也是实际读取权重的聚合，图分支和门控仍按上述定义使用。
+- 主 checkpoint 只能从硬读取阶段选取；不能用全读 checkpoint 直接截成 top-8 当结果。
+
+若出现硬切换崩溃，可以新增一致的退火配置，但必须作为新版本重跑全部主对照。不要悄悄只给 M11 延长软训练。
+
+## 7.6 不变量
+
+- 选择 k 小于有效 patch 数时做去重；不得让同一个 PatchRef 在本层候选中重复出现而增加其 softmax 总权重。
+- patch 内局部位置、变量绑定与 K/V 配对必须保持。
+- patch 之间没有全局 RoPE、全局位置 embedding 或按存储顺序定义的 causal mask。
+- 重定位时同时变换 values、keys、graph、active masks、refs 和 trace 映射。
+- E0 全部 patch 编码可参与梯度；这不是“只更新 top-8 patch 参数”的阶段。
+
+---
+
+# 8. E0 主对照与训练预算
+
+## 8.1 2×2 因子对照
+
+| 名称 | 转移矩阵 A | 门控参数 | 解释 |
+|---|---|---|---|
+| M00 | I | 各阶段共享一个 beta | 全局检索＋保持既有候选 |
+| M01 | I | 各阶段独立 beta_l | 没有图边的显式阶段偏好 |
+| M10 | 内容图 | 各阶段共享一个 beta | 图关系，但不增加层级门控自由度 |
+| M11 | 内容图 | 各阶段独立 beta_l | KMesh 当前主要候选 |
+
+各层 query/read projection 在全部模型中都不同，因此共享 beta 不等于完全没有阶段分工。主实验检验的是显式门控自由度的额外作用。
+
+以相同 seed 创建一份公共初始化，复制所有形状一致的参数到四个模型；beta 都以相同数值初始化。不要因模块注册顺序导致公共权重初始化不同而未记录。
+
+四模型使用相同数据顺序、有效 batch、更新步数、精度、读取次数和预算。门控参数量略有不同，照实报告。
+
+## 8.2 诊断基线
+
+在四组主训练前实现：
+
+- **D-full：** 同一 encoder/core，所有 memory layers 全读取，不受 top-8 限制。它是可学性诊断，不是等计算对照。
+- **D-query：** 只看查询，不能看知识内容和图。用于数据捷径检查。
+- **D-oracle：** 可选，仅诊断检索瓶颈。给定正样本的正确支持集，负样本不提供伪造证明；分开报告，不能作为正式能力结果。
+- **D-shuffled-memory：** 把一个问题的知识替换成独立 world 的知识，用于检查模型是否依赖真实内容；不将其误认为同分布正式测试。
+
+不同时启动大量新架构。只有主要结果值得解释时，再加保持度数的重连图训练、普通无先验全局 top-k 等确认对照。
+
+## 8.3 默认训练配置
+
+```yaml
+schema_version: 1
+experiment: E0
+protocol_version: e0_v1
+seed: 11
+
+model:
+  hidden_size: 256
+  patch_encoder_layers: 2
+  core_layers: 6
+  heads: 4
+  ffn_size: 1024
+  memory_slots_per_patch: 4
+  workspace_tokens: 4
+  max_clause_tokens: 48
+  dropout: 0.1
+
+router:
+  graph: content_jaccard       # identity / content_jaccard
+  gate: per_layer             # shared / per_layer
+  graph_neighbors: 8
+  read_k: 8
+  beta_init: -2.0
+  gamma_max: 0.9
+  graph_previous_stopgrad: true
+  attention_log_prior: true
+  probability_epsilon: 1.0e-8
+  soft_warmup_steps: 1000
+
+training:
+  total_steps: 10000           # optimizer steps，不是 microsteps
+  microbatch_size: 4
+  gradient_accumulation: 8    # effective batch = 32
+  optimizer: adamw
+  learning_rate: 0.0003
+  min_learning_rate: 0.00003
+  adam_betas: [0.9, 0.999]
+  adam_epsilon: 1.0e-8
+  weight_decay: 0.01
+  no_decay: [bias, norm, router_beta]
+  lr_warmup_steps: 500
+  scheduler: cosine
+  gradient_clip_norm: 1.0
+  precision: bf16_if_supported_else_fp32
+  validate_every: 500
+  checkpoint_every: 500
+  log_every: 20
+  compile: false
+  data_workers: 0              # correctness baseline，profile 后可统一调大
+
+evaluation:
+  checkpoint_rule: dev_comp_balanced_accuracy_then_nll
+  eligible_checkpoint_start: 2000
+  test_locked: true
+  traces_world_limit: 200
+```
+
+验证选模：只在步骤 >=2,000 的 checkpoints 中，以 `dev_comp` balanced accuracy 最大者为主；相同则 NLL 小者优先，再相同则较早者。同时报告最终 step checkpoint，避免只展示偶然峰值。
+
+3 个起始模型随机种子为 11、23、37。数据固定，明确区分模型种子与数据生成种子。若结果接近阈值或种子分歧大，扩为 5 个种子；不能只保留成功 seed。
+
+对于 BF16 不支持或运行错误，允许统一使用 FP32；必须记录环境和修改。数学一致性与重定位测试用 FP32／CPU float64 小样本路径，不能简单放大容差掩盖逻辑错误。
+
+## 8.4 总训练量与公平性
+
+正式起始数据约为 160,000 个查询；10,000 steps×32≈320,000 次样例暴露，约两个数据遍历。该预算只作探索起点，不保证收敛。
+
+主比较默认等样例、等 optimizer steps、等 memory read 数。图计算时间不相等，必须另报实际 wall time、训练吞吐与 FLOPs 可测部分。结果显著后，再做相同 wall-time 的确认比较。
+
+不得将四模型视为严格等 FLOPs。重复 world 的编码共享可以统一实现，但不能只优化一个模型；训练时跨 step 的内容缓存必须保持正确失效。
+
+---
+
+# 9. E0 指标、干预与机制解释
+
+## 9.1 必须报告的主指标
+
+1. **IID balanced accuracy / NLL。** 检查基本任务能力。
+2. **组合泛化 balanced accuracy / NLL。** 按深度、motif 分桶；这是 H1/H2 主指标。
+3. **反事实 PairAcc。**
+
+\[
+\mathrm{PairAcc}=\frac1n\sum_j\mathbb1[\hat y_j^{old}=y_j^{old}\land\hat y_j^{new}=y_j^{new}]
+\]
+
+4. **不受修改影响的准确率。** 区分正确更新与无差别扰动。
+5. **资源指标。** 实际参数量、peak allocated/reserved VRAM、host RSS、samples/s、median/p95 step time、总训练与评估时间、累计读取的不同 patch 数。
+
+单纯 flip rate 只能作辅助，因为随机改变答案也会翻转。未来研究不能只展示 accuracy，不展示成本或稳定性。
+
+## 9.2 读取 trace
+
+对固定、与标签无关的抽样 world 保存：每层 refs、p_global、p_graph、gamma、top-k prior、聚合实际 attention、union coverage、邻域外读取比例。
+
+证明支持集只在离线 analysis 中合并：正样本统计最终支持集覆盖率；负样本没有唯一“正确支持集”，不编造 support recall。
+
+读取规则比例、节点度数、访问频率、层间差异都是描述性指标。attention 权重不直接构成因果解释。
+
+## 9.3 三个主干预
+
+**内容反事实：** 修改一个语义 patch，核心完全不变，重新编码相应内容；对于保持符号集合的方向修改，图应完全不变。
+
+**图干预：** 保持内容不变，用保持无向度数的 double-edge swap 产生重连图，保留自环并重新归一化。报告实际可交换次数与边变化率，不能对小图宣称实现精确全局随机图。推理时干预属于分布变化，仅作诊断；明显效果须用重连图从头训练确认。
+
+**阶段干预：** 对 M11 的 beta_l 在第 2–6 层重排、替换为平均值；其他权重不变。它也是机制诊断，不取代主训练对照。M00/M10 的隐藏状态本来就能形成层间差异，因此不能把 beta 消融解释为删除全部抽象能力。
+
+## 9.4 重定位不变性
+
+固定 world、query、版本和 dropout=0，随机重排 patch，同步重排图和 masks；将输出 trace 与梯度按 PatchRef 映射回原顺序。
+
+检查 logits、loss、core 梯度、内容表示梯度在容差内一致。专门构造 top-k 并列测试，验证 tie-break 与物理行号无关。
+
+起始容差可用 FP32 `atol=1e-5, rtol=1e-4`；先以 CPU float64 小测试验证数学正确，再根据实际 kernel 记录容差依据。不要求跨硬件 bitwise 一致。[R5, R7]
+
+## 9.5 统计分析
+
+主比较：M11−M10、M11−M01；交互项：
+
+\[
+\Delta=(M11-M10)-(M01-M00)
+\]
+
+逐 seed 报告；以 world family 为 cluster 做配对 bootstrap，反事实两端必须一起采样。同一世界的 8 个查询不能当作 8 个完全独立样本。
+
+跨 seed 给均值、范围／标准差，另提供分层重采样的探索性区间。3 seeds 只作初筛，不能利用大量 queries 假装获得无限确定的模型层面结论。
+
+有多个比较时，预先指定上述两项为主要比较；可使用 Holm 校正的确认性检验，其他层间和子组分析明确标记探索性。
+
+## 9.6 继续研究阈值与负结果
+
+建议在正式测试解锁前冻结以下实用阈值：M11 在组合主指标上相对在开发集上选定并冻结的最强其他等预算主模型，均值提高至少 5 个百分点，且 PairAcc 和不相关任务保持无明显退化。
+
+5 个百分点是工程决策阈值，不是科学定律。小于阈值但稳定的收益也应报告；不能为了过线修改测试。
+
+若 M10≈M11，说明图可能有用，显式阶段门控未显示额外价值。若 M01≈M11，当前图作用有限。若内容反事实失败，不得把读取热图写成成功知识机制。
+
+没有清晰“核心节点”不自动失败：可迁移结构可能分布在多个 patch 与 reader 的组合中。
+
+---
+
+# 10. E1a：连续内容更新，不做梯度训练
+
+这一阶段首先检验 KMesh 的“局部知识变化可以被共享核心直接使用”。它不是可训练 patch 参数的实验。
+
+## 10.1 连续更新数据
+
+使用独立于 E0 的世界。每条 stream 从 128 个有效 patch 开始，默认包含 50 个顺序事件：约 40% add、40% replace、20% retire。事件数量和顺序在生成阶段锁定。
+
+起始规模：5 条开发 stream；20 条锁定评估 stream。每个模型 seed 使用同一批 stream，以便配对比较。
+
+- `add`：加入一个新知识对象和新 ID。
+- `replace`：在明确提供旧 PatchRef 的前提下创建新内容版本，逻辑上切换默认有效版本。
+- `retire`：用 tombstone 停用该对象，但保留历史版本。
+
+替换依据是更新事件中明确的知识身份，不是“相似度高就覆盖”。相似度阈值式合并不在第一轮范围。
+
+每条事件后由独立求解器重新求闭包。若事件没有有效评估查询，记录并拒绝／重采样，不能伪造标签变化。保证替换和撤销后仍满足本阶段采用的规则语言与生成约束。
+
+## 10.2 防止把“局部数据库”当作完整知识演化
+
+E1 的实体和关系命名在一条 stream 中保持稳定；跨 stream 随机重命名。逻辑 ID 与版本号都不作为模型特征。
+
+内容更新后，仅需重新编码已改变的 patch。因 E_phi 冻结，其他内容表示可缓存。图小规模全重建允许，但要计时并标记；缓存命中并不免除索引维护成本。
+
+若新增内容使模型在更多查询中正确，称为“增量知识接入／更新生效”，不能称为“共享推理能力经梯度学习提升”。
+
+## 10.3 查询分组
+
+每个事件预先生成如下评估桶，数量不足时报告实际样本，不用复制样例补足：
+
+| 分组 | 建议数量／事件 | 用途 |
+|---|---:|---|
+| 当前受影响查询 | 64 | 当前知识更新后是否答对，包含正反标签 |
+| 当前未受影响查询 | 64 | 检查无关能力退化 |
+| 历史仍有效查询 | 128 | 检查以前已获得、当前依然正确的知识 |
+| 新旧 patch 组合查询 | 至少 32，属于上面分组的标记子集 | 检查不是仅靠新节点直接查表 |
+
+E1b 将另有 support 查询；当前评估集必须在 query-family 级与 support 永久隔离。不得某一步用作 support 的绑定，后一步又作为“未见测试”。
+
+## 10.4 动态真值与遗忘
+
+定义 t 时刻当前有效 world 为 W_t，真值为 y_t(q)。对历史问题 q：
+
+- 若新知识合理地改变了 y_t(q)，按最新真值评估；不是遗忘。
+- 只有在真值自获得以来保持不变、且相关知识仍有效时，才进入严格保持指标。
+- 曾被后续事件修订、撤销的问题，单列为“版本变化”，不在旧标签上惩罚模型。
+
+建议报告两个保持指标：
+
+\[
+\mathrm{RetainAcc}_t=\operatorname{Acc}(Q^{\mathrm{still\ valid}}_t)
+\]
+
+\[
+\mathrm{RegressionRate}_t=
+\frac{\#\{q:\text{获得时答对、真值持续有效、当前答错}\}}
+{\#\{q:\text{获得时答对、真值持续有效}\}}
+\]
+
+分母为空时为 `NA`，不是 0。记录每题获得时间与失效时间，不能事后只挑保持好的问题。
+
+另在固定 query universe 上报告对当前真值的总准确率。测试 universe 不得暴露给更新器；未来问题在评估完成前只由评估端保存。
+
+## 10.5 E1a 对照与结果
+
+至少比较：
+
+- E0 中最佳简单无图 reader。
+- E0 中最佳有图 reader；若 M11 并非最佳，不强制选择它。
+- 冻结知识快照、不接收更新的诊断对照。该对照作为收益来源诊断，不当作公平的最新知识竞争系统。
+
+记录新增／修改后编码耗时、图更新时间、查询耗时、知识容量与当前工作集大小。E1a 不进行任何 optimizer step，并对模型权重做更新前后 hash 检查。
+
+通过标准：更新内容可正确影响未见查询，历史仍有效知识的表现可量化且可复现，版本行为正确。若模型仅在单条直接查询上有效、组合查询失败，明确定位为接入成功而组合不足。
+
+---
+
+# 11. E1b：仅更新局部 latent patch 参数
+
+这是 KMesh“局部梯度更新推动整体能力改善”的第一个直接实验。
+
+## 11.1 冻结共同底座
+
+从选定 E0 checkpoint 起，固定：token embedding、patch encoder、key projection、全部 core、reader 投影、router gates 和输出层。
+
+对每个 patch 保存：
+
+\[
+U_i=E_{\phi^*}(C_i)+\Delta_i,\qquad
+\Delta_i\in\mathbb R^{4\times256}
+\]
+
+初始 `Delta_i=0`。所有 patch 都允许存在相同形状的残差，不为摘要或规则另设参数类型。
+
+检索 key 从冻结的内容编码计算，不从 Delta 计算。这样局部梯度不会持续移动索引坐标。内容版本真正改变时，才重新编码该对象、更新相应 key 和图。
+
+这是一项控制变量，不是声称固定 key 是最终最优设计。记忆编码与读取核心变化造成的表示失配是已有记忆研究中的问题，第一版以冻结协议避免把它混入局部更新效果。[R3, R4]
+
+## 11.2 允许修改的集合
+
+每个更新事件声明：
+
+\[
+S_t=\{\text{本次新增或替换的 patch IDs}\},\quad |S_t|\leq4
+\]
+
+第一版不自动扩展到相似邻居、核心节点或支持证明中的全部 patch。`S_t` 来自更新 API，不来自测试求解器。
+
+只有 `Delta_i, i in S_t` 可训练。其他 residual 及其优化器状态必须逐字节不变；共享底座也必须不变。
+
+主要推理路径不强制把 S_t 加入读取候选。若 patch 根本未被检索，则可能没有有效梯度；报告 `updated_patch_retrieval_rate`。强制提供 patch 的版本只作 oracle 检索诊断。
+
+## 11.3 更新协议与信息预算
+
+每事件获得 16 个 support 查询及其当前正确标签，按绑定与 query family 与评估问题隔离。更新器只能看到当前 world 和 support，不能读取评估样例、测试证明或未来事件。
+
+默认局部更新：
+
+```yaml
+local_update:
+  residual_slots: 4
+  residual_dim: 256
+  max_updated_patches: 4
+  steps: 200
+  support_examples: 16
+  support_batch_size: 16
+  optimizer: adam
+  learning_rate: 0.001
+  weight_decay: 0.0
+  gradient_clip_norm: 1.0
+  l2_anchor_coefficient: 0.0001
+  replay: false
+  evaluation_steps: [0, 50, 100, 200]
+```
+
+损失为 support CE 加选中残差相对本事件开始值的 L2 anchor。正则只作用于 S_t，不能用遍历全部 residual 的正则悄悄修改旧知识。
+
+超参数只在开发 stream 选择。第一轮可以在 `{0.0003, 0.001}` 两个学习率中做统一开发比较；锁定后全部主方法使用相同的 support 划分和事先规定预算。
+
+评估 steps 只用于输出学习曲线。不得据测试曲线挑选本事件的最佳 step。主结果使用事先冻结的第 200 步，同时报告第 0 步直接内容更新基线。
+
+## 11.4 必须比较的三种更新方式
+
+| 方法 | 接收相同的新内容 | 使用 support | 可变参数 |
+|---|---|---|---|
+| U0 ContentOnly | 是 | 不训练 | 无 |
+| U1 LocalResidual | 是 | 是 | 本事件 S_t 的 Delta |
+| U2 SharedCoreFT | 是 | 是 | 共享 reader＋core＋输出层；encoder/key 固定 |
+
+U2 是常规共享权重适配对照，使用相同 support 暴露与 200 steps；它与 U1 不是等参数、也不是严格等 FLOPs，必须报告实际时间、更新参数量、保存字节数和旧任务干扰。
+
+可在有必要时增加 U1＋固定历史 support replay，以及固定参数预算的共享 adapter 对照。replay 只能来自历史可训练 support，不来自旧测试题，且各方法的样例预算需重新匹配。
+
+“U1 比不接收新知识的旧模型好”不是有力结论。U1 必须相对于 U0 显示额外收益，或者在同等适配收益下相对于 U2 显示稳定性／成本优势。
+
+## 11.5 避免优化器破坏局部性
+
+把所有 residual 放在一个 dense Parameter 内、把其他行梯度置 0，不足以保证未选行不变：动量和 weight decay 等状态可能仍产生更新。PyTorch 优化器也区分 `grad=None` 与数值为零的梯度。[R8]
+
+第一版采用按 patch 独立的 `nn.Parameter` 与惰性优化器状态，或经过测试的显式行级更新。每个 patch 保存自己的动量、二阶状态和实际更新步数。
+
+必须测试：
+
+- 本事件不在 S_t 的所有 residual 和状态 hash 不变。
+- 被读取但未授权更新的 patch 不变。
+- 多层多次读取同一 patch，梯度正确累加。
+- 一个 patch 本步没有计算依赖时，不因先前动量被意外更新。
+- 恢复 checkpoint 后的更新与不中断更新一致。
+
+冻结模型权重不等于对整个 forward 使用 `no_grad()`。反向仍需要穿过冻结 reader/core 到达 Delta。仅冻结编码结果可在 `no_grad()` 下缓存；梯度路径必须有单元测试。
+
+## 11.6 版本与内容一致性
+
+用 `content_version` 表示显式知识内容，用 `representation_version` 表示同一内容下的 latent 校准。一次事件中的 200 个内部步骤可作为未提交 transaction；成功保存后增加 representation version。
+
+内容替换默认初始化为新内容的编码＋零残差，旧版本保留，不把旧 residual 无条件沿用到语义已改变的新版本。
+
+撤销 patch 后不再参与当前读取，但历史快照仍可恢复。派生 K/V 缓存必须包含内容、表示和 reader 版本；失效不可只检查 ID。
+
+latent 更新是否仍表达同一知识，不能靠命名保证。通过当前未见绑定、反例及条件变化测试检查；出现不合意影响须报告，不能把任何 loss 下降都称为知识改进。
+
+## 11.7 E1b 主指标
+
+- 对当前受影响 heldout 查询的 `Acc(U1)-Acc(U0)`。
+- 对新旧 patch 组合查询的额外收益，而非只复现 support。
+- 历史仍有效 query 的准确率、回退率与成本曲线。
+- 50 次更新中的获得—保持矩阵与最终当前真值准确率。
+- 每事件实际更新的参数／patch 数、optimizer states、编码和梯度耗时。
+- 检索不到 S_t 的比例、梯度为零事件数、回滚事件数。
+
+一个起始实用标准是：局部更新相对 U0 的受影响 heldout 准确率有稳定正收益，同时相对 U2 在干扰或更新成本上具有优势。是否采用 +3 或 +5 个百分点等阈值，应在开发 stream 锁定，不事后挑选。
+
+若 U0 已经接近饱和而 U1 没有额外收益，报告“当前任务无需局部梯度适配”，不能人为破坏内容后把修复收益当作自然情景成果。人为噪声／缺损 probe 可以单列为机制诊断。
+
+如果没有满足约束的局部改善，明确记录 H3b 未获支持；不要自动扩大可更新集合直到覆盖整个网络。
+
+---
+
+# 12. E2 与 E3：保留研究路线，但暂不实施
+
+## 12.1 E2：抽象形成，不再预置全部规则
+
+E0 的规则是外部给定的，网络只学习使用。E2 才移除某些显式规则，给出实例，让同一 patch 机制写入新表示，再测试未见绑定和组合。
+
+设计前必须限定候选规则族并进行可识别性检查：多个不同规则都解释支持实例时，不能把任选一个目标规则作为唯一正确答案。可使用有限候选语法计算 version space，增加训练支持实例直到目标等价类可识别；这些训练支持不能从锁定测试答案获得。
+
+新增可写槽位与其他 patch 同格式，不赋予“摘要／高层”标签。比较：不写 patch、只保留原始实例、写入新 patch。把写入成本、教师成本和支持数据量计入。
+
+E2 需要新的独立协议，不能通过给 E0 中规则节点换名就宣称完成。
+
+## 12.2 E3：存储层独立于知识语义
+
+未来保留接口：
+
+```text
+PatchRef -> logical object/version -> resident page/offset -> layer-specific view
+```
+
+eviction 只做写回和搬迁，不决定知识合并、新建或语义覆盖。
+
+第一版 E3 先在完全相同训练轨迹下比较全驻留与 CPU offload；验证梯度、优化器状态、版本和数值结果，再测 I/O、缓存命中和吞吐。之后才加入 SSD、预取、工作集组织和多 GPU。
+
+若使用相同近似检索器却因缺页跳过知识，应标记为候选改变，不属于纯缓存优化。冻结工作集的搬迁不变性与在线近似系统的质量—成本比较要分别报告。
+
+不宣称 80GB 工作集本身决定训练提速倍数。必须区分参数容量、每 token 计算、I/O，以及达到目标所需样本量。
+
+---
+
+# 13. 数据与运行产物格式
+
+## 13.1 逻辑数据 schema
+
+建议以标准 JSON 为源数据，二进制缓存只作可重建加速层。
+
+```json
+{
+  "schema_version": 1,
+  "world_id": "opaque-id",
+  "snapshot_id": "opaque-version-id",
+  "patches": [
+    {
+      "patch_id": "opaque-patch-id",
+      "content_version": 1,
+      "active": true,
+      "body": [
+        {"pred": "r1", "args": ["?x", "?y"]},
+        {"pred": "r2", "args": ["?y", "?z"]}
+      ],
+      "head": {"pred": "r3", "args": ["?x", "?z"]}
+    }
+  ],
+  "queries": [
+    {"query_id": "opaque-query-id", "atom": {"pred": "r3", "args": ["e0", "e2"]}}
+  ]
+}
+```
+
+上例只是 schema 示意，不是可独立成立的完整训练 world。labels、proofs、family、motif 与深度放入独立 evaluator 文件。
+
+parser 使用显式 schema，不允许对数据调用 Python `eval`。所有变量绑定、常量和符号上限都要验证。
+
+## 13.2 主要接口契约
+
+以下是待实现接口，不是已存在的可运行代码：
+
+```python
+class RuleEngine:
+    def closure(self, world: World) -> ClosureResult: ...
+    def verify_proof(self, world: World, query: Atom, proof: Proof) -> bool: ...
+
+class GraphBuilder:
+    def build(self, patches: list[Patch]) -> GraphData: ...
+
+class KMeshModel(torch.nn.Module):
+    def forward(self, batch: ModelBatch, return_trace: bool = False) -> ModelOutput: ...
+
+class PatchStore:
+    def get(self, ref: PatchRef) -> PatchRecord: ...
+    def apply(self, event: UpdateEvent) -> Snapshot: ...
+    def checkout(self, snapshot_id: str) -> Snapshot: ...
+
+class LocalUpdater:
+    def update(self, snapshot: Snapshot, allowed_refs: list[PatchRef],
+               support: SupportBatch, budget: UpdateBudget) -> UpdateReport: ...
+```
+
+`ModelBatch` 不包含任何 `Proof` 或 `EvalMeta` 字段。`ModelOutput` 输出 logits 和可选 trace，不返回由求解器生成的答案。
+
+## 13.3 每个训练运行目录
+
+```text
+runs/<run_id>/
+  resolved_config.yaml
+  environment.json
+  code_commit.txt
+  data_manifest.json
+  metrics.jsonl
+  checkpoints/
+  predictions/
+  traces/
+  resource_profile.json
+  run_status.json
+  report.md
+```
+
+checkpoint 至少包含模型、optimizer、scheduler、AMP scaler（如使用）、训练阶段、global step、全部 RNG、数据 sampler 状态、配置与数据 hash。
+
+E1 checkpoint 另含 patch 内容／表示版本、residual、每 patch optimizer states、当前 stream event、support 划分、固定评估集引用、事件日志。
+
+保存先写临时文件再原子重命名，防止中断损坏已有 checkpoint。tensor hash 应包含 dtype、shape 和稳定序列化的数值 bytes，不能直接用可能含非确定元数据的压缩文件 hash 代替。
+
+---
+
+# 14. 仓库结构与 CLI 实施合同
+
+## 14.1 依赖与工程风格
+
+使用 Python 3.11 或以上、PyTorch、NumPy、PyYAML、pytest。统计图可用 matplotlib；图同构审计可选 networkx。不要引入不必要的服务、前端、数据库框架或分布式调度器。
+
+先检测现有 Python／PyTorch／CUDA 环境，不为追求“最新”擅自替换驱动和现有环境。首次通过测试后保存精确依赖版本与安装来源；正式实验使用锁定环境。
+
+代码要求类型标注、明确异常、可单测的小模块、配置校验。科学核心优先可读性，第一版不写定制 CUDA kernel，不默认 `torch.compile`。
+
+E1 的局部更新应让 forward 保留 autograd，但各对照统一关闭 dropout；可使用 eval 模式但不使用覆盖整条计算路径的 `no_grad()`。完整记录模型 mode，防止把随机读取差异混入更新效果。
+
+## 14.2 建议目录
+
+```text
+kmesh/
+  pyproject.toml
+  README.md
+  AGENTS.md
+  configs/
+    data_debug.yaml
+    data_e0.yaml
+    debug.yaml
+    e0_base.yaml
+    e0_m00.yaml
+    e0_m01.yaml
+    e0_m10.yaml
+    e0_m11.yaml
+    e1a.yaml
+    e1b.yaml
+  src/kmesh/
+    __init__.py
+    cli.py
+    schemas.py
+    logic/
+      engine.py
+      reference_engine.py
+      proofs.py
+    data/
+      generate.py
+      canonicalize.py
+      split.py
+      audit.py
+      tokenize.py
+      dataset.py
+    memory/
+      graph.py
+      refs.py
+      store.py
+      residuals.py
+    models/
+      patch_encoder.py
+      router.py
+      reader.py
+      core.py
+      model.py
+    training/
+      train.py
+      checkpoint.py
+      local_update.py
+    evaluation/
+      evaluate.py
+      counterfactual.py
+      interventions.py
+      continual.py
+      metrics.py
+      statistics.py
+      report.py
+    utils/
+      seed.py
+      environment.py
+      timing.py
+  tests/
+  docs/
+    research_plan.md
+    decisions.md
+    implementation_status.md
+    prereg_e0.md
+    prereg_e1.md
+  scripts/
+    run_smoke.sh
+    run_e0_matrix.sh
+  data/                       # 默认 gitignore，可由 manifest 重建
+  runs/                       # 默认 gitignore
+  reports/
+```
+
+可以合并过小文件，但不得将求解器、标签生成、模型推理全部写进一个不可审计的脚本。初始提交只实现当前阶段需要的模块；后续模块可以暂不创建，优于放置一堆看似可用的空接口。
+
+## 14.3 CLI 目标
+
+以下是 **Codex 必须实现的目标命令**，不是本文件已经提供的工具。`python -m kmesh.cli` 应与安装后的 `kmesh` 命令等价。
+
+```bash
+# 1. 环境与自测
+python -m pip install -e '.[dev]'
+python -m kmesh.cli doctor --out reports/environment.json
+pytest -q
+
+# 2. 小数据与审计
+python -m kmesh.cli data generate --config configs/data_debug.yaml --out data/debug
+python -m kmesh.cli data audit --data data/debug --out reports/debug_data_audit
+
+# 3. smoke：不启动正式训练
+python -m kmesh.cli train --config configs/debug.yaml --data data/debug \
+  --variant full --seed 11 --max-steps 20 --out runs/smoke
+python -m kmesh.cli evaluate --run runs/smoke --split dev_iid --out reports/smoke
+
+# 4. 小集拟合与机制测试
+python -m kmesh.cli diagnostics overfit --config configs/debug.yaml \
+  --data data/debug --examples 256 --max-steps 3000 --out runs/overfit
+python -m kmesh.cli diagnostics relocation --run runs/smoke --out reports/relocation
+
+# 5. 正式数据，先冻结研究协议再开启测试
+python -m kmesh.cli data generate --config configs/data_e0.yaml --out data/e0_v1
+python -m kmesh.cli data audit --data data/e0_v1 --out reports/e0_data_audit
+python -m kmesh.cli prereg freeze --config configs/e0_base.yaml \
+  --data data/e0_v1 --document docs/prereg_e0.md --out reports/e0_protocol.json
+
+# 6. 一个正式模型；完整矩阵由 run_e0_matrix.sh 展开
+python -m kmesh.cli train --config configs/e0_m11.yaml --data data/e0_v1 \
+  --seed 11 --allow-long-run --out runs/e0_m11_s11
+
+# 7. 只在主协议与 checkpoints 冻结后使用这个解锁选项
+python -m kmesh.cli evaluate --run runs/e0_m11_s11 \
+  --split test_comp --unlock-test --protocol reports/e0_protocol.json \
+  --out reports/e0_m11_s11_test_comp
+
+# 8. 四模型与种子的汇总，缺失运行必须列出
+python -m kmesh.cli report e0 --runs runs --protocol reports/e0_protocol.json \
+  --out reports/e0_summary
+
+# 9. 后续连续更新
+python -m kmesh.cli continual --config configs/e1a.yaml --checkpoint <checkpoint> \
+  --mode content-only --out runs/e1a
+python -m kmesh.cli continual --config configs/e1b.yaml --checkpoint <checkpoint> \
+  --mode local-residual --out runs/e1b_local
+```
+
+`--allow-long-run` 是资源防护：不带它的常规 train 默认最多 300 steps，除非专门的 overfit 诊断命令显式提供自身上限。正式矩阵需要明确传入该选项，不能由 smoke 脚本间接启动。
+
+`--unlock-test` 与 manifest hash 是防误用机制，不是安全隔离证明。测试解锁日志必须持久记录；实验修改后不能假装该测试仍未看过。
+
+每条命令要有 `--help`，缺失路径／版本不兼容／无 CUDA／数据校验失败都返回非零错误或明确的降级状态。不得以空报告表示成功。
+
+---
+
+# 15. 测试清单：这些测试比增加模型规模优先
+
+## 15.1 数据与逻辑
+
+- 空 body、单前提、双前提、变量重用、实体方向的正确执行。
+- 同名变量只在各 clause 内绑定；非法 head 变量被拒绝。
+- 两个求解器在随机小世界上闭包完全相同。
+- 保存的每条证明可重新验证；生成器计划路径不能覆盖真实替代路径。
+- 反事实是否真的翻转；不翻转的样本被拒绝而不是强行改标签。
+- 同构重命名、前提重排不改变真值和规范 signature。
+- world families 不跨 split；训练标签的 proofs 不含锁定 motif。
+- 达到最大生成尝试次数后停止并报告拒绝统计，不进行无界重试。
+
+## 15.2 图与输入边界
+
+- 改标签／证明文件不改变生成的模型输入与图。
+- 图由内容独立构建，对称化、自环和 row sum 正确。
+- padding 不被选中；无邻居节点行为确定。
+- 关系／实体重命名不改变基于符号相等关系的图拓扑。
+- 同符号集合的方向反事实不改变图。
+- model API 不接受 `EvalMeta`；训练 loss 外不得读取 labels。
+
+## 15.3 神经与梯度
+
+- encoder 独立编码 patch，没有跨 patch self-attention 泄漏。
+- top-k 去重、k>N、N=1、并列情况处理正确。
+- beta 和 query/key 的连续梯度存在；不能只检查 loss.requires_grad。
+- 软阶段到硬阶段的数据路径、mask 和先验一致。
+- shared-gate 与 per-layer-gate 的公共初始化相同。
+- 原始代码和重定位后的输出、按 ID 归集的梯度一致。
+- 不通过 `.item()`、转 NumPy 或意外 detach 切断 reader 的梯度路径。
+
+## 15.4 更新与版本
+
+- replace 只改变显式引用对象，retire 不会物理销毁可回滚版本。
+- 内容版本更新使对应 key/value 缓存失效；表示版本更新使派生 K/V 失效。
+- 共享权重冻结但 Delta 可以得到梯度。
+- 非授权参数与其 optimizer states 严格不变。
+- 动量已有值时，未选 patch 仍不能因零梯度而更新。
+- 同一 patch 被多个 layer/query 使用时，梯度正确相加。
+- interrupted/resumed 更新与连续更新在同环境、确定设置下相同。
+- 当前正确知识修订不被当作旧知识遗忘。
+
+## 15.5 运行与报告
+
+- resume 恢复 optimizer、RNG、sampler、阶段和当前事件，不只是模型权重。
+- 不存在测试解锁记录时不能生成正式 test 报告。
+- 缺 seed、失败运行、NaN、OOM、未完成阶段均出现在汇总中。
+- bootstrap 以 world/stream cluster 采样，反事实成对保留。
+- timing 包含正确 CUDA 同步或 event 测量，不用 CPU 异步启动时间充当 GPU 执行时间。
+
+单元测试与研究结果是两种产物：测试通过说明实现满足某些契约，不说明科学假设已成立。
+
+---
+
+# 16. 资源与可复现性
+
+## 16.1 硬件策略
+
+优先单 GPU。用户讨论过 24GB RTX 3090 与 80GB A800＋1TB RAM；本计划不假定它们当前均可用，也不要求先购置或连接新硬件。
+
+先运行 doctor 和 20-step smoke，再 profile 100–300 steps 的 steady state。默认 microbatch=4、accumulation=8；必要时减 microbatch、相应增 accumulation，保持有效 batch 和样例暴露。
+
+若需要更改 hidden size、patch 数或读取预算来适配机器，这属于新的模型／数据配置，四组主对照必须同步，不能只缩减失败组。
+
+这轮不承诺固定 GPU 小时，也不通过模型参数量猜测实际耗时。用实测：
+
+\[
+T_{E0}\approx4\times3\times10{,}000\times t_{step}+T_{eval}+T_{data}
+\]
+
+其中 `t_step` 必须包含一次 optimizer step 的全部累积 microbatches。graph/index、patch 编码、reader、backward 和 optimizer 分开计时。
+
+## 16.2 锁定环境和随机性
+
+记录 Python、PyTorch、CUDA runtime、驱动、GPU 型号、CPU、主存、OS、git commit、dirty diff、依赖 lock、精度、kernel backend、所有 RNG 和 DataLoader seeds。
+
+不要使用 Python 进程随机化的 `hash()` 生成可复现 ID 或数据 split。使用明确编码的稳定哈希与独立 PRNG streams。
+
+PyTorch 官方文档说明不同版本、平台和 CPU/GPU 之间不保证完全相同的数值结果，因此声明可复现性时限定环境，并记录确定性算法与性能模式。[R7]
+
+profile 运行与严确定性 correctness 运行可以分别保存，但不能用快速模式的时间配上另一模式的精度而不说明。
+
+## 16.3 数据与知识成本归属
+
+E0 使用离线精确求解器生成标签，这是一种监督成本，必须报告生成时间、数据量和求解器调用次数。它不在推理路径中，但也不能被描述成“无监督出现逻辑能力”。
+
+E1a 的编码／索引维护成本、E1b 的 support 标注成本、未来教师生成和验证成本都计入阶段报告。只有对照信息预算一致，才比较学习效率。
+
+---
+
+# 17. 里程碑、验收与报告模板
+
+## M0：环境与可运行骨架
+
+交付 doctor、配置校验、CLI、最小测试、状态文档。无 GPU 时应完成 CPU 单元测试和极小 forward/backward，并明确 GPU 实验 `not_run`。
+
+**验收：** 安装、测试、20-step smoke 命令在实际环境运行；不要求性能结论。
+
+## M1：可信数据
+
+交付 generator、两个 solver、proof verifier、split/canonicalization、反事实与审计。
+
+**验收：** 所有逻辑与泄漏测试通过；至少人工检查 20 个不同结构样例；生成过程有有界重试和明确失败原因。
+
+## M2：任务可学性
+
+交付 D-full、D-query、encoder/core/reader、训练与恢复。
+
+**验收：** 对 256 样本的固定小集，D-full 的训练 accuracy 应达到 98% 或以上；若 3,000 steps 未达标，先报告数据／梯度／表达能力诊断，不直接启动完整矩阵。对独立浅层查询应显著优于随机，建议以深度 1 至少 90% 作为开发门槛。
+
+这些门槛只是避免在明显未工作的系统上扩算力。允许经开发诊断修订，但必须记录，并重新冻结后续协议。
+
+## M3：图、阶段门控与可重定位读取
+
+交付 M00–M11、soft→hard 切换、beta 梯度测试、trace、重定位测试。
+
+**验收：** 四组在相同小数据上均可训练；参数与梯度路径可审计；未运行正式矩阵前冻结 E0 数据、配置、比较与主指标。
+
+## M4：E0 结果
+
+先运行四组×1 seed 的开发矩阵，检查管线而非选择测试结论；配置锁定后，四组×3 seeds 正式运行。
+
+**验收：** 结果表含全部运行，主比较、PairAcc、干预、成本和限制完整。结果可以为“不支持当前机制”。
+
+## M5：E1a 连续内容更新
+
+交付 PatchStore、事件日志、快照／回滚、动态真值评价和 stream 报告。
+
+**验收：** 模型 hash 始终不变；内容修改正确生效；保持指标不惩罚合理真值变化；support/test 隔离机制可用。
+
+## M6：E1b 局部参数更新
+
+交付 per-patch residual/optimizer、三类更新对照、局部性审计、连续获得—保持曲线。
+
+**验收：** 非授权参数和 optimizer states 不变；共享核心冻结检查通过；相对 U0 的额外收益和相对 U2 的权衡被真实报告。
+
+## 17.1 每阶段报告固定结构
+
+```text
+1. 本轮实际验证的假设
+2. 相比协议的变更与原因
+3. 实际环境、代码、数据和配置版本
+4. 成功／失败／未运行的命令与测试
+5. 主结果：包含全部模型和种子
+6. 反事实、干预与泄漏检查
+7. 训练／推理／更新成本
+8. 当前证据支持什么、不支持什么
+9. 最小下一步：一个明确实验，而不是泛泛扩大模型
+```
+
+研究日志保留失败尝试。报告数值必须可以追溯到 predictions/metrics，不由语言模型手写估计。生成可读报告时允许程序填表，解释部分标明事实、推论和假设。
+
+---
+
+# 18. 必须提前写入的决策记录
+
+请在 `docs/decisions.md` 初始化以下条目：
+
+| 决策 | 当前选择 | 原因／后续可替换点 |
+|---|---|---|
+| D01 知识表示 | 统一 clause＋共享 encoder | 降低语言理解与角色标签混淆；不宣称通用知识格式已定型 |
+| D02 抽象角色 | 不提供 fact/rule/summary 标签 | 允许功能分化，内容语法仍可识别 |
+| D03 图 | 内容 Jaccard、固定 k 邻居 | 可复现；后续才学图和阈值 |
+| D04 图外访问 | 所有层保留全局候选打分 | 不把局部访问等同于局部可达性 |
+| D05 阶段偏好 | global/graph 混合 beta_l | 最小可学归纳偏置；不预设抽象层 |
+| D06 top-k 梯度 | selected log-prior 进入 reader | 避免 gate 仅影响离散索引而训练失效 |
+| D07 E0 memory | 内容编码激活，不是持久参数表 | 先证明使用知识；局部梯度单独在 E1b 验证 |
+| D08 E1b 更新 | 内容编码＋局部 residual；key/core 冻结 | 减少表示漂移，便于严格审计 |
+| D09 物理位置 | ID/版本稳定，行号可变 | 读取应对搬迁透明 |
+| D10 语义覆盖 | 显式版本事件，不按相似度覆盖 | 避免把矛盾和版本差异错误合并 |
+| D11 系统优化 | E0/E1 全驻留，延期 offload | 先分离模型机制与系统瓶颈 |
+| D12 研究结论 | 可失败；不预承诺 SOTA | 防止预算、数据或表述迎合假设 |
+
+这些是 v0.1 的实验选择，不是项目永不可变的公理。修改时记录 diff、证据和受影响的比较。
+
+---
+
+# 19. 可直接交给 Codex 的启动指令
+
+> 你将实施 KMesh 的研究原型。以本文件为研究协议，不把它当作已经得到的结果。
+>
+> 先检查当前仓库和环境，保留已有文件，不覆盖无关工作。复制或引用本计划为 `docs/research_plan.md`，创建 `docs/implementation_status.md` 和 `docs/decisions.md`。如果仓库为空，建立最小 Python package。
+>
+> 第一轮只完成 M0–M3：可信规则数据、两个独立求解器、无泄漏划分、全读取诊断模型、四组路由变体、梯度与重定位测试。先跑 CPU 单测和小型 smoke，再做有界的小集拟合。不要先做向量数据库、网页界面、生产服务、近似索引、多机通信或 CUDA kernel。
+>
+> 实现路由时，top-k indices 不可导不能被忽略。按协议将选中概率的连续 log-prior 加入 memory reader，并测试 beta 的有效梯度。
+>
+> 所有模型输入使用白名单，不得接收证明、深度、抽象标签、答案或 ID embedding。求解器只用于离线生成／评估，不得进入模型的预测路径。
+>
+> 验证阶段使用开发集。正式测试在配置与比较协议锁定前不可用于调参。完整训练必须经过 smoke/profile 并明确开启长运行选项；按实际可用资源执行，不许虚构运行结果。
+>
+> M0–M3 结束后，提交可运行代码、实际命令与输出、已通过／失败的测试、当前资源测量和下一步最小实验。若遇到无法解决的问题，完成其余独立任务并提交最小复现，不用没有证据的“效果应该不错”替代结果。
+>
+> E1a、E1b 按计划后续实施。特别区分无梯度内容更新与局部参数学习；局部训练必须验证未授权参数和 optimizer states 保持不变。
+
+---
+
+# 20. 相关研究与引用边界
+
+下面只列与本协议直接相关、可核查的一手资料。它们支持特定部件或实验方法，不代表 KMesh 的整体假设已被验证。本文的新公式、配置、对照与阶段组织是待测试的设计建议。
+
+## [R1] ProofWriter
+
+**ProofWriter: Generating Implications, Proofs, and Abductive Statements over Natural Language.** Tafjord, Dalvi Mishra, Clark；Findings of ACL 2021。
+
+来源：`https://arxiv.org/abs/2012.13048`
+
+用途：事实／规则／查询和可验证证明的数据组织参考。KMesh 使用更简化的结构化正向规则语言，不声称复现 ProofWriter 的自然语言系统或结果。
+
+## [R2] Memory Layers at Scale
+
+**Memory Layers at Scale.** Berges et al.；arXiv:2412.09764。
+
+来源：`https://arxiv.org/html/2412.09764v1`
+
+用途：稀疏可训练记忆、多个 layer 共享 memory pool 的先例；也提醒稀疏读取可能受内存带宽约束。KMesh E0 的内容编码 memory 与该论文的参数记忆不是同一种训练对象；不能把其收益直接移植到本项目。
+
+## [R3] GRACE
+
+**Aging with GRACE: Lifelong Model Editing with Discrete Key-Value Adaptors.** Hartvigsen et al.；NeurIPS 2023。
+
+来源：`https://arxiv.org/abs/2211.11031`
+
+用途：冻结原模型、用局部 key-value 适配进行连续编辑的相关路线。KMesh E1b 的 residual、图组织与更新范围需要独立验证，不是简单重命名该方法。
+
+## [R4] LongMem
+
+**Augmenting Language Models with Long-Term Memory.** Wang et al.；arXiv:2306.07174。
+
+来源：`https://arxiv.org/abs/2306.07174`
+
+用途：长期记忆的编码／读取分离，以及表示失配问题。KMesh 首轮以冻结 encoder/key/core 简化 E1b 的局部适配，后续才研究接口共同演化。
+
+## [R5] Set Transformer
+
+**Set Transformer: A Framework for Attention-based Permutation-Invariant Neural Networks.** Lee et al.；ICML 2019。
+
+来源：`https://arxiv.org/abs/1810.00825`
+
+用途：attention 与集合式输入、置换不变性的基础参考。KMesh 仍保留 patch 内部位置和变量结构；只要求 patch 物理排列透明，不要求内部 token 任意置换都不变。
+
+## [R6] GraphGPS
+
+**Recipe for a General, Powerful, Scalable Graph Transformer.** Rampášek et al.；NeurIPS 2022。
+
+来源：`https://arxiv.org/abs/2205.12454`
+
+用途：局部图关系与全局 attention 可分开设计的参考。KMesh 使用的 global/graph router mixture 是本协议的最小候选，不将 GraphGPS 的表达力或大规模结果作为自身保证。
+
+## [R7] PyTorch Reproducibility
+
+来源：`https://docs.pytorch.org/docs/stable/notes/randomness.html`
+
+用途：随机性控制、平台和版本边界、确定性与吞吐之间的权衡。实施时以实际安装版本的文档为准，保存依赖 lock，不假定跨版本逐位一致。
+
+## [R8] PyTorch AdamW
+
+来源：`https://docs.pytorch.org/docs/stable/generated/torch.optim.AdamW.html`
+
+用途：优化器更新、weight decay、梯度为 None 与为零的差别。KMesh 局部参数更新必须通过状态审计，而不依赖“其他行的梯度看起来为零”。
+
+---
+
+# 21. 最终研究产物应回答的问题
+
+首批研究结束后，报告应能够明确回答：
+
+1. 模型是否真的使用外部知识内容，而不是训练集或输入格式捷径？
+2. 统一 patch 池能否支持未见规则组合？
+3. 图关系、阶段读取偏好分别贡献多少，还是普通全局检索已经足够？
+4. 不改共享权重时，连续内容更新能否正确生效？
+5. 仅更新少量 patch 参数，是否比直接内容更新带来额外可迁移收益？
+6. 这些收益付出了多少编码、检索、训练、验证和存储成本？
+7. 哪些观察只是路由／访问现象，哪些才构成抽象、组合或局部学习证据？
+
+> **KMesh 的首个成功，不是画出一个漂亮的知识网络，也不是出现几个高频核心节点，而是在固定计算预算和可审计更新范围内，让未见任务表现随新知识与局部学习可靠改善。**
