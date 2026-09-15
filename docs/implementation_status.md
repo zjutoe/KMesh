@@ -2,7 +2,7 @@
 
 - 截至 2026-09-15，M0（最小可运行环境）`in_progress`。
 - T0001（最小 Python 包与环境诊断命令）：Codex 第 2 轮复验通过，状态 `accepted`，接受实现提交 `39dabc73e035c8c2627a1e5db4deab31055a9c6d`。R1–R3 已关闭；独立复跑 25 个测试和关键回归检查通过。记录见 [交接文档](handoffs/T0001-bootstrap-doctor.md)，[Pi 第 2 轮证据](../reports/T0001/pi-r2/)与 [Codex 第 2 轮证据](../reports/T0001/review-r2/)分别保留。
-- T0002（模型结构配置的读取与校验）：Codex 第 3 轮复验通过（2026-09-15），状态 **`accepted`**，R1–R5 全部关闭。独立复跑 **99 个测试、规定驱动和四个原始 YAML 反例均通过**；接受 HEAD `2c15f6a` 加第 3 轮冻结工作树，具体文件哈希见验收记录。当前 Pi 第 3 轮 43 项哈希全部匹配，旧证据完整核对未变；丢失历史和开发 stderr 留存限制仍明确保留。**仅涉及 model 的九个字段，不代表完整实验配置已校验。** 见 [T0002 交接文档](handoffs/T0002-model-config.md)、[Pi 第 3 轮证据](../reports/T0002/pi-r3/)与 [Codex 第 3 轮证据](../reports/T0002/review-r3/)。
+- T0002（模型结构配置的读取与校验）：Codex 第 3 轮复验通过（2026-09-15），状态 **`accepted`**，R1–R5 全部关闭。独立复跑 **99 个测试、规定驱动和四个原始 YAML 反例均通过**；接受实现提交 **`35572f2f8426ab7a8f36cf0961a0f4ec0c68c897`**，已核对其文件哈希与第 3 轮冻结工作树一致。该提交说明中的 `awaiting_review` 已过时，文档和验收证据均为 `accepted`。当前 Pi 第 3 轮 43 项哈希全部匹配，旧证据完整核对未变；丢失历史和开发 stderr 留存限制仍明确保留。**仅涉及 model 的九个字段，不代表完整实验配置已校验。** 见 [T0002 交接文档](handoffs/T0002-model-config.md)、[Pi 第 3 轮证据](../reports/T0002/pi-r3/)与 [Codex 第 3 轮证据](../reports/T0002/review-r3/)。
 
 ## M0 已完成 / 未完成
 
