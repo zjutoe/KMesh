@@ -72,15 +72,19 @@ KMesh 是一个研究项目，探索能否通过小范围的学习和更新，�
 .venv/bin/python -m kmesh.cli config validate-model --config configs/model_e0.yaml
 ```
 
-成功退出码 0，stdout 为单个 JSON：`schema_version`（整数 1）、`validation_scope`（字符串 `model_only`）、`model`（已校验的九字段字典）；校验失败退出码 1，stderr 给出源路径与原因；参数错误退出码 2。**只校验研究计划 §8.3 的 model 区块，不校验路由、训练、数据划分或设备可用性，也不表示完整 E0 配置符合协议、训练可以开始。** 运行测试：
+成功退出码 0，stdout 为单个 JSON：`schema_version`（整数 1）、`validation_scope`（字符串 `model_only`）、`model`（已校验的九字段字典）；校验失败退出码 1，stderr 给出源路径与原因；参数错误退出码 2。**只校验研究计划 §8.3 的 model 区块，不校验路由、训练、数据划分或设备可用性，也不表示完整 E0 配置符合协议、训练可以开始。**
+
+逻辑内容类型（T0003）：`kmesh.logic.types` 提供不可变、可哈希的 `Atom(pred, args)` 与 `Clause(body, head)` 及构造时静态检查（二元 arity、ASCII 标识符词法、变量 `?` 前缀、0–2 前提、head 变量必须在 body 中出现）。这是后续求解器与数据构造共用的接口，**状态为已验收（`accepted`）**：R1 已关闭，Codex 独立完整回归 167 项及首轮 18 项边界探测全通过。尚无 CLI/文件加载，构造成功只验证句法与单 clause 变量作用域，不代表任何 world 通过完整 E0 数据审计。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+
+运行测试：
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_config.py tests/test_doctor.py
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
 ```
 
-当前限制：T0001 与 T0002 仅覆盖最小包、环境诊断与模型结构配置校验；完整运行配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+当前限制：T0001、T0002 与 T0003 仅覆盖最小包、环境诊断、模型结构配置校验，以及带静态校验的不可变逻辑类型（已验收）；完整运行配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
-截至 2026-09-15，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
+截至 2026-09-15，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
 
