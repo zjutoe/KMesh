@@ -1,0 +1,150 @@
+--- review-r1/src/kmesh/logic/types.py
++++ review-r2/src/kmesh/logic/types.py
+@@ -36,7 +36,7 @@
+ def _validate_atom_pred(pred: object) -> None:
+     if not isinstance(pred, str):
+         raise LogicValidationError(
+-            f"atom.pred must be a string, got {type(pred).__name__}: {pred!r}")
++            f"atom.pred must be a string, got {type(pred).__name__}")
+     if pred.startswith("?"):
+         raise LogicValidationError(
+             f"atom.pred must not start with '?': {pred!r}")
+@@ -51,7 +51,7 @@
+     if not isinstance(value, str):
+         raise LogicValidationError(
+             f"{where} must be a string constant or variable, "
+-            f"got {type(value).__name__}: {value!r}")
++            f"got {type(value).__name__}")
+     if value.startswith("?"):
+         if _IDENTIFIER_RE.fullmatch(value[1:]) is None:
+             raise LogicValidationError(
+@@ -80,13 +80,15 @@
+     def __post_init__(self) -> None:
+         _validate_atom_pred(self.pred)
+         if not isinstance(self.args, tuple):
++            # The container is reported by type only: its members are
++            # unvalidated and may not be representable.
+             raise LogicValidationError(
+                 f"atom.args must be a tuple of two strings, "
+-                f"got {type(self.args).__name__}: {self.args!r}")
++                f"got {type(self.args).__name__}")
+         if len(self.args) != 2:
+             raise LogicValidationError(
+                 f"atom.args must have exactly 2 items, "
+-                f"got {len(self.args)}: {self.args!r}")
++                f"got {len(self.args)}")
+         for index, value in enumerate(self.args):
+             _validate_atom_arg(index, value)
+ 
+@@ -119,11 +121,11 @@
+         if not isinstance(self.head, Atom):
+             raise LogicValidationError(
+                 f"clause.head must be an Atom, "
+-                f"got {type(self.head).__name__}: {self.head!r}")
++                f"got {type(self.head).__name__}")
+         if not isinstance(self.body, tuple):
+             raise LogicValidationError(
+                 f"clause.body must be a tuple of Atoms, "
+-                f"got {type(self.body).__name__}: {self.body!r}")
++                f"got {type(self.body).__name__}")
+         if not 0 <= len(self.body) <= 2:
+             raise LogicValidationError(
+                 f"clause.body must have 0, 1, or 2 premises, "
+@@ -132,7 +134,7 @@
+             if not isinstance(atom, Atom):
+                 raise LogicValidationError(
+                     f"clause.body[{index}] must be an Atom, "
+-                    f"got {type(atom).__name__}: {atom!r}")
++                    f"got {type(atom).__name__}")
+         bound = set()
+         for atom in self.body:
+             bound |= atom.variables
+--- review-r1/tests/test_logic_types.py
++++ review-r2/tests/test_logic_types.py
+@@ -11,6 +11,7 @@
+ import textwrap
+ 
+ import pytest
++import sys
+ 
+ from dataclasses import FrozenInstanceError
+ 
+@@ -350,7 +351,77 @@
+ 
+ 
+ # ---------------------------------------------------------------------------
+-# 6. Import isolation: new subprocess blocks torch and yaml
++# 7. R1 regression: oversized integers keep the LogicValidationError contract
++#
++# Python 3.11+ refuses str()/repr() of ints longer than the 4300-digit limit
++# with a plain ValueError.  Error reporting for rejected inputs must not
++# itself raise: these paths must report the field path and expected/actual
++# type or length without representing the offending value.  Parameters are
++# factories with explicit short ids so pytest never has to format the large
++# integer when building test ids.
++# ---------------------------------------------------------------------------
++
++
++@pytest.fixture()
++def pinned_int_str_limit():
++    previous = sys.get_int_max_str_digits()
++    sys.set_int_max_str_digits(4300)
++    try:
++        yield
++    finally:
++        sys.set_int_max_str_digits(previous)
++
++
++def _r1_ground():
++    return Atom("p", ("a", "b"))
++
++
++@pytest.mark.parametrize(
++    "build, field, expect",  # expect: fragments that must appear in the message
++    [
++        (lambda: Atom(10**5000, ("a", "b")),
++         "atom.pred", ("string",)),
++        (lambda: Atom("p", ("a", 10**5000)),
++         "atom.args[1]", ("string",)),
++        (lambda: Atom("p", 10**5000),
++         "atom.args", ("tuple",)),
++        (lambda: Atom("p", [10**5000, "b"]),
++         "atom.args", ("tuple",)),
++        (lambda: Atom("p", (10**5000,)),
++         "atom.args", ("2",)),
++        (lambda: Clause(10**5000, _r1_ground()),
++         "clause.body", ("tuple",)),
++        (lambda: Clause((10**5000,), _r1_ground()),
++         "clause.body[0]", ("Atom",)),
++        (lambda: Clause((), 10**5000),
++         "clause.head", ("Atom",)),
++    ],
++    ids=[
++        "pred-oversized-int",
++        "args1-oversized-int",
++        "args-oversized-int",
++        "args-list-with-oversized-int",
++        "args-one-item-oversized-int",
++        "body-oversized-int",
++        "body0-oversized-int",
++        "head-oversized-int",
++    ],
++)
++def test_oversized_int_inputs_keep_error_contract(
++    pinned_int_str_limit, build, field, expect
++):
++    # The dedicated exception with the field path must be raised; a native
++    # ValueError from int-to-str conversion would escape instead.
++    with pytest.raises(LogicValidationError) as ei:
++        build()
++    message = str(ei.value)
++    assert field in message
++    for expected in expect:
++        assert expected in message
++
++
++# ---------------------------------------------------------------------------
++# 8. Import isolation: new subprocess blocks torch and yaml
+ # ---------------------------------------------------------------------------
+ 
+ def test_import_isolation_blocks_torch_and_yaml():

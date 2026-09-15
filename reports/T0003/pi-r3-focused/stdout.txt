@@ -1,0 +1,553 @@
+...........................................................FFFFFFFF.     [100%]
+=================================== FAILURES ===================================
+______ test_oversized_int_inputs_keep_error_contract[pred-oversized-int] _______
+
+pinned_int_str_limit = None, build = <function <lambda> at 0x7f471e393740>
+field = 'atom.pred', expect = ('string',)
+
+    @pytest.mark.parametrize(
+        "build, field, expect",  # expect: fragments that must appear in the message
+        [
+            (lambda: Atom(10**5000, ("a", "b")),
+             "atom.pred", ("string",)),
+            (lambda: Atom("p", ("a", 10**5000)),
+             "atom.args[1]", ("string",)),
+            (lambda: Atom("p", 10**5000),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", [10**5000, "b"]),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", (10**5000,)),
+             "atom.args", ("2",)),
+            (lambda: Clause(10**5000, _r1_ground()),
+             "clause.body", ("tuple",)),
+            (lambda: Clause((10**5000,), _r1_ground()),
+             "clause.body[0]", ("Atom",)),
+            (lambda: Clause((), 10**5000),
+             "clause.head", ("Atom",)),
+        ],
+        ids=[
+            "pred-oversized-int",
+            "args1-oversized-int",
+            "args-oversized-int",
+            "args-list-with-oversized-int",
+            "args-one-item-oversized-int",
+            "body-oversized-int",
+            "body0-oversized-int",
+            "head-oversized-int",
+        ],
+    )
+    def test_oversized_int_inputs_keep_error_contract(
+        pinned_int_str_limit, build, field, expect
+    ):
+        # The dedicated exception with the field path must be raised; a native
+        # ValueError from int-to-str conversion would escape instead.
+        with pytest.raises(LogicValidationError) as ei:
+>           build()
+
+tests/test_logic_types.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_logic_types.py:382: in <lambda>
+    (lambda: Atom(10**5000, ("a", "b")),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+src/kmesh/logic/types.py:81: in __post_init__
+    _validate_atom_pred(self.pred)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+pred = <int instance with roughly 5001 digits (limit at 4300) at 0x12da250>
+
+    def _validate_atom_pred(pred: object) -> None:
+        if not isinstance(pred, str):
+            raise LogicValidationError(
+>               f"atom.pred must be a string, got {type(pred).__name__}: {pred!r}")
+                                                                         ^^^^^^^^
+E           ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/types.py:39: ValueError
+______ test_oversized_int_inputs_keep_error_contract[args1-oversized-int] ______
+
+pinned_int_str_limit = None, build = <function <lambda> at 0x7f471e3937e0>
+field = 'atom.args[1]', expect = ('string',)
+
+    @pytest.mark.parametrize(
+        "build, field, expect",  # expect: fragments that must appear in the message
+        [
+            (lambda: Atom(10**5000, ("a", "b")),
+             "atom.pred", ("string",)),
+            (lambda: Atom("p", ("a", 10**5000)),
+             "atom.args[1]", ("string",)),
+            (lambda: Atom("p", 10**5000),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", [10**5000, "b"]),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", (10**5000,)),
+             "atom.args", ("2",)),
+            (lambda: Clause(10**5000, _r1_ground()),
+             "clause.body", ("tuple",)),
+            (lambda: Clause((10**5000,), _r1_ground()),
+             "clause.body[0]", ("Atom",)),
+            (lambda: Clause((), 10**5000),
+             "clause.head", ("Atom",)),
+        ],
+        ids=[
+            "pred-oversized-int",
+            "args1-oversized-int",
+            "args-oversized-int",
+            "args-list-with-oversized-int",
+            "args-one-item-oversized-int",
+            "body-oversized-int",
+            "body0-oversized-int",
+            "head-oversized-int",
+        ],
+    )
+    def test_oversized_int_inputs_keep_error_contract(
+        pinned_int_str_limit, build, field, expect
+    ):
+        # The dedicated exception with the field path must be raised; a native
+        # ValueError from int-to-str conversion would escape instead.
+        with pytest.raises(LogicValidationError) as ei:
+>           build()
+
+tests/test_logic_types.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_logic_types.py:384: in <lambda>
+    (lambda: Atom("p", ("a", 10**5000)),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+src/kmesh/logic/types.py:91: in __post_init__
+    _validate_atom_arg(index, value)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+index = 1
+value = <int instance with roughly 5001 digits (limit at 4300) at 0x13248c0>
+
+    def _validate_atom_arg(index: int, value: object) -> None:
+        where = f"atom.args[{index}]"
+        if not isinstance(value, str):
+            raise LogicValidationError(
+                f"{where} must be a string constant or variable, "
+>               f"got {type(value).__name__}: {value!r}")
+                                              ^^^^^^^^^
+E           ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/types.py:54: ValueError
+______ test_oversized_int_inputs_keep_error_contract[args-oversized-int] _______
+
+pinned_int_str_limit = None, build = <function <lambda> at 0x7f471e393880>
+field = 'atom.args', expect = ('tuple',)
+
+    @pytest.mark.parametrize(
+        "build, field, expect",  # expect: fragments that must appear in the message
+        [
+            (lambda: Atom(10**5000, ("a", "b")),
+             "atom.pred", ("string",)),
+            (lambda: Atom("p", ("a", 10**5000)),
+             "atom.args[1]", ("string",)),
+            (lambda: Atom("p", 10**5000),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", [10**5000, "b"]),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", (10**5000,)),
+             "atom.args", ("2",)),
+            (lambda: Clause(10**5000, _r1_ground()),
+             "clause.body", ("tuple",)),
+            (lambda: Clause((10**5000,), _r1_ground()),
+             "clause.body[0]", ("Atom",)),
+            (lambda: Clause((), 10**5000),
+             "clause.head", ("Atom",)),
+        ],
+        ids=[
+            "pred-oversized-int",
+            "args1-oversized-int",
+            "args-oversized-int",
+            "args-list-with-oversized-int",
+            "args-one-item-oversized-int",
+            "body-oversized-int",
+            "body0-oversized-int",
+            "head-oversized-int",
+        ],
+    )
+    def test_oversized_int_inputs_keep_error_contract(
+        pinned_int_str_limit, build, field, expect
+    ):
+        # The dedicated exception with the field path must be raised; a native
+        # ValueError from int-to-str conversion would escape instead.
+        with pytest.raises(LogicValidationError) as ei:
+>           build()
+
+tests/test_logic_types.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_logic_types.py:386: in <lambda>
+    (lambda: Atom("p", 10**5000),
+             ^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[ValueError('Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit') raised in repr()] Atom object at 0x7f471e34a570>
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+>               f"got {type(self.args).__name__}: {self.args!r}")
+                                                  ^^^^^^^^^^^^^
+E           ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/types.py:85: ValueError
+_ test_oversized_int_inputs_keep_error_contract[args-list-with-oversized-int] __
+
+pinned_int_str_limit = None, build = <function <lambda> at 0x7f471e393920>
+field = 'atom.args', expect = ('tuple',)
+
+    @pytest.mark.parametrize(
+        "build, field, expect",  # expect: fragments that must appear in the message
+        [
+            (lambda: Atom(10**5000, ("a", "b")),
+             "atom.pred", ("string",)),
+            (lambda: Atom("p", ("a", 10**5000)),
+             "atom.args[1]", ("string",)),
+            (lambda: Atom("p", 10**5000),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", [10**5000, "b"]),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", (10**5000,)),
+             "atom.args", ("2",)),
+            (lambda: Clause(10**5000, _r1_ground()),
+             "clause.body", ("tuple",)),
+            (lambda: Clause((10**5000,), _r1_ground()),
+             "clause.body[0]", ("Atom",)),
+            (lambda: Clause((), 10**5000),
+             "clause.head", ("Atom",)),
+        ],
+        ids=[
+            "pred-oversized-int",
+            "args1-oversized-int",
+            "args-oversized-int",
+            "args-list-with-oversized-int",
+            "args-one-item-oversized-int",
+            "body-oversized-int",
+            "body0-oversized-int",
+            "head-oversized-int",
+        ],
+    )
+    def test_oversized_int_inputs_keep_error_contract(
+        pinned_int_str_limit, build, field, expect
+    ):
+        # The dedicated exception with the field path must be raised; a native
+        # ValueError from int-to-str conversion would escape instead.
+        with pytest.raises(LogicValidationError) as ei:
+>           build()
+
+tests/test_logic_types.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_logic_types.py:388: in <lambda>
+    (lambda: Atom("p", [10**5000, "b"]),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[ValueError('Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit') raised in repr()] Atom object at 0x7f471e349c10>
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+>               f"got {type(self.args).__name__}: {self.args!r}")
+                                                  ^^^^^^^^^^^^^
+E           ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/types.py:85: ValueError
+__ test_oversized_int_inputs_keep_error_contract[args-one-item-oversized-int] __
+
+pinned_int_str_limit = None, build = <function <lambda> at 0x7f471e3939c0>
+field = 'atom.args', expect = ('2',)
+
+    @pytest.mark.parametrize(
+        "build, field, expect",  # expect: fragments that must appear in the message
+        [
+            (lambda: Atom(10**5000, ("a", "b")),
+             "atom.pred", ("string",)),
+            (lambda: Atom("p", ("a", 10**5000)),
+             "atom.args[1]", ("string",)),
+            (lambda: Atom("p", 10**5000),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", [10**5000, "b"]),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", (10**5000,)),
+             "atom.args", ("2",)),
+            (lambda: Clause(10**5000, _r1_ground()),
+             "clause.body", ("tuple",)),
+            (lambda: Clause((10**5000,), _r1_ground()),
+             "clause.body[0]", ("Atom",)),
+            (lambda: Clause((), 10**5000),
+             "clause.head", ("Atom",)),
+        ],
+        ids=[
+            "pred-oversized-int",
+            "args1-oversized-int",
+            "args-oversized-int",
+            "args-list-with-oversized-int",
+            "args-one-item-oversized-int",
+            "body-oversized-int",
+            "body0-oversized-int",
+            "head-oversized-int",
+        ],
+    )
+    def test_oversized_int_inputs_keep_error_contract(
+        pinned_int_str_limit, build, field, expect
+    ):
+        # The dedicated exception with the field path must be raised; a native
+        # ValueError from int-to-str conversion would escape instead.
+        with pytest.raises(LogicValidationError) as ei:
+>           build()
+
+tests/test_logic_types.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_logic_types.py:390: in <lambda>
+    (lambda: Atom("p", (10**5000,)),
+             ^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[ValueError('Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit') raised in repr()] Atom object at 0x7f471e349790>
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+                f"got {type(self.args).__name__}: {self.args!r}")
+        if len(self.args) != 2:
+            raise LogicValidationError(
+                f"atom.args must have exactly 2 items, "
+>               f"got {len(self.args)}: {self.args!r}")
+                                        ^^^^^^^^^^^^^
+E           ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/types.py:89: ValueError
+______ test_oversized_int_inputs_keep_error_contract[body-oversized-int] _______
+
+pinned_int_str_limit = None, build = <function <lambda> at 0x7f471e393a60>
+field = 'clause.body', expect = ('tuple',)
+
+    @pytest.mark.parametrize(
+        "build, field, expect",  # expect: fragments that must appear in the message
+        [
+            (lambda: Atom(10**5000, ("a", "b")),
+             "atom.pred", ("string",)),
+            (lambda: Atom("p", ("a", 10**5000)),
+             "atom.args[1]", ("string",)),
+            (lambda: Atom("p", 10**5000),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", [10**5000, "b"]),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", (10**5000,)),
+             "atom.args", ("2",)),
+            (lambda: Clause(10**5000, _r1_ground()),
+             "clause.body", ("tuple",)),
+            (lambda: Clause((10**5000,), _r1_ground()),
+             "clause.body[0]", ("Atom",)),
+            (lambda: Clause((), 10**5000),
+             "clause.head", ("Atom",)),
+        ],
+        ids=[
+            "pred-oversized-int",
+            "args1-oversized-int",
+            "args-oversized-int",
+            "args-list-with-oversized-int",
+            "args-one-item-oversized-int",
+            "body-oversized-int",
+            "body0-oversized-int",
+            "head-oversized-int",
+        ],
+    )
+    def test_oversized_int_inputs_keep_error_contract(
+        pinned_int_str_limit, build, field, expect
+    ):
+        # The dedicated exception with the field path must be raised; a native
+        # ValueError from int-to-str conversion would escape instead.
+        with pytest.raises(LogicValidationError) as ei:
+>           build()
+
+tests/test_logic_types.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_logic_types.py:392: in <lambda>
+    (lambda: Clause(10**5000, _r1_ground()),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[ValueError('Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit') raised in repr()] Clause object at 0x7f471e2f1910>
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.head, Atom):
+            raise LogicValidationError(
+                f"clause.head must be an Atom, "
+                f"got {type(self.head).__name__}: {self.head!r}")
+        if not isinstance(self.body, tuple):
+            raise LogicValidationError(
+                f"clause.body must be a tuple of Atoms, "
+>               f"got {type(self.body).__name__}: {self.body!r}")
+                                                  ^^^^^^^^^^^^^
+E           ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/types.py:126: ValueError
+______ test_oversized_int_inputs_keep_error_contract[body0-oversized-int] ______
+
+pinned_int_str_limit = None, build = <function <lambda> at 0x7f471e393b00>
+field = 'clause.body[0]', expect = ('Atom',)
+
+    @pytest.mark.parametrize(
+        "build, field, expect",  # expect: fragments that must appear in the message
+        [
+            (lambda: Atom(10**5000, ("a", "b")),
+             "atom.pred", ("string",)),
+            (lambda: Atom("p", ("a", 10**5000)),
+             "atom.args[1]", ("string",)),
+            (lambda: Atom("p", 10**5000),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", [10**5000, "b"]),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", (10**5000,)),
+             "atom.args", ("2",)),
+            (lambda: Clause(10**5000, _r1_ground()),
+             "clause.body", ("tuple",)),
+            (lambda: Clause((10**5000,), _r1_ground()),
+             "clause.body[0]", ("Atom",)),
+            (lambda: Clause((), 10**5000),
+             "clause.head", ("Atom",)),
+        ],
+        ids=[
+            "pred-oversized-int",
+            "args1-oversized-int",
+            "args-oversized-int",
+            "args-list-with-oversized-int",
+            "args-one-item-oversized-int",
+            "body-oversized-int",
+            "body0-oversized-int",
+            "head-oversized-int",
+        ],
+    )
+    def test_oversized_int_inputs_keep_error_contract(
+        pinned_int_str_limit, build, field, expect
+    ):
+        # The dedicated exception with the field path must be raised; a native
+        # ValueError from int-to-str conversion would escape instead.
+        with pytest.raises(LogicValidationError) as ei:
+>           build()
+
+tests/test_logic_types.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_logic_types.py:394: in <lambda>
+    (lambda: Clause((10**5000,), _r1_ground()),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[ValueError('Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit') raised in repr()] Clause object at 0x7f471e2f04d0>
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.head, Atom):
+            raise LogicValidationError(
+                f"clause.head must be an Atom, "
+                f"got {type(self.head).__name__}: {self.head!r}")
+        if not isinstance(self.body, tuple):
+            raise LogicValidationError(
+                f"clause.body must be a tuple of Atoms, "
+                f"got {type(self.body).__name__}: {self.body!r}")
+        if not 0 <= len(self.body) <= 2:
+            raise LogicValidationError(
+                f"clause.body must have 0, 1, or 2 premises, "
+                f"got {len(self.body)}")
+        for index, atom in enumerate(self.body):
+            if not isinstance(atom, Atom):
+                raise LogicValidationError(
+                    f"clause.body[{index}] must be an Atom, "
+>                   f"got {type(atom).__name__}: {atom!r}")
+                                                 ^^^^^^^^
+E               ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/types.py:135: ValueError
+______ test_oversized_int_inputs_keep_error_contract[head-oversized-int] _______
+
+pinned_int_str_limit = None, build = <function <lambda> at 0x7f471e393ba0>
+field = 'clause.head', expect = ('Atom',)
+
+    @pytest.mark.parametrize(
+        "build, field, expect",  # expect: fragments that must appear in the message
+        [
+            (lambda: Atom(10**5000, ("a", "b")),
+             "atom.pred", ("string",)),
+            (lambda: Atom("p", ("a", 10**5000)),
+             "atom.args[1]", ("string",)),
+            (lambda: Atom("p", 10**5000),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", [10**5000, "b"]),
+             "atom.args", ("tuple",)),
+            (lambda: Atom("p", (10**5000,)),
+             "atom.args", ("2",)),
+            (lambda: Clause(10**5000, _r1_ground()),
+             "clause.body", ("tuple",)),
+            (lambda: Clause((10**5000,), _r1_ground()),
+             "clause.body[0]", ("Atom",)),
+            (lambda: Clause((), 10**5000),
+             "clause.head", ("Atom",)),
+        ],
+        ids=[
+            "pred-oversized-int",
+            "args1-oversized-int",
+            "args-oversized-int",
+            "args-list-with-oversized-int",
+            "args-one-item-oversized-int",
+            "body-oversized-int",
+            "body0-oversized-int",
+            "head-oversized-int",
+        ],
+    )
+    def test_oversized_int_inputs_keep_error_contract(
+        pinned_int_str_limit, build, field, expect
+    ):
+        # The dedicated exception with the field path must be raised; a native
+        # ValueError from int-to-str conversion would escape instead.
+        with pytest.raises(LogicValidationError) as ei:
+>           build()
+
+tests/test_logic_types.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_logic_types.py:396: in <lambda>
+    (lambda: Clause((), 10**5000),
+             ^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[ValueError('Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit') raised in repr()] Clause object at 0x7f471e2f1eb0>
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.head, Atom):
+            raise LogicValidationError(
+                f"clause.head must be an Atom, "
+>               f"got {type(self.head).__name__}: {self.head!r}")
+                                                  ^^^^^^^^^^^^^
+E           ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/types.py:122: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_logic_types.py::test_oversized_int_inputs_keep_error_contract[pred-oversized-int]
+FAILED tests/test_logic_types.py::test_oversized_int_inputs_keep_error_contract[args1-oversized-int]
+FAILED tests/test_logic_types.py::test_oversized_int_inputs_keep_error_contract[args-oversized-int]
+FAILED tests/test_logic_types.py::test_oversized_int_inputs_keep_error_contract[args-list-with-oversized-int]
+FAILED tests/test_logic_types.py::test_oversized_int_inputs_keep_error_contract[args-one-item-oversized-int]
+FAILED tests/test_logic_types.py::test_oversized_int_inputs_keep_error_contract[body-oversized-int]
+FAILED tests/test_logic_types.py::test_oversized_int_inputs_keep_error_contract[body0-oversized-int]
+FAILED tests/test_logic_types.py::test_oversized_int_inputs_keep_error_contract[head-oversized-int]
+8 failed, 60 passed in 0.28s

@@ -1,0 +1,61 @@
+{
+  "created_at_utc": "2026-09-15T07:50:00.904156+00:00",
+  "result": "PASS",
+  "checks": {
+    "pi-r3-focused": true,
+    "pi-r4-focused": true,
+    "pi-r2-full": true,
+    "review-r2-full": true,
+    "review-r2-boundaries": true,
+    "fix_changed_only_types_file": true,
+    "failure_saved_before_fix": true,
+    "before_fix_matches_prior_source": true,
+    "current_matches_pi_and_codex_full": true,
+    "prior_frozen_history_unchanged": true,
+    "prior_review_artifacts_unchanged": true,
+    "prior_run_records_and_outputs_unchanged": true,
+    "original_probe_18_pass": true,
+    "tracked_history_unchanged": true,
+    "no_tracked_scratch": true,
+    "diff_check": true
+  },
+  "runs": {
+    "pi-r3-focused": {
+      "exit_code": 1,
+      "elapsed_s": 0.517,
+      "record_sha256": "d10b48d8ddfb5c496f8a1ac641c4ae4322fa1425a62b8765512c132e011b0545",
+      "expected_summary": "8 failed, 60 passed"
+    },
+    "pi-r4-focused": {
+      "exit_code": 0,
+      "elapsed_s": 0.358,
+      "record_sha256": "4951f5eb70ad42d8fce1d8c5632c39c10ae950c6bd0815282ff0aec4bcf524da",
+      "expected_summary": "68 passed"
+    },
+    "pi-r2-full": {
+      "exit_code": 0,
+      "elapsed_s": 4.079,
+      "record_sha256": "b0d2de0c6243e9e0b494f0fbfccbf1fa0de2893bafd6711439e129ef8a95b743",
+      "expected_summary": "167 passed"
+    },
+    "review-r2-full": {
+      "exit_code": 0,
+      "elapsed_s": 3.825,
+      "record_sha256": "0745ca814cabb504c49754aa6ee5954ddd9ba92e0ce6e259d0f20c24df1eeb56",
+      "expected_summary": "167 passed"
+    },
+    "review-r2-boundaries": {
+      "exit_code": 0,
+      "elapsed_s": 0.05,
+      "record_sha256": "48e145d19537b2fcfe96453a216943d87281841370aaff774a5db26bdce45372",
+      "expected_summary": null
+    }
+  },
+  "prior_frozen_paths_checked": 38,
+  "model_metadata": {
+    "provider": "ollama",
+    "model": "qwen3.8-coding:27b-q8_0-64k",
+    "api": "openai-completions",
+    "source": "KMesh Pi session assistant metadata, 2026-09-15 05:32:13.918–06:20:12.485 UTC, 26 messages; not a model-weight audit."
+  }
+}

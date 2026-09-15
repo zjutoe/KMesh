@@ -1,0 +1,89 @@
+{
+  "int_max_str_digits": 4300,
+  "results": [
+    {
+      "name": "duplicates_long_symbols_clause_hash_alpha_identity",
+      "result": "PASS"
+    },
+    {
+      "name": "pred_lexical_'p\\n'",
+      "result": "PASS"
+    },
+    {
+      "name": "pred_lexical_' p'",
+      "result": "PASS"
+    },
+    {
+      "name": "pred_lexical_'p '",
+      "result": "PASS"
+    },
+    {
+      "name": "pred_lexical_'_p'",
+      "result": "PASS"
+    },
+    {
+      "name": "pred_lexical_'关系'",
+      "result": "PASS"
+    },
+    {
+      "name": "pred_lexical_'p０'",
+      "result": "PASS"
+    },
+    {
+      "name": "pred_lexical_'p\\x00'",
+      "result": "PASS"
+    },
+    {
+      "name": "variable_lexical_'?x\\n'",
+      "result": "PASS"
+    },
+    {
+      "name": "variable_lexical_'?_x'",
+      "result": "PASS"
+    },
+    {
+      "name": "variable_lexical_'?变量'",
+      "result": "PASS"
+    },
+    {
+      "name": "case_sensitive_scope",
+      "result": "PASS"
+    },
+    {
+      "name": "large_int_pred",
+      "result": "FAIL",
+      "exception": "ValueError",
+      "message": "Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit"
+    },
+    {
+      "name": "large_int_arg",
+      "result": "FAIL",
+      "exception": "ValueError",
+      "message": "Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit"
+    },
+    {
+      "name": "large_int_args_container",
+      "result": "FAIL",
+      "exception": "ValueError",
+      "message": "Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit"
+    },
+    {
+      "name": "large_int_body",
+      "result": "FAIL",
+      "exception": "ValueError",
+      "message": "Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit"
+    },
+    {
+      "name": "large_int_body_member",
+      "result": "FAIL",
+      "exception": "ValueError",
+      "message": "Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit"
+    },
+    {
+      "name": "large_int_head",
+      "result": "FAIL",
+      "exception": "ValueError",
+      "message": "Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit"
+    }
+  ]
+}

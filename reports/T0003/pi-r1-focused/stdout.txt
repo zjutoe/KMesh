@@ -1,0 +1,23 @@
+....F.......................................................             [100%]
+=================================== FAILURES ===================================
+___________________ test_contract_positive_example_intersect ___________________
+
+    def test_contract_positive_example_intersect():
+        clause = Clause((Atom("p", ("?x", "?y")), Atom("q", ("?x", "?y"))),
+                        Atom("r", ("?x", "?y")))
+>       assert clause.body[0] == clause.body[1] != clause.head
+E       AssertionError: assert Atom(pred='p'...=('?x', '?y')) == Atom(pred='q'...=('?x', '?y'))
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing attributes:
+E         ['pred']
+E         
+E         Drill down into differing attribute pred:
+E           pred: 'p' != 'q'
+E           - q
+E           + p
+
+tests/test_logic_types.py:64: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_logic_types.py::test_contract_positive_example_intersect - ...
+1 failed, 59 passed in 0.17s

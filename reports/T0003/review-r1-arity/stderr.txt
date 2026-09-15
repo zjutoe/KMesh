@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from kmesh.logic.types import Atom, LogicValidationError; Atom("p", (10**5000,))
+                                                              ~~~~^^^^^^^^^^^^^^^^^^
+  File "<string>", line 5, in __init__
+  File "/home/mye/src/llm/KMesh/src/kmesh/logic/types.py", line 89, in __post_init__
+    f"got {len(self.args)}: {self.args!r}")
+                            ^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit

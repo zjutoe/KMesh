@@ -1,0 +1,105 @@
+{
+  "created_at_utc": "2026-09-15T05:20:13.536366+00:00",
+  "purpose": "Verify evidence consistency, not acceptance of product behavior",
+  "evidence_consistent": true,
+  "checks": {
+    "pi-r1-preflight": true,
+    "pi-r1-focused": true,
+    "pi-r2-focused": true,
+    "pi-r1-full": true,
+    "review-r1-full": true,
+    "review-r1-boundaries": true,
+    "review-r1-arity": true,
+    "current_sources_match_pi_full": true,
+    "all_43_frozen_inputs_unchanged_before_review_docs": true,
+    "tracked_changes_only_readme_status": true,
+    "no_tracked_pytest_scratch": true,
+    "git_diff_check": true,
+    "planning_helpers_decisions_unchanged": true,
+    "only_test_source_changed_after_first_failure": true
+  },
+  "runs": {
+    "pi-r1-preflight": {
+      "exit_code": 0,
+      "expected_observed_exit": 0,
+      "outputs_match": {
+        "stdout": true,
+        "stderr": true
+      },
+      "sources_unchanged_during_run": true,
+      "record_sha256": "167b00d3204570b34ece53a913843c23e0cf8ed52d5dac3362dc6821ca55401a"
+    },
+    "pi-r1-focused": {
+      "exit_code": 1,
+      "expected_observed_exit": 1,
+      "outputs_match": {
+        "stdout": true,
+        "stderr": true
+      },
+      "sources_unchanged_during_run": true,
+      "record_sha256": "bd1d395f0bb09056f358f1d452f3f1e0c44cf443befec1e1efc60283d33a5f13"
+    },
+    "pi-r2-focused": {
+      "exit_code": 0,
+      "expected_observed_exit": 0,
+      "outputs_match": {
+        "stdout": true,
+        "stderr": true
+      },
+      "sources_unchanged_during_run": true,
+      "record_sha256": "3003f658d4eb8eaa08ef1c848a1735179b407ddc57b857ffa13c56bde11d0691"
+    },
+    "pi-r1-full": {
+      "exit_code": 0,
+      "expected_observed_exit": 0,
+      "outputs_match": {
+        "stdout": true,
+        "stderr": true
+      },
+      "sources_unchanged_during_run": true,
+      "record_sha256": "504ad69678df864e1d3308350e088922944c1c4e215b991c48156f5300ec596e"
+    },
+    "review-r1-full": {
+      "exit_code": 0,
+      "expected_observed_exit": 0,
+      "outputs_match": {
+        "stdout": true,
+        "stderr": true
+      },
+      "sources_unchanged_during_run": true,
+      "record_sha256": "dd4f9b85e343296529517d8c02d08e5765c90dcfa1b9aea0618fd16fbbb2cdb0"
+    },
+    "review-r1-boundaries": {
+      "exit_code": 1,
+      "expected_observed_exit": 1,
+      "outputs_match": {
+        "stdout": true,
+        "stderr": true
+      },
+      "sources_unchanged_during_run": true,
+      "record_sha256": "9999fdab724bbfcb5187d71dee3de1d59f11b507192d50c2f3e175ed4763d568"
+    },
+    "review-r1-arity": {
+      "exit_code": 1,
+      "expected_observed_exit": 1,
+      "outputs_match": {
+        "stdout": true,
+        "stderr": true
+      },
+      "sources_unchanged_during_run": true,
+      "record_sha256": "3a0db17ff2ce34010f75386fb955508a0bb8bea6e6f2c805d7426e064df28294"
+    }
+  },
+  "probe_sha256": "80210e96ee9d5cbff13eb36b46885382e6ef2c1a6d838da0af5ff1a2decab6fb",
+  "verified_model": {
+    "provider": "ollama",
+    "model": "qwen3.8-coding:27b-q8_0-64k",
+    "api": "openai-completions",
+    "source": "KMesh Pi session 2026-09-13T13-14-59-402Z_01a09ae8-21c9-7612-ab97-3f29e109e64f.jsonl; assistant metadata from 2026-09-15T03:14:10.528Z to 04:54:37.719Z",
+    "messages": 27
+  },
+  "limits": [
+    "Model identity from Pi session metadata, not an independent weight audit.",
+    "Tracked history checked against HEAD; untracked T0003 planning helpers compared with planning manifest."
+  ]
+}

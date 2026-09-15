@@ -1,0 +1,71 @@
+{
+  "created_at_utc": "2026-09-15T03:06:24.450471+00:00",
+  "actor": "Codex planning helper verification, not Pi task execution",
+  "result": "PASS",
+  "checks": [
+    "success preserves both byte streams",
+    "nonzero child exit and both streams preserved",
+    "existing run rejected without mutation or child execution",
+    "launch failure recorded with exit 127"
+  ],
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0003/record_check.py",
+        "plan-recorder-ok",
+        "--",
+        ".venv/bin/python",
+        "-c",
+        "import sys; print('stdout probe'); print('stderr probe', file=sys.stderr)"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "stdout": "record_check: exit=0; evidence=reports/T0003/plan-recorder-ok\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0003/record_check.py",
+        "plan-recorder-failure",
+        "--",
+        ".venv/bin/python",
+        "-c",
+        "import sys; print('failure output'); print('failure detail', file=sys.stderr); raise SystemExit(7)"
+      ],
+      "exit_code": 7,
+      "expected_exit": 7,
+      "stdout": "record_check: exit=7; evidence=reports/T0003/plan-recorder-failure\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0003/record_check.py",
+        "plan-recorder-ok",
+        "--",
+        ".venv/bin/python",
+        "-c",
+        "raise SystemExit(99)"
+      ],
+      "exit_code": 2,
+      "expected_exit": 2,
+      "stdout": "",
+      "stderr": "record_check: refusing to reuse /home/mye/src/llm/KMesh/reports/T0003/plan-recorder-ok\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0003/record_check.py",
+        "plan-recorder-missing",
+        "--",
+        "reports/T0003/nonexistent-planning-command"
+      ],
+      "exit_code": 127,
+      "expected_exit": 127,
+      "stdout": "record_check: exit=127; evidence=reports/T0003/plan-recorder-missing\n",
+      "stderr": ""
+    }
+  ]
+}
