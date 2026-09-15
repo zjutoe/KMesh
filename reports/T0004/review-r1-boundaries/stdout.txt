@@ -1,0 +1,11 @@
+PASS no-facts-ground-rules: 2 succeeds, 1 fails
+PASS zero-variable-rule: 2 succeeds, 1 fails
+PASS body-only-constant-domain: 2 succeeds, 1 fails
+PASS body-only-variables-budget: 8 succeeds, 7 fails
+PASS multiple-join-bindings: 128 succeeds, 127 fails
+PASS inconsistent-join-binding
+REPRODUCED test false positive: missing complete reason 'positive', budget type int
+REPRODUCED test false positive: missing complete reason 'positive', budget type int
+REPRODUCED test false positive: missing complete reason 'float', budget type float
+REPRODUCED test false positive: missing complete reason 'str', budget type str
+SUMMARY: 6 solver probes passed; 4 reason-assertion false positives reproduced

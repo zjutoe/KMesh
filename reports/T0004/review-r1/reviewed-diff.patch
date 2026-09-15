@@ -1,0 +1,968 @@
+diff --git a/README.md b/README.md
+index 0a5af02..4b21c2a 100644
+--- a/README.md
++++ b/README.md
+@@ -53,7 +53,7 @@ KMesh 是一个研究项目，探索能否通过小范围的学习和更新，
+ .venv/bin/python -m pip install --no-index --no-build-isolation --no-deps -e '.[dev]'
+ ```
+ 
+-目前只实现了 `doctor` 诊断子命令（模块与控制台两种等价入口）：
++目前实现了 `doctor` 诊断子命令（模块与控制台两种等价入口）与下文 `config validate-model` 校验命令：
+ 
+ ```bash
+ .venv/bin/python -m kmesh.cli doctor --out reports/environment.json
+@@ -76,15 +76,34 @@ KMesh 是一个研究项目，探索能否通过小范围的学习和更新，
+ 
+ 逻辑内容类型（T0003）：`kmesh.logic.types` 提供不可变、可哈希的 `Atom(pred, args)` 与 `Clause(body, head)` 及构造时静态检查（二元 arity、ASCII 标识符词法、变量 `?` 前缀、0–2 前提、head 变量必须在 body 中出现）。这是后续求解器与数据构造共用的接口，**状态为已验收（`accepted`）**：R1 已关闭，Codex 独立完整回归 167 项及首轮 18 项边界探测全通过。尚无 CLI/文件加载，构造成功只验证句法与单 clause 变量作用域，不代表任何 world 通过完整 E0 数据审计。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+ 
++参考闭包求解器（T0004）：`kmesh.logic.reference_engine` 提供 `reference_closure(clauses, *, max_rule_evaluations=100_000)`，用枚举变量绑定的前向链（全部输入 clause body+head 参数中常量的排序集合作常量域、逐规则局部变量作用域、同步不动点）计算直到一轮不新增的全部可推 ground `Atom`，返回只含 ground `Atom` 的不可变 `frozenset[Atom]`。预算异常 `ReferenceLimitError` 按“每个非空规则的候选绑定检查一次计一次”累计（事实不消耗，最终无新增轮的检查也计；预算恰好用完且已完成无新增轮时正常返回，不返回部分闭包）。包不导入 torch/PyYAML，`kmesh.logic` 包 `__init__.py` 保持零导入，参考版与未来主版不共享推理代码。最小使用例（纯标准库依赖）：
++
++```python
++from kmesh.logic.reference_engine import reference_closure
++from kmesh.logic.types import Atom, Clause
++
++world = (
++    Clause((), Atom("r1", ("a", "b"))),
++    Clause((), Atom("r2", ("b", "c"))),
++    Clause((Atom("r1", ("?x", "?y")), Atom("r2", ("?y", "?z"))),
++           Atom("r3", ("?x", "?z"))),
++)
++
++closure = reference_closure(world)
++# frozenset({r1(a,b), r2(b,c), r3(a,c)})：初始事实与全部推导的 ground Atom
++```
++
++**状态：已实施（round r1，`awaiting_review`）；主求解器（索引实现）交叉验证、随机小世界一致性、证明验证器与生成器/关系 DAG world 审计均未实施**，不能声称“双求解器一致”。
++
+ 运行测试：
+ 
+ ```bash
+-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
++PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
+ ```
+ 
+-当前限制：T0001、T0002 与 T0003 仅覆盖最小包、环境诊断、模型结构配置校验，以及带静态校验的不可变逻辑类型（已验收）；完整运行配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
++当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（待验收）；完整运行配置校验、数据/主求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+ 
+-截至 2026-09-15，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
++截至 2026-09-15，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**已按契约实施（round r1，`awaiting_review`）：新增 51 项测试与 218 项完整回归（含旧 167 项）全部通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)；尚待 Codex 验收，不能按已完成处理。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
+ 
+ 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
+ 
+diff --git a/docs/implementation_status.md b/docs/implementation_status.md
+index 1fd0b80..a6871b1 100644
+--- a/docs/implementation_status.md
++++ b/docs/implementation_status.md
+@@ -3,7 +3,8 @@
+ - 截至 2026-09-15，M0（最小可运行环境）`in_progress`。
+ - T0001（最小 Python 包与环境诊断命令）：Codex 第 2 轮复验通过，状态 `accepted`，接受实现提交 `39dabc73e035c8c2627a1e5db4deab31055a9c6d`。R1–R3 已关闭；独立复跑 25 个测试和关键回归检查通过。记录见 [交接文档](handoffs/T0001-bootstrap-doctor.md)，[Pi 第 2 轮证据](../reports/T0001/pi-r2/)与 [Codex 第 2 轮证据](../reports/T0001/review-r2/)分别保留。
+ - T0002（模型结构配置的读取与校验）：Codex 第 3 轮复验通过（2026-09-15），状态 **`accepted`**，R1–R5 全部关闭。独立复跑 **99 个测试、规定驱动和四个原始 YAML 反例均通过**；接受实现提交 **`35572f2f8426ab7a8f36cf0961a0f4ec0c68c897`**，已核对其文件哈希与第 3 轮冻结工作树一致。该提交说明中的 `awaiting_review` 已过时，文档和验收证据均为 `accepted`。当前 Pi 第 3 轮 43 项哈希全部匹配，旧证据完整核对未变；丢失历史和开发 stderr 留存限制仍明确保留。**仅涉及 model 的九个字段，不代表完整实验配置已校验。** 见 [T0002 交接文档](handoffs/T0002-model-config.md)、[Pi 第 3 轮证据](../reports/T0002/pi-r3/)与 [Codex 第 3 轮证据](../reports/T0002/review-r3/)。
+-- T0003（逻辑原子与 clause 的不可变表示及静态校验）：Codex 第 2 轮复验通过（2026-09-15），状态 **`accepted`**，R1 已关闭。独立完整回归 **167 项**及首轮 **18 项边界探测全通过**；八条新回归已核验失败先保存、修复后通过，原测试断言/历史证据保留。接受版本为 `T0003-logic-types` 在基线 `9acaa31` 上的未提交工作树，源码/测试哈希见 [第 2 轮冻结清单](../reports/T0003/review-r2/frozen-inputs.json)与 [最终验收记录](../reports/T0003/review-r2/final-audit.json)。范围仅为 `Atom`/`Clause` 的不可变表示与静态检查，world、解析器、推理及数据审计未实现。详见 [T0003 交接文档](handoffs/T0003-logic-types.md)、[独立回归](../reports/T0003/review-r2-full/)、[边界复验](../reports/T0003/review-r2-boundaries/)及 [D18](decisions.md#d18逻辑类型的实现约定)。
++- T0003（逻辑原子与 clause 的不可变表示及静态校验）：Codex 第 2 轮复验通过（2026-09-15），状态 **`accepted`**，R1 已关闭。独立完整回归 **167 项**及首轮 **18 项边界探测全通过**；八条新回归已核验失败先保存、修复后通过，原测试断言/历史证据保留。接受实现提交为 `6a81224eead0df659a4ba0e83cc391d7307550f5`，已核对三个逻辑源码/测试文件与 [最终验收记录](../reports/T0003/review-r2/final-audit.json)哈希一致；[第 2 轮冻结清单](../reports/T0003/review-r2/frozen-inputs.json)保留当时未提交的验收时点。范围仅为 `Atom`/`Clause` 的不可变表示与静态检查，world、解析器、推理及数据审计未实现。详见 [T0003 交接文档](handoffs/T0003-logic-types.md)、[独立回归](../reports/T0003/review-r2-full/)、[边界复验](../reports/T0003/review-r2-boundaries/)及 [D18](decisions.md#d18逻辑类型的实现约定)。
++- T0004（小世界朴素参考闭包求解器）：Pi 第 r1 轮实施完成（2026-09-15），状态 **`awaiting_review`**，待 Codex 验收；未 commit/push。新增 `src/kmesh/logic/reference_engine.py`（枚举变量绑定的前向链 + 同步不动点 + 逐候选绑定累计预算、`ReferenceLimitError`）与 `tests/test_reference_engine.py`（新增 51 项）；定向 51 项与完整回归 **218 项**（含原 167 项）全部通过，无 skip/xfail，全部命令、退出码与前后源码哈希见 [reports/T0004/pi-r1-*](../reports/T0004/) 与 [简短 provenance](../reports/T0004/pi-r1-full/provenance.md)。范围仍是参考求解路径：主索引求解器、双求解器交叉验证、随机小世界一致性、证明审计与 world 审计均未实施。见 [T0004 交接文档](handoffs/T0004-reference-closure.md)及 [D19](decisions.md#d19参考闭包的求解与预算约定)。
+ 
+ ## M0 已完成 / 未完成
+ 
+@@ -15,6 +16,7 @@
+ | 模型结构配置校验 | 已验收（T0002，第 3 轮）；仅 model 区块 |
+ | 完整运行配置校验（含路由、训练、评估） | `not_run`，后续拆分 |
+ | 逻辑内容类型与静态校验（M1 前置接口） | T0003 已验收（第 2 轮，R1 关闭）；仅句法与单 clause 变量检查，不代表完整数据合法性 |
++| 小世界参考闭包求解器（M1 前置接口） | T0004 r1 已实施，`awaiting_review`；仅枚举参考路径，双求解器交叉验证未实施 |
+ | 数据/求解器与 CPU forward/backward 验证 | `not_run`，尚未实现 |
+ | 20-step smoke | `not_run`，尚未实现 |
+ | GPU 训练 | `not_run`，尚未实现，也未经本任务授权 |
+diff --git a/src/kmesh/logic/reference_engine.py b/src/kmesh/logic/reference_engine.py
+new file mode 100644
+index 0000000..b768fa4
+--- /dev/null
++++ b/src/kmesh/logic/reference_engine.py
+@@ -0,0 +1,120 @@
++"""Naive enumeration reference solver for forward-Horn closure.
++
++Computes the full set of derivable ground atoms (the closure) from a tuple
++of already-validated :class:`~kmesh.logic.types.Clause` objects, using the
++simplest correct reference procedure: a fixed global constant domain,
++per-rule exhaustive binding enumeration, and a synchronous fixpoint loop
++against the previous round's fact snapshot. The result is meant to be
++checked by hand on small worlds and later cross-validated by an index-based
++main solver; it is NOT the main solving path and deliberately shares no
++matching/binding/closure code with it.
++
++Contract highlights (see docs/handoffs/T0004-reference-closure.md, D19):
++
++- only ``tuple[Clause, ...]`` input; members must be ``Clause``;
++- ``max_rule_evaluations`` must be a non-bool positive int, no coercion;
++- inputs are validated before any empty-input fast-return or reasoning;
++- invalid input raises :class:`~kmesh.logic.types.LogicValidationError`
++  with the failing field path and the expected kind/reason, never a
++  ``repr`` of an unvalidated object or container;
++- exceeding the budget raises :class:`ReferenceLimitError`; no partial
++  closure is ever returned;
++- the result is an immutable ``frozenset`` of ground atoms containing the
++  initial facts and every derived head; nothing else (rules, proofs,
++  depths) and no state persists between calls.
++
++Budget accounting: every candidate binding prepared for a non-empty rule
++consumes exactly one unit, checked and then decremented; failed premise
++checks, duplicate rules, and the final no-new round all count. Initial
++empty-body facts consume nothing. Standard library only: no torch, no
++YAML, no file access, no global state.
++"""
++
++from __future__ import annotations
++
++import itertools
++
++from kmesh.logic.types import Atom, Clause, LogicValidationError
++
++
++class ReferenceLimitError(RuntimeError):
++    """The reference solver cannot finish within its evaluation budget."""
++
++
++def _validate_inputs(clauses: object, max_rule_evaluations: object) -> None:
++    if not isinstance(clauses, tuple):
++        raise LogicValidationError(
++            f"reference.clauses must be a tuple of Clause, "
++            f"got {type(clauses).__name__}")
++    for index, clause in enumerate(clauses):
++        if not isinstance(clause, Clause):
++            raise LogicValidationError(
++                f"reference.clauses[{index}] must be a Clause, "
++                f"got {type(clause).__name__}")
++    if type(max_rule_evaluations) is not int or max_rule_evaluations <= 0:
++        raise LogicValidationError(
++            "reference.max_rule_evaluations must be a non-bool positive "
++            f"integer, got {type(max_rule_evaluations).__name__}")
++
++
++def _collect_domain(clauses: tuple[Clause, ...]) -> tuple[str, ...]:
++    """Sorted constants occurring in any body or head argument."""
++    constants = set()
++    for clause in clauses:
++        for atom in tuple(clause.body) + (clause.head,):
++            for arg in atom.args:
++                if not arg.startswith("?"):
++                    constants.add(arg)
++    return tuple(sorted(constants))
++
++
++def _rule_variables(rule: Clause) -> tuple[str, ...]:
++    """Sorted distinct rule variables over body plus head, each once."""
++    variables = set()
++    for atom in tuple(rule.body) + (rule.head,):
++        variables |= atom.variables
++    return tuple(sorted(variables))
++
++
++def _substitute(atom: Atom, binding: dict[str, str]) -> Atom:
++    return Atom(atom.pred, tuple(binding.get(arg, arg) for arg in atom.args))
++
++
++def reference_closure(
++    clauses: tuple[Clause, ...],
++    *,
++    max_rule_evaluations: int = 100_000,
++) -> frozenset[Atom]:
++    """Return the closure of ``clauses`` as a frozenset of ground atoms.
++
++    Raises :class:`LogicValidationError` for invalid input and
++    :class:`ReferenceLimitError` if a further candidate check is needed
++    after the budget is exhausted.
++    """
++    _validate_inputs(clauses, max_rule_evaluations)
++
++    domain = _collect_domain(clauses)
++    facts = {clause.head for clause in clauses if not clause.body}
++    rules = [clause for clause in clauses if clause.body]
++    if not rules:
++        return frozenset(facts)
++    rule_variables = [_rule_variables(rule) for rule in rules]
++
++    known = set(facts)
++    budget = max_rule_evaluations
++    while True:
++        derived = set()
++        for rule, variables in zip(rules, rule_variables):
++            for values in itertools.product(domain, repeat=len(variables)):
++                if budget <= 0:
++                    raise ReferenceLimitError(
++                        "reference.max_rule_evaluations is exhausted "
++                        "before the closure stabilises")
++                budget -= 1
++                binding = dict(zip(variables, values))
++                if all(_substitute(atom, binding) in known
++                       for atom in rule.body):
++                    derived.add(_substitute(rule.head, binding))
++        if derived <= known:
++            return frozenset(known)
++        known |= derived
+diff --git a/tests/test_reference_engine.py b/tests/test_reference_engine.py
+new file mode 100644
+index 0000000..a862b2b
+--- /dev/null
++++ b/tests/test_reference_engine.py
+@@ -0,0 +1,543 @@
++"""Tests for the naive reference closure solver (T0004).
++
++Every expected closure is hand-computed for a small synthetic world; no
++second solver and no test helper may be used to generate expected
++answers. Budget accounting is validated against the exact per-candidate
++check definition in the handoff and D19.
++"""
++
++import subprocess
++import sys
++import textwrap
++
++import pytest
++
++from kmesh.logic.reference_engine import ReferenceLimitError
++from kmesh.logic.reference_engine import reference_closure
++from kmesh.logic.types import Atom, Clause, LogicValidationError
++
++
++def _fact(pred, args):
++    return Clause((), Atom(pred, args))
++
++
++def _rule(body, head):
++    return Clause(tuple(body), head)
++
++
++def _copy_rule(source, target):
++    return _rule((Atom(source, ("?x", "?y")),),
++                 Atom(target, ("?x", "?y")))
++
++
++@pytest.fixture
++def pinned_int_str_limit():
++    """Force the platform int-to-str limit so oversized ints stay slow."""
++    saved = sys.get_int_max_str_digits()
++    try:
++        sys.set_int_max_str_digits(4300)
++    except (ValueError, RuntimeError) as exc:
++        pytest.fail(f"could not pin int max str digits: {exc!r}")
++    try:
++        yield
++    finally:
++        sys.set_int_max_str_digits(saved)
++
++
++def _main_world():
++    return (
++        _fact("r1", ("a", "b")),
++        _fact("r2", ("b", "c")),
++        _rule((Atom("r1", ("?x", "?y")), Atom("r2", ("?y", "?z"))),
++              Atom("r3", ("?x", "?z"))),
++        _rule((Atom("r3", ("?x", "?y")),), Atom("r4", ("?y", "?x"))),
++    )
++
++
++def _main_expected():
++    return frozenset({
++        Atom("r1", ("a", "b")), Atom("r2", ("b", "c")),
++        Atom("r3", ("a", "c")), Atom("r4", ("c", "a")),
++    })
++
++
++# ---------------------------------------------------------------------------
++# 1. Hand-processed main example (same meaning as research plan section 4.2)
++# ---------------------------------------------------------------------------
++
++def test_main_example_full_closure():
++    assert reference_closure(_main_world()) == _main_expected()
++
++
++def test_main_example_head_argument_order_changes_result():
++    world = _main_world()[:3] + (
++        _rule((Atom("r3", ("?x", "?y")),), Atom("r4", ("?x", "?y"))),
++    )
++    expected = (_main_expected()
++                - frozenset({Atom("r4", ("c", "a"))})
++                | frozenset({Atom("r4", ("a", "c"))}))
++    assert reference_closure(world) == expected
++
++
++def test_main_example_missing_premise_fact_blocks_derivation():
++    world = (_main_world()[0], _main_world()[2], _main_world()[3])
++    assert reference_closure(world) == frozenset({Atom("r1", ("a", "b"))})
++
++
++# ---------------------------------------------------------------------------
++# 2. Empty world and fact-only inputs
++# ---------------------------------------------------------------------------
++
++def test_empty_world_returns_empty_frozenset():
++    result = reference_closure(())
++    assert type(result) is frozenset
++    assert result == frozenset()
++
++
++def test_duplicate_facts_deduplicate_without_reordering():
++    fact = _fact("p", ("a", "b"))
++    result = reference_closure((fact, fact))
++    assert result == frozenset({Atom("p", ("a", "b"))})
++    assert Atom("p", ("b", "a")) not in result
++
++
++# ---------------------------------------------------------------------------
++# 3. COPY / INV / INTER on the same three facts
++# ---------------------------------------------------------------------------
++
++def _copy_inv_inter_facts():
++    return frozenset({
++        _fact("p", ("a", "b")).head,
++        _fact("q", ("a", "b")).head,
++        _fact("q", ("b", "a")).head,
++    })
++
++
++def test_copy_rule_derives_same_pair():
++    facts = (_fact("p", ("a", "b")), _fact("q", ("a", "b")),
++             _fact("q", ("b", "a")))
++    world = facts + (_copy_rule("p", "c"),)
++    assert reference_closure(world) == _copy_inv_inter_facts() | \
++        frozenset({Atom("c", ("a", "b"))})
++
++
++def test_inv_rule_derives_swapped_pair_only():
++    facts = (_fact("p", ("a", "b")), _fact("q", ("a", "b")),
++             _fact("q", ("b", "a")))
++    world = facts + (_rule((Atom("p", ("?x", "?y")),),
++                           Atom("inv", ("?y", "?x"))),)
++    result = reference_closure(world)
++    assert result == _copy_inv_inter_facts() | \
++        frozenset({Atom("inv", ("b", "a"))})
++    assert Atom("inv", ("a", "b")) not in result
++
++
++def test_inter_rule_accepts_same_pair_same_binding_only():
++    facts = (_fact("p", ("a", "b")), _fact("q", ("a", "b")),
++             _fact("q", ("b", "a")))
++    world = facts + (_rule((Atom("p", ("?x", "?y")),
++                            Atom("q", ("?x", "?y"))),
++                           Atom("inter", ("?x", "?y"))),)
++    result = reference_closure(world)
++    assert result == _copy_inv_inter_facts() | \
++        frozenset({Atom("inter", ("a", "b"))})
++    assert Atom("inter", ("b", "a")) not in result
++    assert Atom("inter", ("a", "a")) not in result
++
++
++# ---------------------------------------------------------------------------
++# 4. Repeated variables share one value inside a rule
++# ---------------------------------------------------------------------------
++
++def test_repeated_variable_only_matches_equal_pairs():
++    world = (
++        _fact("p", ("a", "a")),
++        _fact("p", ("a", "b")),
++        _rule((Atom("p", ("?x", "?x")),), Atom("same", ("?x", "?x"))),
++    )
++    assert reference_closure(world) == frozenset({
++        Atom("p", ("a", "a")), Atom("p", ("a", "b")),
++        Atom("same", ("a", "a")),
++    })
++
++
++# ---------------------------------------------------------------------------
++# 5. Constants not present in any fact enter the domain via rules
++# ---------------------------------------------------------------------------
++
++def test_head_only_constant_enters_domain_and_closures():
++    world = (
++        _fact("seed", ("a", "a")),
++        _rule((Atom("seed", ("?x", "?x")),), Atom("tag", ("?x", "k"))),
++        _rule((Atom("tag", ("?x", "?y")),), Atom("out", ("?y", "?x"))),
++    )
++    assert reference_closure(world) == frozenset({
++        Atom("seed", ("a", "a")),
++        Atom("tag", ("a", "k")),
++        Atom("out", ("k", "a")),
++    })
++
++
++# ---------------------------------------------------------------------------
++# 6. Disconnected variables are bound independently (cartesian enumeration)
++# ---------------------------------------------------------------------------
++
++def test_disconnected_variables_bind_cartesian_not_shared():
++    world = (
++        _fact("p", ("a", "a")),
++        _fact("q", ("b", "b")),
++        _rule((Atom("p", ("?x", "?x")), Atom("q", ("?y", "?y"))),
++              Atom("r", ("?x", "?y"))),
++    )
++    assert reference_closure(world) == frozenset({
++        Atom("p", ("a", "a")), Atom("q", ("b", "b")),
++        Atom("r", ("a", "b")),
++    })
++
++
++# ---------------------------------------------------------------------------
++# 7. Ground premises, repeated premises, ground heads
++# ---------------------------------------------------------------------------
++
++def test_ground_body_rule_fires_only_when_premise_present():
++    rule = _rule((Atom("p", ("a", "a")),), Atom("g", ("a", "b")))
++    world = (_fact("p", ("a", "a")), rule)
++    assert reference_closure(world) == frozenset({
++        Atom("p", ("a", "a")), Atom("g", ("a", "b")),
++    })
++
++
++def test_repeated_same_premise_is_satisfied_by_one_fact():
++    world = (
++        _fact("p", ("a", "b")),
++        _rule((Atom("p", ("?x", "?y")), Atom("p", ("?x", "?y"))),
++              Atom("twice", ("?x", "?y"))),
++    )
++    assert reference_closure(world) == frozenset({
++        Atom("p", ("a", "b")), Atom("twice", ("a", "b")),
++    })
++
++
++def test_body_variables_with_ground_head_derive_once():
++    world = (
++        _fact("p", ("a", "b")),
++        _rule((Atom("p", ("?x", "?y")),), Atom("g2", ("a", "b"))),
++    )
++    assert reference_closure(world) == frozenset({
++        Atom("p", ("a", "b")), Atom("g2", ("a", "b")),
++    })
++
++
++# ---------------------------------------------------------------------------
++# 8. No facts and cycles
++# ---------------------------------------------------------------------------
++
++def test_variable_rule_without_constants_has_no_candidates():
++    # No constant anywhere: the domain is empty, so nothing is derivable.
++    world = (_copy_rule("p", "q"),)
++    assert reference_closure(world) == frozenset()
++
++
++def test_ground_rule_without_initial_fact_derives_nothing():
++    world = (_rule((Atom("p", ("a", "a")),), Atom("g", ("a", "b"))),)
++    assert reference_closure(world) == frozenset()
++
++
++def test_cycle_without_seed_derives_nothing():
++    # Cyclic rules are a termination check only; this is NOT an E0 world.
++    world = (_copy_rule("p", "q"), _copy_rule("q", "p"))
++    assert reference_closure(world) == frozenset()
++
++
++def test_cycle_with_seed_terminates_with_both_atoms():
++    world = (_fact("p", ("a", "b")),) + (_copy_rule("p", "q"),
++                                         _copy_rule("q", "p"))
++    assert reference_closure(world) == frozenset({
++        Atom("p", ("a", "b")), Atom("q", ("a", "b")),
++    })
++
++
++# ---------------------------------------------------------------------------
++# 9. Per-rule variable scope and no cross-call state
++# ---------------------------------------------------------------------------
++
++def test_same_variable_names_are_scoped_per_rule():
++    world = (
++        _fact("p", ("a", "b")),
++        _fact("q", ("c", "d")),
++        _rule((Atom("p", ("?x", "?y")),), Atom("u", ("?x", "?y"))),
++        _rule((Atom("q", ("?x", "?y")),), Atom("v", ("?x", "?y"))),
++    )
++    assert reference_closure(world) == frozenset({
++        Atom("p", ("a", "b")), Atom("q", ("c", "d")),
++        Atom("u", ("a", "b")), Atom("v", ("c", "d")),
++    })
++    # Solving this world leaves no state visible to later calls.
++    assert reference_closure(()) == frozenset()
++
++
++# ---------------------------------------------------------------------------
++# 10. Semantic invariance: reorder / rename / duplicate changes nothing
++# ---------------------------------------------------------------------------
++
++def test_main_example_rule_order_reversed_same_closure():
++    assert reference_closure(_main_world()[::-1]) == _main_expected()
++
++
++def test_main_example_join_premise_swap_same_closure():
++    world = (_main_world()[0], _main_world()[1],
++             _rule((Atom("r2", ("?y", "?z")), Atom("r1", ("?x", "?y"))),
++                   Atom("r3", ("?x", "?z"))),
++             _main_world()[3])
++    assert reference_closure(world) == _main_expected()
++
++
++def test_main_example_consistent_variable_rename_same_closure():
++    world = (_main_world()[0], _main_world()[1],
++             _rule((Atom("r1", ("?a", "?b")), Atom("r2", ("?b", "?c"))),
++                   Atom("r3", ("?a", "?c"))),
++             _main_world()[3])
++    assert reference_closure(world) == _main_expected()
++
++
++def test_duplicated_rule_does_not_change_closure():
++    world = _main_world()
++    assert reference_closure(world + (world[2],)) == _main_expected()
++
++
++def test_result_type_is_exact_frozenset_of_ground_atoms():
++    result = reference_closure(_main_world())
++    assert type(result) is frozenset
++    assert all(atom.is_ground for atom in result)
++
++
++def test_input_clauses_are_not_mutated_or_reordered():
++    world = _main_world()
++    original = ["Clause(body=%r, head=%r)" % (c.body, c.head) for c in world]
++    reference_closure(world)
++    assert tuple(world) is world
++    assert ["Clause(body=%r, head=%r)" % (c.body, c.head) for c in world] \
++        == original
++
++
++def test_closure_used_as_facts_is_fixed_point():
++    full = reference_closure(_main_world())
++    world = tuple(Clause((), atom) for atom in sorted(full, key=lambda a:
++                                                              (a.pred, a.args)))
++    assert reference_closure(world + _main_world()) == full
++
++
++# ---------------------------------------------------------------------------
++# 11. Input validation, error contract, exact budget accounting
++# ---------------------------------------------------------------------------
++
++@pytest.mark.parametrize(
++    "bad_clauses",
++    [
++        [_fact("p", ("a", "b"))],                      # list
++        {_fact("p", ("a", "b"))},                      # set
++        {"a": 1},                                      # dict
++        _fact("p", ("a", "b")),                        # Clause, not tuple
++        (c for c in ()),                               # generator
++    ],
++    ids=["list", "set", "dict", "clause-instance", "generator"],
++)
++def test_non_tuple_container_rejected_with_field_and_reason(bad_clauses):
++    with pytest.raises(LogicValidationError) as ei:
++        reference_closure(bad_clauses)
++    message = str(ei.value)
++    assert "reference.clauses" in message
++    assert "tuple" in message
++
++
++@pytest.mark.parametrize(
++    ("bad_member", "index"),
++    [(Atom("p", ("a", "b")), 0), (42, 1)],
++    ids=["atom-member", "int-member"],
++)
++def test_non_clause_member_rejected_with_index(bad_member, index):
++    clauses = [_fact("p", ("a", "b"))]
++    clauses.insert(index, bad_member)
++    with pytest.raises(LogicValidationError) as ei:
++        reference_closure(tuple(clauses))
++    message = str(ei.value)
++    assert f"reference.clauses[{index}]" in message
++    assert "Clause" in message
++
++
++@pytest.mark.parametrize(
++    ("bad_budget", "expect"),
++    [
++        (True, ("bool", "non-bool")),
++        (False, ("bool", "non-bool")),
++        (0, "positive"),
++        (-1, "positive"),
++        (1.5, "float"),
++        ("2", "str"),
++        (None, "NoneType"),
++    ],
++    ids=["bool-true", "bool-false", "zero", "negative",
++         "float", "str", "none"],
++)
++def test_invalid_budget_rejected_with_field_and_reason(bad_budget, expect):
++    # Empty world is legal, so this isolates the budget validation;
++    # validation must happen before any empty-input fast-return.
++    with pytest.raises(LogicValidationError) as ei:
++        reference_closure((), max_rule_evaluations=bad_budget)
++    message = str(ei.value)
++    assert "reference.max_rule_evaluations" in message
++    for fragment in expect:
++        assert fragment in message
++
++
++def _big_int():
++    return 10 ** 5000
++
++
++@pytest.mark.parametrize(
++    ("build", "field"),
++    [
++        (lambda: reference_closure(_big_int()), "reference.clauses"),
++        (lambda: reference_closure((_big_int(),)), "reference.clauses[0]"),
++        (lambda: reference_closure((),
++                                   max_rule_evaluations=-_big_int()),
++         "reference.max_rule_evaluations"),
++    ],
++    ids=["clauses-oversized-int", "clauses-tuple-oversized-int",
++         "budget-negative-oversized-int"],
++)
++def test_oversized_int_inputs_keep_error_contract(
++    pinned_int_str_limit, build, field
++):
++    # The dedicated exception with the field path must be raised; a
++    # native ValueError from int-to-str conversion would escape instead.
++    with pytest.raises(LogicValidationError) as ei:
++        build()
++    assert field in str(ei.value)
++
++
++def test_wrong_arity_stays_plain_type_error():
++    with pytest.raises(TypeError):
++        reference_closure()
++    with pytest.raises(TypeError):
++        reference_closure((), 1)
++    with pytest.raises(TypeError):
++        reference_closure((), max_rule_evaluation=1)
++
++
++def _copy_budget_world():
++    return (
++        _fact("p", ("a", "a")),
++        _rule((Atom("p", ("?x", "?x")),), Atom("q", ("?x", "?x"))),
++    )
++
++
++_PQ = frozenset({Atom("p", ("a", "a")), Atom("q", ("a", "a"))})
++
++
++def test_exact_budget_single_copy_two_succeeds_one_fails():
++    world = _copy_budget_world()
++    assert reference_closure(world,
++                             max_rule_evaluations=2) == _PQ
++    with pytest.raises(ReferenceLimitError) as ei:
++        reference_closure(world, max_rule_evaluations=1)
++    assert "reference.max_rule_evaluations" in str(ei.value)
++
++
++def test_exact_budget_duplicated_copy_four_succeeds_three_fails():
++    rule = _copy_budget_world()[1]
++    world = (_copy_budget_world()[0], rule, rule)
++    assert reference_closure(world,
++                             max_rule_evaluations=4) == _PQ
++    with pytest.raises(ReferenceLimitError):
++        reference_closure(world, max_rule_evaluations=3)
++
++
++def test_exact_budget_failing_premise_counts_from_first_round():
++    world = (
++        _fact("p", ("a", "a")),
++        _rule((Atom("p", ("?x", "?x")),), Atom("q", ("?x", "?x"))),
++        _rule((Atom("q", ("?x", "?x")),), Atom("r", ("?x", "?x"))),
++    )
++    expected = frozenset({Atom("p", ("a", "a")), Atom("q", ("a", "a")),
++                          Atom("r", ("a", "a"))})
++    assert reference_closure(world, max_rule_evaluations=6) == expected
++    with pytest.raises(ReferenceLimitError):
++        reference_closure(world, max_rule_evaluations=5)
++
++
++def test_exact_budget_failed_bindings_are_counted_too():
++    # q(?x, k) puts k in the domain, so each round tries candidates
++    # x=a and x=k; the x=k check fails but still counts.
++    world = (
++        _fact("p", ("a", "a")),
++        _rule((Atom("p", ("?x", "?x")),), Atom("q", ("?x", "k"))),
++    )
++    expected = frozenset({Atom("p", ("a", "a")), Atom("q", ("a", "k"))})
++    assert reference_closure(world, max_rule_evaluations=4) == expected
++    with pytest.raises(ReferenceLimitError):
++        reference_closure(world, max_rule_evaluations=3)
++
++
++def test_facts_only_worlds_do_not_consume_budget():
++    assert reference_closure((), max_rule_evaluations=1) == frozenset()
++    fact = _fact("s", ("a", "b"))
++    assert reference_closure((fact, fact),
++                             max_rule_evaluations=1) == \
++        frozenset({fact.head})
++
++
++def test_budget_exhaustion_leaves_no_partial_results_and_no_state():
++    world = _copy_budget_world()
++    with pytest.raises(ReferenceLimitError):
++        reference_closure(world, max_rule_evaluations=1)
++    # A later well-budgeted call on the same world is unaffected.
++    assert reference_closure(world) == _PQ
++
++
++# ---------------------------------------------------------------------------
++# 12. Import isolation: new subprocess blocks torch and yaml
++# ---------------------------------------------------------------------------
++
++def test_import_isolation_blocks_torch_and_yaml():
++    code = textwrap.dedent("""
++        import sys
++
++        class _BlocklistFinder:
++            BLOCKED = ("torch", "yaml")
++
++            def find_spec(self, fullname, path=None, target=None):
++                root = fullname.split(".")[0]
++                if root in self.BLOCKED:
++                    raise ImportError(
++                        f"import of {fullname!r} is blocked in this test")
++                return None
++
++        sys.meta_path.insert(0, _BlocklistFinder())
++        import kmesh.logic
++
++        assert "kmesh.logic.reference_engine" not in sys.modules, (
++            "the package must not import the solver automatically")
++
++        from kmesh.logic.reference_engine import reference_closure
++        from kmesh.logic.types import Atom, Clause
++
++        result = reference_closure(
++            (
++                Clause((), Atom("p", ("a", "b"))),
++                Clause((Atom("p", ("?x", "?y")),),
++                       Atom("q", ("?x", "?y"))),
++            )
++        )
++        expected = frozenset({Atom("p", ("a", "b")),
++                              Atom("q", ("a", "b"))})
++        assert result == expected, f"unexpected closure: {result!r}"
++        leaked = [name for name in list(_BlocklistFinder.BLOCKED)
++                  if name in sys.modules]
++        assert not leaked, f"blocked modules leaked into sys.modules: {leaked}"
++        print("ISOLATION-OK")
++    """)
++    proc = subprocess.run([sys.executable, "-c", code],
++                          capture_output=True, text=True, timeout=60)
++    assert proc.returncode == 0, proc.stderr
++    assert "ISOLATION-OK" in proc.stdout
+diff --git a/docs/handoffs/T0004-reference-closure.md b/docs/handoffs/T0004-reference-closure.md
+new file mode 100644
+index 0000000..33ebe69
+--- /dev/null
++++ b/docs/handoffs/T0004-reference-closure.md
+@@ -0,0 +1,214 @@
++# T0004：小世界朴素参考闭包求解器
++
++## 任务信息
++
++- 任务编号／修订号：T0004 / r1，2026-09-15。
++- 状态：`awaiting_review`；r1 轮实施与自检完成（见下方 Pi 执行记录与 `reports/T0004/pi-r1-*`），待 Codex 验收；未 commit/push。
++- 所属阶段：M1 可信数据的参考求解路径；M0 仍未完成，本任务不开始正式数据生成或模型实验。
++- 研究依据：[研究计划](../../KMesh_Research_Plan_v0.1.md) v0.1.1、E0 `e0_v2`，§4.1、§4.5、§13.2、§14.2、§15.1；工程约定见 [D19](../decisions.md#d19参考闭包的求解与预算约定)。
++- 规划者／验收者：Codex + `gpt-6-astra`，`xhigh`。
++- 执行者：Pi + `qwen3.8-coding-27b`；上轮实际别名为 `qwen3.8-coding:27b-q8_0-64k`（ollama）。记录本轮完整模型别名，不自行换模型或更改 Pi/Ollama 配置。
++- 基线：`e53e2bd0ec4cf3347c5b6103ab8061d71666150b`，`master`，规划开始时工作树干净。Codex 随交接新增本文、T0004 记录器/规划证据，更新 decisions、implementation_status，并纠正 T0003 当前版本说明；这些是已知未提交交接改动。
++- 前置：[T0003](T0003-logic-types.md) `accepted`，实现提交 `6a81224eead0df659a4ba0e83cc391d7307550f5`；逻辑包、types.py、test_logic_types.py 的当前/提交哈希均与 [最终验收清单](../../reports/T0003/review-r2/final-audit.json)一致。T0001/T0002 也已验收，旧测试合计 167 项通过是历史验收结果，不冒称本次重新运行。
++- 必读：[AGENTS.md](../../AGENTS.md)、本文、上述研究章节、[types.py](../../src/kmesh/logic/types.py)、[旧逻辑测试](../../tests/test_logic_types.py)、[记录器](../../reports/T0004/record_check.py)。无需读取完整旧日志或其他项目。
++
++## 目标、范围与交付物
++
++单一目标：对一组已合法构造的 Clause，用**枚举变量绑定的朴素 forward chaining**计算全部可推出的 ground Atom，直到闭包不再增加。结果供后续主求解器核对，当前只有第一条求解路径，不能宣称标签已经双重验证。
++
++| 允许新增／修改 | 本任务内容 |
++|---|---|
++| `src/kmesh/logic/reference_engine.py` | 一个公开闭包函数、一个预算异常及必要私有函数；仅标准库和已有逻辑类型 |
++| `tests/test_reference_engine.py` | 手算闭包、语义不变性、输入/预算边界和导入隔离测试 |
++| `README.md`、`docs/implementation_status.md` | 当前已实施/待验收状态、最小 Python 使用例与准确限制 |
++| 本交接文档 | 头部状态、追加 Pi 执行记录；不改契约或填写 Codex 结论 |
++| `reports/T0004/` 下全新 `pi-*` RUN 目录 | 原始命令、stdout/stderr、退出状态、哈希与简短 provenance |
++
++Codex 提供的 `reports/T0004/record_check.py`、`.gitignore` 和 `planning-*` 材料保持原样。`docs/decisions.md` 由 Codex 维护。现有 `logic/__init__.py`、`types.py`、其他产品及全部旧测试不改；不清理上轮的非阻塞格式问题。
++
++不实现主索引求解器、通用匹配/统一算法公共库、World/Patch/Proof/ClosureResult 类、证明或深度记录、verifier、文件解析、CLI、生成器、DAG/模板/family 审计、模型和训练。不添加依赖/安装/网络访问，不读研究数据，不自动 commit/push。计划 §13.2 的 RuleEngine/World 是后续接口展望；本任务只提供可被后续适配的纯函数，不创建空框架。
++
++## 前提与假设
++
++- 已验证环境：`.venv/bin/python` 为 Python 3.13.9，editable `kmesh 0.1.0` 指向本仓库 `src/kmesh/__init__.py`，pytest 8.4.2；本任务两个产品/测试目标文件尚不存在。实施前用下方命令再次保存实际起点。
++- 可用接口：Atom/Clause 不可变且可哈希；Atom 有 `variables` 和 `is_ground`；所有 head 变量在该 clause 的 body 出现，事实 ground。正常构造的这些对象可直接信任，不重复检查内部词法，也不处理绕过冻结机制伪造的实例。
++- 本求解器处理有限、正向、无函数的 Horn 子句，包括静态类型能表示的重复前提/规则、常量规则和循环。**这不放宽 E0 生成世界的关系 DAG 约束**；循环只是求解器终止性测试，生成器审计仍未实现。
++- 仅读本仓库相关代码、任务证据与环境元数据。全部 fixture 手工合成，数据版本、采样 seed、checkpoint=N/A；不做随机世界生成，不接触锁定测试或外部数据。
++- CPU 自检，单个记录器命令最多 120 秒，总自检预算 10 分钟；函数自身另有明确的候选绑定检查上限。超过上限/超时、依赖或基线不符时保存证据并反馈，不提高预算掩盖问题或无界重试。
++- Pi 可从上述基线保留交接改动建立 `T0004-reference-closure` 分支。若 HEAD 仅新增本交接的提交，核对 diff 和 T0003 接受哈希、记录实际提交后继续；涉及产品/契约变化则先反馈。不得覆盖已有改动。
++
++## 具体实施步骤
++
++### 1. 保存起点，确认边界
++
++先运行 preflight，核对基线与 T0003 清单，再置 `in_progress`。只新建本轮模块和测试；新模块从 `kmesh.logic.types` 导入 Atom、Clause、LogicValidationError，包 `__init__.py` 保持零导入。
++
++中断恢复时先核对已落盘内容，分小段写实现/测试并检查；保留已完成代码，避免重新整文件生成导致已验证内容丢失。已出现的失败先用新 RUN 留存，再作局部修复。
++
++可检查结果：实际起点有记录，未改旧产品和测试，也未提前填写实现通过。
++
++### 2. 固定公开接口和错误边界
++
++```python
++class ReferenceLimitError(RuntimeError):
++    """The reference solver cannot finish within its evaluation budget."""
++
++def reference_closure(
++    clauses: tuple[Clause, ...],
++    *,
++    max_rule_evaluations: int = 100_000,
++) -> frozenset[Atom]: ...
++```
++
++- `clauses` 必须为 tuple，成员为 Clause；不接受 list/set/dict/generator，不转换输入。空 tuple 合法。重复 Clause 合法且保留在规则扫描中；输出按集合去重。
++- `max_rule_evaluations` 必须为非 bool 的正整数；不得 int()/float() 强转。先验证容器、成员和预算，再进入任何空输入快返/推理，空世界也不能忽略非法预算。
++- 非法输入抛已有 `LogicValidationError`。消息含 `reference.clauses`、`reference.clauses[i]` 或 `reference.max_rule_evaluations` 及目标原因（tuple / Clause / 非 bool 正整数）；全文不固定。类型/值错误只报字段、预期、实际类型或长度，**不要 repr 未验证对象/整个容器**。例如 `10**5000` 及 `-(10**5000)` 不得令错误报告逸出普通 ValueError。
++- 超预算抛 `ReferenceLimitError`，消息含 `reference.max_rule_evaluations` 和超限原因；不得返回空集合/部分闭包、静默跳过规则或改为 warning。调用方漏参、多余参数仍由 Python 抛普通 TypeError。不新增泛型错误包装或宽泛 `except Exception`。
++- 返回值只含 ground Atom，是不可变 frozenset；包含初始事实及全部推导事实，不包含规则、标签、证明、深度或模板名。不修改输入，不存跨调用/跨 clause 的绑定状态。
++
++可检查结果：接口唯一、返回/异常可直接区分，非法输入不会被当作“无结论”。
++
++### 3. 实现枚举绑定与同步不动点
++
++定义并按以下次序实现，必要的替换函数保持模块私有：
++
++1. 从**全部输入 clause 的 body 和 head 参数**收集常量集合 `D`，排序得到枚举序列。变量名和谓词不属于实体域；不只收集事实中的常量，不自动加虚拟实体，不接受额外 query/domain 参数。
++2. 初始集合 `F0` 为所有空 body clause 的 head；其余 clause 按输入顺序保存为规则。为每条规则单独收集所有不同变量 `V_r`（body/head 的并集），排序；body-only 变量也必须参与绑定，重复变量只计一次。
++3. 每轮固定上一轮集合 `F_t`，本轮新增内容单独收集。对每条非空规则，用 `itertools.product(D, repeat=len(V_r))` 枚举**所有**候选绑定 `theta`；同名变量只在本条规则/该绑定中使用。替换 body/head 中的变量，常量与参数方向不变。
++4. 只有全部 ground body Atom 都属于 `F_t`，才将 ground head 加入下一轮集合。两个前提是逻辑合取，同一个事实可以满足重复前提；不能把两个前提当作要消耗的两份资源，也不能分别选不一致的变量绑定。不能依靠事实的集合迭代顺序传播本轮新结果。
++5. `F_(t+1) = F_t ∪ {本轮推导的 heads}`；一轮无新增时返回 `frozenset(F_t)`，否则继续。不按模板写捷径，不做索引 join、谓词索引、缓存替换结果或 semi-naive 增量推理，不调用未来主求解器。
++
++`D` 在开始时一次确定。规则可以把只在 head 出现的常量带入推导，但不会产生输入中不存在的新常量。有限谓词集合 `P` 与 `D` 的 ground atom 上限为 `|P| * |D|²`，每个非终止轮至少新增一个 Atom；因此在预算允许时能到达最小闭包。闭包有界不等于运算便宜，仍须按下面规则计预算。
++
++**累计预算精确定义：** 每准备检查一个非空规则的候选绑定，先确认还剩预算，再扣 1；检查前提为真/假都计，重复规则分别计，最后一轮“无新增”的检查也计。跨轮累计，不按规则/轮次重置；空 body 初始事实不消耗预算。不要求公开计数，但测试必须能区分这些行为。
++
++- 恰好用完预算且已完成无新增轮，正常返回；只有要进行第 `max_rule_evaluations + 1` 次检查时才抛异常。超限后不得返回此前已得到的 facts。
++- 零变量的非空规则有且仅有一个空绑定（包括实体域为空时）；有变量但 `D` 为空时没有候选绑定。空输入与仅事实输入不消耗预算。正预算 `1` 对它们有效。
++- 除“没有非空规则”外，不以当前事实为空、规则已产出过 head 等条件提前结束或跳过候选；严格按本轮候选及不动点检查，保证上述计数有一致含义。
++- 该上限约束实际候选检查次数，不是秒数或完整内存上限；测试输入始终是小型人工世界。将来批量生成使用索引主版，本参考实现不承担正式规模性能目标。
++
++**独立性：** 参考版与未来主版只共享内容类型和静态校验；推理的匹配、绑定、规则应用、不动点逻辑各自实现。不得为两条路径预建共用求解辅助库。当前手算验证通过不能替代后续随机小世界双求解器闭包一致性与独立 proof verifier。
++
++可检查结果：参考逻辑能逐行审阅，域完整、绑定作用域局部、同步多轮推导和预算行为明确。
++
++### 4. 分组编写有独立预期值的测试
++
++所有新测试放在 `tests/test_reference_engine.py`；可以有仅用于构造 Atom/Clause 的短帮助函数，不用另一个闭包实现或被测私有函数生成预期答案。不规定用例数量，以下行为全部覆盖即可。
++
++**手算主例（与计划 §4.2 同义）：**
++
++```python
++world = (
++    Clause((), Atom("r1", ("a", "b"))),
++    Clause((), Atom("r2", ("b", "c"))),
++    Clause((Atom("r1", ("?x", "?y")), Atom("r2", ("?y", "?z"))),
++           Atom("r3", ("?x", "?z"))),
++    Clause((Atom("r3", ("?x", "?y")),), Atom("r4", ("?y", "?x"))),
++)
++expected = frozenset({
++    Atom("r1", ("a", "b")), Atom("r2", ("b", "c")),
++    Atom("r3", ("a", "c")), Atom("r4", ("c", "a")),
++})
++```
++
++必须比较完整集合相等，不能只检查一个正 query。另将最后规则的 head 改为 `r4(?x,?y)`，完整闭包的最后一项变为 `r4(a,c)`，`r4(c,a)` 不再可推。缺少 `r2(b,c)` 时，闭包只含 `r1(a,b)`。这些只是人工逻辑检查，不生成反事实数据集或声称已完成反事实审计。
++
++| 测试组 | 具体输入与独立预期 |
++|---|---|
++| 空世界/事实 | 空 tuple → 空 frozenset；重复 `p(a,b)` fact → 仅一个 `p(a,b)`；不产生 `p(b,a)` |
++| COPY/INV/INTER | 用 `p(a,b)`、`q(a,b)`、`q(b,a)` 三事实和 COPY、INV、INTER 三规则，逐个写出三个派生 head 的完整集合；INTER 只接受同一对参数的交集，不能接受错误谓词/反向绑定 |
++| 重复变量 | facts `p(a,a)`、`p(a,b)`；`[p(?x,?x)] -> same(?x,?x)` 只增加 `same(a,a)` |
++| 常量与域 | fact `seed(a,a)`；`[seed(?x,?x)] -> tag(?x,k)`；`[tag(?x,?y)] -> out(?y,?x)`；完整闭包恰为 `seed(a,a), tag(a,k), out(k,a)`，覆盖不在 facts 中的常量 `k` |
++| 不连通变量 | facts `p(a,a), q(b,b)`；`[p(?x,?x),q(?y,?y)] -> r(?x,?y)` 仅增加 `r(a,b)`；确保枚举笛卡尔绑定而不是要求前提必须共享变量 |
++| ground/重复前提 | ground body → ground head 的规则有/无前提时分别触发/不触发；`[p(?x,?y),p(?x,?y)] -> twice(?x,?y)` 可由单一 `p(a,b)` 满足；body 有变量、head 为 ground 的规则也正确 |
++| 无事实/循环 | 纯变量 COPY 无常量事实 → 空；仅带常量的 ground 规则无初始事实 → 空；`p↔q` 循环无种子 → 空，有 `p(a,b)` 种子 → 恰有 `p(a,b),q(a,b)`，正常终止。循环 fixture 不作合法 E0 world |
++| 局部作用域 | facts `p(a,b),q(c,d)`；两条独立 COPY 都使用 `?x/?y`，分别推出 `u(a,b),v(c,d)`；先求解此世界再求解空世界，后者仍为空 |
++
++还需三组边界检查：
++
++1. **集合语义/输入不变：** 主例规则重排（含反向放置）、JOIN 前提交换、同一规则变量一致改名后，闭包均与手算集合相同；重复规则不改变闭包（用充足预算）。结果全部 ground、类型恰为 frozenset；调用前后输入结构/顺序未变。将完整闭包作为额外 facts 与原规则再求解，结果仍相同；不测试证明深度/顺序。
++2. **输入/异常/预算：** 非 tuple 容器、非 Clause 成员、非法预算 `True/False/0/-1/1.5/"2"/None`，逐条只破坏一个条件，并断言专用异常、目标路径与原因。额外用工厂+短参数 ids 测试 `clauses=10**5000`、`clauses=(10**5000,)`、`max_rule_evaluations=-(10**5000)`，避免 pytest 生成 ID 时先格式化大整数；如测试固定整数转换上限，用 fixture 在 finally 恢复。空世界非法预算也须拒绝。
++
++   精确预算例：`p(a,a)` fact 加 `[p(?x,?x)] -> q(?x,?x)`，上限 `2` 返回 `{p(a,a),q(a,a)}`，上限 `1` 抛 ReferenceLimitError（最终无新增轮也要检查）。该 COPY 规则重复两次后，上限 `4` 成功、`3` 超限。另用不成立的 `[q(?x,?x)] -> r(?x,?x)` 加在原单 COPY 后：上限 `6` 成功返回 `{p(a,a),q(a,a),r(a,a)}`，`5` 超限，覆盖首轮前提不成立也计数。最后用 `[p(?x,?x)] -> q(?x,k)` 替代单 COPY：实体域 `{a,k}`，上限 `4` 成功、`3` 超限，覆盖所有候选绑定（包括失败绑定）的计数。所有预期须独立手写，低预算只断言失败、不接受部分闭包；仅事实/空世界上限 `1` 成功。用足够预算重复失败后的调用，结果不受上次影响。
++3. **导入隔离：** 在新 Python 子进程中，导入前通过 finder 阻止 torch/yaml（包括子模块）；导入 `reference_engine` 后执行一个事实加 COPY，核对输出并断言二者未进入 sys.modules。检查仅标准库/内容类型依赖，包本身不自动导入求解器。不修改环境或安装依赖。
++
++先检查测试 imports/fixtures，再运行定向检查和完整回归。测试不能为凑数量复制实现，也不能只核对返回集合长度。源码异常边界与实际推导同样需要验证。
++
++### 5. 记录、同步状态并交回
++
++README 补可执行 Python 使用例和“参考版已实施、awaiting_review；主版交叉验证/证明/world 审计尚未实施”；更新测试命令覆盖新文件。implementation_status 与本文状态同步；旧任务保持 accepted，M0/M1 不写完成。修正 README 中“目前只实现 doctor”这类与既有配置命令不符的当前说明即可，不重写研究目标。
++
++Pi 区追加实际工具/完整模型、基线、文件、每条命令/退出码、失败/修复目录、偏差与 not_run。full RUN 完成后追加简短 provenance；原始失败和输出保留，无法核验的自述明确标注。完成后置 `awaiting_review`，冻结相关 diff，交 Codex 复验，不自动 commit/push。
++
++## 验证方法
++
++工作目录 `/home/mye/src/llm/KMesh`。Codex 已提供记录器，不需要从文档提取脚本或重写驱动。它先建全新 RUN 目录，保存命令、HEAD/status、前后源码哈希、stdout/stderr（含空文件）、退出码与时点；固定 `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`、`CUDA_VISIBLE_DEVICES=""`、120 秒超时。已有目录会拒绝且不执行命令。每次失败/重跑更换 RUN 和对应 basetemp，不预先创建 RUN 或向不存在的目录重定向输出。
++
++实施前：
++
++```bash
++.venv/bin/python reports/T0004/record_check.py pi-r1-preflight -- .venv/bin/python -c 'import sys, kmesh; from importlib.metadata import version; print(sys.executable); print(sys.version); print(kmesh.__file__); print({n: version(n) for n in ("kmesh", "pytest")})'
++```
++
++期望退出 0，版本/路径匹配；新模块与新测试哈希 null 是实施起点，不是完成。核对已有三个逻辑文件哈希与 T0003 接受清单。
++
++定向检查：
++
++```bash
++.venv/bin/python reports/T0004/record_check.py pi-r1-focused -- .venv/bin/python -m pytest -q tests/test_reference_engine.py --basetemp reports/T0004/pi-r1-focused/pytest-tmp
++```
++
++期望最终退出 0，新增测试全部通过，无 skip/xfail。失败原样保存后局部修复，下次使用 `pi-r2-focused`，同时更换 basetemp。
++
++完整回归（定向成功后）：
++
++```bash
++.venv/bin/python reports/T0004/record_check.py pi-r1-full -- .venv/bin/python -m pytest -q tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py --basetemp reports/T0004/pi-r1-full/pytest-tmp
++```
++
++期望新增测试及原 167 项全通过，无 skip/xfail。超时 124、启动失败 127 或其他非零均须记录，不得写 PASS。旧测试文件保持原样，失败不能靠删除/放宽旧断言处理。
++
++最后运行 `git diff --check`，检查新文本末尾换行/尾随空白、本地链接和无被跟踪的 pytest-tmp。哈希由记录器收集，不重复复制源码与历史报告。所有 `reports/T0001/`、`T0002/`、`T0003/` 及本任务已存在 RUN/规划证据保持不变。
++
++## 验收标准
++
++- [ ] A1：仅新增参考求解器/异常与对应测试；接口、严格输入检查、immutable ground 返回和错误字段按契约实现。
++- [ ] A2：域覆盖全部输入常量，规则内变量一致且相互隔离；空/单/双前提、重复变量/前提、常量、ground 规则的完整手算闭包一致。
++- [ ] A3：多轮同步推导、正反方向、缺前提、空/循环世界正确；语义等价重排/改名不改变闭包，输入与跨调用状态不受污染。
++- [ ] A4：实际候选检查累计限额正确，包含失败绑定、重复规则和终止轮；恰好完成可返回，超限明确失败且无部分结果。巨整数错误诊断不逸出。
++- [ ] A5：仅使用独立枚举参考算法，不混入主版共享推理/模型输入；导入隔离和全部新增测试通过，原 167 项原样回归。
++- [ ] A6：范围/模型/资源限制遵守，原始命令、输出、退出码及前后源码哈希可核验；失败、修复与历史均保留。
++- [ ] A7：README/状态/交接准确；仅参考路径完成，未声称双求解器一致、完整数据/证明审计、M0/M1 或研究命题已验证。
++
++Codex 按冻结 diff、测试预期值与独立关键复跑决定 accepted/needs_changes，不仅凭 Pi “测试通过”摘要。后续候选任务是独立索引求解器及小世界闭包交叉验证，另行拆分；proof verifier/数据生成仍为后续工作。
++
++## Pi 执行记录
++
++尚未执行。每轮在本节追加；不覆盖契约或旧失败证据。
++
++### 轮次 r1，2026-09-15（UTC）
++
++- 轮次、日期、实际工具／完整模型：r1，2026-09-15；Pi + `qwen3.8-coding:27b`（ollama 运行时别名 `qwen3.8-coding:27b-q8_0-64k`，`PI_REASONING_LEVEL=off`）。状态流转：`ready` → 开始实施（未单独落盘 `in_progress` 状态行，直接按本文契约执行，现置 `awaiting_review`）。
++- 实际基线与改动文件：分支 `T0004-reference-closure`（自 `master@e53e2bd0ec4cf3347c5b6103ab8061d71666150b` 创建，携带基线已知的未提交交接改动，未覆盖）。新增：`src/kmesh/logic/reference_engine.py`、`tests/test_reference_engine.py`、`reports/T0004/pi-r1-{preflight,focused,full}/` 与 `reports/T0004/pi-r1-full/provenance.md`、README/implementation_status/本文状态更新。未修改任何旧产品、旧测试、`types.py`、`logic/__init__.py`、`record_check.py`、`.gitignore`、`planning-*`。
++- 命令、退出状态、结果、日志与版本/hash：
++  1. `git status --short`；`git rev-parse HEAD`（`e53e2bd…`）；分支创建前逐一核对 T0003 已验收哈希（reference 文件组 3 项 SHA-256 与 `reports/T0003/review-r2/final-audit.json` 一致）。
++  2. `git switch -c T0004-reference-closure`：exit 0。
++  3. `.venv/bin/python reports/T0004/record_check.py pi-r1-preflight -- .venv/bin/python -c 'import sys, kmesh; from importlib.metadata import version; print(sys.executable); print(sys.version); print(kmesh.__file__); print({n: version(n) for n in ("kmesh", "pytest")})'`：exit 0；Python 3.13.9、kmesh 0.1.0（editable→本仓库）、pytest 8.4.2；证据 `reports/T0004/pi-r1-preflight/`。
++  4. `.venv/bin/python reports/T0004/record_check.py pi-r1-focused -- .venv/bin/python -m pytest -q tests/test_reference_engine.py --basetemp reports/T0004/pi-r1-focused/pytest-tmp`：exit 0，`51 passed`。
++  5. `.venv/bin/python reports/T0004/record_check.py pi-r1-full -- .venv/bin/python -m pytest -q tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py --basetemp reports/T0004/pi-r1-full/pytest-tmp`：exit 0，`218 passed in 3.68s`（新增 51 + 旧 167 全部回归），无 skip/xfail。
++  6. `git diff --check`：exit 0；无新增未跟踪 pytest-tmp（均位于 `reports/T0004/pi-r1-*/pytest-tmp`）。
++  7. 实现/测试文件 SHA-256（记录于 `reports/T0004/pi-r1-full/record.json`）：`reference_engine.py` `54ff628a…b64327`（全文 `54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147`）；`test_reference_engine.py` 全文 `9c2292f87855904ac1f65edd99c47a9ef6363f0765b4ce5cd80bcbc2a6269b14`。
++  8. 非正式 dev 自检：`/tmp/smoke_t0004.py`（主例、COPY/INV/INTER、常量域、语义不变性、预算 a–d、错误消息无 repr、导入隔离），全部断言通过后留在 /tmp（不入仓、不作为证据）。
++- not_run、偏差、失败、阻塞及最小复现：正式记录命令无 not_run 项、无非零。偏差两处：(a) 实现/测试完成后才发现 Codex 已将本文重写为新结构（契约与预算例不变），已按新版文档核对并更新状态；(b) 开发期冒烟误将“COPY 规则重复两次”构造成 3 个规则实例导致预算 case b 假超限，定位为测试脚本自身构造错误，契约预算推导（2 个实例）下 limit 4 成功/3 超限；修正后正式测试按 2 实例编写并通过，实现未因此改动。阻塞：无。
++- 提交验收的 diff／产物范围与状态：未跟踪新增：`src/kmesh/logic/reference_engine.py`、`tests/test_reference_engine.py`、`docs/handoffs/T0004-reference-closure.md`（含本轮记录）、`reports/T0004/pi-r1-*` 证据目录；已修改：`README.md`、`docs/implementation_status.md`、本文。冻结待验收，diff 止于 2026-09-15 本记录时点；未 commit/push。
++
++## Codex 验收记录
++
++产品验收尚未运行，A1–A7 均待实施。规划就绪检查在此追加，不等同产品验收。
++
++### 交接就绪检查，2026-09-15
++
++- Codex + `gpt-6-astra`，`xhigh` 完成拆分。`/root/review_data_design` 提供只读设计建议；主代理据此固定逐轮枚举、同步闭包与累计候选检查预算，没有编写产品实现或测试。
++- 未参与该草案设计的 `/root/review_t0001_code` 独立只读审阅契约、D19 和记录器，确认手算闭包、`2/1`、`4/3`、`6/5` 预算例及常量域例正确，接口/独立性/文件范围/命令无阻塞。审阅记录见 [planning-review.md](../../reports/T0004/planning-review.md)；该代理未运行产品测试。
++- 主代理核对 T0003 提交 blob/工作树/接受哈希一致，旧产品、测试与 T0001–T0003 历史报告无改动，见 [planning-baseline-checks.json](../../reports/T0004/planning-baseline-checks.json)。记录器环境探针成功、非零退出/两路日志原样留存、拒绝重用且旧文件哈希不变，见 [planning-recorder-checks.json](../../reports/T0004/planning-recorder-checks.json)；超时/启动失败逻辑沿用旧记录器，本轮没有重复动态测试。
++- 文档链接、Python 示例/记录器语法、三条命令的 RUN/basetemp 及空白检查通过，最终文件索引见 [planning-final-check.json](../../reports/T0004/planning-final-check.json)。结论：**交接 `ready`**；A1–A7 产品验收均 `not_run`，没有研究实验结果，不自动 commit/push。

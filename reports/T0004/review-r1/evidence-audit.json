@@ -1,0 +1,87 @@
+{
+  "created_at_utc": "2026-09-15T11:33:19.415305+00:00",
+  "result": "Evidence hashes verified; product review requires R1 test rework",
+  "planning_handoff_restored_exactly_from_current_status_and_pi_section": true,
+  "planning_ready_at": "2026-09-15T08:37:41.548666+00:00",
+  "unchanged_planning_files": [
+    "docs/handoffs/T0003-logic-types.md",
+    "docs/decisions.md",
+    "reports/T0004/.gitignore",
+    "reports/T0004/planning-baseline-checks.json",
+    "reports/T0004/planning-nonzero/record.json",
+    "reports/T0004/planning-nonzero/stderr.txt",
+    "reports/T0004/planning-nonzero/stdout.txt",
+    "reports/T0004/planning-preflight/record.json",
+    "reports/T0004/planning-preflight/stderr.txt",
+    "reports/T0004/planning-preflight/stdout.txt",
+    "reports/T0004/planning-recorder-checks.json",
+    "reports/T0004/planning-review.md",
+    "reports/T0004/record_check.py"
+  ],
+  "unchanged_frozen_inputs": 37,
+  "runs": [
+    {
+      "run": "pi-r1-preflight",
+      "start": "2026-09-15T09:13:02.646216+00:00",
+      "end": "2026-09-15T09:13:02.744386+00:00",
+      "exit": 0,
+      "elapsed_s": 0.087,
+      "stdout_stderr_hashes_match": true,
+      "before_after_source_hashes_match": true
+    },
+    {
+      "run": "pi-r1-focused",
+      "start": "2026-09-15T09:58:18.641824+00:00",
+      "end": "2026-09-15T09:58:19.001720+00:00",
+      "exit": 0,
+      "elapsed_s": 0.349,
+      "stdout_stderr_hashes_match": true,
+      "before_after_source_hashes_match": true
+    },
+    {
+      "run": "pi-r1-full",
+      "start": "2026-09-15T09:58:36.886778+00:00",
+      "end": "2026-09-15T09:58:40.831982+00:00",
+      "exit": 0,
+      "elapsed_s": 3.934,
+      "stdout_stderr_hashes_match": true,
+      "before_after_source_hashes_match": true
+    },
+    {
+      "run": "review-r1-full",
+      "start": "2026-09-15T11:28:00.414358+00:00",
+      "end": "2026-09-15T11:28:04.352331+00:00",
+      "exit": 0,
+      "elapsed_s": 3.926,
+      "stdout_stderr_hashes_match": true,
+      "before_after_source_hashes_match": true
+    },
+    {
+      "run": "review-r1-boundaries",
+      "start": "2026-09-15T11:29:39.252132+00:00",
+      "end": "2026-09-15T11:29:39.437927+00:00",
+      "exit": 0,
+      "elapsed_s": 0.175,
+      "stdout_stderr_hashes_match": true,
+      "before_after_source_hashes_match": true
+    },
+    {
+      "run": "review-r1-reason-guards",
+      "start": "2026-09-15T11:31:57.594925+00:00",
+      "end": "2026-09-15T11:31:57.774634+00:00",
+      "exit": 1,
+      "elapsed_s": 0.168,
+      "stdout_stderr_hashes_match": true,
+      "before_after_source_hashes_match": true
+    }
+  ],
+  "session_evidence_sha256": "24922ba988d4f062262db2c2bcb9c689aede8a4b8dccd839bca4dc754b4c81f3",
+  "notes": [
+    "Planning was ready at 08:37:41 UTC; Pi preflight began at 09:13:02 UTC. No evidence supports an intervening Codex contract rewrite.",
+    "Pi dev budget-failure/script-fix/success outputs were recovered from the session; mandated separate RUN streams were not captured for these dev checks.",
+    "Pi did not persist in_progress before execution, as disclosed.",
+    "Pi preflight-to-full wall time was about 45m38s; recorded command durations sum to about 4.37s. The provenance less-than-one-minute statement can describe these command durations, not the whole implementation.",
+    "Submitted source contains no special empty-domain fast return; empty products yield zero candidates and the fixed-point test terminates.",
+    "Submitted Pi record still begins with a stale not-executed template sentence; Codex will correct the current introduction and append findings while retaining the Pi report."
+  ]
+}

@@ -1,0 +1,56 @@
+--- r1/tests/test_reference_engine.py
++++ r2/tests/test_reference_engine.py
+@@ -370,11 +370,11 @@
+     [
+         (True, ("bool", "non-bool")),
+         (False, ("bool", "non-bool")),
+-        (0, "positive"),
+-        (-1, "positive"),
+-        (1.5, "float"),
+-        ("2", "str"),
+-        (None, "NoneType"),
++        (0, ("positive",)),
++        (-1, ("positive",)),
++        (1.5, ("float",)),
++        ("2", ("str",)),
++        (None, ("NoneType",)),
+     ],
+     ids=["bool-true", "bool-false", "zero", "negative",
+          "float", "str", "none"],
+@@ -395,25 +395,28 @@
+ 
+ 
+ @pytest.mark.parametrize(
+-    ("build", "field"),
++    ("build", "field", "expect"),
+     [
+-        (lambda: reference_closure(_big_int()), "reference.clauses"),
+-        (lambda: reference_closure((_big_int(),)), "reference.clauses[0]"),
++        (lambda: reference_closure(_big_int()), "reference.clauses", "tuple"),
++        (lambda: reference_closure((_big_int(),)), "reference.clauses[0]", "Clause"),
+         (lambda: reference_closure((),
+                                    max_rule_evaluations=-_big_int()),
+-         "reference.max_rule_evaluations"),
++         "reference.max_rule_evaluations", "positive"),
+     ],
+     ids=["clauses-oversized-int", "clauses-tuple-oversized-int",
+          "budget-negative-oversized-int"],
+ )
+ def test_oversized_int_inputs_keep_error_contract(
+-    pinned_int_str_limit, build, field
++    pinned_int_str_limit, build, field, expect
+ ):
+-    # The dedicated exception with the field path must be raised; a
+-    # native ValueError from int-to-str conversion would escape instead.
++    # The dedicated exception with the field path and the target reason
++    # must be raised; a native ValueError from int-to-str conversion
++    # would escape instead.
+     with pytest.raises(LogicValidationError) as ei:
+         build()
+-    assert field in str(ei.value)
++    message = str(ei.value)
++    assert field in message
++    assert expect in message
+ 
+ 
+ def test_wrong_arity_stays_plain_type_error():

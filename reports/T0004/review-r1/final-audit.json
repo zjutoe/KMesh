@@ -1,0 +1,63 @@
+{
+  "created_at_utc": "2026-09-15T11:37:16.176128+00:00",
+  "result": "NEEDS_CHANGES",
+  "task_status": "needs_changes",
+  "baseline_head": "e53e2bd0ec4cf3347c5b6103ab8061d71666150b",
+  "branch": "T0004-reference-closure",
+  "reviewed_version": "Uncommitted working tree; baseline HEAD does not contain T0004.",
+  "reviewed_product_sha256": {
+    "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+    "tests/test_reference_engine.py": "9c2292f87855904ac1f65edd99c47a9ef6363f0765b4ce5cd80bcbc2a6269b14"
+  },
+  "acceptance": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "needs_changes: R1 diagnostic assertions",
+    "A6": "PASS",
+    "A7": "PASS"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P2",
+      "path": "tests/test_reference_engine.py",
+      "line": 389,
+      "issue": "Reason strings are iterated as characters; oversized-int tests only assert fields. Seven real parametrized rows accept messages missing complete reasons.",
+      "requested_change": "Use tuples of complete reason fragments for every budget row; add tuple/Clause/positive reason assertions to large-integer rows. Product code remains unchanged."
+    }
+  ],
+  "verification": {
+    "independent_regression": "218 passed; exit 0; no skip/xfail",
+    "additional_solver_probes": "6 groups passed; hand-computed fixtures; no second solver",
+    "reason_guard_negative_control": "0/7 effective; exit 1, as required for captured pre-fix failure",
+    "evidence_audit": "six RUN chains verified; old reports and planning files unchanged",
+    "local_links_checked": 48,
+    "diff_check_exit": 0
+  },
+  "review_roles": {
+    "root": "Non-product-author review, independent execution, evidence/session recovery, verdict/docs.",
+    "review_t0001_code": "Read-only product/test review and reproduction audit; agrees R1-only needs_changes; no test runs or edits."
+  },
+  "document_sha256": {
+    "README.md": "3c56b5b354fdce1d7a614e0fbc50ad7b23e69b30aef07041f7dac2dca016fff8",
+    "docs/handoffs/T0004-reference-closure.md": "c680ed09bb54105ccff485a582402d6345007ced20843dfc6f1c04461e5d7cdd",
+    "docs/implementation_status.md": "4015153a55dbb114d77373b7dfe19d4fa26e7d9ae7a8a1a9634bd5b1d79afeb0"
+  },
+  "review_artifact_sha256": {
+    "reports/T0004/review-r1/boundary_probe.py": "dec94670e5a89870021cd0f3fe40b92916afd2c82cb2e9d967587faf59ddeeb1",
+    "reports/T0004/review-r1/check_reason_guards.py": "648dc18dc0ba047fa723d49c4c044a402590e8f86a8ec677cf31e32d7bdf4114",
+    "reports/T0004/review-r1/evidence-audit.json": "33857e105b52ccc2ec19d5694532be3bf376d2ee111fdd566f95fb05601f3299",
+    "reports/T0004/review-r1/frozen-inputs.json": "08d6d0f1cae80e06d96f4ae7838e22b0b993a66128a903eb4185aba51c51b4a3",
+    "reports/T0004/review-r1/reviewed-diff.patch": "3f047c3d60fc4d80f6c38ddf08828536b9907eb801cbffd636869311a40ee896",
+    "reports/T0004/review-r1/session-evidence.json": "24922ba988d4f062262db2c2bcb9c689aede8a4b8dccd839bca4dc754b4c81f3"
+  },
+  "limits": [
+    "No solver defect found in reviewed scope; testing defect blocks acceptance.",
+    "Dev failures recovered as combined session tool output, not separate recorder streams.",
+    "The claimed intervening Codex handoff rewrite is unsupported; planning preceded implementation and contract bytes are unchanged.",
+    "No product/test edits by Codex; no commit/push.",
+    "Main solver, cross-validation, proofs, world audit, M0 smoke and research hypotheses remain unverified."
+  ]
+}

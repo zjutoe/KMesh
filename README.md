@@ -53,7 +53,7 @@ KMesh 是一个研究项目，探索能否通过小范围的学习和更新，�
 .venv/bin/python -m pip install --no-index --no-build-isolation --no-deps -e '.[dev]'
 ```
 
-目前只实现了 `doctor` 诊断子命令（模块与控制台两种等价入口）：
+目前实现了 `doctor` 诊断子命令（模块与控制台两种等价入口）与下文 `config validate-model` 校验命令：
 
 ```bash
 .venv/bin/python -m kmesh.cli doctor --out reports/environment.json
@@ -76,15 +76,34 @@ KMesh 是一个研究项目，探索能否通过小范围的学习和更新，�
 
 逻辑内容类型（T0003）：`kmesh.logic.types` 提供不可变、可哈希的 `Atom(pred, args)` 与 `Clause(body, head)` 及构造时静态检查（二元 arity、ASCII 标识符词法、变量 `?` 前缀、0–2 前提、head 变量必须在 body 中出现）。这是后续求解器与数据构造共用的接口，**状态为已验收（`accepted`）**：R1 已关闭，Codex 独立完整回归 167 项及首轮 18 项边界探测全通过。尚无 CLI/文件加载，构造成功只验证句法与单 clause 变量作用域，不代表任何 world 通过完整 E0 数据审计。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
+参考闭包求解器（T0004）：`kmesh.logic.reference_engine` 提供 `reference_closure(clauses, *, max_rule_evaluations=100_000)`，用枚举变量绑定的前向链（全部输入 clause body+head 参数中常量的排序集合作常量域、逐规则局部变量作用域、同步不动点）计算直到一轮不新增的全部可推 ground `Atom`，返回只含 ground `Atom` 的不可变 `frozenset[Atom]`。预算异常 `ReferenceLimitError` 按“每个非空规则的候选绑定检查一次计一次”累计（事实不消耗，最终无新增轮的检查也计；预算恰好用完且已完成无新增轮时正常返回，不返回部分闭包）。包不导入 torch/PyYAML，`kmesh.logic` 包 `__init__.py` 保持零导入，参考版与未来主版不共享推理代码。最小使用例（纯标准库依赖）：
+
+```python
+from kmesh.logic.reference_engine import reference_closure
+from kmesh.logic.types import Atom, Clause
+
+world = (
+    Clause((), Atom("r1", ("a", "b"))),
+    Clause((), Atom("r2", ("b", "c"))),
+    Clause((Atom("r1", ("?x", "?y")), Atom("r2", ("?y", "?z"))),
+           Atom("r3", ("?x", "?z"))),
+)
+
+closure = reference_closure(world)
+# frozenset({r1(a,b), r2(b,c), r3(a,c)})：初始事实与全部推导的 ground Atom
+```
+
+**状态：已验收（`accepted`），R1 已关闭。** Codex 第 2 轮独立原因守卫 7/7、完整回归 218 项通过。主求解器（索引实现）交叉验证、随机小世界一致性、证明验证器与生成器/关系 DAG world 审计均未实施，不能声称“双求解器一致”。
+
 运行测试：
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
 ```
 
-当前限制：T0001、T0002 与 T0003 仅覆盖最小包、环境诊断、模型结构配置校验，以及带静态校验的不可变逻辑类型（已验收）；完整运行配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；完整运行配置校验、数据/主求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
-截至 2026-09-15，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
+截至 2026-09-15，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
 

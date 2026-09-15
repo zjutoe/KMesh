@@ -1,0 +1,70 @@
+{
+  "created_at_utc": "2026-09-15T13:05:57.949853+00:00",
+  "result": "PASS",
+  "task_status": "accepted",
+  "closed_findings": [
+    "R1"
+  ],
+  "acceptance": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "PASS",
+    "A6": "PASS",
+    "A7": "PASS"
+  },
+  "baseline_head": "e53e2bd0ec4cf3347c5b6103ab8061d71666150b",
+  "branch": "T0004-reference-closure",
+  "accepted_version": "Working tree identified by product_sha256; future implementation commit must match these blobs.",
+  "product_sha256": {
+    "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+    "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090"
+  },
+  "runs": [
+    {
+      "run": "pi-r2-reason-guards",
+      "exit": 0,
+      "stdout": "SUMMARY: 7/7 diagnostic reason guards effective"
+    },
+    {
+      "run": "pi-r2-focused",
+      "exit": 0,
+      "stdout": "51 passed in 0.11s"
+    },
+    {
+      "run": "pi-r2-full",
+      "exit": 0,
+      "stdout": "218 passed in 3.63s"
+    },
+    {
+      "run": "review-r2-reason-guards",
+      "exit": 0,
+      "stdout": "SUMMARY: 7/7 diagnostic reason guards effective"
+    },
+    {
+      "run": "review-r2-full",
+      "exit": 0,
+      "stdout": "218 passed in 3.63s"
+    }
+  ],
+  "historical_inputs_unchanged": 50,
+  "reviewed_diff_sha256": "f44636bf76169c816dda621921e1d2e31b9e7f1ab4d0c8cdbd7a4989dd496e2b",
+  "review_roles": {
+    "root": "Non-author acceptance, independent execution/evidence audit, no product/test edits.",
+    "review_t0001_code": "Read-only re-review; R1 may close."
+  },
+  "nonblocking_notes": [
+    "Pi said None parameter unchanged; actual diff correctly wraps its expected reason in a tuple.",
+    "Implementation time window is approximate, separate from measured command durations."
+  ],
+  "current_document_sha256": {
+    "README.md": "b2d5374da35ccb6a6466689c11d86a3f785d03512041cc6187878cba1caf4b33",
+    "docs/handoffs/T0004-reference-closure.md": "a99a96d7da92caa3ac350316c7aa914c436aadbd05f2c169868fcf798208b1b0",
+    "docs/implementation_status.md": "4e3843d8f1263dbae5ac7d2559d24cc97ef747ee9152cddcf68406dd18b6cedc"
+  },
+  "limits": [
+    "Only reference closure accepted; no main solver, random cross-validation, proof/world audit or research result.",
+    "User authorized subsequent commit, merge and push after acceptance."
+  ]
+}

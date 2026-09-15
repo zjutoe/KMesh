@@ -1,0 +1,8 @@
+FAIL guard accepted incomplete reason: test_invalid_budget_rejected_with_field_and_reason, reference.max_rule_evaluations
+FAIL guard accepted incomplete reason: test_invalid_budget_rejected_with_field_and_reason, reference.max_rule_evaluations
+FAIL guard accepted incomplete reason: test_invalid_budget_rejected_with_field_and_reason, reference.max_rule_evaluations
+FAIL guard accepted incomplete reason: test_invalid_budget_rejected_with_field_and_reason, reference.max_rule_evaluations
+FAIL guard accepted incomplete reason: test_oversized_int_inputs_keep_error_contract, reference.clauses
+FAIL guard accepted incomplete reason: test_oversized_int_inputs_keep_error_contract, reference.clauses[0]
+FAIL guard accepted incomplete reason: test_oversized_int_inputs_keep_error_contract, reference.max_rule_evaluations
+SUMMARY: 0/7 diagnostic reason guards effective

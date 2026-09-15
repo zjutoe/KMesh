@@ -1,0 +1,58 @@
+{
+  "created_at_utc": "2026-09-15T08:35:44.683302+00:00",
+  "result": "PASS",
+  "baseline_head": "e53e2bd0ec4cf3347c5b6103ab8061d71666150b",
+  "accepted_implementation_commit": "6a81224eead0df659a4ba0e83cc391d7307550f5",
+  "accepted_product_sha256": {
+    "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+    "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+    "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab"
+  },
+  "current_and_committed_blobs_match_acceptance": true,
+  "product_files_not_created": true,
+  "existing_product_tests_and_historical_reports_unchanged": true,
+  "local_links_checked": 46,
+  "handoff_commands_parsed": [
+    [
+      ".venv/bin/python",
+      "reports/T0004/record_check.py",
+      "pi-r1-preflight",
+      "--",
+      ".venv/bin/python",
+      "-c",
+      "import sys, kmesh; from importlib.metadata import version; print(sys.executable); print(sys.version); print(kmesh.__file__); print({n: version(n) for n in (\"kmesh\", \"pytest\")})"
+    ],
+    [
+      ".venv/bin/python",
+      "reports/T0004/record_check.py",
+      "pi-r1-focused",
+      "--",
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reference_engine.py",
+      "--basetemp",
+      "reports/T0004/pi-r1-focused/pytest-tmp"
+    ],
+    [
+      ".venv/bin/python",
+      "reports/T0004/record_check.py",
+      "pi-r1-full",
+      "--",
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_reference_engine.py",
+      "tests/test_logic_types.py",
+      "tests/test_config.py",
+      "tests/test_doctor.py",
+      "--basetemp",
+      "reports/T0004/pi-r1-full/pytest-tmp"
+    ]
+  ],
+  "python_blocks_and_helper_parse": true,
+  "diff_check_exit": 0,
+  "limits": "Planning validation only. No new product code/tests executed. Handoff still draft pending independent review."
+}

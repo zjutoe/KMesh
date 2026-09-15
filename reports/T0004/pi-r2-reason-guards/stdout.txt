@@ -1,0 +1,8 @@
+PASS guard rejects incomplete reason: test_invalid_budget_rejected_with_field_and_reason, reference.max_rule_evaluations
+PASS guard rejects incomplete reason: test_invalid_budget_rejected_with_field_and_reason, reference.max_rule_evaluations
+PASS guard rejects incomplete reason: test_invalid_budget_rejected_with_field_and_reason, reference.max_rule_evaluations
+PASS guard rejects incomplete reason: test_invalid_budget_rejected_with_field_and_reason, reference.max_rule_evaluations
+PASS guard rejects incomplete reason: test_oversized_int_inputs_keep_error_contract, reference.clauses
+PASS guard rejects incomplete reason: test_oversized_int_inputs_keep_error_contract, reference.clauses[0]
+PASS guard rejects incomplete reason: test_oversized_int_inputs_keep_error_contract, reference.max_rule_evaluations
+SUMMARY: 7/7 diagnostic reason guards effective

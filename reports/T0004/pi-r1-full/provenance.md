@@ -1,0 +1,25 @@
+# T0004 · pi-r1-full provenance
+
+- 执行者：Pi + Qwen Coding (`qwen3.8-coding:27b`)，2026-09-15（UTC）
+- 命令：`.venv/bin/python reports/T0004/record_check.py pi-r1-full -- .venv/bin/python -m pytest -q tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py --basetemp reports/T0004/pi-r1-full/pytest-tmp`
+- 结果：`218 passed in 3.68s`，退出码 0；证据 `reports/T0004/pi-r1-full/`（record.json / stdout.txt / stderr.txt / pytest 临时目录）
+- 环境：
+  - 分支 `T0004-reference-closure`，HEAD `e53e2bd0ec4cf3347c5b6103ab8061d71666150b`（master，未产生 commit）
+  - Python：`.venv/bin/python`（3.13）
+  - `record_check.py` 已固定 `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`、`CUDA_VISIBLE_DEVICES=""`，timeout 120s
+- 输入与关键产物 SHA-256（见记录目录 `record.json` 的 `source_sha256`）：
+  - `src/kmesh/logic/reference_engine.py` `54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147`
+  - `tests/test_reference_engine.py` `9c2292f87855904ac1f65edd99c47a9ef6363f0765b4ce5cd80bcbc2a6269b14`
+  - `src/kmesh/logic/__init__.py` `649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96`
+  - `src/kmesh/logic/types.py` `b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8`
+  - `tests/test_logic_types.py` `2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab`
+  - `pyproject.toml` `ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202`
+  - `reports/T0004/record_check.py` `618dafa51402d3f01a98fe3411fc0b2acffc102d0b9df06a667e046c733f4d8c`（按交接文档原样使用，未修改）
+- 结果计数：
+  - 新增 `tests/test_reference_engine.py` 51 项（定向 `pi-r1-focused`：51 passed，证据 `reports/T0004/pi-r1-focused/`）
+  - 既有 167 项（T0001 25 + T0002 74 + T0003 68）无回归，合计 218
+- 开发期自检（非正式证据）：`/tmp/smoke_t0004.py` 手工推演主例与预算 a–d 场景全部符合预期；开发运行曾误判预算 case b 超限，经排查为开发脚本世界构造多写了一份规则副本（3 实例），修正后与契约预算推导（2 实例：limit 4 成功、3 超限）一致；正式测试文件按 2 实例编写并通过，实现本身未因此改动。
+- 环境约束：本任务全程纯本地，无网络、无 GPU 使用（`CUDA_VISIBLE_DEVICES=""`），执行 <1 分钟；未触发任何研究计划的 smoke/profile/GPU 资源门槛。
+- 基线完整性：执行前后 `git diff --check` 退出 0；本任务未 commit/push。
+- 遗留：
+  - 无实现遗留。交接文档第 4 步中“主例规则序/规则重复”两个 invariance 断言已并入测试文件；开发期冒烟脚本中的 10× 世界重复循环未纳入正式测试（正式测试已含完整规则重复断言，重复规则本身已验证语义不变性）。

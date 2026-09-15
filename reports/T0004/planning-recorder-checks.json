@@ -1,0 +1,55 @@
+{
+  "created_at_utc": "2026-09-15T08:35:01.417402+00:00",
+  "result": "PASS",
+  "checks": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0004/record_check.py",
+        "planning-preflight",
+        "--",
+        ".venv/bin/python",
+        "-c",
+        "import sys, kmesh; from importlib.metadata import version; print(sys.executable); print(sys.version); print(kmesh.__file__); print({n: version(n) for n in (\"kmesh\", \"pytest\")})"
+      ],
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "stdout": "record_check: exit=0; evidence=reports/T0004/planning-preflight\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0004/record_check.py",
+        "planning-nonzero",
+        "--",
+        ".venv/bin/python",
+        "-c",
+        "import sys; print(\"stdout sentinel\"); print(\"stderr sentinel\",file=sys.stderr); sys.exit(7)"
+      ],
+      "expected_exit": 7,
+      "actual_exit": 7,
+      "stdout": "record_check: exit=7; evidence=reports/T0004/planning-nonzero\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0004/record_check.py",
+        "planning-nonzero",
+        "--",
+        ".venv/bin/python",
+        "-c",
+        "raise AssertionError(\"must not execute\")"
+      ],
+      "expected_exit": 2,
+      "actual_exit": 2,
+      "stdout": "",
+      "stderr": "record_check: refusing to reuse /home/mye/src/llm/KMesh/reports/T0004/planning-nonzero\n"
+    }
+  ],
+  "record_contents_and_hashes_verified": true,
+  "reuse_rejected_without_modification": true,
+  "helper_change": "Only T0003 -> T0004 paths and two added source hash entries; launch/timeout behavior unchanged from accepted helper.",
+  "limits": "Codex planning checks only. Product tests not_run; timeout/launch-error branches not rerun."
+}

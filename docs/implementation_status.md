@@ -3,7 +3,8 @@
 - 截至 2026-09-15，M0（最小可运行环境）`in_progress`。
 - T0001（最小 Python 包与环境诊断命令）：Codex 第 2 轮复验通过，状态 `accepted`，接受实现提交 `39dabc73e035c8c2627a1e5db4deab31055a9c6d`。R1–R3 已关闭；独立复跑 25 个测试和关键回归检查通过。记录见 [交接文档](handoffs/T0001-bootstrap-doctor.md)，[Pi 第 2 轮证据](../reports/T0001/pi-r2/)与 [Codex 第 2 轮证据](../reports/T0001/review-r2/)分别保留。
 - T0002（模型结构配置的读取与校验）：Codex 第 3 轮复验通过（2026-09-15），状态 **`accepted`**，R1–R5 全部关闭。独立复跑 **99 个测试、规定驱动和四个原始 YAML 反例均通过**；接受实现提交 **`35572f2f8426ab7a8f36cf0961a0f4ec0c68c897`**，已核对其文件哈希与第 3 轮冻结工作树一致。该提交说明中的 `awaiting_review` 已过时，文档和验收证据均为 `accepted`。当前 Pi 第 3 轮 43 项哈希全部匹配，旧证据完整核对未变；丢失历史和开发 stderr 留存限制仍明确保留。**仅涉及 model 的九个字段，不代表完整实验配置已校验。** 见 [T0002 交接文档](handoffs/T0002-model-config.md)、[Pi 第 3 轮证据](../reports/T0002/pi-r3/)与 [Codex 第 3 轮证据](../reports/T0002/review-r3/)。
-- T0003（逻辑原子与 clause 的不可变表示及静态校验）：Codex 第 2 轮复验通过（2026-09-15），状态 **`accepted`**，R1 已关闭。独立完整回归 **167 项**及首轮 **18 项边界探测全通过**；八条新回归已核验失败先保存、修复后通过，原测试断言/历史证据保留。接受版本为 `T0003-logic-types` 在基线 `9acaa31` 上的未提交工作树，源码/测试哈希见 [第 2 轮冻结清单](../reports/T0003/review-r2/frozen-inputs.json)与 [最终验收记录](../reports/T0003/review-r2/final-audit.json)。范围仅为 `Atom`/`Clause` 的不可变表示与静态检查，world、解析器、推理及数据审计未实现。详见 [T0003 交接文档](handoffs/T0003-logic-types.md)、[独立回归](../reports/T0003/review-r2-full/)、[边界复验](../reports/T0003/review-r2-boundaries/)及 [D18](decisions.md#d18逻辑类型的实现约定)。
+- T0003（逻辑原子与 clause 的不可变表示及静态校验）：Codex 第 2 轮复验通过（2026-09-15），状态 **`accepted`**，R1 已关闭。独立完整回归 **167 项**及首轮 **18 项边界探测全通过**；八条新回归已核验失败先保存、修复后通过，原测试断言/历史证据保留。接受实现提交为 `6a81224eead0df659a4ba0e83cc391d7307550f5`，已核对三个逻辑源码/测试文件与 [最终验收记录](../reports/T0003/review-r2/final-audit.json)哈希一致；[第 2 轮冻结清单](../reports/T0003/review-r2/frozen-inputs.json)保留当时未提交的验收时点。范围仅为 `Atom`/`Clause` 的不可变表示与静态检查，world、解析器、推理及数据审计未实现。详见 [T0003 交接文档](handoffs/T0003-logic-types.md)、[独立回归](../reports/T0003/review-r2-full/)、[边界复验](../reports/T0003/review-r2-boundaries/)及 [D18](decisions.md#d18逻辑类型的实现约定)。
+- T0004（小世界朴素参考闭包求解器）：Codex 第 2 轮复验通过（2026-09-15），状态 **`accepted`**，R1 关闭，A1–A7 全部通过。独立原因守卫 **7/7**、完整回归 **218 项**通过；产品源码与第 1 轮相同，仅测试断言补强，旧证据保留。接受版本/源码测试哈希见 [第 2 轮验收清单](../reports/T0004/review-r2/final-audit.json)，经过与首轮差异核对。范围仅参考闭包，主索引求解器、双求解器交叉验证和证明/world 审计尚未实施。详见 [T0004 交接文档](handoffs/T0004-reference-closure.md)与 [D19](decisions.md#d19参考闭包的求解与预算约定)。
 
 ## M0 已完成 / 未完成
 
@@ -15,6 +16,7 @@
 | 模型结构配置校验 | 已验收（T0002，第 3 轮）；仅 model 区块 |
 | 完整运行配置校验（含路由、训练、评估） | `not_run`，后续拆分 |
 | 逻辑内容类型与静态校验（M1 前置接口） | T0003 已验收（第 2 轮，R1 关闭）；仅句法与单 clause 变量检查，不代表完整数据合法性 |
+| 小世界参考闭包求解器（M1 前置接口） | T0004 已验收（第 2 轮，R1 关闭）；双求解器交叉验证尚未实施 |
 | 数据/求解器与 CPU forward/backward 验证 | `not_run`，尚未实现 |
 | 20-step smoke | `not_run`，尚未实现 |
 | GPU 训练 | `not_run`，尚未实现，也未经本任务授权 |
