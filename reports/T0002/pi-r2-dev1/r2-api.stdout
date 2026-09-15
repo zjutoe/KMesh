@@ -1,0 +1,5 @@
+r2-int-nope CONFIGERROR path_ok=True first_line=/home/mye/src/llm/KMesh/reports/T0002/pi-r2-dev1/devtmp/r2-int-nope.yaml: invalid YAML: invalid lite
+r2-bool-nope CONFIGERROR path_ok=True first_line=/home/mye/src/llm/KMesh/reports/T0002/pi-r2-dev1/devtmp/r2-bool-nope.yaml: invalid YAML: 'nope'
+r2-bad-date CONFIGERROR path_ok=True first_line=/home/mye/src/llm/KMesh/reports/T0002/pi-r2-dev1/devtmp/r2-bad-date.yaml: invalid YAML: month must b
+r2-map-scalar CONFIGERROR path_ok=True first_line=/home/mye/src/llm/KMesh/reports/T0002/pi-r2-dev1/devtmp/r2-map-scalar.yaml: invalid YAML: expected a
+r2-map-seq CONFIGERROR path_ok=True first_line=/home/mye/src/llm/KMesh/reports/T0002/pi-r2-dev1/devtmp/r2-map-seq.yaml: invalid YAML: expected a ma

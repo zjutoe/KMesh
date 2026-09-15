@@ -1,0 +1,300 @@
+{
+  "huge-dropout": {
+    "api": {
+      "exception": "OverflowError",
+      "message": "int too large to convert to float",
+      "controlled": false
+    },
+    "cli": {
+      "name": "huge-dropout",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/huge-dropout.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.102,
+      "stdout_empty": true,
+      "traceback": true
+    }
+  },
+  "invalid-int-tag": {
+    "api": {
+      "exception": "ValueError",
+      "message": "invalid literal for int() with base 10: 'nope'",
+      "controlled": false
+    },
+    "cli": {
+      "name": "invalid-int-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-int-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.101,
+      "stdout_empty": true,
+      "traceback": true
+    }
+  },
+  "invalid-bool-tag": {
+    "api": {
+      "exception": "KeyError",
+      "message": "'nope'",
+      "controlled": false
+    },
+    "cli": {
+      "name": "invalid-bool-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-bool-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.1,
+      "stdout_empty": true,
+      "traceback": true
+    }
+  },
+  "invalid-date": {
+    "api": {
+      "exception": "ValueError",
+      "message": "month must be in 1..12",
+      "controlled": false
+    },
+    "cli": {
+      "name": "invalid-date",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-date.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.101,
+      "stdout_empty": true,
+      "traceback": true
+    }
+  },
+  "scalar-map-tag": {
+    "api": {
+      "exception": "ValueError",
+      "message": "not enough values to unpack (expected 2, got 1)",
+      "controlled": false
+    },
+    "cli": {
+      "name": "scalar-map-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/scalar-map-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.099,
+      "stdout_empty": true,
+      "traceback": true
+    }
+  },
+  "sequence-map-tag": {
+    "api": {
+      "exception": "TypeError",
+      "message": "cannot unpack non-iterable ScalarNode object",
+      "controlled": false
+    },
+    "cli": {
+      "name": "sequence-map-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/sequence-map-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.099,
+      "stdout_empty": true,
+      "traceback": true
+    }
+  },
+  "control-root-duplicate": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/control-root-duplicate.yaml: mapping at line 1: duplicate key 'schema_version'",
+      "controlled": true
+    },
+    "cli": {
+      "name": "control-root-duplicate",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/control-root-duplicate.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.096,
+      "stdout_empty": true,
+      "traceback": false
+    }
+  },
+  "control-schema-version": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/control-schema-version.yaml: schema_version: expected the integer 1, got 2",
+      "controlled": true
+    },
+    "cli": {
+      "name": "control-schema-version",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/control-schema-version.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.096,
+      "stdout_empty": true,
+      "traceback": false
+    }
+  },
+  "huge-dropout-pure-api": {
+    "exception": "OverflowError",
+    "message": "int too large to convert to float",
+    "controlled": false
+  },
+  "existing-fixture-1": {
+    "exception": "ConfigError",
+    "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/existing-fixture-1.yaml: invalid YAML: mapping values are not allowed here\n  in \"<unicode string>\", line 5, column 14:\n      hidden_size: 256\n                 ^",
+    "controlled": true
+  },
+  "existing-fixture-9": {
+    "exception": "ConfigError",
+    "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/existing-fixture-9.yaml: unknown top-level fields: hidden_size",
+    "controlled": true
+  },
+  "existing-fixture-10": {
+    "exception": "ConfigError",
+    "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/existing-fixture-10.yaml: unknown top-level fields: hidden_size",
+    "controlled": true
+  },
+  "existing-fixture-11": {
+    "exception": "ConfigError",
+    "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/existing-fixture-11.yaml: unknown top-level fields: hidden_size",
+    "controlled": true
+  },
+  "yaml-missing-baseline-help": {
+    "name": "yaml-missing-baseline-help",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/probe_yaml_missing.py",
+      "baseline",
+      "help",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/yaml-missing-baseline-help.json",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/baseline-cli.py"
+    ],
+    "env_overrides": {
+      "CUDA_VISIBLE_DEVICES": ""
+    },
+    "exit_code": 0,
+    "elapsed_s": 0.077,
+    "stdout_empty": false,
+    "traceback": false,
+    "report_exists": false
+  },
+  "yaml-missing-baseline-doctor": {
+    "name": "yaml-missing-baseline-doctor",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/probe_yaml_missing.py",
+      "baseline",
+      "doctor",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/yaml-missing-baseline-doctor.json",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/baseline-cli.py"
+    ],
+    "env_overrides": {
+      "CUDA_VISIBLE_DEVICES": ""
+    },
+    "exit_code": 1,
+    "elapsed_s": 2.057,
+    "stdout_empty": true,
+    "traceback": false,
+    "report_exists": true,
+    "report_status": "error",
+    "pyyaml_metadata": null,
+    "report_errors": [
+      "required package metadata not found: PyYAML"
+    ]
+  },
+  "yaml-missing-working-tree-help": {
+    "name": "yaml-missing-working-tree-help",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/probe_yaml_missing.py",
+      "working-tree",
+      "help",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/yaml-missing-working-tree-help.json",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/baseline-cli.py"
+    ],
+    "env_overrides": {
+      "CUDA_VISIBLE_DEVICES": ""
+    },
+    "exit_code": 1,
+    "elapsed_s": 0.076,
+    "stdout_empty": true,
+    "traceback": true,
+    "report_exists": false
+  },
+  "yaml-missing-working-tree-doctor": {
+    "name": "yaml-missing-working-tree-doctor",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/probe_yaml_missing.py",
+      "working-tree",
+      "doctor",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/yaml-missing-working-tree-doctor.json",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/baseline-cli.py"
+    ],
+    "env_overrides": {
+      "CUDA_VISIBLE_DEVICES": ""
+    },
+    "exit_code": 1,
+    "elapsed_s": 0.073,
+    "stdout_empty": true,
+    "traceback": true,
+    "report_exists": false
+  }
+}

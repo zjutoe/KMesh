@@ -1,0 +1,10 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "reports/T0002/review-r2/check_regressions.py"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "exit_code": 1,
+  "elapsed_s": 3.275,
+  "timeout_s": 180
+}

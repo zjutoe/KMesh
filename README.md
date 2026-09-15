@@ -66,15 +66,21 @@ KMesh 是一个研究项目，探索能否通过小范围的学习和更新，�
 - `cpu_only`：torch 可用但本进程看不到 CUDA 设备，退出码 0，stdout 明确显示 `cpu_only`；
 - `error`：依赖元数据缺失或 torch 导入/设备探测失败，报告仍会写出，退出码 1。
 
-`doctor` 只读环境，不证明 GPU 能通过 forward/backward 或可稳定训练。运行测试：
+`doctor` 只读环境，不证明 GPU 能通过 forward/backward 或可稳定训练。配置校验（仅模型结构，不导入 torch）：
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_doctor.py
+.venv/bin/python -m kmesh.cli config validate-model --config configs/model_e0.yaml
 ```
 
-当前限制：T0001 仅覆盖最小包与环境诊断；配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+成功退出码 0，stdout 为单个 JSON：`schema_version`（整数 1）、`validation_scope`（字符串 `model_only`）、`model`（已校验的九字段字典）；校验失败退出码 1，stderr 给出源路径与原因；参数错误退出码 2。**只校验研究计划 §8.3 的 model 区块，不校验路由、训练、数据划分或设备可用性，也不表示完整 E0 配置符合协议、训练可以开始。** 运行测试：
 
-截至 2026-09-13，项目处于 M0 实施阶段：研究计划和协作协议已建立，首项任务 **T0001：最小 Python 包与环境诊断命令** 已通过 Codex 第 2 轮验收（`accepted`），25 个测试与关键回归检查通过；M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_config.py tests/test_doctor.py
+```
+
+当前限制：T0001 与 T0002 仅覆盖最小包、环境诊断与模型结构配置校验；完整运行配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+
+截至 2026-09-15，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
 

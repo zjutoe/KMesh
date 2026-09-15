@@ -1,0 +1,10 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "reports/T0002/review-r2/check_yaml_float.py"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "exit_code": 1,
+  "elapsed_s": 0.186,
+  "timeout_s": 60
+}

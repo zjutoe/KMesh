@@ -1,0 +1,46 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/mye/src/llm/KMesh/src/kmesh/cli.py", line 132, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/mye/src/llm/KMesh/src/kmesh/cli.py", line 124, in main
+    return _validate_model(args.config)
+  File "/home/mye/src/llm/KMesh/src/kmesh/cli.py", line 85, in _validate_model
+    model = load_model_config(config_path)
+  File "/home/mye/src/llm/KMesh/src/kmesh/config.py", line 148, in load_model_config
+    document = yaml.load(text, Loader=_StrictModelLoader)
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/__init__.py", line 81, in load
+    return loader.get_single_data()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 51, in get_single_data
+    return self.construct_document(node)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 55, in construct_document
+    data = self.construct_object(node)
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 100, in construct_object
+    data = constructor(self, node)
+  File "/home/mye/src/llm/KMesh/src/kmesh/config.py", line 124, in _construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(self, node, deep)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 218, in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 143, in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 100, in construct_object
+    data = constructor(self, node)
+  File "/home/mye/src/llm/KMesh/src/kmesh/config.py", line 124, in _construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(self, node, deep)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 218, in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 143, in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 100, in construct_object
+    data = constructor(self, node)
+  File "/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py", line 263, in construct_yaml_int
+    return sign*int(value)
+                ~~~^^^^^^^
+ValueError: invalid literal for int() with base 10: 'nope'

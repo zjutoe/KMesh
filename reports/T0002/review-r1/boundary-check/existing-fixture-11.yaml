@@ -1,0 +1,3 @@
+schema_version: true
+model:
+hidden_size: 256

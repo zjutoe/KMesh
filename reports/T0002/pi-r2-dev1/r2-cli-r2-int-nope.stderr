@@ -1,0 +1,1 @@
+config validate-model: /home/mye/src/llm/KMesh/reports/T0002/pi-r2-dev1/devtmp/r2-int-nope.yaml: invalid YAML: invalid literal for int() with base 10: 'nope'

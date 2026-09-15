@@ -1,0 +1,18 @@
+diff --git a/reports/T0002/review-r2/input-snapshot/src/kmesh/config.py b/src/kmesh/config.py
+index 9d6ff92..91da8d4 100644
+--- a/reports/T0002/review-r2/input-snapshot/src/kmesh/config.py
++++ b/src/kmesh/config.py
+@@ -174,6 +174,13 @@ def _load_strict_yaml(text: str) -> Any:
+         # Broken constructor values; PyYAML raises these outside
+         # YAMLError. They only occur during single-document construction.
+         raise ConfigError(f"invalid YAML: {exc}") from exc
++    except (IndexError, AttributeError, OverflowError) as exc:
++        # PyYAML 6.0.3 built-in constructors with proven escape paths that
++        # do not go through YAMLError: empty !!int/!!float (IndexError on
++        # value[0]), unmatched !!timestamp (AttributeError on groupdict of
++        # the failed regex match), and sexagesimal float base conversion
++        # (OverflowError when the base-60 value exceeds float range).
++        raise ConfigError(f"invalid YAML: {exc}") from exc
+ 
+ 
+ def load_model_config(path: str | Path) -> ModelConfig:

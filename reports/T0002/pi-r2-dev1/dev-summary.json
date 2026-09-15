@@ -1,0 +1,58 @@
+{
+  "started": "2026-09-14T03:41:16+0000",
+  "finished": "2026-09-14T03:41:19+0000",
+  "checks": [
+    {
+      "name": "R1 help+doctor without PyYAML",
+      "passed": true
+    },
+    {
+      "name": "R2 API: 5 bodies -> ConfigError with path",
+      "passed": true
+    },
+    {
+      "name": "R2 CLI: rc=1, empty stdout, no Traceback, path+reason",
+      "passed": true
+    },
+    {
+      "name": "R3: 10**400 / -(10**400) -> ConfigError",
+      "passed": true
+    }
+  ],
+  "recorded_commands": [
+    {
+      "check": "R1",
+      "detail": "fresh subprocess, yaml blocked before kmesh import; exit=0; pass=True"
+    },
+    {
+      "check": "R2-API",
+      "detail": "exit=0; pass=True"
+    },
+    {
+      "check": "R2-CLI r2-int-nope",
+      "detail": "exit=1; pass=True"
+    },
+    {
+      "check": "R2-CLI r2-bool-nope",
+      "detail": "exit=1; pass=True"
+    },
+    {
+      "check": "R2-CLI r2-bad-date",
+      "detail": "exit=1; pass=True"
+    },
+    {
+      "check": "R2-CLI r2-map-scalar",
+      "detail": "exit=1; pass=True"
+    },
+    {
+      "check": "R2-CLI r2-map-seq",
+      "detail": "exit=1; pass=True"
+    },
+    {
+      "check": "R3",
+      "detail": "exit=0; pass=True"
+    }
+  ],
+  "failed": [],
+  "result": "PASS"
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "path": "reports/T0002/review-r2/regressions/empty-int-tag.yaml",
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/empty-int-tag.yaml: invalid YAML: string index out of range",
+      "controlled": true
+    },
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/empty-int-tag.yaml"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 0.098,
+    "passed": true
+  },
+  {
+    "path": "reports/T0002/review-r2/regressions/empty-float-tag.yaml",
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/empty-float-tag.yaml: invalid YAML: string index out of range",
+      "controlled": true
+    },
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/empty-float-tag.yaml"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 0.095,
+    "passed": true
+  },
+  {
+    "path": "reports/T0002/review-r2/regressions/invalid-timestamp-tag.yaml",
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/invalid-timestamp-tag.yaml: invalid YAML: 'NoneType' object has no attribute 'groupdict'",
+      "controlled": true
+    },
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/invalid-timestamp-tag.yaml"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 0.098,
+    "passed": true
+  },
+  {
+    "path": "reports/T0002/review-r2/yaml-float/sexagesimal.yaml",
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r2/yaml-float/sexagesimal.yaml: invalid YAML: int too large to convert to float",
+      "controlled": true
+    },
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r2/yaml-float/sexagesimal.yaml"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 0.096,
+    "passed": true
+  }
+]

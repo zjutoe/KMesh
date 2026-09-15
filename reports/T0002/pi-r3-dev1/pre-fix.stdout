@@ -1,0 +1,493 @@
+FFFFFFFF                                                                 [100%]
+=================================== FAILURES ===================================
+_ test_builtin_constructor_faults_raise_config_error[schema_version: 1\nmodel:\n  hidden_size: !!int ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1] _
+
+tmp_path = PosixPath('/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_builtin_constructor_fault0')
+body = "schema_version: 1\nmodel:\n  hidden_size: !!int ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1"
+
+    @pytest.mark.parametrize(
+        "body",
+        [
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
+            _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
+        ],
+    )
+    def test_builtin_constructor_faults_raise_config_error(tmp_path, body):
+        # PyYAML 6.0.3 built-in constructors raise non-YAMLError exceptions on
+        # these inputs (IndexError on empty !!int/!!float, AttributeError on an
+        # unmatched !!timestamp, OverflowError on a sexagesimal float whose
+        # base-60 base overflows float range); load_model_config must convert
+        # them to ConfigError instead of letting them escape.
+        path = _write_config(tmp_path, body)
+        with pytest.raises(ConfigError, match="invalid YAML"):
+>           load_model_config(path)
+
+tests/test_config.py:400: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/kmesh/config.py:195: in load_model_config
+    document = _load_strict_yaml(text)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:166: in _load_strict_yaml
+    return yaml.load(text, Loader=StrictModelLoader)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/__init__.py:81: in load
+    return loader.get_single_data()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:51: in get_single_data
+    return self.construct_document(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:55: in construct_document
+    data = self.construct_object(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:156: in construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(loader, node, deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:218: in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:143: in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:156: in construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(loader, node, deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:218: in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:143: in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <kmesh.config._load_strict_yaml.<locals>.StrictModelLoader object at 0x7f9123d29940>
+node = ScalarNode(tag='tag:yaml.org,2002:int', value='')
+
+    def construct_yaml_int(self, node):
+        value = self.construct_scalar(node)
+        value = value.replace('_', '')
+        sign = +1
+>       if value[0] == '-':
+           ^^^^^^^^
+E       IndexError: string index out of range
+
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:241: IndexError
+_ test_builtin_constructor_faults_raise_config_error[schema_version: 1\nmodel:\n  hidden_size: !!float ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1] _
+
+tmp_path = PosixPath('/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_builtin_constructor_fault1')
+body = "schema_version: 1\nmodel:\n  hidden_size: !!float ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1"
+
+    @pytest.mark.parametrize(
+        "body",
+        [
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
+            _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
+        ],
+    )
+    def test_builtin_constructor_faults_raise_config_error(tmp_path, body):
+        # PyYAML 6.0.3 built-in constructors raise non-YAMLError exceptions on
+        # these inputs (IndexError on empty !!int/!!float, AttributeError on an
+        # unmatched !!timestamp, OverflowError on a sexagesimal float whose
+        # base-60 base overflows float range); load_model_config must convert
+        # them to ConfigError instead of letting them escape.
+        path = _write_config(tmp_path, body)
+        with pytest.raises(ConfigError, match="invalid YAML"):
+>           load_model_config(path)
+
+tests/test_config.py:400: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/kmesh/config.py:195: in load_model_config
+    document = _load_strict_yaml(text)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:166: in _load_strict_yaml
+    return yaml.load(text, Loader=StrictModelLoader)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/__init__.py:81: in load
+    return loader.get_single_data()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:51: in get_single_data
+    return self.construct_document(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:55: in construct_document
+    data = self.construct_object(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:156: in construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(loader, node, deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:218: in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:143: in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:156: in construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(loader, node, deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:218: in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:143: in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <kmesh.config._load_strict_yaml.<locals>.StrictModelLoader object at 0x7f9123fe96a0>
+node = ScalarNode(tag='tag:yaml.org,2002:float', value='')
+
+    def construct_yaml_float(self, node):
+        value = self.construct_scalar(node)
+        value = value.replace('_', '').lower()
+        sign = +1
+>       if value[0] == '-':
+           ^^^^^^^^
+E       IndexError: string index out of range
+
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:274: IndexError
+_ test_builtin_constructor_faults_raise_config_error[schema_version: 1\nmodel:\n  hidden_size: !!timestamp nope\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1] _
+
+tmp_path = PosixPath('/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_builtin_constructor_fault2')
+body = 'schema_version: 1\nmodel:\n  hidden_size: !!timestamp nope\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1'
+
+    @pytest.mark.parametrize(
+        "body",
+        [
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
+            _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
+        ],
+    )
+    def test_builtin_constructor_faults_raise_config_error(tmp_path, body):
+        # PyYAML 6.0.3 built-in constructors raise non-YAMLError exceptions on
+        # these inputs (IndexError on empty !!int/!!float, AttributeError on an
+        # unmatched !!timestamp, OverflowError on a sexagesimal float whose
+        # base-60 base overflows float range); load_model_config must convert
+        # them to ConfigError instead of letting them escape.
+        path = _write_config(tmp_path, body)
+        with pytest.raises(ConfigError, match="invalid YAML"):
+>           load_model_config(path)
+
+tests/test_config.py:400: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/kmesh/config.py:195: in load_model_config
+    document = _load_strict_yaml(text)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:166: in _load_strict_yaml
+    return yaml.load(text, Loader=StrictModelLoader)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/__init__.py:81: in load
+    return loader.get_single_data()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:51: in get_single_data
+    return self.construct_document(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:55: in construct_document
+    data = self.construct_object(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:156: in construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(loader, node, deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:218: in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:143: in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:156: in construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(loader, node, deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:218: in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:143: in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <kmesh.config._load_strict_yaml.<locals>.StrictModelLoader object at 0x7f9123feaa50>
+node = ScalarNode(tag='tag:yaml.org,2002:timestamp', value='nope')
+
+    def construct_yaml_timestamp(self, node):
+        value = self.construct_scalar(node)
+        match = self.timestamp_regexp.match(node.value)
+>       values = match.groupdict()
+                 ^^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'groupdict'
+
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:325: AttributeError
+_ test_builtin_constructor_faults_raise_config_error[schema_version: 1\nmodel:\n  hidden_size: 256\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: !!float "0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0"] _
+
+tmp_path = PosixPath('/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_builtin_constructor_fault3')
+body = 'schema_version: 1\nmodel:\n  hidden_size: 256\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1...0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0"'
+
+    @pytest.mark.parametrize(
+        "body",
+        [
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
+            _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
+        ],
+    )
+    def test_builtin_constructor_faults_raise_config_error(tmp_path, body):
+        # PyYAML 6.0.3 built-in constructors raise non-YAMLError exceptions on
+        # these inputs (IndexError on empty !!int/!!float, AttributeError on an
+        # unmatched !!timestamp, OverflowError on a sexagesimal float whose
+        # base-60 base overflows float range); load_model_config must convert
+        # them to ConfigError instead of letting them escape.
+        path = _write_config(tmp_path, body)
+        with pytest.raises(ConfigError, match="invalid YAML"):
+>           load_model_config(path)
+
+tests/test_config.py:400: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/kmesh/config.py:195: in load_model_config
+    document = _load_strict_yaml(text)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:166: in _load_strict_yaml
+    return yaml.load(text, Loader=StrictModelLoader)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/__init__.py:81: in load
+    return loader.get_single_data()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:51: in get_single_data
+    return self.construct_document(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:55: in construct_document
+    data = self.construct_object(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:156: in construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(loader, node, deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:218: in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:143: in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/config.py:156: in construct_no_duplicate_mapping
+    return yaml.SafeLoader.construct_mapping(loader, node, deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:218: in construct_mapping
+    return super().construct_mapping(node, deep=deep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:143: in construct_mapping
+    value = self.construct_object(value_node, deep=deep)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:100: in construct_object
+    data = constructor(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <kmesh.config._load_strict_yaml.<locals>.StrictModelLoader object at 0x7f9123d29a90>
+node = ScalarNode(tag='tag:yaml.org,2002:float', value='0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0...0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0')
+
+    def construct_yaml_float(self, node):
+        value = self.construct_scalar(node)
+        value = value.replace('_', '').lower()
+        sign = +1
+        if value[0] == '-':
+            sign = -1
+        if value[0] in '+-':
+            value = value[1:]
+        if value == '.inf':
+            return sign*self.inf_value
+        elif value == '.nan':
+            return self.nan_value
+        elif ':' in value:
+            digits = [float(part) for part in value.split(':')]
+            digits.reverse()
+            base = 1
+            value = 0.0
+            for digit in digits:
+>               value += digit*base
+                         ^^^^^^^^^^
+E               OverflowError: int too large to convert to float
+
+/opt/anaconda3/lib/python3.13/site-packages/yaml/constructor.py:288: OverflowError
+_ test_cli_builtin_constructor_faults_exit_1_without_traceback[schema_version: 1\nmodel:\n  hidden_size: !!int ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1] _
+
+tmp_path = PosixPath('/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_cli_builtin_constructor_f0')
+body = "schema_version: 1\nmodel:\n  hidden_size: !!int ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1"
+
+    @pytest.mark.parametrize(
+        "body",
+        [
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
+            _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
+        ],
+    )
+    def test_cli_builtin_constructor_faults_exit_1_without_traceback(tmp_path, body):
+        path = _write_config(tmp_path, body)
+        result = subprocess.run(
+            [sys.executable, "-c", _validate_model_probe(path)],
+            capture_output=True, text=True, timeout=60,
+        )
+        assert result.returncode == 1
+        assert result.stdout == ""
+>       assert "Traceback" not in result.stderr
+E       assert 'Traceback' not in 'Traceback (...t of range\n'
+E         
+E         'Traceback' is contained here:
+E           Traceback (most recent call last):
+E         ? +++++++++
+E             File "<string>", line 2, in <module>
+E               raise SystemExit(main(['config', 'validate-model', '--config', '/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_cli_builtin_constructor_f0/cfg.yaml']))
+E                                ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^...
+E         
+E         ...Full output truncated (43 lines hidden), use '-vv' to show
+
+tests/test_config.py:420: AssertionError
+_ test_cli_builtin_constructor_faults_exit_1_without_traceback[schema_version: 1\nmodel:\n  hidden_size: !!float ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1] _
+
+tmp_path = PosixPath('/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_cli_builtin_constructor_f1')
+body = "schema_version: 1\nmodel:\n  hidden_size: !!float ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1"
+
+    @pytest.mark.parametrize(
+        "body",
+        [
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
+            _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
+        ],
+    )
+    def test_cli_builtin_constructor_faults_exit_1_without_traceback(tmp_path, body):
+        path = _write_config(tmp_path, body)
+        result = subprocess.run(
+            [sys.executable, "-c", _validate_model_probe(path)],
+            capture_output=True, text=True, timeout=60,
+        )
+        assert result.returncode == 1
+        assert result.stdout == ""
+>       assert "Traceback" not in result.stderr
+E       assert 'Traceback' not in 'Traceback (...t of range\n'
+E         
+E         'Traceback' is contained here:
+E           Traceback (most recent call last):
+E         ? +++++++++
+E             File "<string>", line 2, in <module>
+E               raise SystemExit(main(['config', 'validate-model', '--config', '/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_cli_builtin_constructor_f1/cfg.yaml']))
+E                                ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^...
+E         
+E         ...Full output truncated (43 lines hidden), use '-vv' to show
+
+tests/test_config.py:420: AssertionError
+_ test_cli_builtin_constructor_faults_exit_1_without_traceback[schema_version: 1\nmodel:\n  hidden_size: !!timestamp nope\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1] _
+
+tmp_path = PosixPath('/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_cli_builtin_constructor_f2')
+body = 'schema_version: 1\nmodel:\n  hidden_size: !!timestamp nope\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1'
+
+    @pytest.mark.parametrize(
+        "body",
+        [
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
+            _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
+        ],
+    )
+    def test_cli_builtin_constructor_faults_exit_1_without_traceback(tmp_path, body):
+        path = _write_config(tmp_path, body)
+        result = subprocess.run(
+            [sys.executable, "-c", _validate_model_probe(path)],
+            capture_output=True, text=True, timeout=60,
+        )
+        assert result.returncode == 1
+        assert result.stdout == ""
+>       assert "Traceback" not in result.stderr
+E       assert 'Traceback' not in "Traceback (...groupdict'\n"
+E         
+E         'Traceback' is contained here:
+E           Traceback (most recent call last):
+E         ? +++++++++
+E             File "<string>", line 2, in <module>
+E               raise SystemExit(main(['config', 'validate-model', '--config', '/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_cli_builtin_constructor_f2/cfg.yaml']))
+E                                ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^...
+E         
+E         ...Full output truncated (43 lines hidden), use '-vv' to show
+
+tests/test_config.py:420: AssertionError
+_ test_cli_builtin_constructor_faults_exit_1_without_traceback[schema_version: 1\nmodel:\n  hidden_size: 256\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: !!float "0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0"] _
+
+tmp_path = PosixPath('/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_cli_builtin_constructor_f3')
+body = 'schema_version: 1\nmodel:\n  hidden_size: 256\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1...0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0"'
+
+    @pytest.mark.parametrize(
+        "body",
+        [
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
+            _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
+            _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
+        ],
+    )
+    def test_cli_builtin_constructor_faults_exit_1_without_traceback(tmp_path, body):
+        path = _write_config(tmp_path, body)
+        result = subprocess.run(
+            [sys.executable, "-c", _validate_model_probe(path)],
+            capture_output=True, text=True, timeout=60,
+        )
+        assert result.returncode == 1
+        assert result.stdout == ""
+>       assert "Traceback" not in result.stderr
+E       assert 'Traceback' not in 'Traceback (...t to float\n'
+E         
+E         'Traceback' is contained here:
+E           Traceback (most recent call last):
+E         ? +++++++++
+E             File "<string>", line 2, in <module>
+E               raise SystemExit(main(['config', 'validate-model', '--config', '/home/mye/src/llm/KMesh/reports/T0002/pi-r3-dev1/pytest-tmp/test_cli_builtin_constructor_f3/cfg.yaml']))
+E                                ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^...
+E         
+E         ...Full output truncated (43 lines hidden), use '-vv' to show
+
+tests/test_config.py:420: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_config.py::test_builtin_constructor_faults_raise_config_error[schema_version: 1\nmodel:\n  hidden_size: !!int ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1]
+FAILED tests/test_config.py::test_builtin_constructor_faults_raise_config_error[schema_version: 1\nmodel:\n  hidden_size: !!float ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1]
+FAILED tests/test_config.py::test_builtin_constructor_faults_raise_config_error[schema_version: 1\nmodel:\n  hidden_size: !!timestamp nope\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1]
+FAILED tests/test_config.py::test_builtin_constructor_faults_raise_config_error[schema_version: 1\nmodel:\n  hidden_size: 256\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: !!float "0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0"]
+FAILED tests/test_config.py::test_cli_builtin_constructor_faults_exit_1_without_traceback[schema_version: 1\nmodel:\n  hidden_size: !!int ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1]
+FAILED tests/test_config.py::test_cli_builtin_constructor_faults_exit_1_without_traceback[schema_version: 1\nmodel:\n  hidden_size: !!float ''\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1]
+FAILED tests/test_config.py::test_cli_builtin_constructor_faults_exit_1_without_traceback[schema_version: 1\nmodel:\n  hidden_size: !!timestamp nope\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: 0.1]
+FAILED tests/test_config.py::test_cli_builtin_constructor_faults_exit_1_without_traceback[schema_version: 1\nmodel:\n  hidden_size: 256\n  patch_encoder_layers: 2\n  core_layers: 6\n  heads: 4\n  ffn_size: 1024\n  memory_slots_per_patch: 4\n  workspace_tokens: 4\n  max_clause_tokens: 48\n  dropout: !!float "0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0"]
+8 failed, 66 deselected in 0.85s

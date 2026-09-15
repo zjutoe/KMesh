@@ -1,0 +1,41 @@
+{
+  "created_at_utc": "2026-09-14T01:33:32.780848+00:00",
+  "result": "PASS",
+  "meaning": "scope, frozen inputs and documentation checks only; task remains needs_changes",
+  "frozen_files_count": 39,
+  "changed_since_freeze": [
+    "README.md",
+    "docs/handoffs/T0002-model-config.md",
+    "docs/implementation_status.md"
+  ],
+  "other_frozen_files_unchanged": true,
+  "baseline_files_unchanged": {
+    "tests/test_doctor.py": true,
+    "src/kmesh/utils/environment.py": true,
+    "pyproject.toml": true,
+    "AGENTS.md": true,
+    "KMesh_Research_Plan_v0.1.md": true
+  },
+  "sample_matches_research_model": true,
+  "whitespace_checked_files": [
+    "README.md",
+    "docs/handoffs/T0002-model-config.md",
+    "docs/implementation_status.md",
+    "src/kmesh/config.py",
+    "src/kmesh/cli.py",
+    "configs/model_e0.yaml",
+    "tests/test_config.py",
+    "reports/T0002/run_checks.py",
+    "reports/T0002/.gitignore",
+    "reports/T0002/review-r1/.gitignore",
+    "reports/T0002/review-r1/probe_boundaries.py",
+    "reports/T0002/review-r1/probe_yaml_missing.py",
+    "reports/T0002/review-r1/README.md"
+  ],
+  "whitespace_errors": [],
+  "local_links_checked": 41,
+  "broken_links": [],
+  "git_diff_check_exit": 0,
+  "untracked_scope_allowed": true,
+  "pytest_scratch_excluded": true
+}

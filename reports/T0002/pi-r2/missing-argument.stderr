@@ -1,0 +1,2 @@
+usage: kmesh config validate-model [-h] --config CONFIG
+kmesh config validate-model: error: the following arguments are required: --config

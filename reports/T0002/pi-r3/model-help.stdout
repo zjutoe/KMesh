@@ -1,0 +1,5 @@
+usage: kmesh config validate-model [-h] --config CONFIG
+
+options:
+  -h, --help       show this help message and exit
+  --config CONFIG  path to a config file with schema_version 1

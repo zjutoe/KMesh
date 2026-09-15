@@ -1,0 +1,1 @@
+config validate-model: /home/mye/src/llm/KMesh/reports/T0002/pi-r2-dev1/devtmp/r2-bad-date.yaml: invalid YAML: month must be in 1..12

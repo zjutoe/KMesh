@@ -1,0 +1,8 @@
+{
+  "failed": [
+    "empty-int-tag",
+    "empty-float-tag",
+    "invalid-timestamp-tag"
+  ],
+  "result": "FAIL"
+}

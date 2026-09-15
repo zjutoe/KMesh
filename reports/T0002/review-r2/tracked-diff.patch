@@ -1,0 +1,192 @@
+diff --git a/README.md b/README.md
+index 41f7ce1..54940f3 100644
+--- a/README.md
++++ b/README.md
+@@ -66,15 +66,21 @@ KMesh 是一个研究项目，探索能否通过小范围的学习和更新，
+ - `cpu_only`：torch 可用但本进程看不到 CUDA 设备，退出码 0，stdout 明确显示 `cpu_only`；
+ - `error`：依赖元数据缺失或 torch 导入/设备探测失败，报告仍会写出，退出码 1。
+ 
+-`doctor` 只读环境，不证明 GPU 能通过 forward/backward 或可稳定训练。运行测试：
++`doctor` 只读环境，不证明 GPU 能通过 forward/backward 或可稳定训练。配置校验（仅模型结构，不导入 torch）：
+ 
+ ```bash
+-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_doctor.py
++.venv/bin/python -m kmesh.cli config validate-model --config configs/model_e0.yaml
+ ```
+ 
+-当前限制：T0001 仅覆盖最小包与环境诊断；配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
++成功退出码 0，stdout 为单个 JSON：`schema_version`（整数 1）、`validation_scope`（字符串 `model_only`）、`model`（已校验的九字段字典）；校验失败退出码 1，stderr 给出源路径与原因；参数错误退出码 2。**只校验研究计划 §8.3 的 model 区块，不校验路由、训练、数据划分或设备可用性，也不表示完整 E0 配置符合协议、训练可以开始。** 运行测试：
+ 
+-截至 2026-09-13，项目处于 M0 实施阶段：研究计划和协作协议已建立，首项任务 **T0001：最小 Python 包与环境诊断命令** 已通过 Codex 第 2 轮验收（`accepted`），25 个测试与关键回归检查通过；M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
++```bash
++PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_config.py tests/test_doctor.py
++```
++
++当前限制：T0001 与 T0002 仅覆盖最小包、环境诊断与模型结构配置校验；完整运行配置校验、数据/求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
++
++截至 2026-09-14，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 已通过 Codex 验收（`accepted`）；**T0002：模型结构配置的读取与校验** 经 Codex 首轮验收为 `needs_changes`。77 个现有测试通过，但异常处理、缺依赖时的 doctor/help 回归、部分测试及证据记录仍待返工，详见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
+ 
+ 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
+ 
+diff --git a/docs/implementation_status.md b/docs/implementation_status.md
+index 4b5215f..ebe92fa 100644
+--- a/docs/implementation_status.md
++++ b/docs/implementation_status.md
+@@ -1,19 +1,21 @@
+ # KMesh 实现状态
+ 
+-- 截至 2026-09-13，M0（最小可运行环境）`in_progress`。
++- 截至 2026-09-14，M0（最小可运行环境）`in_progress`。
+ - T0001（最小 Python 包与环境诊断命令）：Codex 第 2 轮复验通过，状态 `accepted`，接受实现提交 `39dabc73e035c8c2627a1e5db4deab31055a9c6d`。R1–R3 已关闭；独立复跑 25 个测试和关键回归检查通过。记录见 [交接文档](handoffs/T0001-bootstrap-doctor.md)，[Pi 第 2 轮证据](../reports/T0001/pi-r2/)与 [Codex 第 2 轮证据](../reports/T0001/review-r2/)分别保留。
++- T0002（模型结构配置的读取与校验）：Codex 第 1 轮验收结论为 `needs_changes`；第 2 轮返工（2026-09-14）已按 R1–R5 逐项修复并自检通过（91 个测试、开发检查与规定驱动均通过），现状态 `awaiting_review`。独立复跑 77 个测试与规定驱动通过，现存 37 项 Pi 哈希匹配；额外复现确认 YAML 异常、dropout 溢出及 PyYAML 缺失时 doctor/help 回归，部分负例未测到目标规则，另有早期证据删除问题；R5 历史限制（早期已删产物不可恢复、第 2 轮曾误用错误字段集后从冻结快照恢复）如实记录于轮次文档。**仅涉及 model 的九个字段，不代表完整实验配置已校验。** 见 [T0002 交接文档](handoffs/T0002-model-config.md)、[Pi 第 1 轮证据](../reports/T0002/pi-r1/)、[Pi 第 2 轮证据](../reports/T0002/pi-r2/)（开发检查 `pi-r2-dev1/`）与 [Codex 第 1 轮证据](../reports/T0002/review-r1/)。
+ 
+ ## M0 已完成 / 未完成
+ 
+ | 项目 | 状态 |
+ |---|---|
+ | 可编辑安装的 `kmesh` 包与控制台入口 | 已验收（T0001） |
+-| `doctor --out PATH` 环境诊断（模块/控制台入口、真实环境报告） | 已验收（T0001）；异常边界与 help 隔离回归检查通过 |
++| `doctor --out PATH` 环境诊断（模块/控制台入口、真实环境报告） | T0001 已验收；第 2 轮 R1 修复后，PyYAML 缺失时 help/doctor 行为按契约（未验收，待 Codex 复验） |
+ | 完整实验环境锁定、驱动/CPU/主存盘点、RNG/kernel 元数据 | `not_run`，属 M0 后续任务 |
+-| 配置校验 | `not_run`，尚未实现 |
++| 模型结构配置校验 | T0002 第 2 轮返工自检通过，`awaiting_review`，仅 model 区块 |
++| 完整运行配置校验（含路由、训练、评估） | `not_run`，后续拆分 |
+ | 数据/求解器与 CPU forward/backward 验证 | `not_run`，尚未实现 |
+ | 20-step smoke | `not_run`，尚未实现 |
+ | GPU 训练 | `not_run`，尚未实现，也未经本任务授权 |
+ | 性能测量 | `not_run`，尚未实现 |
+ 
+-`doctor` 成功只能证明环境与依赖诊断正常，不能推断任何科研结论，也不表示 M0 完成。
++`doctor` 成功与模型配置校验通过只能证明环境与最小接口正常，不能推断任何科研结论，也不表示 M0 完成。
+diff --git a/src/kmesh/cli.py b/src/kmesh/cli.py
+index ea7ba52..1b94898 100644
+--- a/src/kmesh/cli.py
++++ b/src/kmesh/cli.py
+@@ -1,7 +1,9 @@
+ """Command line interface for KMesh.
+ 
+-Only ``doctor --out PATH`` is implemented. Importing this module must not
+-import torch or probe the environment; ``--help`` never collects anything.
++Subcommands: ``doctor --out PATH`` (read-only environment report) and
++``config validate-model --config PATH`` (model-fragment validation).
++Importing this module must not import torch or probe the environment, and
++``--help`` never collects or loads anything.
+ """
+ 
+ from __future__ import annotations
+@@ -11,9 +13,10 @@ import json
+ import sys
+ from pathlib import Path
+ 
++from .config import ConfigError, load_model_config
+ from .utils.environment import collect_environment
+ 
+-_KNOWN_SUBCOMMANDS = {"doctor"}
++_KNOWN_SUBCOMMANDS = {"doctor", "config"}
+ 
+ 
+ def _build_parser() -> argparse.ArgumentParser:
+@@ -27,6 +30,16 @@ def _build_parser() -> argparse.ArgumentParser:
+     doctor.add_argument(
+         "--out", required=True, help="path of the JSON report to write"
+     )
++    config = subparsers.add_parser(
++        "config", help="validate KMesh configuration fragments"
++    )
++    config_subparsers = config.add_subparsers(dest="config_command", required=True)
++    validate_model = config_subparsers.add_parser(
++        "validate-model", help="validate the model section of a config file"
++    )
++    validate_model.add_argument(
++        "--config", required=True, help="path to a config file with schema_version 1"
++    )
+     return parser
+ 
+ 
+@@ -39,31 +52,7 @@ def _write_report(report: dict[str, object], out: Path) -> None:
+         handle.write("\n")
+ 
+ 
+-def main(argv: list[str] | None = None) -> int:
+-    argv = list(sys.argv[1:] if argv is None else argv)
+-    parser = _build_parser()
+-    if not argv or (
+-        argv[0] not in _KNOWN_SUBCOMMANDS and argv[0] not in ("--help", "-h")
+-    ):
+-        cmd = argv[0] if argv else "<none>"
+-        print(
+-            f"kmesh: missing or unknown subcommand {cmd!r}; "
+-            f"expected one of: {', '.join(sorted(_KNOWN_SUBCOMMANDS))}",
+-            file=sys.stderr,
+-        )
+-        return 2
+-    try:
+-        args = parser.parse_args(argv)
+-    except SystemExit as exc:
+-        # argparse exits 0 for --help and 2 for argument errors; convert to a
+-        # return value so callers can rely on the int contract.
+-        code = exc.code if isinstance(exc.code, int) else 2
+-        return 0 if code == 0 else 2
+-
+-    if args.command != "doctor":
+-        print("kmesh: missing subcommand; expected 'doctor'", file=sys.stderr)
+-        return 2
+-
++def _doctor(args: argparse.Namespace) -> int:
+     report = collect_environment()
+     out = Path(args.out)
+     try:
+@@ -91,5 +80,53 @@ def main(argv: list[str] | None = None) -> int:
+     return 0
+ 
+ 
++def _validate_model(config_path: str) -> int:
++    try:
++        model = load_model_config(config_path)
++    except ConfigError as exc:
++        print(f"config validate-model: {exc}", file=sys.stderr)
++        return 1
++    payload = {
++        "schema_version": 1,
++        "validation_scope": "model_only",
++        "model": model.as_dict(),
++    }
++    print(json.dumps(payload, indent=2, ensure_ascii=False))
++    return 0
++
++
++def main(argv: list[str] | None = None) -> int:
++    """Run the CLI and return the process exit code (0 ok, 1 error, 2 arg error)."""
++    argv = list(sys.argv[1:] if argv is None else argv)
++    parser = _build_parser()
++    if not argv or (
++        argv[0] not in _KNOWN_SUBCOMMANDS and argv[0] not in ("--help", "-h")
++    ):
++        cmd = argv[0] if argv else "<none>"
++        print(
++            f"kmesh: missing or unknown subcommand {cmd!r}; "
++            f"expected one of: {', '.join(sorted(_KNOWN_SUBCOMMANDS))}",
++            file=sys.stderr,
++        )
++        return 2
++    try:
++        args = parser.parse_args(argv)
++    except SystemExit as exc:
++        # argparse exits 0 for --help and 2 for argument errors; convert to a
++        # return value so callers can rely on the int contract.
++        code = exc.code if isinstance(exc.code, int) else 2
++        return 0 if code == 0 else 2
++
++    if args.command == "doctor":
++        return _doctor(args)
++    if args.command == "config":
++        if args.config_command == "validate-model":
++            return _validate_model(args.config)
++        print("kmesh: missing config subcommand; expected 'validate-model'",
++              file=sys.stderr)
++        return 2
++    return 2  # unreachable: argparse enforces the subcommand choices
++
++
+ if __name__ == "__main__":
+     raise SystemExit(main())

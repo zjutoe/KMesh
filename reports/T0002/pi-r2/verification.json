@@ -1,0 +1,6 @@
+{
+  "result": "PASS",
+  "entrypoints_equal": true,
+  "scope": "model_only",
+  "doctor_regression": "cpu_only"
+}

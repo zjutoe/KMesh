@@ -1,0 +1,13 @@
+schema_version: 1
+schema_version: 1
+model:
+hidden_size: 256
+  hidden_size: 256
+  patch_encoder_layers: 2
+  core_layers: 6
+  heads: 4
+  ffn_size: 1024
+  memory_slots_per_patch: 4
+  workspace_tokens: 4
+  max_clause_tokens: 48
+  dropout: 0.1

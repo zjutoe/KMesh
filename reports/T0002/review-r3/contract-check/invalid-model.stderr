@@ -1,0 +1,1 @@
+config validate-model: /home/mye/src/llm/KMesh/reports/T0002/review-r3/contract-check/invalid-model.yaml: model.hidden_size: must be divisible by model.heads

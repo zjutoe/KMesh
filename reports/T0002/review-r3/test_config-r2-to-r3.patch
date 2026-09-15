@@ -1,0 +1,50 @@
+diff --git a/reports/T0002/review-r2/input-snapshot/tests/test_config.py b/tests/test_config.py
+index e257217..413b9a5 100644
+--- a/reports/T0002/review-r2/input-snapshot/tests/test_config.py
++++ b/tests/test_config.py
+@@ -378,3 +378,45 @@ def test_cli_dropout_overflow_exits_1_with_reason(tmp_path):
+     assert result.stdout == ""
+     assert "Traceback" not in result.stderr
+     assert str(path) in result.stderr and "model.dropout" in result.stderr
++
++
++@pytest.mark.parametrize(
++    "body",
++    [
++        _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
++        _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
++        _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
++        _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
++    ],
++)
++def test_builtin_constructor_faults_raise_config_error(tmp_path, body):
++    # PyYAML 6.0.3 built-in constructors raise non-YAMLError exceptions on
++    # these inputs (IndexError on empty !!int/!!float, AttributeError on an
++    # unmatched !!timestamp, OverflowError on a sexagesimal float whose
++    # base-60 base overflows float range); load_model_config must convert
++    # them to ConfigError instead of letting them escape.
++    path = _write_config(tmp_path, body)
++    with pytest.raises(ConfigError, match="invalid YAML"):
++        load_model_config(path)
++
++
++@pytest.mark.parametrize(
++    "body",
++    [
++        _valid_body().replace("  hidden_size: 256", "  hidden_size: !!int ''"),
++        _valid_body().replace("  hidden_size: 256", "  hidden_size: !!float ''"),
++        _valid_body().replace("  hidden_size: 256", "  hidden_size: !!timestamp nope"),
++        _valid_body().replace("  dropout: 0.1", '  dropout: !!float "' + "0:" * 200 + '0"'),
++    ],
++)
++def test_cli_builtin_constructor_faults_exit_1_without_traceback(tmp_path, body):
++    path = _write_config(tmp_path, body)
++    result = subprocess.run(
++        [sys.executable, "-c", _validate_model_probe(path)],
++        capture_output=True, text=True, timeout=60,
++    )
++    assert result.returncode == 1
++    assert result.stdout == ""
++    assert "Traceback" not in result.stderr
++    assert str(path) in result.stderr
++    assert "invalid YAML" in result.stderr

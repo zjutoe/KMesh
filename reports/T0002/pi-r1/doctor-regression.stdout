@@ -1,0 +1,1 @@
+kmesh doctor: status=cpu_only (no CUDA device available in this process); report written to /home/mye/src/llm/KMesh/reports/T0002/pi-r1/doctor-cpu.json

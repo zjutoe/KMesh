@@ -1,0 +1,170 @@
+[
+  {
+    "name": "module-help",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "--help"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {},
+    "expected_exit": 0,
+    "exit_code": 0,
+    "timeout_s": 60,
+    "elapsed_s": 0.097
+  },
+  {
+    "name": "config-help",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "--help"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {},
+    "expected_exit": 0,
+    "exit_code": 0,
+    "timeout_s": 60,
+    "elapsed_s": 0.095
+  },
+  {
+    "name": "model-help",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--help"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {},
+    "expected_exit": 0,
+    "exit_code": 0,
+    "timeout_s": 60,
+    "elapsed_s": 0.097
+  },
+  {
+    "name": "module-valid",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "configs/model_e0.yaml"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {},
+    "expected_exit": 0,
+    "exit_code": 0,
+    "timeout_s": 60,
+    "elapsed_s": 0.096
+  },
+  {
+    "name": "console-valid",
+    "argv": [
+      ".venv/bin/kmesh",
+      "config",
+      "validate-model",
+      "--config",
+      "configs/model_e0.yaml"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {},
+    "expected_exit": 0,
+    "exit_code": 0,
+    "timeout_s": 60,
+    "elapsed_s": 0.098
+  },
+  {
+    "name": "invalid-model",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/pi-r1/invalid-model.yaml"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {},
+    "expected_exit": 1,
+    "exit_code": 1,
+    "timeout_s": 60,
+    "elapsed_s": 0.097
+  },
+  {
+    "name": "missing-argument",
+    "argv": [
+      ".venv/bin/kmesh",
+      "config",
+      "validate-model"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {},
+    "expected_exit": 2,
+    "exit_code": 2,
+    "timeout_s": 60,
+    "elapsed_s": 0.095
+  },
+  {
+    "name": "tests",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_config.py",
+      "tests/test_doctor.py",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0002/pi-r1/pytest-tmp"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {
+      "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1"
+    },
+    "expected_exit": 0,
+    "exit_code": 0,
+    "timeout_s": 120,
+    "elapsed_s": 0.589
+  },
+  {
+    "name": "doctor-regression",
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "doctor",
+      "--out",
+      "/home/mye/src/llm/KMesh/reports/T0002/pi-r1/doctor-cpu.json"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {
+      "CUDA_VISIBLE_DEVICES": ""
+    },
+    "expected_exit": 0,
+    "exit_code": 0,
+    "timeout_s": 60,
+    "elapsed_s": 2.006
+  },
+  {
+    "name": "diff-check",
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh",
+    "env_overrides": {},
+    "expected_exit": 0,
+    "exit_code": 0,
+    "timeout_s": 60,
+    "elapsed_s": 0.004
+  }
+]

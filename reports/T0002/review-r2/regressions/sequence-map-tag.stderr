@@ -1,0 +1,4 @@
+config validate-model: /home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/sequence-map-tag.yaml: invalid YAML: expected a mapping node, but found sequence
+  in "<unicode string>", line 2, column 8:
+    model: !!map [a, b]
+           ^

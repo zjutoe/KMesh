@@ -1,0 +1,10 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "reports/T0002/review-r3/verify_r2.py"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "exit_code": 0,
+  "elapsed_s": 0.476,
+  "timeout_s": 60
+}

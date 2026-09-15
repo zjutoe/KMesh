@@ -1,0 +1,10 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "reports/T0002/review-r1/probe_boundaries.py"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "exit_code": 0,
+  "elapsed_s": 3.292,
+  "timeout_s": 180
+}

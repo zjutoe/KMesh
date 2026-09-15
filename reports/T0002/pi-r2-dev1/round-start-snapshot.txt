@@ -1,0 +1,13 @@
+# R2-round start snapshot
+2026-09-14T01:48:35Z
+HEAD=2c15f6a6db71ab2839643276f43eee05cab99f15
+ M README.md
+ M docs/implementation_status.md
+ M src/kmesh/cli.py
+?? configs/
+?? docs/handoffs/T0002-model-config.md
+?? reports/T0002/
+?? src/kmesh/config.py
+?? tests/test_config.py
+---branch---
+T0002-model-config

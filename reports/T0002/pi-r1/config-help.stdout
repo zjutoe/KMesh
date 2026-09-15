@@ -1,0 +1,8 @@
+usage: kmesh config [-h] {validate-model} ...
+
+positional arguments:
+  {validate-model}
+    validate-model  validate the model section of a config file
+
+options:
+  -h, --help        show this help message and exit

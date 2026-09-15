@@ -1,0 +1,11 @@
+module-help 0
+config-help 0
+model-help 0
+module-valid 0
+console-valid 0
+invalid-model 1
+missing-argument 2
+tests 0
+doctor-regression 0
+diff-check 0
+PASS: T0002 verification completed

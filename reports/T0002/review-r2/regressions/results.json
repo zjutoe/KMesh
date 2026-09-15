@@ -1,0 +1,331 @@
+{
+  "huge-dropout": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/huge-dropout.yaml: model.dropout: must be finite and in [0, 1), got 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "controlled": true
+    },
+    "cli": {
+      "name": "huge-dropout",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/huge-dropout.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.1,
+      "stdout_empty": true,
+      "traceback": false
+    },
+    "passed": true
+  },
+  "invalid-int-tag": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-int-tag.yaml: invalid YAML: invalid literal for int() with base 10: 'nope'",
+      "controlled": true
+    },
+    "cli": {
+      "name": "invalid-int-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-int-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.097,
+      "stdout_empty": true,
+      "traceback": false
+    },
+    "passed": true
+  },
+  "invalid-bool-tag": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-bool-tag.yaml: invalid YAML: 'nope'",
+      "controlled": true
+    },
+    "cli": {
+      "name": "invalid-bool-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-bool-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.098,
+      "stdout_empty": true,
+      "traceback": false
+    },
+    "passed": true
+  },
+  "invalid-date": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-date.yaml: invalid YAML: month must be in 1..12",
+      "controlled": true
+    },
+    "cli": {
+      "name": "invalid-date",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-date.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.098,
+      "stdout_empty": true,
+      "traceback": false
+    },
+    "passed": true
+  },
+  "scalar-map-tag": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/scalar-map-tag.yaml: invalid YAML: expected a mapping node, but found scalar\n  in \"<unicode string>\", line 2, column 8:\n    model: !!map nope\n           ^",
+      "controlled": true
+    },
+    "cli": {
+      "name": "scalar-map-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/scalar-map-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.097,
+      "stdout_empty": true,
+      "traceback": false
+    },
+    "passed": true
+  },
+  "sequence-map-tag": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/sequence-map-tag.yaml: invalid YAML: expected a mapping node, but found sequence\n  in \"<unicode string>\", line 2, column 8:\n    model: !!map [a, b]\n           ^",
+      "controlled": true
+    },
+    "cli": {
+      "name": "sequence-map-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/sequence-map-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.097,
+      "stdout_empty": true,
+      "traceback": false
+    },
+    "passed": true
+  },
+  "empty-int-tag": {
+    "api": {
+      "exception": "IndexError",
+      "message": "string index out of range",
+      "controlled": false
+    },
+    "cli": {
+      "name": "empty-int-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/empty-int-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.102,
+      "stdout_empty": true,
+      "traceback": true
+    },
+    "passed": false
+  },
+  "empty-float-tag": {
+    "api": {
+      "exception": "IndexError",
+      "message": "string index out of range",
+      "controlled": false
+    },
+    "cli": {
+      "name": "empty-float-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/empty-float-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.102,
+      "stdout_empty": true,
+      "traceback": true
+    },
+    "passed": false
+  },
+  "invalid-timestamp-tag": {
+    "api": {
+      "exception": "AttributeError",
+      "message": "'NoneType' object has no attribute 'groupdict'",
+      "controlled": false
+    },
+    "cli": {
+      "name": "invalid-timestamp-tag",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "kmesh.cli",
+        "config",
+        "validate-model",
+        "--config",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/invalid-timestamp-tag.yaml"
+      ],
+      "env_overrides": {},
+      "exit_code": 1,
+      "elapsed_s": 0.104,
+      "stdout_empty": true,
+      "traceback": true
+    },
+    "passed": false
+  },
+  "positive-huge-pure": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "model.dropout: must be finite and in [0, 1), got 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "controlled": true
+    },
+    "passed": true
+  },
+  "negative-huge-pure": {
+    "api": {
+      "exception": "ConfigError",
+      "message": "model.dropout: must be finite and in [0, 1), got -10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "controlled": true
+    },
+    "passed": true
+  },
+  "missing-yaml-help": {
+    "cli": {
+      "name": "missing-yaml-help",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "reports/T0002/review-r1/probe_yaml_missing.py",
+        "working-tree",
+        "help",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/missing-yaml-help.json",
+        "unused-baseline"
+      ],
+      "env_overrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exit_code": 0,
+      "elapsed_s": 0.079,
+      "stdout_empty": false,
+      "traceback": false
+    },
+    "passed": true
+  },
+  "missing-yaml-doctor": {
+    "cli": {
+      "name": "missing-yaml-doctor",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "reports/T0002/review-r1/probe_yaml_missing.py",
+        "working-tree",
+        "doctor",
+        "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/missing-yaml-doctor.json",
+        "unused-baseline"
+      ],
+      "env_overrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exit_code": 1,
+      "elapsed_s": 2.087,
+      "stdout_empty": true,
+      "traceback": false,
+      "report": {
+        "schema_version": 1,
+        "generated_at_utc": "2026-09-14T15:02:34.013581+00:00",
+        "python_executable": "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "python_version": "3.13.9",
+        "platform": "Linux-5.14.0-721.el9.x86_64-x86_64-with-glibc2.34",
+        "packages": {
+          "torch": "2.10.0+cu126",
+          "numpy": "2.3.5",
+          "PyYAML": null,
+          "pytest": "8.4.2",
+          "pip": "25.2",
+          "setuptools": "80.9.0"
+        },
+        "torch_import_ok": true,
+        "cuda": {
+          "runtime_version": "12.6",
+          "available": false,
+          "device_count": 0,
+          "devices": []
+        },
+        "status": "error",
+        "errors": [
+          "required package metadata not found: PyYAML"
+        ]
+      }
+    },
+    "passed": true
+  },
+  "root-duplicate-test-detects-bypass": {
+    "passed": true,
+    "exception": "Failed",
+    "message": "DID NOT RAISE <class 'kmesh.config.ConfigError'>"
+  },
+  "schema-test-detects-bypass-2": {
+    "passed": true,
+    "exception": "Failed",
+    "message": "DID NOT RAISE <class 'kmesh.config.ConfigError'>"
+  },
+  "schema-test-detects-bypass-'1'": {
+    "passed": true,
+    "exception": "Failed",
+    "message": "DID NOT RAISE <class 'kmesh.config.ConfigError'>"
+  },
+  "schema-test-detects-bypass-true": {
+    "passed": true,
+    "exception": "Failed",
+    "message": "DID NOT RAISE <class 'kmesh.config.ConfigError'>"
+  }
+}

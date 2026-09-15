@@ -1,0 +1,17 @@
+huge-dropout PASS ConfigError
+invalid-int-tag PASS ConfigError
+invalid-bool-tag PASS ConfigError
+invalid-date PASS ConfigError
+scalar-map-tag PASS ConfigError
+sequence-map-tag PASS ConfigError
+empty-int-tag FAIL IndexError
+empty-float-tag FAIL IndexError
+invalid-timestamp-tag FAIL AttributeError
+positive-huge-pure PASS ConfigError
+negative-huge-pure PASS ConfigError
+missing-yaml-help PASS 
+missing-yaml-doctor PASS 
+root-duplicate-test-detects-bypass PASS 
+schema-test-detects-bypass-2 PASS 
+schema-test-detects-bypass-'1' PASS 
+schema-test-detects-bypass-true PASS 

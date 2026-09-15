@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/home/mye/src/llm/KMesh/.venv/bin/python",
+    "-m",
+    "kmesh.cli",
+    "config",
+    "validate-model",
+    "--config",
+    "/home/mye/src/llm/KMesh/reports/T0002/review-r2/yaml-float/sexagesimal.yaml"
+  ],
+  "scalar_characters": 401,
+  "api": {
+    "exception": "OverflowError",
+    "message": "int too large to convert to float",
+    "controlled": false
+  },
+  "exit_code": 1,
+  "stdout_empty": true,
+  "traceback": true
+}

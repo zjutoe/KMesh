@@ -1,0 +1,4 @@
+config validate-model: /home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/scalar-map-tag.yaml: invalid YAML: expected a mapping node, but found scalar
+  in "<unicode string>", line 2, column 8:
+    model: !!map nope
+           ^

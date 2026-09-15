@@ -1,0 +1,191 @@
+[
+  {
+    "name": "huge-dropout",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/huge-dropout.yaml"
+    ],
+    "env_overrides": {},
+    "exit_code": 1,
+    "elapsed_s": 0.1,
+    "stdout_empty": true,
+    "traceback": false
+  },
+  {
+    "name": "invalid-int-tag",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-int-tag.yaml"
+    ],
+    "env_overrides": {},
+    "exit_code": 1,
+    "elapsed_s": 0.097,
+    "stdout_empty": true,
+    "traceback": false
+  },
+  {
+    "name": "invalid-bool-tag",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-bool-tag.yaml"
+    ],
+    "env_overrides": {},
+    "exit_code": 1,
+    "elapsed_s": 0.098,
+    "stdout_empty": true,
+    "traceback": false
+  },
+  {
+    "name": "invalid-date",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/invalid-date.yaml"
+    ],
+    "env_overrides": {},
+    "exit_code": 1,
+    "elapsed_s": 0.098,
+    "stdout_empty": true,
+    "traceback": false
+  },
+  {
+    "name": "scalar-map-tag",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/scalar-map-tag.yaml"
+    ],
+    "env_overrides": {},
+    "exit_code": 1,
+    "elapsed_s": 0.097,
+    "stdout_empty": true,
+    "traceback": false
+  },
+  {
+    "name": "sequence-map-tag",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/sequence-map-tag.yaml"
+    ],
+    "env_overrides": {},
+    "exit_code": 1,
+    "elapsed_s": 0.097,
+    "stdout_empty": true,
+    "traceback": false
+  },
+  {
+    "name": "empty-int-tag",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/empty-int-tag.yaml"
+    ],
+    "env_overrides": {},
+    "exit_code": 1,
+    "elapsed_s": 0.102,
+    "stdout_empty": true,
+    "traceback": true
+  },
+  {
+    "name": "empty-float-tag",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/empty-float-tag.yaml"
+    ],
+    "env_overrides": {},
+    "exit_code": 1,
+    "elapsed_s": 0.102,
+    "stdout_empty": true,
+    "traceback": true
+  },
+  {
+    "name": "invalid-timestamp-tag",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "kmesh.cli",
+      "config",
+      "validate-model",
+      "--config",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/invalid-timestamp-tag.yaml"
+    ],
+    "env_overrides": {},
+    "exit_code": 1,
+    "elapsed_s": 0.104,
+    "stdout_empty": true,
+    "traceback": true
+  },
+  {
+    "name": "missing-yaml-help",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "reports/T0002/review-r1/probe_yaml_missing.py",
+      "working-tree",
+      "help",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/missing-yaml-help.json",
+      "unused-baseline"
+    ],
+    "env_overrides": {
+      "CUDA_VISIBLE_DEVICES": ""
+    },
+    "exit_code": 0,
+    "elapsed_s": 0.079,
+    "stdout_empty": false,
+    "traceback": false
+  },
+  {
+    "name": "missing-yaml-doctor",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "reports/T0002/review-r1/probe_yaml_missing.py",
+      "working-tree",
+      "doctor",
+      "/home/mye/src/llm/KMesh/reports/T0002/review-r2/regressions/missing-yaml-doctor.json",
+      "unused-baseline"
+    ],
+    "env_overrides": {
+      "CUDA_VISIBLE_DEVICES": ""
+    },
+    "exit_code": 1,
+    "elapsed_s": 2.087,
+    "stdout_empty": true,
+    "traceback": false
+  }
+]

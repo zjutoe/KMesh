@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/mye/src/llm/KMesh/src/kmesh/cli.py", line 132, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/mye/src/llm/KMesh/src/kmesh/cli.py", line 124, in main
+    return _validate_model(args.config)
+  File "/home/mye/src/llm/KMesh/src/kmesh/cli.py", line 85, in _validate_model
+    model = load_model_config(config_path)
+  File "/home/mye/src/llm/KMesh/src/kmesh/config.py", line 172, in load_model_config
+    return parse_model_config(document["model"])
+  File "/home/mye/src/llm/KMesh/src/kmesh/config.py", line 95, in parse_model_config
+    dropout = float(raw_dropout)
+OverflowError: int too large to convert to float

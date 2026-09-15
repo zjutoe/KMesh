@@ -1,0 +1,18 @@
+T0002 round-3 start snapshot (2026-09-14)
+HEAD: 2c15f6a6db71ab2839643276f43eee05cab99f15
+branch: T0002-model-config
+--- git status --short ---
+ M README.md
+ M docs/implementation_status.md
+ M src/kmesh/cli.py
+?? configs/
+?? docs/handoffs/T0002-model-config.md
+?? reports/T0002/
+?? src/kmesh/config.py
+?? tests/test_config.py
+--- implementation/test hashes (pre-round-3) ---
+edcc274fe73742fbac581f5252febb8185de7129ad4f2c5eb69efa2c98506482  src/kmesh/config.py
+971cc19fb93a1e2efa403d700c3bd650f1d53f881b4cee1825b5db357b5e77cc  tests/test_config.py
+b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121  src/kmesh/cli.py
+1355f88b759a128b1196a0af083aeb351259d46c74d4ec6096f16c035fe1ed1f  configs/model_e0.yaml
+4a00114a1251ed85fad9ebb8db65ad9d67d27b2fb1babfedb4edde96fad71326  reports/T0002/run_checks.py

@@ -1,0 +1,21 @@
+huge-dropout API=OverflowError CLI_TRACEBACK=True
+invalid-int-tag API=ValueError CLI_TRACEBACK=True
+invalid-bool-tag API=KeyError CLI_TRACEBACK=True
+invalid-date API=ValueError CLI_TRACEBACK=True
+scalar-map-tag API=ValueError CLI_TRACEBACK=True
+sequence-map-tag API=TypeError CLI_TRACEBACK=True
+control-root-duplicate API=ConfigError CLI_TRACEBACK=False
+control-schema-version API=ConfigError CLI_TRACEBACK=False
+huge-dropout-pure-api OverflowError int too large to convert to float
+existing-fixture-1 ConfigError /home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/existing-fixture-1.yaml: invalid YAML: mapping values are not allowed here
+  in "<unicode string>", line 5, column 14:
+      hidden_size: 256
+                 ^
+existing-fixture-9 ConfigError /home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/existing-fixture-9.yaml: unknown top-level fields: hidden_size
+existing-fixture-10 ConfigError /home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/existing-fixture-10.yaml: unknown top-level fields: hidden_size
+existing-fixture-11 ConfigError /home/mye/src/llm/KMesh/reports/T0002/review-r1/boundary-check/existing-fixture-11.yaml: unknown top-level fields: hidden_size
+yaml-missing-baseline-help EXIT=0 REPORT=False TRACEBACK=False
+yaml-missing-baseline-doctor EXIT=1 REPORT=True TRACEBACK=False
+yaml-missing-working-tree-help EXIT=1 REPORT=False TRACEBACK=True
+yaml-missing-working-tree-doctor EXIT=1 REPORT=False TRACEBACK=True
+Probe collection completed; exit 0 means evidence saved, not acceptance.

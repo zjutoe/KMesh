@@ -1,0 +1,4 @@
+config validate-model: /home/mye/src/llm/KMesh/reports/T0002/pi-r2-dev1/devtmp/r2-map-scalar.yaml: invalid YAML: expected a mapping node, but found scalar
+  in "<unicode string>", line 2, column 8:
+    model: !!map nope
+           ^

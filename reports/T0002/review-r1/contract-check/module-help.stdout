@@ -1,0 +1,11 @@
+usage: kmesh [-h] {doctor,config} ...
+
+KMesh research toolkit
+
+positional arguments:
+  {doctor,config}
+    doctor         collect a read-only JSON environment report
+    config         validate KMesh configuration fragments
+
+options:
+  -h, --help       show this help message and exit

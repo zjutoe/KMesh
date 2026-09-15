@@ -1,0 +1,11 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "reports/T0002/run_checks.py",
+    "reports/T0002/review-r2/contract-check"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "exit_code": 0,
+  "elapsed_s": 5.997,
+  "timeout_s": 600
+}
