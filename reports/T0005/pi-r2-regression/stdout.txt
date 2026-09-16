@@ -1,0 +1,48 @@
+................F....................................................... [ 60%]
+...............................................                          [100%]
+=================================== FAILURES ===================================
+__________ test_nested_matching_instantiates_head_after_second_check ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f48ce989f30>
+
+    def test_nested_matching_instantiates_head_after_second_check(monkeypatch):
+        match_calls: list[None] = []
+        instantiate_after: list[int] = []
+        original_match = engine._match
+        original_instantiate = engine._instantiate
+    
+        def counted_match(premise, candidate, binding):
+            match_calls.append(None)
+            return original_match(premise, candidate, binding)
+    
+        def counted_instantiate(atom, binding):
+            instantiate_after.append(len(match_calls))
+            return original_instantiate(atom, binding)
+    
+        monkeypatch.setattr(engine, "_match", counted_match)
+        monkeypatch.setattr(engine, "_instantiate", counted_instantiate)
+    
+        world = (
+            _fact("p", ("a", "a")),
+            _fact("p", ("b", "b")),
+            _fact("q", ("a", "a")),
+            _fact("q", ("b", "b")),
+            _rule((Atom("p", ("?x", "?x")), Atom("q", ("?y", "?y"))),
+                  Atom("out", ("k", "k"))),
+        )
+        closure = indexed_closure(world)
+        assert closure == frozenset(
+            {Atom("p", ("a", "a")), Atom("p", ("b", "b")),
+             Atom("q", ("a", "a")), Atom("q", ("b", "b")),
+             Atom("out", ("k", "k"))})
+        # nested matching must produce the first head right after the
+        # second check (first p fact + first q fact), not after materialising
+        # every successful premise binding of the round
+        assert instantiate_after, "head was never instantiated"
+>       assert instantiate_after[0] == 2
+E       assert 6 == 2
+
+tests/test_engine.py:304: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_engine.py::test_nested_matching_instantiates_head_after_second_check
+1 failed, 118 passed in 0.27s

@@ -269,3 +269,10 @@ Pi 仅按以下四步返工；原接口、算法、预算与验收标准不变�
 - 独立复跑：原封不动使用首轮 `check_reason_guards.py`，新 RUN `review-r2-reason-guards` 退出 0，**7/7 有效**，见 [stdout.txt](../../reports/T0004/review-r2-reason-guards/stdout.txt)。新 RUN `review-r2-full` 按原四文件命令运行，退出 0，**218 passed**、无 skip/xfail，见 [stdout.txt](../../reports/T0004/review-r2-full/stdout.txt)。源码未改，首轮六组求解器边界结论沿用，没有重复无关探针。
 - Pi 三个 r2 RUN 的退出码、两路输出哈希与前后源码哈希均匹配，旧规划/Pi/Codex 历史保持不变，证据索引见 [final-audit.json](../../reports/T0004/review-r2/final-audit.json)。新 provenance 分开记录命令耗时与实施窗口，并保留第 1 轮证据限制；其窗口起点采用验收记录时刻，是近似时段，不作为实际模型运行计时。
 - 结论：**R1 关闭，A1–A7 全部通过，T0004 `accepted`**。Codex 只维护验收文档/证据，没有修改产品/测试。用户本轮已授权通过后提交、合并并推送；具体提交关联与下游任务将在后续交接中记录。主索引求解器、双求解器随机世界一致性、proof/world 审计及研究命题仍未验证。
+
+
+### 提交关联与后续任务，2026-09-15
+
+- 接受实现提交为 `41e9a32abb2f5c583fc56d660dd8969181a6843a`，包含本任务规划、Pi 两轮实施与 Codex 两轮验收；源码/测试 blob 与第 2 轮接受哈希一致。已从 T0004 分支快进合并至 master，并推送 origin/master（连同此前 T0003 的两个提交）。
+- 暂存检查的 15 条空白提示仅来自原始归档 `.patch` 的空白上下文标记；已逐行核对，产品/文档检查通过。归档原字节保持不变，避免破坏其格式和哈希。
+- 下游任务为 [T0005 独立索引闭包与小世界交叉验证](T0005-indexed-closure.md)，只依赖已验收参考版/内容类型，不提前实现证明或正式生成系统。
