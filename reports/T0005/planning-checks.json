@@ -1,0 +1,39 @@
+{
+  "created_at_utc": "2026-09-15T13:21:44.728871+00:00",
+  "result": "PASS",
+  "task_status": "draft",
+  "baseline_head": "41e9a32abb2f5c583fc56d660dd8969181a6843a",
+  "origin_master": "41e9a32abb2f5c583fc56d660dd8969181a6843a",
+  "accepted_dependency_blob_hashes_match": {
+    "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+    "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090"
+  },
+  "old_product_and_reports_unchanged": true,
+  "new_product_and_tests_absent": true,
+  "recorder_change": "Only task directory names and two additional source hash entries; execution/timeout/error logic unchanged.",
+  "recorder_preflight": {
+    "argv": [
+      ".venv/bin/python",
+      "reports/T0005/record_check.py",
+      "planning-preflight",
+      "--",
+      ".venv/bin/python",
+      "-c",
+      "import sys,kmesh; from importlib.metadata import version; print(sys.executable); print(sys.version); print(kmesh.__file__); print({n:version(n) for n in (\"kmesh\",\"pytest\")})"
+    ],
+    "exit": 0,
+    "output": "record_check: exit=0; evidence=reports/T0005/planning-preflight\n"
+  },
+  "reuse_rejected": {
+    "exit": 2,
+    "stderr": "record_check: refusing to reuse /home/mye/src/llm/KMesh/reports/T0005/planning-preflight\n",
+    "files_unchanged": true
+  },
+  "limit_math": {
+    "max_ground_atoms": 63,
+    "max_reference_evaluations": 31104,
+    "max_indexed_fact_checks": 34560
+  },
+  "t0004_commit_whitespace_note": "15 notices in archived patch files were verified to be required blank context markers; product/docs check passed. Archived evidence bytes remain unchanged.",
+  "limits": "Planning/helper checks only; no indexed solver or product tests implemented/executed."
+}

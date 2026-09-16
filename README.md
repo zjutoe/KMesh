@@ -93,17 +93,34 @@ closure = reference_closure(world)
 # frozenset({r1(a,b), r2(b,c), r3(a,c)})：初始事实与全部推导的 ground Atom
 ```
 
-**状态：已验收（`accepted`），R1 已关闭。** Codex 第 2 轮独立原因守卫 7/7、完整回归 218 项通过。主求解器（索引实现）交叉验证、随机小世界一致性、证明验证器与生成器/关系 DAG world 审计均未实施，不能声称“双求解器一致”。
+**状态：已验收（`accepted`），R1 已关闭。** Codex 第 2 轮独立原因守卫 7/7、完整回归 218 项通过。证明验证器、生成器/关系 DAG world 审计尚未实施；双求解器一致性目前仅由 T0005 的 64 个固定 seed 小世界实测交叉验证，尚不构成研究结论。
+
+索引闭包求解器（T0005，主求解路径）：`kmesh.logic.engine` 提供 `indexed_closure(clauses, *, max_fact_checks=100_000)`，以 tuple 形式的已校验 `Clause` 序列为输入（非法输入按 `indexed.*` 字段报 `LogicValidationError`，含非 bool 正整数预算检查），用谓词索引 + 前提拼接的同步不动点（D20：每轮索引取上一轮快照、按 body 顺序逐前提拼接、逐候选检查、整轮完成后再合并新增 head）计算全部可推 ground `Atom`，返回不可变 `frozenset[Atom]`；与参考实现不共享推理代码。预算异常 `IndexedLimitError` 按“每个准备用于匹配的候选 fact 计一次”累计（失配也计、空前提桶成本为 0、最终无新增轮的检查也计；恰好用完且完成无新增轮时正常返回，超限立即抛错且不返回部分闭包）。最小使用例（纯标准库依赖）：
+
+```python
+from kmesh.logic.engine import indexed_closure
+from kmesh.logic.types import Atom, Clause
+
+world = (
+    Clause((), Atom("p", ("a", "a"))),
+    Clause((Atom("p", ("?x", "?y")),), Atom("q", ("?x", "?y"))),
+)
+
+closure = indexed_closure(world)
+# frozenset({p(a,a), q(a,a)})：初始事实与全部推导的 ground Atom
+```
+
+**状态：已验收（`accepted`，2026-09-16），R1–R3 已关闭。** Codex 第 2 轮独立完整回归 **337 项通过**（含 119 项索引测试与 64 个固定 seed 世界交叉验证），原流式探针通过；已改为逐候选嵌套匹配，补齐真 INTER 手算例，并核验失败先留存、修复后通过的证据链。首轮丢失历史及本轮记录补充见 [T0005 验收记录](docs/handoffs/T0005-indexed-closure.md)。更大 world 分布上的一致性、证明验证器与世界审计尚未实施，不能据此声称双求解器对所有输入等价或研究假设成立。
 
 运行测试：
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
 ```
 
-当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；完整运行配置校验、数据/主求解器、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
-截至 2026-09-15，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
+截至 2026-09-16，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
 

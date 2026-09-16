@@ -1,0 +1,20 @@
+[
+  {
+    "n": 2,
+    "checks": 12,
+    "first_head_after_checks": 6,
+    "live_match_results": 0,
+    "peak_live_match_results": 6,
+    "closure_size": 5,
+    "streaming_contract_pass": false
+  },
+  {
+    "n": 32,
+    "checks": 2112,
+    "first_head_after_checks": 1056,
+    "live_match_results": 0,
+    "peak_live_match_results": 1056,
+    "closure_size": 65,
+    "streaming_contract_pass": false
+  }
+]

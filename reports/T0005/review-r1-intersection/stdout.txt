@@ -1,0 +1,6 @@
+{
+  "manual_intersection": "PASS",
+  "closure_size": 6,
+  "expected_new_atom": "inter(a,b)",
+  "uses_reference_solver": false
+}

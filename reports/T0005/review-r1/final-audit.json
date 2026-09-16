@@ -1,0 +1,108 @@
+{
+  "created_at_utc": "2026-09-16T02:00:58.738451+00:00",
+  "result": "NEEDS_CHANGES",
+  "task_status": "needs_changes",
+  "baseline_head": "41e9a32abb2f5c583fc56d660dd8969181a6843a",
+  "branch": "T0005-indexed-closure",
+  "reviewed_source_sha256": {
+    "src/kmesh/logic/engine.py": "96afb3eccd9b49373655542fca89816d624e1f43de4664160723e32c44f5b42e",
+    "tests/test_engine.py": "823d05dbfab4bd6c288bac8de8b843f3aabdf5e0c304f7a206a570a69f2077e7"
+  },
+  "product_and_submitted_tests_modified_by_codex": false,
+  "accepted_files": [],
+  "criteria": {
+    "A1": "PASS",
+    "A2": "NEEDS_CHANGES: R1 streaming requirement and R2 submitted INTER coverage",
+    "A3": "PASS in bounded reviewed scope",
+    "A4": "PASS",
+    "A5": "PASS: 64 seeded worlds and full 335 tests",
+    "A6": "PASS: dependency/access and verification resource scope; binding-table contract remains R1 under A2",
+    "A7": "NEEDS_CHANGES: R3 historical run deletion and inaccurate provenance"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P2",
+      "file": "src/kmesh/logic/engine.py",
+      "line": 147,
+      "issue": "Materializes complete binding tables instead of nested streaming."
+    },
+    {
+      "id": "R2",
+      "priority": "P2",
+      "file": "tests/test_engine.py",
+      "line": 210,
+      "issue": "The submitted INTER example is JOIN; add successful INTER with full manually computed closure."
+    },
+    {
+      "id": "R3",
+      "priority": "P2",
+      "file": "reports/T0005/pi-r1-full/provenance.md",
+      "issue": "Historical RUN deletion/reuse and inaccurate failure-retention explanation; append corrections with permanent recovery limits."
+    }
+  ],
+  "independent_static_review": "independent-review.md",
+  "runs": {
+    "review-r1-full": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0005/review-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 4.153,
+      "started_at_utc": "2026-09-16T01:50:15.659625+00:00",
+      "finished_at_utc": "2026-09-16T01:50:19.824796+00:00"
+    },
+    "review-r1-streaming": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0005/review-r1/check_contract.py",
+        "streaming"
+      ],
+      "exit_code": 1,
+      "elapsed_s": 0.119,
+      "started_at_utc": "2026-09-16T01:56:28.142728+00:00",
+      "finished_at_utc": "2026-09-16T01:56:28.273102+00:00"
+    },
+    "review-r1-intersection": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0005/review-r1/check_contract.py",
+        "intersection"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.107,
+      "started_at_utc": "2026-09-16T01:56:28.121672+00:00",
+      "finished_at_utc": "2026-09-16T01:56:28.241097+00:00"
+    }
+  },
+  "evidence_audit": "evidence-audit.json",
+  "session_evidence": "session-extract.json",
+  "planning_files_verified_unchanged_count": 9,
+  "protected_review_inputs_unchanged_count": 22,
+  "local_links_checked": 48,
+  "diff_check_exit": 0,
+  "review_documents_sha256": {
+    "AGENTS.md": "7c28d44bf7a00463e86035e3594b448267a3402c355f105f24cb814f808c674a",
+    "README.md": "80f649c271044e67f0f964148b730065dbac2ce0cc22146c91b68f6421c159c2",
+    "docs/handoffs/T0005-indexed-closure.md": "7a08aa43ce44df8fde174cd260e9e7b272f3d34892e1ee359dc70abcba52ec20",
+    "docs/implementation_status.md": "07a7ab946db6378a0f2b49fdc09e00de410eee3200d3bacbd3c0cb6dee267dd5",
+    "reports/T0005/review-r1/check_contract.py": "4d25a7cef73146a8b252ac6d4365bdeb82870ee2efb3c528ef3291c5dea4c11a",
+    "reports/T0005/review-r1/independent-review.md": "c41931b3ffbc316564935df76cc85376d306013427ae9538043128ca5a7981ed"
+  },
+  "limits": [
+    "Current final success runs verified; original deleted record.json/stdout/stderr/source snapshots cannot all be recovered.",
+    "Memory probe counts live wrapped match-result dictionaries, not allocated bytes or research performance.",
+    "No general equivalence proof, world audit, model training or scientific conclusion.",
+    "No commit/push."
+  ]
+}

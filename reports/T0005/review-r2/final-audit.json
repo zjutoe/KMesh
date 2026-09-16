@@ -1,0 +1,117 @@
+{
+  "created_at_utc": "2026-09-16T03:30:58.966376+00:00",
+  "result": "PASS",
+  "task_status": "accepted",
+  "baseline_head": "41e9a32abb2f5c583fc56d660dd8969181a6843a",
+  "branch": "T0005-indexed-closure",
+  "accepted_version": "uncommitted working tree; not merged or pushed",
+  "accepted_files_sha256": {
+    "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+    "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b"
+  },
+  "closed_findings": [
+    "R1",
+    "R2",
+    "R3"
+  ],
+  "open_substantive_findings": [],
+  "criteria": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "PASS",
+    "A6": "PASS",
+    "A7": "PASS with recorded evidence addendum and permanent historical limits"
+  },
+  "independent_static_review": "independent-review.md",
+  "rework_diff": "rework.diff",
+  "evidence_audit": "evidence-audit.json",
+  "session_audit": "session-audit.json",
+  "runs": {
+    "review-r2-full": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0005/review-r2-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 4.075,
+      "started_at_utc": "2026-09-16T03:25:38.293922+00:00",
+      "finished_at_utc": "2026-09-16T03:25:42.380104+00:00",
+      "stdout_sha256": "93bc952c4429564961c90898151219046a4f0d68b131ffdc2a775fd64116931d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "review-r2-streaming": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0005/review-r1/check_contract.py",
+        "streaming"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.121,
+      "started_at_utc": "2026-09-16T03:25:38.271358+00:00",
+      "finished_at_utc": "2026-09-16T03:25:38.404517+00:00",
+      "stdout_sha256": "1570e7d3709d84fe552786eea9969c0239cfce5bd8dda2a5727d84b8fb3ca718",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "streaming_observations": [
+    {
+      "n": 2,
+      "checks": 12,
+      "first_head_after_checks": 2,
+      "live_match_results": 0,
+      "peak_live_match_results": 3,
+      "closure_size": 5,
+      "streaming_contract_pass": true
+    },
+    {
+      "n": 32,
+      "checks": 2112,
+      "first_head_after_checks": 2,
+      "live_match_results": 0,
+      "peak_live_match_results": 3,
+      "closure_size": 65,
+      "streaming_contract_pass": true
+    }
+  ],
+  "guard_failure_before_fix": "pi-r2-regression: 1 failed / 118 passed; original engine hash, unchanged final test hash, assertion 6 == 2",
+  "unchanged_old_test_and_helper_function_AST_count": 54,
+  "old_test_rename": "test_inter_rule_derives_joined_pair -> test_join_rule_chains_p_predicate_twice",
+  "seed_world_generator_unchanged": true,
+  "seed_worlds_crossvalidated": 64,
+  "protected_old_tracked_files_unchanged": 569,
+  "protected_current_inputs_unchanged_count": 49,
+  "diff_check_exit": 0,
+  "local_links_checked": 54,
+  "documentation_sha256": {
+    "README.md": "f6b73be5151fe7f6ba273448701ab4ed8b94d97d1153cab7aba6449d9a071617",
+    "docs/handoffs/T0005-indexed-closure.md": "956e57f6e2581cdceac8809b78deb2218b8029e776c47b09db69968da132847f",
+    "docs/implementation_status.md": "7181732c7d1d1dcf80ce8c64e09e3167f99f3a118670aebb8aefc6d4417a8935"
+  },
+  "review_evidence_sha256": {
+    "reports/T0005/review-r2/evidence-audit.json": "7420d80abd1e3de9f3dca004cab025a5c3c04fb19725ecf510fab2d1200e0c40",
+    "reports/T0005/review-r2/frozen-inputs.json": "75c6cadfa0725d396e60348319fa5425d8928ec460fd86b487f74f771af3efb4",
+    "reports/T0005/review-r2/independent-review.md": "baf4966ea31087c52eead7030e49ff2013cb951a0eb57446e32ffa243b152fc6",
+    "reports/T0005/review-r2/rework.diff": "efdbc43e21fcbe7115b074736aeb41d4540ee8288ccff1ea634396230e7ae8ee",
+    "reports/T0005/review-r2/session-audit.json": "2296650367d71263a905f96a3e5cf25be8273a1b38d27ab5846dc2b68fb2a396"
+  },
+  "product_or_submitted_tests_modified_by_codex": false,
+  "limitations": [
+    "Round 1 deleted original RUNs remain unrecoverable in full; only selected historical session excerpts exist.",
+    "Round 2 README smoke bypassed recorder; original combined session output is archived, without invented per-command exit codes or source snapshots. This disclosed minor process deviation does not invalidate retained pytest runs or independent acceptance; future executable examples must use the recorder.",
+    "Round 2 provenance original test-name typo and scratch-fixture description corrected in appended Codex review; original Pi evidence preserved.",
+    "Streaming probe counts live wrapped matching-result dictionaries, not memory bytes or formal performance benefits.",
+    "No proof verifier, formal world audit, generator, training or scientific result; no general equivalence proof.",
+    "No commit, merge or push performed."
+  ]
+}

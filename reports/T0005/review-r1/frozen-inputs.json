@@ -1,0 +1,33 @@
+{
+  "created_at_utc": "2026-09-16T01:50:15.471143+00:00",
+  "head": "41e9a32abb2f5c583fc56d660dd8969181a6843a",
+  "branch": "T0005-indexed-closure",
+  "status": " M README.md\n M docs/decisions.md\n M docs/handoffs/T0004-reference-closure.md\n M docs/implementation_status.md\n?? docs/handoffs/T0005-indexed-closure.md\n?? reports/T0005/\n?? src/kmesh/logic/engine.py\n?? tests/test_engine.py\n",
+  "sha256": {
+    "README.md": "12683695c6c271d497e11b65378f2e8c1df5078cc2a0fd63e1bf096611786f78",
+    "docs/decisions.md": "8e443d749c6a03d70fd427ab9a6799150503a119e1ba7914dfe087d8e399c0c3",
+    "docs/implementation_status.md": "44906d958004a3d24e92d8811869c00bdf953c1c034fee59dedd72604fa8165c",
+    "docs/handoffs/T0005-indexed-closure.md": "0082fd00b98275e06e6ee6d6fe1988733402f9f455c267292e3a3005f8887eb9",
+    "docs/handoffs/T0004-reference-closure.md": "faf7ac9ecc7c71bacbfe64d3fae5efb69e6854a4f30e86041e5484538f5aa605",
+    "src/kmesh/logic/engine.py": "96afb3eccd9b49373655542fca89816d624e1f43de4664160723e32c44f5b42e",
+    "tests/test_engine.py": "823d05dbfab4bd6c288bac8de8b843f3aabdf5e0c304f7a206a570a69f2077e7",
+    "reports/T0005/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14",
+    "reports/T0005/pi-r1-focused/record.json": "0b3f83734f91bcd6504c00f6e66408e4ca8689243f1d32c57b9fff6d114b3186",
+    "reports/T0005/pi-r1-focused/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0005/pi-r1-focused/stdout.txt": "344a08e1f70beb9760b7519e85ad18f7e6ac32931f808f1b8d49c83313c04d09",
+    "reports/T0005/pi-r1-full/provenance.md": "5b6e8908e7dc1ee716ac9597a5223970595bad288e1687406b69dda286fa16e9",
+    "reports/T0005/pi-r1-full/record.json": "804817f29e8388cf66fc38c62a08feeabf027799889761d9c0296e7f21af1ab6",
+    "reports/T0005/pi-r1-full/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0005/pi-r1-full/stdout.txt": "ef8a059b1181d06b75d93d7772f6c4c417ffad3c62a68d2e02226172049196e3",
+    "reports/T0005/pi-r1-preflight/record.json": "477fd6aaf45a09b819f54db914a3a676d17a98f6e696071b2fedfaa1f72668bf",
+    "reports/T0005/pi-r1-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0005/pi-r1-preflight/stdout.txt": "9edb6ac603f964a33fd1959543472cecabb49cae8eaa7f9b2dca9c092214f6f7",
+    "reports/T0005/planning-checks.json": "635f1334cef862231220b2d4f7e239aab5c14ebfa24c0b5dfce1403c6b889516",
+    "reports/T0005/planning-final-check.json": "07978b9d0f9b278ae11c6248e7a9fc95d0c5be43fb7298735945e8f10646f542",
+    "reports/T0005/planning-preflight/record.json": "3c40b6174e0e5924399d39991aa09bdeb8f0b7ec125622822afe8c102c3dbb98",
+    "reports/T0005/planning-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0005/planning-preflight/stdout.txt": "9edb6ac603f964a33fd1959543472cecabb49cae8eaa7f9b2dca9c092214f6f7",
+    "reports/T0005/planning-review.md": "2804a0deb6a14cb2227a53e44ee6a656fab8eb427dc785b6055eae5cc336b7b9",
+    "reports/T0005/record_check.py": "896d79b5d7a1c319c6f0c2b3e376ac3c5e2b8fee0bdd43ee7ae591691cf74a7d"
+  }
+}

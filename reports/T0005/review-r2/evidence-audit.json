@@ -1,0 +1,134 @@
+{
+  "captured_at_utc": "2026-09-16T03:26:41.329808+00:00",
+  "old_frozen_files_verified_unchanged": {
+    "docs/decisions.md": "8e443d749c6a03d70fd427ab9a6799150503a119e1ba7914dfe087d8e399c0c3",
+    "docs/handoffs/T0004-reference-closure.md": "faf7ac9ecc7c71bacbfe64d3fae5efb69e6854a4f30e86041e5484538f5aa605",
+    "reports/T0005/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14",
+    "reports/T0005/pi-r1-focused/record.json": "0b3f83734f91bcd6504c00f6e66408e4ca8689243f1d32c57b9fff6d114b3186",
+    "reports/T0005/pi-r1-focused/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0005/pi-r1-focused/stdout.txt": "344a08e1f70beb9760b7519e85ad18f7e6ac32931f808f1b8d49c83313c04d09",
+    "reports/T0005/pi-r1-full/provenance.md": "5b6e8908e7dc1ee716ac9597a5223970595bad288e1687406b69dda286fa16e9",
+    "reports/T0005/pi-r1-full/record.json": "804817f29e8388cf66fc38c62a08feeabf027799889761d9c0296e7f21af1ab6",
+    "reports/T0005/pi-r1-full/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0005/pi-r1-full/stdout.txt": "ef8a059b1181d06b75d93d7772f6c4c417ffad3c62a68d2e02226172049196e3",
+    "reports/T0005/pi-r1-preflight/record.json": "477fd6aaf45a09b819f54db914a3a676d17a98f6e696071b2fedfaa1f72668bf",
+    "reports/T0005/pi-r1-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0005/pi-r1-preflight/stdout.txt": "9edb6ac603f964a33fd1959543472cecabb49cae8eaa7f9b2dca9c092214f6f7",
+    "reports/T0005/planning-checks.json": "635f1334cef862231220b2d4f7e239aab5c14ebfa24c0b5dfce1403c6b889516",
+    "reports/T0005/planning-final-check.json": "07978b9d0f9b278ae11c6248e7a9fc95d0c5be43fb7298735945e8f10646f542",
+    "reports/T0005/planning-preflight/record.json": "3c40b6174e0e5924399d39991aa09bdeb8f0b7ec125622822afe8c102c3dbb98",
+    "reports/T0005/planning-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0005/planning-preflight/stdout.txt": "9edb6ac603f964a33fd1959543472cecabb49cae8eaa7f9b2dca9c092214f6f7",
+    "reports/T0005/planning-review.md": "2804a0deb6a14cb2227a53e44ee6a656fab8eb427dc785b6055eae5cc336b7b9",
+    "reports/T0005/record_check.py": "896d79b5d7a1c319c6f0c2b3e376ac3c5e2b8fee0bdd43ee7ae591691cf74a7d"
+  },
+  "old_review_helpers_and_AGENTS_verified_unchanged": {
+    "AGENTS.md": "7c28d44bf7a00463e86035e3594b448267a3402c355f105f24cb814f808c674a",
+    "reports/T0005/review-r1/check_contract.py": "4d25a7cef73146a8b252ac6d4365bdeb82870ee2efb3c528ef3291c5dea4c11a",
+    "reports/T0005/review-r1/independent-review.md": "c41931b3ffbc316564935df76cc85376d306013427ae9538043128ca5a7981ed"
+  },
+  "protected_tracked_files_unchanged_from_HEAD": 569,
+  "old_review_runs_output_hashes_verified": true,
+  "round2_runs": {
+    "pi-r2-regression": {
+      "started_at_utc": "2026-09-16T02:40:27.116471+00:00",
+      "finished_at_utc": "2026-09-16T02:40:27.637572+00:00",
+      "elapsed_s": 0.509,
+      "exit_code": 1,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_engine.py",
+        "--basetemp",
+        "reports/T0005/pi-r2-regression/pytest-tmp"
+      ],
+      "source_sha256": {
+        "src/kmesh/logic/engine.py": "96afb3eccd9b49373655542fca89816d624e1f43de4664160723e32c44f5b42e",
+        "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+        "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+        "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+        "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+        "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+        "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+        "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+        "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+        "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+        "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+        "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+        "reports/T0005/record_check.py": "896d79b5d7a1c319c6f0c2b3e376ac3c5e2b8fee0bdd43ee7ae591691cf74a7d"
+      },
+      "outputs_and_snapshots_verified": true
+    },
+    "pi-r2-focused": {
+      "started_at_utc": "2026-09-16T02:42:45.947880+00:00",
+      "finished_at_utc": "2026-09-16T02:42:46.399024+00:00",
+      "elapsed_s": 0.44,
+      "exit_code": 0,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_engine.py",
+        "--basetemp",
+        "reports/T0005/pi-r2-focused/pytest-tmp"
+      ],
+      "source_sha256": {
+        "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+        "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+        "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+        "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+        "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+        "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+        "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+        "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+        "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+        "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+        "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+        "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+        "reports/T0005/record_check.py": "896d79b5d7a1c319c6f0c2b3e376ac3c5e2b8fee0bdd43ee7ae591691cf74a7d"
+      },
+      "outputs_and_snapshots_verified": true
+    },
+    "pi-r2-full": {
+      "started_at_utc": "2026-09-16T02:43:09.380163+00:00",
+      "finished_at_utc": "2026-09-16T02:43:13.435784+00:00",
+      "elapsed_s": 4.044,
+      "exit_code": 0,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0005/pi-r2-full/pytest-tmp"
+      ],
+      "source_sha256": {
+        "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+        "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+        "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+        "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+        "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+        "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+        "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+        "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+        "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+        "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+        "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+        "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+        "reports/T0005/record_check.py": "896d79b5d7a1c319c6f0c2b3e376ac3c5e2b8fee0bdd43ee7ae591691cf74a7d"
+      },
+      "outputs_and_snapshots_verified": true
+    }
+  },
+  "limits": [
+    "Round 1 deleted RUNs remain unrecoverable; acceptance concerns verified final artifacts and retained rework evidence."
+  ]
+}

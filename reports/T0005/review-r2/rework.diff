@@ -1,0 +1,147 @@
+--- r1/src/kmesh/logic/engine.py
++++ r2/src/kmesh/logic/engine.py
+@@ -144,23 +144,38 @@
+         index = _index_by_predicate(known)
+         derived = set()
+         for rule in rules:
+-            bindings: list[dict[str, str]] = [{}]
+-            for premise in rule.body:
+-                candidates: tuple[Atom, ...] = index.get(premise.pred, ())
+-                next_bindings: list[dict[str, str]] = []
+-                for binding in bindings:
+-                    for candidate in candidates:
++            premises = rule.body
++            if len(premises) == 1:
++                candidates: tuple[Atom, ...] = index.get(premises[0].pred, ())
++                for candidate in candidates:
++                    if budget <= 0:
++                        raise IndexedLimitError(
++                            "indexed.max_fact_checks is exhausted "
++                            "before the closure stabilises")
++                    budget -= 1
++                    match = _match(premises[0], candidate, {})
++                    if match is not None:
++                        derived.add(_instantiate(rule.head, match))
++            else:
++                first, second = premises
++                for first_candidate in index.get(first.pred, ()):
++                    if budget <= 0:
++                        raise IndexedLimitError(
++                            "indexed.max_fact_checks is exhausted "
++                            "before the closure stabilises")
++                    budget -= 1
++                    first_binding = _match(first, first_candidate, {})
++                    if first_binding is None:
++                        continue
++                    for second_candidate in index.get(second.pred, ()):
+                         if budget <= 0:
+                             raise IndexedLimitError(
+                                 "indexed.max_fact_checks is exhausted "
+                                 "before the closure stabilises")
+                         budget -= 1
+-                        match = _match(premise, candidate, binding)
++                        match = _match(second, second_candidate, first_binding)
+                         if match is not None:
+-                            next_bindings.append(match)
+-                bindings = next_bindings
+-            for binding in bindings:
+-                derived.add(_instantiate(rule.head, binding))
++                            derived.add(_instantiate(rule.head, match))
+         if derived <= known:
+             return frozenset(known)
+         known |= derived
+--- r1/tests/test_engine.py
++++ r2/tests/test_engine.py
+@@ -15,6 +15,7 @@
+ 
+ import pytest
+ 
++import kmesh.logic.engine as engine
+ from kmesh.logic.engine import IndexedLimitError
+ from kmesh.logic.engine import indexed_closure
+ from kmesh.logic.reference_engine import reference_closure
+@@ -207,7 +208,7 @@
+         {Atom("p", ("a", "b")), Atom("q", ("b", "a"))})
+ 
+ 
+-def test_inter_rule_derives_joined_pair():
++def test_join_rule_chains_p_predicate_twice():
+     world = (
+         _fact("p", ("a", "b")),
+         _fact("p", ("b", "c")),
+@@ -217,6 +218,24 @@
+     assert indexed_closure(world) == frozenset(
+         {Atom("p", ("a", "b")), Atom("p", ("b", "c")),
+          Atom("r", ("a", "c"))})
++
++
++def test_inter_rule_derives_only_exactly_shared_pairs():
++    world = (
++        _fact("p", ("a", "b")),
++        _fact("p", ("c", "d")),
++        _fact("q", ("a", "b")),
++        _fact("q", ("b", "a")),
++        _fact("q", ("c", "e")),
++        _rule((Atom("p", ("?x", "?y")), Atom("q", ("?x", "?y"))),
++              Atom("r", ("?x", "?y"))),
++    )
++    # only q(a,b) shares both arguments with a p fact; the reversed
++    # q(b,a) and same-first-argument q(c,e) must not derive anything
++    assert indexed_closure(world) == frozenset(
++        {Atom("p", ("a", "b")), Atom("p", ("c", "d")),
++         Atom("q", ("a", "b")), Atom("q", ("b", "a")),
++         Atom("q", ("c", "e")), Atom("r", ("a", "b"))})
+ 
+ 
+ def test_join_keeps_multiple_success_bindings():
+@@ -242,6 +261,50 @@
+     )
+     assert indexed_closure(world) == frozenset(
+         {Atom("p", ("a", "b")), Atom("q", ("c", "d"))})
++
++
++# ---------------------------------------------------------------------------
++# 3b. Nested per-candidate processing guard (D20 step 3.4, R1 rework)
++# ---------------------------------------------------------------------------
++
++def test_nested_matching_instantiates_head_after_second_check(monkeypatch):
++    match_calls: list[None] = []
++    instantiate_after: list[int] = []
++    original_match = engine._match
++    original_instantiate = engine._instantiate
++
++    def counted_match(premise, candidate, binding):
++        match_calls.append(None)
++        return original_match(premise, candidate, binding)
++
++    def counted_instantiate(atom, binding):
++        instantiate_after.append(len(match_calls))
++        return original_instantiate(atom, binding)
++
++    monkeypatch.setattr(engine, "_match", counted_match)
++    monkeypatch.setattr(engine, "_instantiate", counted_instantiate)
++
++    world = (
++        _fact("p", ("a", "a")),
++        _fact("p", ("b", "b")),
++        _fact("q", ("a", "a")),
++        _fact("q", ("b", "b")),
++        _rule((Atom("p", ("?x", "?x")), Atom("q", ("?y", "?y"))),
++              Atom("out", ("k", "k"))),
++    )
++    closure = indexed_closure(world)
++    assert closure == frozenset(
++        {Atom("p", ("a", "a")), Atom("p", ("b", "b")),
++         Atom("q", ("a", "a")), Atom("q", ("b", "b")),
++         Atom("out", ("k", "k"))})
++    # nested matching must produce the first head right after the
++    # second check (first p fact + first q fact), not after materialising
++    # every successful premise binding of the round
++    assert instantiate_after, "head was never instantiated"
++    assert instantiate_after[0] == 2
++    # per-candidate accounting is unchanged: 6 checks per round, and the
++    # final no-new round is counted too
++    assert len(match_calls) == 12
+ 
+ 
+ # ---------------------------------------------------------------------------
