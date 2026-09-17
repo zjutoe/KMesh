@@ -1,0 +1,157 @@
+...........FF...........................................FFF............. [ 84%]
+.......F.....                                                            [100%]
+=================================== FAILURES ===================================
+_ TestValidGivenEvidence.test_same_variable_name_different_values_across_steps _
+
+self = <test_proof.TestValidGivenEvidence object at 0x7f9a5b11fd90>
+
+    def test_same_variable_name_different_values_across_steps(self):
+        world = (_fact("p", "a", "a"), _fact("p", "b", "b"),
+                 _rule((_atom("p", "?x", "?x"),), "s", "?x", "?x"))
+        proof = (ProofStep(0, (), _atom("p", "a", "a")),
+                 ProofStep(1, (), _atom("p", "b", "b")),
+                 ProofStep(2, (0,), _atom("s", "a", "a")),
+                 ProofStep(3, (1,), _atom("s", "b", "b")))
+>       assert verify_proof(world, _atom("s", "b", "b"), proof) is True
+E       AssertionError: assert False is True
+E        +  where False = verify_proof((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='p', args=('b', 'b'))), Clause(body=(Atom(pred='p', args=('?x', '?x')),), head=Atom(pred='s', args=('?x', '?x')))), Atom(pred='s', args=('b', 'b')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'a'))), ProofStep(clause_index=1, pr...pred='s', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(1,), conclusion=Atom(pred='s', args=('b', 'b')))))
+E        +    where Atom(pred='s', args=('b', 'b')) = _atom('s', 'b', 'b')
+
+tests/test_proof.py:169: AssertionError
+______ TestValidGivenEvidence.test_irrelevant_and_repeated_steps_allowed _______
+
+self = <test_proof.TestValidGivenEvidence object at 0x7f9a5ab902f0>
+
+    def test_irrelevant_and_repeated_steps_allowed(self):
+        world = (_fact("r1", "a", "b"), _fact("r2", "b", "c"),
+                 _rule((_atom("r1", "?x", "?y"), _atom("r2", "?y", "?z")),
+                       "r3", "?x", "?z"),
+                 _rule((_atom("r3", "?x", "?y"),), "r4", "?y", "?x"),
+                 _fact("s", "a", "a"))
+        proof = (ProofStep(0, (), _atom("r1", "a", "b")),
+                 ProofStep(1, (), _atom("r2", "b", "c")),
+                 ProofStep(4, (), _atom("s", "a", "a")),
+                 ProofStep(3, (0, 1), _atom("r3", "a", "c")),
+                 ProofStep(4, (0, 1), _atom("r3", "a", "c")),
+                 ProofStep(5, (3,), _atom("r4", "c", "a")))
+>       assert verify_proof(world, _atom("r4", "c", "a"), proof, max_steps=6) \
+            is True
+E       AssertionError: assert False is True
+E        +  where False = verify_proof((Clause(body=(), head=Atom(pred='r1', args=('a', 'b'))), Clause(body=(), head=Atom(pred='r2', args=('b', 'c'))), Claus... args=('?x', '?y')),), head=Atom(pred='r4', args=('?y', '?x'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a')))), Atom(pred='r4', args=('c', 'a')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='r1', args=('a', 'b'))), ProofStep(clause_index=1, p...ed='r3', args=('a', 'c'))), ProofStep(clause_index=5, premise_steps=(3,), conclusion=Atom(pred='r4', args=('c', 'a')))), max_steps=6)
+E        +    where Atom(pred='r4', args=('c', 'a')) = _atom('r4', 'c', 'a')
+
+tests/test_proof.py:183: AssertionError
+___ TestDiagnosticsAndTypes.test_proof_step_field_validation[conclusion-str] ___
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f9a5aa0c950>
+kind = 'conclusion-str'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+        assert field in message
+>       assert reason in message
+E       AssertionError: assert 'ground Atom' in 'proof_step.conclusion must be an Atom, got str'
+
+tests/test_proof.py:504: AssertionError
+___ TestDiagnosticsAndTypes.test_proof_step_field_validation[conclusion-int] ___
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f9a5b0bea40>
+kind = 'conclusion-int'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+>       field, reason, got = _step_error_expectation(kind)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+kind = 'conclusion-int'
+
+    def _step_error_expectation(kind):
+        """Return (field_path, reason_fragment, got_fragment_or_None)."""
+        prefixes = (
+            ("clause-index-", "proof_step.clause_index"),
+            ("premise-ref-", "proof_step.premise_steps[0]"),
+            ("premise-steps-", "proof_step.premise_steps"),
+            ("conclusion-", "proof_step.conclusion"),
+        )
+        for prefix, field in prefixes:
+            if kind.startswith(prefix):
+                sub = kind[len(prefix):]
+                break
+        else:
+            raise AssertionError(kind)
+        got = {"bool": "bool", "negative": "int", "huge-negative": "int",
+               "float": "float", "str": "str", "none": "NoneType"}
+        if field == "proof_step.premise_steps":
+            if sub == "list":
+                return field, "tuple", "got list"
+            if sub == "set":
+                return field, "tuple", "got set"
+            if sub == "too-many":
+                return field, "at most 2", None
+            raise AssertionError(kind)
+        if field == "proof_step.conclusion":
+            if sub in got:
+                return field, "ground Atom", "got " + got[sub]
+            if sub == "non-ground":
+                return field, "ground Atom", None
+>           raise AssertionError(kind)
+E           AssertionError: conclusion-int
+
+tests/test_proof.py:492: AssertionError
+__ TestDiagnosticsAndTypes.test_proof_step_field_validation[conclusion-none] ___
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f9a5b0be830>
+kind = 'conclusion-none'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+        assert field in message
+>       assert reason in message
+E       AssertionError: assert 'ground Atom' in 'proof_step.conclusion must be an Atom, got NoneType'
+
+tests/test_proof.py:504: AssertionError
+________ TestStepLimit.test_limit_counts_repeated_and_irrelevant_steps _________
+
+self = <test_proof.TestStepLimit object at 0x7f9a5b0f5a70>
+
+    def test_limit_counts_repeated_and_irrelevant_steps(self):
+        world = (_fact("r1", "a", "b"), _fact("r2", "b", "c"),
+                 _rule((_atom("r1", "?x", "?y"), _atom("r2", "?y", "?z")),
+                       "r3", "?x", "?z"),
+                 _rule((_atom("r3", "?x", "?y"),), "r4", "?y", "?x"),
+                 _fact("s", "a", "a"))
+        proof = (ProofStep(0, (), _atom("r1", "a", "b")),
+                 ProofStep(1, (), _atom("r2", "b", "c")),
+                 ProofStep(4, (), _atom("s", "a", "a")),
+                 ProofStep(3, (0, 1), _atom("r3", "a", "c")),
+                 ProofStep(4, (0, 1), _atom("r3", "a", "c")),
+                 ProofStep(5, (3,), _atom("r4", "c", "a")))
+        query = _atom("r4", "c", "a")
+        with pytest.raises(ProofLimitError):
+            verify_proof(world, query, proof, max_steps=5)
+>       assert verify_proof(world, query, proof, max_steps=6) is True
+E       AssertionError: assert False is True
+E        +  where False = verify_proof((Clause(body=(), head=Atom(pred='r1', args=('a', 'b'))), Clause(body=(), head=Atom(pred='r2', args=('b', 'c'))), Claus... args=('?x', '?y')),), head=Atom(pred='r4', args=('?y', '?x'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a')))), Atom(pred='r4', args=('c', 'a')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='r1', args=('a', 'b'))), ProofStep(clause_index=1, p...ed='r3', args=('a', 'c'))), ProofStep(clause_index=5, premise_steps=(3,), conclusion=Atom(pred='r4', args=('c', 'a')))), max_steps=6)
+
+tests/test_proof.py:644: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof.py::TestValidGivenEvidence::test_same_variable_name_different_values_across_steps
+FAILED tests/test_proof.py::TestValidGivenEvidence::test_irrelevant_and_repeated_steps_allowed
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[conclusion-str]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[conclusion-int]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[conclusion-none]
+FAILED tests/test_proof.py::TestStepLimit::test_limit_counts_repeated_and_irrelevant_steps
+6 failed, 79 passed in 0.37s

@@ -1,0 +1,64 @@
+{
+  "started_at_utc": "2026-09-17T02:23:15.763700+00:00",
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "\nfrom pathlib import Path\nfrom datetime import datetime, timezone\nimport hashlib, json, re, subprocess, textwrap\nroot = Path.cwd()\ntask = root / \"reports/T0006\"\nfreeze = json.loads((task / \"review-r2-freeze/audit.json\").read_text())\ndef sha(path):\n    return hashlib.sha256(Path(path).read_bytes()).hexdigest()\nstatus_docs = [\"README.md\", \"docs/implementation_status.md\", \"docs/handoffs/T0006-proof-verifier.md\"]\nfor name, expected in freeze[\"input_sha256\"].items():\n    if name not in status_docs:\n        assert sha(root / name) == expected, (\"frozen input changed\", name)\nfor name, expected in freeze[\"history_sha256\"].items():\n    assert sha(root / name) == expected, (\"history changed\", name)\nprint(f'PASS: frozen inputs and {len(freeze[\"history_sha256\"])} historical files unchanged')\nresult = subprocess.run([\"git\", \"diff\", \"--check\"], capture_output=True, text=True)\nprint(result.stdout, end=\"\")\nprint(result.stderr, end=\"\")\nassert result.returncode == 0\ndocs = status_docs + [\"reports/T0006/review-r2/review.md\"]\nlinks_checked = 0\nblocks_checked = 0\nfor name in docs:\n    p = root / name\n    data = p.read_text()\n    assert data.endswith(\"\\n\"), (\"missing newline\", name)\n    assert all(line == line.rstrip() for line in data.splitlines()), (\"trailing whitespace\", name)\n    assert \"needs_changes\" in data\n    for href in re.findall(r\"\\[[^\\]]*\\]\\(([^)]+)\\)\", data):\n        href = href.strip(\"<>\").split(\"#\", 1)[0]\n        if not href or re.match(r\"^[a-zA-Z]+:\", href):\n            continue\n        assert (p.parent / href).exists(), (\"broken local link\", name, href)\n        links_checked += 1\n    for index, code in enumerate(re.findall(chr(96)*3 + r\"python\\n(.*?)\" + chr(96)*3, data, re.S)):\n        compile(textwrap.dedent(code), f\"{name}:python-block-{index}\", \"exec\")\n        blocks_checked += 1\nprint(f\"PASS: diff, text hygiene, {links_checked} local links, {blocks_checked} Python blocks\")\nruns = {}\nfor name in [\"review-r2-freeze\", \"review-r2-full\", \"review-r2-probes\"]:\n    directory = task / name\n    record = json.loads((directory / \"record.json\").read_text())\n    assert record[\"exit_code\"] == 0 and record[\"status\"] == \"finished\"\n    assert record[\"before\"][\"source_sha256\"] == record[\"after\"][\"source_sha256\"]\n    for stream in (\"stdout\", \"stderr\"):\n        assert sha(directory / f\"{stream}.txt\") == record[f\"{stream}_sha256\"]\n    runs[name] = {key: record[key] for key in (\"exit_code\", \"elapsed_s\", \"started_at_utc\", \"finished_at_utc\", \"argv\")}\nassert \"438 passed in 4.05s\" in (task / \"review-r2-full/stdout.txt\").read_text()\nassert not (task / \"review-r2-full/stderr.txt\").read_bytes()\nartifacts = docs + [\"reports/T0006/review-r2/probe.py\", \"reports/T0006/review-r2-probes/findings.json\",\n                    \"reports/T0006/review-r2-freeze/audit.json\"]\naudit = {\n    \"created_at_utc\": datetime.now(timezone.utc).isoformat(),\n    \"result\": \"NEEDS_CHANGES\",\n    \"task_status\": \"needs_changes\",\n    \"reviewer\": \"Codex + gpt-6-astra xhigh\",\n    \"independent_static_reviewer\": \"/root/review_t0006_tests\",\n    \"product_sha256\": sha(root / \"src/kmesh/logic/proof.py\"),\n    \"test_sha256\": sha(root / \"tests/test_proof.py\"),\n    \"product_defect_found\": False,\n    \"acceptance\": {\"A1\": \"previously_passed_product_unchanged\", \"A2\": \"previously_passed_product_unchanged\",\n                   \"A3\": \"previously_passed_product_unchanged\", \"A4\": \"previously_passed_product_unchanged\",\n                   \"A5\": \"needs_changes_two_fixtures\", \"A6\": \"PASS\", \"A7\": \"needs_record_corrections\"},\n    \"findings\": [\n        {\"id\": \"R2-remaining\", \"priority\": \"P2\", \"location\": \"tests/test_proof.py:252\",\n         \"reason\": \"Too-few-premise fixture also has an invalid head; accepts a count-check mutant.\",\n         \"change\": \"Use valid paired proofs with head bound by first premise, delete only second reference.\"},\n        {\"id\": \"R3-remaining\", \"priority\": \"P2\", \"location\": \"tests/test_proof.py:928\",\n         \"reason\": \"Huge positive reference is attached to a fact, so wrong arity returns before reference validation.\",\n         \"change\": \"Use valid FACT+COPY and change only COPY reference 0 to 10**5000 under pinned 4300.\"},\n        {\"id\": \"R4-remaining\", \"priority\": \"P3\", \"location\": \"reports/T0006/pi-r2-full/provenance.md\",\n         \"reason\": \"Incorrect guard root list, test count description, local paths and handoff RUN description.\",\n         \"change\": \"Append corrections in fresh provenance and execution record; preserve historical reports.\"}\n    ],\n    \"closed\": [\"R1 import guards and restoration\", \"R2 C-group JOIN and renaming\",\n               \"R3 priority, seven giant-integer diagnostics and limit restoration\",\n               \"R4 README default and command, first-round historical corrections\"],\n    \"verification_runs\": runs,\n    \"full_regression\": \"438 passed in 4.05s; no skips or xfails; stderr empty\",\n    \"pi_r2_runs_verified\": len(freeze[\"pi_r2_records\"]),\n    \"historical_files_preserved\": len(freeze[\"history_sha256\"]),\n    \"old_provenance_append_only_verified\": freeze[\"old_provenance_prefix_preserved\"],\n    \"closure_checks\": {\"git_diff_check\": \"PASS\", \"local_links\": links_checked,\n                       \"python_blocks\": blocks_checked, \"text_hygiene\": \"PASS\"},\n    \"artifact_sha256\": {name: sha(root / name) for name in artifacts},\n    \"limits\": [\"No product or test modification during review\", \"Not accepted\", \"No commit or push\"],\n    \"orchestration_note\": \"First close-check tool submission failed JavaScript parsing before any shell command or RUN was created; corrected quoting and launched the recorded check.\"\n}\ntarget = task / \"review-r2/final-audit.json\"\nwith target.open(\"x\") as f:\n    json.dump(audit, f, ensure_ascii=False, indent=2)\n    f.write(\"\\n\")\nprint(\"PASS: final-audit.json written; task remains needs_changes\")\n"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "env_overrides": {
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "timeout_s": 120,
+  "before": {
+    "head": "6dcaae2ef40459e80ed5919e658db84986526211\n",
+    "branch": "T0006-proof-verifier\n",
+    "status": " M KMesh_Research_Plan_v0.1.md\n M README.md\n M docs/decisions.md\n M docs/handoffs/T0005-indexed-closure.md\n M docs/implementation_status.md\n?? KMesh_Paper_Framework_v0.1.md\n?? docs/handoffs/T0006-proof-verifier.md\n?? reports/T0006/\n?? src/kmesh/logic/proof.py\n?? tests/test_proof.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "21e099b8939e35f90e188062973d0b5e553e07e50f86127441d399a8848897c3",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0006/record_check.py": "54c5b72a5b35f0085804216ee9acf7f86905e93d00916b8051d45be108c527da"
+    }
+  },
+  "status": "finished",
+  "exit_code": 0,
+  "elapsed_s": 0.094,
+  "finished_at_utc": "2026-09-17T02:23:15.871336+00:00",
+  "after": {
+    "head": "6dcaae2ef40459e80ed5919e658db84986526211\n",
+    "branch": "T0006-proof-verifier\n",
+    "status": " M KMesh_Research_Plan_v0.1.md\n M README.md\n M docs/decisions.md\n M docs/handoffs/T0005-indexed-closure.md\n M docs/implementation_status.md\n?? KMesh_Paper_Framework_v0.1.md\n?? docs/handoffs/T0006-proof-verifier.md\n?? reports/T0006/\n?? src/kmesh/logic/proof.py\n?? tests/test_proof.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "21e099b8939e35f90e188062973d0b5e553e07e50f86127441d399a8848897c3",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0006/record_check.py": "54c5b72a5b35f0085804216ee9acf7f86905e93d00916b8051d45be108c527da"
+    }
+  },
+  "stdout_sha256": "16c078973949e517c0a411fd584b32deaa35296161be6881ac28853526e5f98b",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

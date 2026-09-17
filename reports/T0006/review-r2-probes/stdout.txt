@@ -1,0 +1,7 @@
+PASS: both guards block all four roots and children, without prefix collision
+PASS: repaired JOIN, rename and all three priority tests
+CONFIRMED: current too-few-reference test passes when missing references are allowed
+PASS: complete-good/single-reference-deletion fixture catches the wrong verifier
+CONFIRMED: current huge-ref test passes a stringification bug; correct COPY fixture catches it
+PASS: original product passes both corrected fixture pairs; product/test files not modified
+CONFIRMED: new provenance broken local links: ['../../provenance.md', '../../provenance.md']

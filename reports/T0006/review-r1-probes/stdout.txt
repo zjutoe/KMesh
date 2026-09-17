@@ -1,0 +1,7 @@
+CONFIRMED: both submitted guards allow both solver roots and subprocess guard allows their submodules
+CONFIRMED: submitted alternative-path negative fails before JOIN; correctly indexed good/bad JOIN behave True/False
+CONFIRMED: submitted good/bad pair passes a verifier that ignores all rule evidence
+CONFIRMED: all 6 submitted budget tests pass with member checks incorrectly before the limit
+PASS: 16 independent product boundary cases; conversion limit pinned to 4300 and restored
+PASS independent import isolation: all four roots and their submodules
+PASS README proof example

@@ -1,0 +1,82 @@
+{
+  "created_at_utc": "2026-09-16T11:35:24.424098+00:00",
+  "result": "NEEDS_CHANGES",
+  "task_status": "needs_changes",
+  "reviewer": "Codex + gpt-6-astra (xhigh)",
+  "independent_static_reviewer": "/root/review_t0006_tests",
+  "input_snapshot": "reports/T0006/review-r1-freeze/input-snapshot",
+  "product_sha256": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+  "test_sha256": "857dd21dc6e3d573d8a363d4932e08bbbdabf85a6235356b23b235cf360de32b",
+  "product_defect_found": false,
+  "checks": {
+    "A1": "PASS implementation and independent boundaries",
+    "A2": "PASS reviewed semantics",
+    "A3": "PASS implementation; R2 test fixes required",
+    "A4": "PASS implementation; R3 persistent tests required",
+    "A5": "NEEDS_CHANGES R2/R3",
+    "A6": "PASS independent product isolation; NEEDS_CHANGES R1 submitted guard",
+    "A7": "NEEDS_CHANGES R4 documentation/provenance"
+  },
+  "findings": [
+    "R1 solver import guard ineffective",
+    "R2 wrong-path/count/renaming fixtures do not isolate target behavior",
+    "R3 limit priority and giant integer persistent coverage incomplete",
+    "R4 README default/test command and evidence claims inaccurate"
+  ],
+  "verification_runs": {
+    "freeze": {
+      "exit_code": 0,
+      "elapsed_s": 0.199,
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path\nimport hashlib, json, shutil, subprocess\nroot=Path.cwd()\nout=root/\"reports/T0006/review-r1-freeze\"\nfrozen=out/\"input-snapshot\"\ntargets=[\"src/kmesh/logic/proof.py\",\"tests/test_proof.py\",\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0006-proof-verifier.md\",\"docs/decisions.md\",\"reports/T0006/provenance.md\",\"reports/T0006/mutation_set_check.py\",\"reports/T0006/record_check.py\"]\nhashes={}\nfor name in targets:\n    src=root/name\n    dst=frozen/name\n    dst.parent.mkdir(parents=True, exist_ok=True)\n    shutil.copyfile(src,dst)\n    hashes[name]=hashlib.sha256(src.read_bytes()).hexdigest()\nassert hashes[\"src/kmesh/logic/proof.py\"]==\"008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa\"\nassert hashes[\"tests/test_proof.py\"]==\"857dd21dc6e3d573d8a363d4932e08bbbdabf85a6235356b23b235cf360de32b\"\nhistory={}\nfor task in range(1,7):\n    for p in (root/f\"reports/T{task:04d}\").rglob(\"*\"):\n        if not p.is_file() or \"pytest-tmp\" in p.parts or \"__pycache__\" in p.parts:\n            continue\n        if task==6 and any(part.startswith(\"review-r1\") for part in p.parts):\n            continue\n        history[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()\nrecords=[]\nfor p in sorted((root/\"reports/T0006\").glob(\"pi-*/record.json\")):\n    d=json.loads(p.read_text())\n    ok=all(hashlib.sha256((p.parent/f\"{s}.txt\").read_bytes()).hexdigest()==d[f\"{s}_sha256\"] for s in (\"stdout\",\"stderr\"))\n    records.append({\"run\":p.parent.name,\"exit_code\":d.get(\"exit_code\"),\"elapsed_s\":d.get(\"elapsed_s\"),\"logs_hash_valid\":ok,\"source_stable\":d[\"before\"][\"source_sha256\"]==d[\"after\"][\"source_sha256\"],\"proof_sha256\":d[\"before\"][\"source_sha256\"][\"src/kmesh/logic/proof.py\"],\"test_sha256\":d[\"before\"][\"source_sha256\"][\"tests/test_proof.py\"],\"started_at_utc\":d.get(\"started_at_utc\"),\"finished_at_utc\":d.get(\"finished_at_utc\"),\"argv\":d[\"argv\"]})\nassert all(r[\"logs_hash_valid\"] and r[\"source_stable\"] for r in records)\nplanning=json.loads((root/\"reports/T0006/planning-final-check.json\").read_text())\nfor name in (\"reports/T0006/record_check.py\",\"reports/T0006/.gitignore\"):\n    assert hashlib.sha256((root/name).read_bytes()).hexdigest()==planning[\"file_sha256\"][name],name\nold=[]\nfor path in subprocess.run([\"git\",\"ls-files\",\"src\",\"tests\",\"pyproject.toml\"],capture_output=True,text=True,check=True).stdout.splitlines():\n    baseline=subprocess.run([\"git\",\"show\",\"HEAD:\"+path],capture_output=True,check=True).stdout\n    assert (root/path).read_bytes()==baseline,path\n    old.append(path)\nreport={\"input_sha256\":hashes,\"history_sha256\":history,\"pi_records\":records,\"accepted_tracked_inputs_unchanged\":old,\"recorder_and_ignore_match_planning\":True}\n(out/\"audit.json\").write_text(json.dumps(report,ensure_ascii=False,indent=2)+\"\\n\")\nprint(\"PASS frozen input hashes, log hashes, run stability, recorder and tracked baseline inputs\")\nprint(\"Pi RUN count:\",len(records),\"Historical files frozen:\",len(history),\"Tracked inputs unchanged:\",len(old))\nfor r in records:\n    print(r[\"run\"],\"exit=\",r[\"exit_code\"],\"elapsed_s=\",r[\"elapsed_s\"])\n"
+      ]
+    },
+    "full": {
+      "exit_code": 0,
+      "elapsed_s": 4.261,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0006/review-r1-full/pytest-tmp"
+      ]
+    },
+    "probes": {
+      "exit_code": 0,
+      "elapsed_s": 0.268,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0006/review-r1/probe.py"
+      ]
+    }
+  },
+  "full_regression": "422 passed in 4.00s; no skips/xfails",
+  "independent_boundary_case_count": 16,
+  "pi_runs_verified": 16,
+  "historical_files_preserved": 673,
+  "diff_check_exit": 0,
+  "local_links_checked": 52,
+  "review_artifacts_sha256": {
+    "docs/handoffs/T0006-proof-verifier.md": "a4c55a58340794380992f98984ed1d3fd79a834f8ba8bdfd4d16a243ff374278",
+    "README.md": "43528178263cbc8801fa70a745cd9aa53bce3c6b50f73e68937056936df93088",
+    "docs/implementation_status.md": "da6a122f00571348c9666d7d2efdb53dfcde77abeeebf0891bf604555bb304a3",
+    "reports/T0006/review-r1/review.md": "49a2ef5c6f0ff686c40359a0290fbf8dc3a1687e878df0666465d93d32ba6d03",
+    "reports/T0006/review-r1/probe.py": "e9a6f1348c92b514e6c124fd329d11ef85ff333f7b55e21e0d036a3b3d63b6b0"
+  },
+  "limits": [
+    "No accepted task conclusion or commit/push.",
+    "Current product has no discovered logic defect, not a proof over all possible inputs.",
+    "Missing original launch/probe evidence remains a historical limitation; Codex reruns are not Pi originals.",
+    "Pi must preserve proof.py and repair tests/documentation under R1-R4."
+  ]
+}

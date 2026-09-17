@@ -1,0 +1,63 @@
+{
+  "started_at_utc": "2026-09-16T10:21:05.818869+00:00",
+  "argv": [
+    ".venv/bin/python",
+    "reports/T0006/mutation_set_check.py"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "env_overrides": {
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "timeout_s": 120,
+  "before": {
+    "head": "6dcaae2ef40459e80ed5919e658db84986526211\n",
+    "branch": "T0006-proof-verifier\n",
+    "status": " M KMesh_Research_Plan_v0.1.md\n M README.md\n M docs/decisions.md\n M docs/handoffs/T0005-indexed-closure.md\n M docs/implementation_status.md\n?? KMesh_Paper_Framework_v0.1.md\n?? docs/handoffs/T0006-proof-verifier.md\n?? reports/T0006/\n?? src/kmesh/logic/proof.py\n?? tests/test_proof.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "857dd21dc6e3d573d8a363d4932e08bbbdabf85a6235356b23b235cf360de32b",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0006/record_check.py": "54c5b72a5b35f0085804216ee9acf7f86905e93d00916b8051d45be108c527da"
+    }
+  },
+  "status": "finished",
+  "exit_code": 1,
+  "elapsed_s": 0.102,
+  "finished_at_utc": "2026-09-16T10:21:05.933328+00:00",
+  "after": {
+    "head": "6dcaae2ef40459e80ed5919e658db84986526211\n",
+    "branch": "T0006-proof-verifier\n",
+    "status": " M KMesh_Research_Plan_v0.1.md\n M README.md\n M docs/decisions.md\n M docs/handoffs/T0005-indexed-closure.md\n M docs/implementation_status.md\n?? KMesh_Paper_Framework_v0.1.md\n?? docs/handoffs/T0006-proof-verifier.md\n?? reports/T0006/\n?? src/kmesh/logic/proof.py\n?? tests/test_proof.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "857dd21dc6e3d573d8a363d4932e08bbbdabf85a6235356b23b235cf360de32b",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0006/record_check.py": "54c5b72a5b35f0085804216ee9acf7f86905e93d00916b8051d45be108c527da"
+    }
+  },
+  "stdout_sha256": "d4da14c0c96c92335b7f94ccc940bd323158c0670d7ba45279d2861c4087793e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

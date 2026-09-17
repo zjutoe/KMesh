@@ -1,0 +1,755 @@
+.F....F....FFF........FF.FF.......F......FFFFFFFFFFFFFFFFFFF.....F...... [ 84%]
+...F...F...F.                                                            [100%]
+=================================== FAILURES ===================================
+__________________ TestValidGivenEvidence.test_one_step_copy ___________________
+
+self = <test_proof.TestValidGivenEvidence object at 0x7f07590b4a50>
+
+    def test_one_step_copy(self):
+        world = (_fact("p", "a", "a"),
+>                _rule((_atom("p", "?x", "?x"),), "q", "?x"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof.py:60: in _rule
+    return Clause(tuple(premises), _atom(pred, *args))
+                                   ^^^^^^^^^^^^^^^^^^
+tests/test_proof.py:52: in _atom
+    return Atom(pred, tuple(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Atom(pred='q', args=('?x',))
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            # The container is reported by type only: its members are
+            # unvalidated and may not be representable.
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+                f"got {type(self.args).__name__}")
+        if len(self.args) != 2:
+>           raise LogicValidationError(
+                f"atom.args must have exactly 2 items, "
+                f"got {len(self.args)}")
+E           kmesh.logic.types.LogicValidationError: atom.args must have exactly 2 items, got 1
+
+src/kmesh/logic/types.py:89: LogicValidationError
+___________ TestValidGivenEvidence.test_repeated_variable_in_premise ___________
+
+self = <test_proof.TestValidGivenEvidence object at 0x7f0758a24050>
+
+    def test_repeated_variable_in_premise(self):
+        world = (_fact("p", "a", "a"),
+>                _rule((_atom("p", "?x", "?x"),), "s", "?x"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof.py:60: in _rule
+    return Clause(tuple(premises), _atom(pred, *args))
+                                   ^^^^^^^^^^^^^^^^^^
+tests/test_proof.py:52: in _atom
+    return Atom(pred, tuple(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Atom(pred='s', args=('?x',))
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            # The container is reported by type only: its members are
+            # unvalidated and may not be representable.
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+                f"got {type(self.args).__name__}")
+        if len(self.args) != 2:
+>           raise LogicValidationError(
+                f"atom.args must have exactly 2 items, "
+                f"got {len(self.args)}")
+E           kmesh.logic.types.LogicValidationError: atom.args must have exactly 2 items, got 1
+
+src/kmesh/logic/types.py:89: LogicValidationError
+_ TestValidGivenEvidence.test_same_variable_name_different_values_across_steps _
+
+self = <test_proof.TestValidGivenEvidence object at 0x7f075909bbd0>
+
+    def test_same_variable_name_different_values_across_steps(self):
+        world = (_fact("p", "a", "a"), _fact("p", "b", "b"),
+>                _rule((_atom("p", "?x", "?x"),), "s", "?x"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:164: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof.py:60: in _rule
+    return Clause(tuple(premises), _atom(pred, *args))
+                                   ^^^^^^^^^^^^^^^^^^
+tests/test_proof.py:52: in _atom
+    return Atom(pred, tuple(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Atom(pred='s', args=('?x',))
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            # The container is reported by type only: its members are
+            # unvalidated and may not be representable.
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+                f"got {type(self.args).__name__}")
+        if len(self.args) != 2:
+>           raise LogicValidationError(
+                f"atom.args must have exactly 2 items, "
+                f"got {len(self.args)}")
+E           kmesh.logic.types.LogicValidationError: atom.args must have exactly 2 items, got 1
+
+src/kmesh/logic/types.py:89: LogicValidationError
+______ TestValidGivenEvidence.test_irrelevant_and_repeated_steps_allowed _______
+
+self = <test_proof.TestValidGivenEvidence object at 0x7f0758b18130>
+
+    def test_irrelevant_and_repeated_steps_allowed(self):
+        world = (_fact("r1", "a", "b"), _fact("r2", "b", "c"),
+                 _rule((_atom("r1", "?x", "?y"), _atom("r2", "?y", "?z")),
+                       "r3", "?x", "?z"),
+                 _rule((_atom("r3", "?x", "?y"),), "r4", "?y", "?x"),
+                 _fact("s", "a", "a"))
+        proof = (ProofStep(0, (), _atom("r1", "a", "b")),
+                 ProofStep(1, (), _atom("r2", "b", "c")),
+                 ProofStep(2, (), _atom("s", "a", "a")),
+                 ProofStep(3, (0, 1), _atom("r3", "a", "c")),
+                 ProofStep(4, (0, 1), _atom("r3", "a", "c")),
+                 ProofStep(5, (3,), _atom("r4", "c", "a")))
+>       assert verify_proof(world, _atom("r4", "c", "a"), proof, max_steps=6) \
+            is True
+E       AssertionError: assert False is True
+E        +  where False = verify_proof((Clause(body=(), head=Atom(pred='r1', args=('a', 'b'))), Clause(body=(), head=Atom(pred='r2', args=('b', 'c'))), Claus... args=('?x', '?y')),), head=Atom(pred='r4', args=('?y', '?x'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a')))), Atom(pred='r4', args=('c', 'a')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='r1', args=('a', 'b'))), ProofStep(clause_index=1, p...ed='r3', args=('a', 'c'))), ProofStep(clause_index=5, premise_steps=(3,), conclusion=Atom(pred='r4', args=('c', 'a')))), max_steps=6)
+E        +    where Atom(pred='r4', args=('c', 'a')) = _atom('r4', 'c', 'a')
+
+tests/test_proof.py:183: AssertionError
+_______ TestValidGivenEvidence.test_fact_supported_cyclic_rule_expansion _______
+
+self = <test_proof.TestValidGivenEvidence object at 0x7f075904af70>
+
+    def test_fact_supported_cyclic_rule_expansion(self):
+        world = (_fact("p", "a", "a"),
+                 _rule((_atom("p", "?x", "?x"),), "q", "?x", "?x"),
+                 _rule((_atom("q", "?x", "?x"),), "p", "?x", "?x"))
+        proof = (ProofStep(0, (), _atom("p", "a", "a")),
+                 ProofStep(1, (0,), _atom("q", "a", "a")),
+                 ProofStep(2, (1,), _atom("p", "a", "a")),
+                 ProofStep(3, (2,), _atom("q", "a", "a")))
+>       assert verify_proof(world, _atom("q", "a", "a"), proof) is True
+E       AssertionError: assert False is True
+E        +  where False = verify_proof((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(Atom(pred='p', args=('?x', '?x')),), head=Atom(pred='q', args=('?x', '?x'))), Clause(body=(Atom(pred='q', args=('?x', '?x')),), head=Atom(pred='p', args=('?x', '?x')))), Atom(pred='q', args=('a', 'a')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'a'))), ProofStep(clause_index=1, pr...pred='p', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(2,), conclusion=Atom(pred='q', args=('a', 'a')))))
+E        +    where Atom(pred='q', args=('a', 'a')) = _atom('q', 'a', 'a')
+
+tests/test_proof.py:194: AssertionError
+___________ TestLogicalCounterexamples.test_self_reference_is_false ____________
+
+self = <test_proof.TestLogicalCounterexamples object at 0x7f075900f650>
+
+    def test_self_reference_is_false(self):
+        world = (_fact("p", "a", "b"),
+>                _rule((_atom("p", "?x", "?y"),), "r", "?x"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:245: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof.py:60: in _rule
+    return Clause(tuple(premises), _atom(pred, *args))
+                                   ^^^^^^^^^^^^^^^^^^
+tests/test_proof.py:52: in _atom
+    return Atom(pred, tuple(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Atom(pred='r', args=('?x',))
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            # The container is reported by type only: its members are
+            # unvalidated and may not be representable.
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+                f"got {type(self.args).__name__}")
+        if len(self.args) != 2:
+>           raise LogicValidationError(
+                f"atom.args must have exactly 2 items, "
+                f"got {len(self.args)}")
+E           kmesh.logic.types.LogicValidationError: atom.args must have exactly 2 items, got 1
+
+src/kmesh/logic/types.py:89: LogicValidationError
+__________ TestLogicalCounterexamples.test_forward_reference_is_false __________
+
+self = <test_proof.TestLogicalCounterexamples object at 0x7f075900b110>
+
+    def test_forward_reference_is_false(self):
+        world = (_fact("p", "a", "b"),
+>                _rule((_atom("p", "?x", "?y"),), "r", "?x"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:252: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof.py:60: in _rule
+    return Clause(tuple(premises), _atom(pred, *args))
+                                   ^^^^^^^^^^^^^^^^^^
+tests/test_proof.py:52: in _atom
+    return Atom(pred, tuple(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Atom(pred='r', args=('?x',))
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            # The container is reported by type only: its members are
+            # unvalidated and may not be representable.
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+                f"got {type(self.args).__name__}")
+        if len(self.args) != 2:
+>           raise LogicValidationError(
+                f"atom.args must have exactly 2 items, "
+                f"got {len(self.args)}")
+E           kmesh.logic.types.LogicValidationError: atom.args must have exactly 2 items, got 1
+
+src/kmesh/logic/types.py:89: LogicValidationError
+______ TestLogicalCounterexamples.test_premise_constant_mismatch_is_false ______
+
+self = <test_proof.TestLogicalCounterexamples object at 0x7f0758b198d0>
+
+    def test_premise_constant_mismatch_is_false(self):
+        world = (_fact("p", "a", "c"),
+>                _rule((_atom("p", "?x", "b"),), "q", "?x"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:266: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof.py:60: in _rule
+    return Clause(tuple(premises), _atom(pred, *args))
+                                   ^^^^^^^^^^^^^^^^^^
+tests/test_proof.py:52: in _atom
+    return Atom(pred, tuple(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Atom(pred='q', args=('?x',))
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            # The container is reported by type only: its members are
+            # unvalidated and may not be representable.
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+                f"got {type(self.args).__name__}")
+        if len(self.args) != 2:
+>           raise LogicValidationError(
+                f"atom.args must have exactly 2 items, "
+                f"got {len(self.args)}")
+E           kmesh.logic.types.LogicValidationError: atom.args must have exactly 2 items, got 1
+
+src/kmesh/logic/types.py:89: LogicValidationError
+_____ TestLogicalCounterexamples.test_repeated_variable_conflict_is_false ______
+
+self = <test_proof.TestLogicalCounterexamples object at 0x7f0758b19b70>
+
+    def test_repeated_variable_conflict_is_false(self):
+        world = (_fact("p", "a", "b"),
+>                _rule((_atom("p", "?x", "?x"),), "q", "?x"))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:273: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof.py:60: in _rule
+    return Clause(tuple(premises), _atom(pred, *args))
+                                   ^^^^^^^^^^^^^^^^^^
+tests/test_proof.py:52: in _atom
+    return Atom(pred, tuple(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Atom(pred='q', args=('?x',))
+
+    def __post_init__(self) -> None:
+        _validate_atom_pred(self.pred)
+        if not isinstance(self.args, tuple):
+            # The container is reported by type only: its members are
+            # unvalidated and may not be representable.
+            raise LogicValidationError(
+                f"atom.args must be a tuple of two strings, "
+                f"got {type(self.args).__name__}")
+        if len(self.args) != 2:
+>           raise LogicValidationError(
+                f"atom.args must have exactly 2 items, "
+                f"got {len(self.args)}")
+E           kmesh.logic.types.LogicValidationError: atom.args must have exactly 2 items, got 1
+
+src/kmesh/logic/types.py:89: LogicValidationError
+__________ TestNoAnswerPeeking.test_alternative_premise_path_is_true ___________
+
+self = <test_proof.TestNoAnswerPeeking object at 0x7f07590b5090>
+
+    def test_alternative_premise_path_is_true(self):
+        world = self._world()
+        proof = (ProofStep(0, (), _atom("p", "a", "b")),
+                 ProofStep(1, (), _atom("p", "b", "c")),
+                 ProofStep(2, (0, 1), _atom("r", "a", "c")))
+>       assert verify_proof(world, _atom("r", "a", "c"), proof) is True
+E       AssertionError: assert False is True
+E        +  where False = verify_proof((Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), Clause(body=(), head=Atom(pred='p', args=('b', 'c'))), Clause(...e(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='p', args=('?y', '?z'))), head=Atom(pred='r', args=('?x', '?z')))), Atom(pred='r', args=('a', 'c')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'b'))), ProofStep(clause_index=1, pr...ed='p', args=('b', 'c'))), ProofStep(clause_index=2, premise_steps=(0, 1), conclusion=Atom(pred='r', args=('a', 'c')))))
+E        +    where Atom(pred='r', args=('a', 'c')) = _atom('r', 'a', 'c')
+
+tests/test_proof.py:339: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[clause-index-bool] __
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f07590b47d0>
+kind = 'clause-index-bool'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.clause_index' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[clause-index-negative] _
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f07590b4f50>
+kind = 'clause-index-negative'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.clause_index' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[clause-index-huge-negative] _
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f075906d940>
+kind = 'clause-index-huge-negative'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.clause_index' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[clause-index-float] _
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f075906c2b0>
+kind = 'clause-index-float'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.clause_index' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+__ TestDiagnosticsAndTypes.test_proof_step_field_validation[clause-index-str] __
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f07590bb1d0>
+kind = 'clause-index-str'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.clause_index' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[clause-index-none] __
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f0758a246b0>
+kind = 'clause-index-none'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.clause_index' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[premise-steps-list] _
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f0758a247c0>
+kind = 'premise-steps-list'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.premise_steps' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[premise-steps-set] __
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f075900f850>
+kind = 'premise-steps-set'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.premise_steps' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[premise-steps-too-many] _
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f075900fb50>
+kind = 'premise-steps-too-many'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.premise_steps' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+__ TestDiagnosticsAndTypes.test_proof_step_field_validation[premise-ref-bool] __
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f075900be30>
+kind = 'premise-ref-bool'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.premise_steps[0]' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[premise-ref-negative] _
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f075900bf20>
+kind = 'premise-ref-negative'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.premise_steps[0]' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[premise-ref-huge-negative] _
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f0759099ef0>
+kind = 'premise-ref-huge-negative'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.premise_steps[0]' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[premise-ref-float] __
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f0758b1b150>
+kind = 'premise-ref-float'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.premise_steps[0]' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+__ TestDiagnosticsAndTypes.test_proof_step_field_validation[premise-ref-str] ___
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f075904b6c0>
+kind = 'premise-ref-str'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.premise_steps[0]' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+__ TestDiagnosticsAndTypes.test_proof_step_field_validation[premise-ref-none] __
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f075922ad50>
+kind = 'premise-ref-none'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.premise_steps[0]' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+___ TestDiagnosticsAndTypes.test_proof_step_field_validation[conclusion-str] ___
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f0758998950>
+kind = 'conclusion-str'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.conclusion' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+___ TestDiagnosticsAndTypes.test_proof_step_field_validation[conclusion-int] ___
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f07590420a0>
+kind = 'conclusion-int'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+>       field, reason, got = _step_error_expectation(kind)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:500: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+kind = 'conclusion-int'
+
+    def _step_error_expectation(kind):
+        """Return (field_path, reason_fragment, got_fragment_or_None)."""
+        prefixes = (
+            ("clause-index-", "proof_step.clause_index"),
+            ("premise-ref-", "proof_step.premise_steps[0]"),
+            ("premise-steps-", "proof_step.premise_steps"),
+            ("conclusion-", "proof_step.conclusion"),
+        )
+        for prefix, field in prefixes:
+            if kind.startswith(prefix):
+                sub = kind[len(prefix):]
+                break
+        else:
+            raise AssertionError(kind)
+        got = {"bool": "bool", "negative": "int", "huge-negative": "int",
+               "float": "float", "str": "str", "none": "NoneType"}
+        if field == "proof_step.premise_steps":
+            if sub == "list":
+                return field, "tuple", "got list"
+            if sub == "set":
+                return field, "tuple", "got set"
+            if sub == "too-many":
+                return field, "at most 2", None
+            raise AssertionError(kind)
+        if field == "proof_step.conclusion":
+            if sub in got:
+                return field, "ground Atom", "got " + got[sub]
+            if sub == "non-ground":
+                return field, "ground Atom", None
+>           raise AssertionError(kind)
+E           AssertionError: conclusion-int
+
+tests/test_proof.py:491: AssertionError
+__ TestDiagnosticsAndTypes.test_proof_step_field_validation[conclusion-none] ___
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f0759043070>
+kind = 'conclusion-none'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.conclusion' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+_ TestDiagnosticsAndTypes.test_proof_step_field_validation[conclusion-non-ground] _
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f07590b0d70>
+kind = 'conclusion-non-ground'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+        field, reason, got = _step_error_expectation(kind)
+        message = str(exc.value)
+>       assert field in message
+E       AssertionError: assert 'proof_step.conclusion' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:502: AssertionError
+______________ TestDiagnosticsAndTypes.test_query_must_be_ground _______________
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f07590a8130>
+
+    def test_query_must_be_ground(self):
+        clauses, proof, _ = self._verify_base()
+        with pytest.raises(LogicValidationError) as exc:
+            verify_proof(clauses, _atom("p", "?x"), proof)
+        message = str(exc.value)
+>       assert "verify.query" in message
+E       AssertionError: assert 'verify.query' in 'atom.args must have exactly 2 items, got 1'
+
+tests/test_proof.py:555: AssertionError
+__ TestDiagnosticsAndTypes.test_invalid_arguments_not_skipped_on_empty_inputs __
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7f07590453b0>
+
+    def test_invalid_arguments_not_skipped_on_empty_inputs(self):
+        with pytest.raises(LogicValidationError) as exc1:
+            verify_proof("not-a-tuple", _atom("p", "a"), (), max_steps=10)
+>       assert "verify.clauses" in str(exc1.value)
+E       AssertionError: assert 'verify.clauses' in 'atom.args must have exactly 2 items, got 1'
+E        +  where 'atom.args must have exactly 2 items, got 1' = str(LogicValidationError('atom.args must have exactly 2 items, got 1'))
+E        +    where LogicValidationError('atom.args must have exactly 2 items, got 1') = <ExceptionInfo LogicValidationError('atom.args must have exactly 2 items, got 1') tblen=4>.value
+
+tests/test_proof.py:599: AssertionError
+________ TestStepLimit.test_limit_counts_repeated_and_irrelevant_steps _________
+
+self = <test_proof.TestStepLimit object at 0x7f075906da70>
+
+    def test_limit_counts_repeated_and_irrelevant_steps(self):
+        world = (_fact("r1", "a", "b"), _fact("r2", "b", "c"),
+                 _rule((_atom("r1", "?x", "?y"), _atom("r2", "?y", "?z")),
+                       "r3", "?x", "?z"),
+                 _rule((_atom("r3", "?x", "?y"),), "r4", "?y", "?x"),
+                 _fact("s", "a", "a"))
+        proof = (ProofStep(0, (), _atom("r1", "a", "b")),
+                 ProofStep(1, (), _atom("r2", "b", "c")),
+                 ProofStep(2, (), _atom("s", "a", "a")),
+                 ProofStep(3, (0, 1), _atom("r3", "a", "c")),
+                 ProofStep(4, (0, 1), _atom("r3", "a", "c")),
+                 ProofStep(5, (3,), _atom("r4", "c", "a")))
+        query = _atom("r4", "c", "a")
+        with pytest.raises(ProofLimitError):
+            verify_proof(world, query, proof, max_steps=5)
+>       assert verify_proof(world, query, proof, max_steps=6) is True
+E       AssertionError: assert False is True
+E        +  where False = verify_proof((Clause(body=(), head=Atom(pred='r1', args=('a', 'b'))), Clause(body=(), head=Atom(pred='r2', args=('b', 'c'))), Claus... args=('?x', '?y')),), head=Atom(pred='r4', args=('?y', '?x'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a')))), Atom(pred='r4', args=('c', 'a')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='r1', args=('a', 'b'))), ProofStep(clause_index=1, p...ed='r3', args=('a', 'c'))), ProofStep(clause_index=5, premise_steps=(3,), conclusion=Atom(pred='r4', args=('c', 'a')))), max_steps=6)
+
+tests/test_proof.py:642: AssertionError
+________ TestIsolation.test_proof_module_isolation_in_clean_subprocess _________
+
+self = <test_proof.TestIsolation object at 0x7f07590b5810>
+
+    def test_proof_module_isolation_in_clean_subprocess(self):
+        result = subprocess.run(
+            [sys.executable, "-c", _ISO_SNIPPET],
+            capture_output=True, text=True, timeout=60, cwd=REPO_ROOT,
+        )
+>       assert result.returncode == 0, result.stderr[-2000:]
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 31, in <module>
+E             Clause((Atom("p", ("?x", "?x")),), Atom("q", ("?x",))),
+E                                                ~~~~^^^^^^^^^^^^^^
+E           File "<string>", line 5, in __init__
+E           File "/home/mye/src/llm/KMesh/src/kmesh/logic/types.py", line 89, in __post_init__
+E             raise LogicValidationError(
+E                 f"atom.args must have exactly 2 items, "
+E                 f"got {len(self.args)}")
+E         kmesh.logic.types.LogicValidationError: atom.args must have exactly 2 items, got 1
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', '\nimport importlib.machinery\nimport sys\n\n...       f"got {len(self.args)}")\nkmesh.logic.types.LogicValidationError: atom.args must have exactly 2 items, got 1\n').returncode
+
+tests/test_proof.py:710: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof.py::TestValidGivenEvidence::test_one_step_copy - kmes...
+FAILED tests/test_proof.py::TestValidGivenEvidence::test_repeated_variable_in_premise
+FAILED tests/test_proof.py::TestValidGivenEvidence::test_same_variable_name_different_values_across_steps
+FAILED tests/test_proof.py::TestValidGivenEvidence::test_irrelevant_and_repeated_steps_allowed
+FAILED tests/test_proof.py::TestValidGivenEvidence::test_fact_supported_cyclic_rule_expansion
+FAILED tests/test_proof.py::TestLogicalCounterexamples::test_self_reference_is_false
+FAILED tests/test_proof.py::TestLogicalCounterexamples::test_forward_reference_is_false
+FAILED tests/test_proof.py::TestLogicalCounterexamples::test_premise_constant_mismatch_is_false
+FAILED tests/test_proof.py::TestLogicalCounterexamples::test_repeated_variable_conflict_is_false
+FAILED tests/test_proof.py::TestNoAnswerPeeking::test_alternative_premise_path_is_true
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[clause-index-bool]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[clause-index-negative]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[clause-index-huge-negative]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[clause-index-float]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[clause-index-str]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[clause-index-none]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[premise-steps-list]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[premise-steps-set]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[premise-steps-too-many]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[premise-ref-bool]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[premise-ref-negative]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[premise-ref-huge-negative]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[premise-ref-float]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[premise-ref-str]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[premise-ref-none]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[conclusion-str]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[conclusion-int]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[conclusion-none]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[conclusion-non-ground]
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_query_must_be_ground
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_invalid_arguments_not_skipped_on_empty_inputs
+FAILED tests/test_proof.py::TestStepLimit::test_limit_counts_repeated_and_irrelevant_steps
+FAILED tests/test_proof.py::TestIsolation::test_proof_module_isolation_in_clean_subprocess
+33 failed, 52 passed in 0.95s

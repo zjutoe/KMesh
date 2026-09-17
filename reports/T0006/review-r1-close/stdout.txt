@@ -1,0 +1,3 @@
+PASS: frozen code/tests/recorder, original evidence and unrelated decisions preserved
+PASS: historical files preserved = 673 local links checked = 52
+FINAL: T0006 needs_changes; R1-R4 handed back, no product modification

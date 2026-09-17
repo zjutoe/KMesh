@@ -1,0 +1,126 @@
+{
+  "created_at_utc": "2026-09-17T03:37:28.350824+00:00",
+  "result": "PASS",
+  "task_status": "accepted",
+  "head": "6dcaae2ef40459e80ed5919e658db84986526211",
+  "reviewer": "Codex + gpt-6-astra xhigh",
+  "independent_static_reviewer": "/root/review_t0006_tests",
+  "accepted_files": {
+    "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+    "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566"
+  },
+  "product_defect_found": false,
+  "open_findings": [],
+  "closed_findings": [
+    "R1 isolation (previous round)",
+    "R2 discriminating missing-reference fixture",
+    "R3 huge positive reference reaches range check",
+    "R4 appended record corrections"
+  ],
+  "acceptance": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "PASS",
+    "A6": "PASS",
+    "A7": "PASS"
+  },
+  "A7_limits": "Evidence sufficient to accept current results; unrecorded /tmp precheck, self-reported link-check failure and first-round historical limitations remain. This is not a claim of complete procedural compliance.",
+  "verification_runs": {
+    "review-r3-freeze": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "\nfrom pathlib import Path\nimport ast, difflib, hashlib, json, re, subprocess\nroot=Path.cwd()\nout=root/\"reports/T0006/review-r3-freeze\"\ndef sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nold=json.loads((root/\"reports/T0006/review-r2-freeze/audit.json\").read_text())\nlast=json.loads((root/\"reports/T0006/review-r2/final-audit.json\").read_text())\nmutable={\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0006-proof-verifier.md\",\"tests/test_proof.py\"}\nfor p,h in old[\"input_sha256\"].items():\n    if p not in mutable: assert sha(p)==h, p\nfor p,h in old[\"history_sha256\"].items(): assert sha(p)==h, p\nfor p,h in last[\"artifact_sha256\"].items():\n    if p not in mutable: assert sha(p)==h, p\nproduct=sha(\"src/kmesh/logic/proof.py\")\ntest=sha(\"tests/test_proof.py\")\nassert product==\"008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa\"\nassert test==\"68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566\"\ninputs=[\"src/kmesh/logic/proof.py\",\"tests/test_proof.py\",\"README.md\",\"docs/implementation_status.md\",\n\"docs/handoffs/T0006-proof-verifier.md\",\"reports/T0006/pi-r3-full/provenance.md\",\n\"reports/T0006/mutation_set_check_r3.py\",\"reports/T0006/record_check.py\",\n\"KMesh_Research_Plan_v0.1.md\",\"KMesh_Paper_Framework_v0.1.md\",\"docs/decisions.md\",\n\"docs/handoffs/T0005-indexed-closure.md\",\"AGENTS.md\"]\ninput_hashes={}\nfor p in inputs:\n    dest=out/\"input-snapshot\"/p\n    dest.parent.mkdir(parents=True,exist_ok=True)\n    dest.write_bytes(Path(p).read_bytes())\n    input_hashes[p]=sha(p)\nbefore=Path(\"reports/T0006/review-r2-freeze/input-snapshot/tests/test_proof.py\").read_text()\nafter=Path(\"tests/test_proof.py\").read_text()\n(out/\"tests.diff\").write_text(\"\".join(difflib.unified_diff(before.splitlines(True),after.splitlines(True),fromfile=\"R2/tests/test_proof.py\",tofile=\"R3/tests/test_proof.py\")))\ndef funcs(source):\n    result={}\n    for item in ast.parse(source).body:\n        if isinstance(item,(ast.FunctionDef,ast.AsyncFunctionDef)):\n            result[item.name]=ast.dump(item,include_attributes=False)\n        elif isinstance(item,ast.ClassDef):\n            for fn in item.body:\n                if isinstance(fn,(ast.FunctionDef,ast.AsyncFunctionDef)):\n                    result[item.name+\".\"+fn.name]=ast.dump(fn,include_attributes=False)\n    return result\nbf,af=funcs(before),funcs(after)\nchanged=sorted(k for k in set(bf)|set(af) if bf.get(k)!=af.get(k))\nassert changed==sorted([\"int_limit_4300\",\"TestLogicalCounterexamples.test_rule_with_too_few_premise_references_is_false\",\"TestHugeIntAtDigitLimit4300.test_positive_huge_premise_reference_verifies_false\"]),changed\nrecords=[]\nfor d in sorted(Path(\"reports/T0006\").glob(\"pi-r3-*\")):\n    rec=json.loads((d/\"record.json\").read_text())\n    assert rec[\"status\"]==\"finished\" and rec[\"exit_code\"]==0,d\n    assert rec[\"before\"][\"source_sha256\"]==rec[\"after\"][\"source_sha256\"],d\n    assert rec[\"before\"][\"source_sha256\"][\"src/kmesh/logic/proof.py\"]==product,d\n    assert rec[\"before\"][\"source_sha256\"][\"tests/test_proof.py\"]==test,d\n    for stream in (\"stdout\",\"stderr\"): assert sha(d/(stream+\".txt\"))==rec[stream+\"_sha256\"],d\n    records.append({\"run\":d.name, **{k:rec[k] for k in (\"argv\",\"exit_code\",\"elapsed_s\",\"started_at_utc\",\"finished_at_utc\")}})\nassert len(records)==5\nassert \"101 passed in 0.22s\" in Path(\"reports/T0006/pi-r3-focused/stdout.txt\").read_text()\nassert \"438 passed in 4.05s\" in Path(\"reports/T0006/pi-r3-full/stdout.txt\").read_text()\nfor d in (\"pi-r3-focused\",\"pi-r3-full\"):\n    assert not Path(\"reports/T0006\",d,\"stderr.txt\").read_bytes()\nlinks=0\nprov=Path(\"reports/T0006/pi-r3-full/provenance.md\")\nfor target in re.findall(r\"\\]\\(([^)]+)\\)\",prov.read_text()):\n    target=target.split(\"#\",1)[0]\n    if target and \"://\" not in target:\n        assert (prov.parent/target).exists(),target\n        links+=1\nhistory={}\nfor p in Path(\"reports\").rglob(\"*\"):\n    if p.is_file() and \"pytest-tmp\" not in p.parts and \"__pycache__\" not in p.parts and not any(part.startswith(\"review-r3\") for part in p.parts):\n        history[str(p)]=sha(p)\nhead=subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip()\nassert head==\"6dcaae2ef40459e80ed5919e658db84986526211\"\nfor p in subprocess.check_output([\"git\",\"ls-files\",\"src\",\"tests\",\"pyproject.toml\",\"AGENTS.md\"],text=True).splitlines():\n    assert Path(p).read_bytes()==subprocess.check_output([\"git\",\"show\",\"HEAD:\"+p]),p\naudit={\"head\":head,\"input_sha256\":input_hashes,\"history_sha256\":history,\n\"pi_r3_records\":records,\"changed_test_functions\":changed,\"new_provenance_links_checked\":links,\n\"previous_721_history_unchanged\":True,\"previous_review_artifacts_unchanged\":True,\n\"limits\":[\"Unrecorded pre-edit /tmp probe is disclosed self-report, not primary evidence.\",\n\"Reported prior link-check failure has no archived failed RUN; do not treat it as verifiable history.\"]}\n(out/\"audit.json\").write_text(json.dumps(audit,ensure_ascii=False,indent=2)+\"\\n\")\nprint(\"PASS: frozen product, exact three test changes, five Pi RUNs/log hashes, all prior histories preserved\")\nprint(f\"PASS: {links} new provenance links; {len(history)} current history files frozen\")\nprint(\"Changed functions:\",changed)\nprint(\"Product SHA-256:\",product)\nprint(\"Test SHA-256:\",test)\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.272,
+      "started_at_utc": "2026-09-17T03:33:09.004343+00:00",
+      "finished_at_utc": "2026-09-17T03:33:09.288608+00:00"
+    },
+    "review-r3-probes": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0006/review-r3/probe.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.191,
+      "started_at_utc": "2026-09-17T03:33:54.360983+00:00",
+      "finished_at_utc": "2026-09-17T03:33:54.565123+00:00"
+    },
+    "review-r3-focused": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof.py",
+        "--basetemp",
+        "reports/T0006/review-r3-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.462,
+      "started_at_utc": "2026-09-17T03:33:54.722445+00:00",
+      "finished_at_utc": "2026-09-17T03:33:55.196617+00:00"
+    }
+  },
+  "independent_tests_this_round": "101 passed in 0.23s; no skips/xfails",
+  "pi_full_run_verified": "438 passed in 4.05s; all five Pi R3 RUN logs and before/after hashes verified",
+  "full_suite_repeated_by_codex_this_round": false,
+  "full_suite_scope_reason": "Only two proof test bodies and one docstring changed; product, original 337 tests and other proof tests unchanged. Focused independent run plus targeted mutants and Pi full evidence are sufficient.",
+  "mutation_probe": {
+    "real_count_fixture": {
+      "outcome": "PASS",
+      "trace": [
+        true,
+        false
+      ]
+    },
+    "real_huge_reference_fixture": {
+      "outcome": "PASS",
+      "trace": [
+        true,
+        false
+      ]
+    },
+    "count_mutant_rejected": {
+      "outcome": "AssertionError",
+      "trace": [
+        true,
+        true
+      ]
+    },
+    "huge_reference_mutant_rejected": {
+      "outcome": "ValueError",
+      "trace": [
+        true,
+        "ValueError"
+      ]
+    },
+    "integer_limit_restored": true
+  },
+  "history_files_verified": 766,
+  "history_scope": "Union of previous 721-file freeze and current freeze; preserves older tasks' review-r3 reports as well.",
+  "hygiene": {
+    "git_diff_check": "PASS",
+    "local_links_checked": 73,
+    "python_blocks_compiled": 7,
+    "text": "PASS"
+  },
+  "artifact_sha256": {
+    "README.md": "9284d2b348ed02fe0addae7be27c22529050a864aa1e9803cc5831d8285ef5ac",
+    "docs/implementation_status.md": "28212075fe76e61efeed2e2c3690bd8d7f8022fe3e86da924e4c2b4152961859",
+    "docs/handoffs/T0006-proof-verifier.md": "3c4e33710b176ef9431e64bd56c800f2ae54b6e99b51b28df8fcd56ca067a99f",
+    "reports/T0006/review-r3/review.md": "e207525fb061bbe68e68912fe6a463b80bec853c15036369a5c554b107c68626",
+    "reports/T0006/review-r3/probe.py": "ed0ebce6ad66657ea4fc18d5769169bbae090fe0c27fe148eb812a5962138317",
+    "reports/T0006/review-r3-probes/findings.json": "e53da0610693c797d360cef345a96b95404f2695d28e632d0f1697a3b4e96ce8",
+    "reports/T0006/review-r3-freeze/audit.json": "2253705fc54a9966274a901c20dd533d48fc6ea9085933e493f49f71761998ee"
+  },
+  "limits": [
+    "No source/test modification during review",
+    "Given finite proof validation only; no proof generation/enumeration/world audit",
+    "False is not a negative query label; resource limit is not False",
+    "No commit or push"
+  ]
+}

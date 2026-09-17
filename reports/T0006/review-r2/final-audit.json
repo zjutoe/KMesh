@@ -1,0 +1,116 @@
+{
+  "created_at_utc": "2026-09-17T02:23:15.863099+00:00",
+  "result": "NEEDS_CHANGES",
+  "task_status": "needs_changes",
+  "reviewer": "Codex + gpt-6-astra xhigh",
+  "independent_static_reviewer": "/root/review_t0006_tests",
+  "product_sha256": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+  "test_sha256": "21e099b8939e35f90e188062973d0b5e553e07e50f86127441d399a8848897c3",
+  "product_defect_found": false,
+  "acceptance": {
+    "A1": "previously_passed_product_unchanged",
+    "A2": "previously_passed_product_unchanged",
+    "A3": "previously_passed_product_unchanged",
+    "A4": "previously_passed_product_unchanged",
+    "A5": "needs_changes_two_fixtures",
+    "A6": "PASS",
+    "A7": "needs_record_corrections"
+  },
+  "findings": [
+    {
+      "id": "R2-remaining",
+      "priority": "P2",
+      "location": "tests/test_proof.py:252",
+      "reason": "Too-few-premise fixture also has an invalid head; accepts a count-check mutant.",
+      "change": "Use valid paired proofs with head bound by first premise, delete only second reference."
+    },
+    {
+      "id": "R3-remaining",
+      "priority": "P2",
+      "location": "tests/test_proof.py:928",
+      "reason": "Huge positive reference is attached to a fact, so wrong arity returns before reference validation.",
+      "change": "Use valid FACT+COPY and change only COPY reference 0 to 10**5000 under pinned 4300."
+    },
+    {
+      "id": "R4-remaining",
+      "priority": "P3",
+      "location": "reports/T0006/pi-r2-full/provenance.md",
+      "reason": "Incorrect guard root list, test count description, local paths and handoff RUN description.",
+      "change": "Append corrections in fresh provenance and execution record; preserve historical reports."
+    }
+  ],
+  "closed": [
+    "R1 import guards and restoration",
+    "R2 C-group JOIN and renaming",
+    "R3 priority, seven giant-integer diagnostics and limit restoration",
+    "R4 README default and command, first-round historical corrections"
+  ],
+  "verification_runs": {
+    "review-r2-freeze": {
+      "exit_code": 0,
+      "elapsed_s": 0.242,
+      "started_at_utc": "2026-09-17T02:13:58.578846+00:00",
+      "finished_at_utc": "2026-09-17T02:13:58.833249+00:00",
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path\nimport hashlib, json, shutil, subprocess\nroot=Path.cwd()\nout=root/\"reports/T0006/review-r2-freeze\"\nfrozen=out/\"input-snapshot\"\ntargets=[\"src/kmesh/logic/proof.py\",\"tests/test_proof.py\",\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0006-proof-verifier.md\",\"docs/decisions.md\",\"reports/T0006/provenance.md\",\"reports/T0006/pi-r2-full/provenance.md\",\"reports/T0006/mutation_set_check_r2.py\",\"reports/T0006/record_check.py\"]\nhashes={}\nfor name in targets:\n    src=root/name\n    dst=frozen/name\n    dst.parent.mkdir(parents=True,exist_ok=True)\n    shutil.copyfile(src,dst)\n    hashes[name]=hashlib.sha256(src.read_bytes()).hexdigest()\nassert hashes[\"src/kmesh/logic/proof.py\"]==\"008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa\"\nassert hashes[\"tests/test_proof.py\"]==\"21e099b8939e35f90e188062973d0b5e553e07e50f86127441d399a8848897c3\"\nprevious=json.loads((root/\"reports/T0006/review-r1-freeze/audit.json\").read_text())\noriginal_prov=(root/\"reports/T0006/review-r1-freeze/input-snapshot/reports/T0006/provenance.md\").read_bytes()\nassert (root/\"reports/T0006/provenance.md\").read_bytes().startswith(original_prov)\nold_changes=[]\nfor name,digest in previous[\"history_sha256\"].items():\n    if hashlib.sha256((root/name).read_bytes()).hexdigest()!=digest:\n        old_changes.append(name)\nassert old_changes==[\"reports/T0006/provenance.md\"],old_changes\nprevious_review=json.loads((root/\"reports/T0006/review-r1/final-audit.json\").read_text())\nfor name,digest in previous_review[\"review_artifacts_sha256\"].items():\n    if name.startswith(\"reports/\"):\n        assert hashlib.sha256((root/name).read_bytes()).hexdigest()==digest,name\nhistory={}\nfor task in range(1,7):\n    for p in (root/f\"reports/T{task:04d}\").rglob(\"*\"):\n        if not p.is_file() or \"pytest-tmp\" in p.parts or \"__pycache__\" in p.parts:\n            continue\n        if task==6 and any(part.startswith(\"review-r2\") for part in p.parts):\n            continue\n        history[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()\nrecords=[]\nfor p in sorted((root/\"reports/T0006\").glob(\"pi-r2*/record.json\")):\n    d=json.loads(p.read_text())\n    assert d[\"before\"][\"source_sha256\"]==d[\"after\"][\"source_sha256\"],p\n    assert d[\"before\"][\"source_sha256\"][\"src/kmesh/logic/proof.py\"]==hashes[\"src/kmesh/logic/proof.py\"],p\n    for stream in (\"stdout\",\"stderr\"):\n        assert hashlib.sha256((p.parent/(stream+\".txt\")).read_bytes()).hexdigest()==d[stream+\"_sha256\"],p\n    records.append({\"run\":p.parent.name,\"exit_code\":d[\"exit_code\"],\"elapsed_s\":d[\"elapsed_s\"],\"argv\":d[\"argv\"],\"source_sha256\":d[\"before\"][\"source_sha256\"],\"started_at_utc\":d[\"started_at_utc\"],\"finished_at_utc\":d[\"finished_at_utc\"]})\nfor name in subprocess.run([\"git\",\"ls-files\",\"src\",\"tests\",\"pyproject.toml\",\"AGENTS.md\"],capture_output=True,text=True,check=True).stdout.splitlines():\n    assert (root/name).read_bytes()==subprocess.run([\"git\",\"show\",\"HEAD:\"+name],capture_output=True,check=True).stdout,name\nplanning=json.loads((root/\"reports/T0006/planning-final-check.json\").read_text())\nfor name in (\"reports/T0006/record_check.py\",\"reports/T0006/.gitignore\"):\n    assert hashlib.sha256((root/name).read_bytes()).hexdigest()==planning[\"file_sha256\"][name]\nreport={\"input_sha256\":hashes,\"history_sha256\":history,\"pi_r2_records\":records,\"previous_history_changes\":old_changes,\"old_provenance_prefix_preserved\":True,\"previous_review_artifacts_unchanged\":True}\n(out/\"audit.json\").write_text(json.dumps(report,ensure_ascii=False,indent=2)+\"\\n\")\nprint(\"PASS frozen product/test hashes, original evidence, append-only provenance, recorder and prior tracked inputs\")\nprint(\"R2 recorded RUNs:\",len(records),\"Historical files frozen:\",len(history))\nfor r in records: print(r[\"run\"],\"exit=\",r[\"exit_code\"],\"elapsed_s=\",r[\"elapsed_s\"])\n"
+      ]
+    },
+    "review-r2-full": {
+      "exit_code": 0,
+      "elapsed_s": 4.313,
+      "started_at_utc": "2026-09-17T02:14:19.508682+00:00",
+      "finished_at_utc": "2026-09-17T02:14:23.834107+00:00",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0006/review-r2-full/pytest-tmp"
+      ]
+    },
+    "review-r2-probes": {
+      "exit_code": 0,
+      "elapsed_s": 0.193,
+      "started_at_utc": "2026-09-17T02:15:42.230753+00:00",
+      "finished_at_utc": "2026-09-17T02:15:42.436361+00:00",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0006/review-r2/probe.py"
+      ]
+    }
+  },
+  "full_regression": "438 passed in 4.05s; no skips or xfails; stderr empty",
+  "pi_r2_runs_verified": 6,
+  "historical_files_preserved": 721,
+  "old_provenance_append_only_verified": true,
+  "closure_checks": {
+    "git_diff_check": "PASS",
+    "local_links": 61,
+    "python_blocks": 7,
+    "text_hygiene": "PASS"
+  },
+  "artifact_sha256": {
+    "README.md": "301afc8d06aacfda49fa0649f50a810b5f2de7fbae114ba79cbf2661f46c8e2a",
+    "docs/implementation_status.md": "2aad717800dd1f12ae7e44acbeb42941eded33b08b65dd6136cfb25d21be8831",
+    "docs/handoffs/T0006-proof-verifier.md": "1dfbc47a3b99b7ed03efe5300aea984264eb1e34d7cf56ebbeee13cae6abeb70",
+    "reports/T0006/review-r2/review.md": "ebc62b6c00e005a7d74c3ca1d61fe21cce356145252eabecd59a069a6bc562f2",
+    "reports/T0006/review-r2/probe.py": "f8985c1f83f78baa1ed6553f2d6a80543942d70eca9c412d118630c716a4cdf8",
+    "reports/T0006/review-r2-probes/findings.json": "dbf26f4e093ea3c9be4d6766937df31d8b10114dda60743b10d81f9f34fcfa11",
+    "reports/T0006/review-r2-freeze/audit.json": "5cac6a953889ac4ca1555d1cb0731f2b450fcd674d98657a00a6e6e496ae30f0"
+  },
+  "limits": [
+    "No product or test modification during review",
+    "Not accepted",
+    "No commit or push"
+  ],
+  "orchestration_note": "First close-check tool submission failed JavaScript parsing before any shell command or RUN was created; corrected quoting and launched the recorded check."
+}

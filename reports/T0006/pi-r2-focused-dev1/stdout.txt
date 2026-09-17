@@ -1,0 +1,34 @@
+........................................................................ [ 71%]
+..............F.F............                                            [100%]
+=================================== FAILURES ===================================
+_______ TestErrorPriority.test_premise_count_before_premise_member_type ________
+
+self = <test_proof.TestErrorPriority object at 0x7f9a278d2190>
+
+    def test_premise_count_before_premise_member_type(self):
+        # Three references is rejected as too many before the float
+        # third element is type-checked.
+        with pytest.raises(LogicValidationError) as exc:
+>           ProofStep(0, (), _atom("q", "a", "a"),
+                      premise_steps=(0, 0, 1.5))
+E           TypeError: ProofStep.__init__() got multiple values for argument 'premise_steps'
+
+tests/test_proof.py:827: TypeError
+___ TestHugeIntAtDigitLimit4300.test_negative_huge_premise_reference_raises ____
+
+self = <test_proof.TestHugeIntAtDigitLimit4300 object at 0x7f9a27915f90>
+int_limit_4300 = None
+
+    def test_negative_huge_premise_reference_raises(
+        self, int_limit_4300
+    ):
+        with pytest.raises(LogicValidationError) as exc:
+>           ProofStep(0, (), self._query(),
+                      premise_steps=(-LARGE_DIGIT_VALUE,))
+E           TypeError: ProofStep.__init__() got multiple values for argument 'premise_steps'
+
+tests/test_proof.py:881: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_proof.py::TestErrorPriority::test_premise_count_before_premise_member_type
+FAILED tests/test_proof.py::TestHugeIntAtDigitLimit4300::test_negative_huge_premise_reference_raises
+2 failed, 99 passed in 0.38s

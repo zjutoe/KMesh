@@ -1,0 +1,31 @@
+{
+  "real_count_fixture": {
+    "outcome": "PASS",
+    "trace": [
+      true,
+      false
+    ]
+  },
+  "real_huge_reference_fixture": {
+    "outcome": "PASS",
+    "trace": [
+      true,
+      false
+    ]
+  },
+  "count_mutant_rejected": {
+    "outcome": "AssertionError",
+    "trace": [
+      true,
+      true
+    ]
+  },
+  "huge_reference_mutant_rejected": {
+    "outcome": "ValueError",
+    "trace": [
+      true,
+      "ValueError"
+    ]
+  },
+  "integer_limit_restored": true
+}

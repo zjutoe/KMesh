@@ -93,7 +93,7 @@ closure = reference_closure(world)
 # frozenset({r1(a,b), r2(b,c), r3(a,c)})：初始事实与全部推导的 ground Atom
 ```
 
-**状态：已验收（`accepted`），R1 已关闭。** Codex 第 2 轮独立原因守卫 7/7、完整回归 218 项通过。证明验证器、生成器/关系 DAG world 审计尚未实施；双求解器一致性目前仅由 T0005 的 64 个固定 seed 小世界实测交叉验证，尚不构成研究结论。
+**状态：已验收（`accepted`），R1 已关闭。** Codex 第 2 轮独立原因守卫 7/7、完整回归 218 项通过。证明验证器在该任务验收时尚未实施（现由 T0006 覆盖）；生成器/关系 DAG world 审计仍未实施。双求解器一致性目前仅由 T0005 的 64 个固定 seed 小世界实测交叉验证，尚不构成研究结论。
 
 索引闭包求解器（T0005，主求解路径）：`kmesh.logic.engine` 提供 `indexed_closure(clauses, *, max_fact_checks=100_000)`，以 tuple 形式的已校验 `Clause` 序列为输入（非法输入按 `indexed.*` 字段报 `LogicValidationError`，含非 bool 正整数预算检查），用谓词索引 + 前提拼接的同步不动点（D20：每轮索引取上一轮快照、按 body 顺序逐前提拼接、逐候选检查、整轮完成后再合并新增 head）计算全部可推 ground `Atom`，返回不可变 `frozenset[Atom]`；与参考实现不共享推理代码。预算异常 `IndexedLimitError` 按“每个准备用于匹配的候选 fact 计一次”累计（失配也计、空前提桶成本为 0、最终无新增轮的检查也计；恰好用完且完成无新增轮时正常返回，超限立即抛错且不返回部分闭包）。最小使用例（纯标准库依赖）：
 
@@ -110,15 +110,40 @@ closure = indexed_closure(world)
 # frozenset({p(a,a), q(a,a)})：初始事实与全部推导的 ground Atom
 ```
 
-**状态：已验收（`accepted`，2026-09-16），R1–R3 已关闭。** Codex 第 2 轮独立完整回归 **337 项通过**（含 119 项索引测试与 64 个固定 seed 世界交叉验证），原流式探针通过；已改为逐候选嵌套匹配，补齐真 INTER 手算例，并核验失败先留存、修复后通过的证据链。首轮丢失历史及本轮记录补充见 [T0005 验收记录](docs/handoffs/T0005-indexed-closure.md)。更大 world 分布上的一致性、证明验证器与世界审计尚未实施，不能据此声称双求解器对所有输入等价或研究假设成立。
+**状态：已验收（`accepted`，2026-09-16），R1–R3 已关闭。** Codex 第 2 轮独立完整回归 **337 项通过**（含 119 项索引测试与 64 个固定 seed 世界交叉验证），原流式探针通过；已改为逐候选嵌套匹配，补齐真 INTER 手算例，并核验失败先留存、修复后通过的证据链。首轮丢失历史及本轮记录补充见 [T0005 验收记录](docs/handoffs/T0005-indexed-closure.md)。更大 world 分布上的一致性与世界审计尚未实施；证明验证器在该任务验收时尚未实施（现由 T0006 覆盖，已验收），不能据此声称双求解器对所有输入等价或研究假设成立。
+
+独立证明验证器（T0006，落实 D21）：`kmesh.logic.proof` 提供冻结 dataclass `ProofStep(clause_index, premise_steps, conclusion)`（字段约束统一抛 `LogicValidationError`，使用 `proof_step.`/`verify.` 字段路径与受控诊断输出，巨整数仅输出类型名）与 `verify_proof(clauses, query, proof, *, max_steps=10_000)`。逐步核验“每步 conclusion 是否由指定原始 clause 的 head 与已验证前提 conclusion 的局部绑定推导”（空 body 为事实引用、非空 body 从全新变量作用域绑定、常量必须相等、共享变量必须归一、引用严格向前），返回严格 `bool`；索引越界、self/forward 引用、伪造/篡改/不一致的证据均返回 False 不抛错；总步骤数（含事实、重复与合法无关步骤）超过预算立即抛 `ProofLimitError`（不得与 False 混淆，不返回部分结论）；空 proof 返回 False。包保持零导入，不依赖任何求解器。**True 只证明这份给定证据有效（不证明唯一、最短或无替代路径），False 只说明该证据无效，不得用于产生 query 的负标签**；证明与中间结论仅供离线审计，不进入模型输入或 forward/predict。最小使用例（研究计划 §4.2 主例）：
+
+```python
+from kmesh.logic.proof import ProofStep, verify_proof
+from kmesh.logic.types import Atom, Clause
+
+clauses = (
+    Clause((), Atom("r1", ("a", "b"))),
+    Clause((), Atom("r2", ("b", "c"))),
+    Clause((Atom("r1", ("?x", "?y")), Atom("r2", ("?y", "?z"))),
+           Atom("r3", ("?x", "?z"))),
+    Clause((Atom("r3", ("?x", "?y")),),
+           Atom("r4", ("?y", "?x"))),
+)
+proof = (
+    ProofStep(0, (), Atom("r1", ("a", "b"))),
+    ProofStep(1, (), Atom("r2", ("b", "c"))),
+    ProofStep(2, (0, 1), Atom("r3", ("a", "c"))),
+    ProofStep(3, (2,), Atom("r4", ("c", "a"))),
+)
+assert verify_proof(clauses, Atom("r4", ("c", "a")), proof) is True
+```
+
+**状态：已验收（`accepted`，2026-09-17），R1–R4 已关闭。** Codex 第 3 轮独立复跑 **101 项 proof 测试**，确认“引用不足”与“大正前提引用”测试能拒绝对应错误实现；Pi 的 **438 项完整回归**记录与源码哈希核对通过。产品源码始终冻结；历史留证限制见 [T0006 交接文档](docs/handoffs/T0006-proof-verifier.md)，复验详情见 [验收报告](reports/T0006/review-r3/review.md)。
 
 运行测试：
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_proof.py tests/test_config.py tests/test_doctor.py
 ```
 
-当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；证明生成／枚举、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
 截至 2026-09-16，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 

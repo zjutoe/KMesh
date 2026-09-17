@@ -1,0 +1,4 @@
+PASS: both submitted fixtures return [True, False] on the frozen product
+PASS: submitted count test rejects zip truncation; trace [True, True]
+PASS: submitted huge-reference test rejects premature string conversion; trace [True, ValueError]
+PASS: submitted 4300 fixture restores the previous limit; no source/test files edited

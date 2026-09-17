@@ -1,0 +1,5 @@
+PASS: frozen product, exact three test changes, five Pi RUNs/log hashes, all prior histories preserved
+PASS: 12 new provenance links; 704 current history files frozen
+Changed functions: ['TestHugeIntAtDigitLimit4300.test_positive_huge_premise_reference_verifies_false', 'TestLogicalCounterexamples.test_rule_with_too_few_premise_references_is_false', 'int_limit_4300']
+Product SHA-256: 008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa
+Test SHA-256: 68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566
