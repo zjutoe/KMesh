@@ -1,0 +1,2 @@
+PASS: submitted generator test passes on frozen product
+PASS: missing-reason and missing-type mutants are each rejected by submitted assertions

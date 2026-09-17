@@ -1,0 +1,13 @@
+/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-a66db1b5-f079-49a4-975d-9404cd09f115/test_public_call_logs_then_blo1/loader/configs
+<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-a66db1b5-f079-49a4-975d-9404cd09f115/test_public_call_logs_then_blo1/loader/configs'
+  warnings.warn(
+/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-a66db1b5-f079-49a4-975d-9404cd09f115/test_public_call_logs_then_blo1/loader
+<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-a66db1b5-f079-49a4-975d-9404cd09f115/test_public_call_logs_then_blo1/loader'
+  warnings.warn(
+/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-a66db1b5-f079-49a4-975d-9404cd09f115/test_public_call_logs_then_blo1
+<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-a66db1b5-f079-49a4-975d-9404cd09f115/test_public_call_logs_then_blo1'
+  warnings.warn(
+/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-a66db1b5-f079-49a4-975d-9404cd09f115
+<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-a66db1b5-f079-49a4-975d-9404cd09f115'
+  warnings.warn(
+/home/mye/src/llm/KMesh/.venv/bin/python: No module named kmesh.__main__; 'kmesh' is a package and cannot be directly executed

@@ -1,0 +1,4 @@
+PASS: all 512 directed graphs on three named vertices agree with exhaustive permutation oracle (25 DAG, 487 cyclic)
+CONFIRMED: submitted generator test passes even when its error lacks the required reason and type
+PASS: adding the two missing reason/type assertions would detect this mutant without product changes
+PASS: submitted README T0007 example executes

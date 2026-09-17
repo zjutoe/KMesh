@@ -1,0 +1,3 @@
+PASS: product frozen, only target test function changed, all three Pi R2 RUN hashes/outputs verified
+PASS: 875 historical files frozen; old 832-file set and Codex review unchanged
+Supplement: {"path": "/tmp/t7d3.json", "exists_at_review": true, "limits": "Report content only; original invocation and environment not recorded by record_check.", "copied_to": "reports/T0007/review-r2-freeze/supplement/t7d3.json", "sha256": "866f9a3949f1637f4f4b6dbc889aad7e73b2bbf3d71d692ed594c6c068f231da", "generated_at_utc": "2026-09-17T04:58:09.601679+00:00", "torch": "2.10.0+cu126", "status": "ok", "cuda": {"runtime_version": "12.6", "available": true, "device_count": 1, "devices": [{"index": 0, "name": "NVIDIA GeForce RTX 3090", "total_memory_bytes": 25296044032}]}}

@@ -1,0 +1,27 @@
+--- R1/tests/test_dependency.py
++++ R2/tests/test_dependency.py
+@@ -229,9 +229,10 @@
+ 
+ 
+ def test_predicate_bijection_rename_new_order():
+-    # Rename predicate "a" to "m"; hand-computed new order for edges
+-    # m -> b plus isolated z.  Not a position-wise mapping of the
+-    # original ("a", "b", "z").
++    # Hand-computed new order for edges m -> b plus isolated fact z.
++    # (In this fixture the result happens to equal the position-wise
++    # rename of the original ("a", "b", "z"); the check is against the
++    # explicit expected tuple, not the old one.)
+     world = (
+         Clause((), Atom("m", ("a", "b"))),
+         Clause((), Atom("z", ("a", "b"))),
+@@ -281,6 +282,10 @@
+     with pytest.raises(LogicValidationError) as excinfo:
+         relation_topological_order(gen_obj)
+     assert "dependency.clauses" in str(excinfo.value)
++    message = str(excinfo.value)
++    assert "dependency.clauses" in message
++    assert "must be a tuple of Clause" in message
++    assert "got generator" in message
+     assert next(gen_obj) is _VALID
+ 
+ 
