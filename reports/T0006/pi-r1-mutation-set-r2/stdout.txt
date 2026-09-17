@@ -1,0 +1,64 @@
+DIFF-CHECK FAIL: not in HEAD (unexpected): src/kmesh/logic/proof.py
+DIFF-CHECK FAIL: not in HEAD (unexpected): tests/test_proof.py
+DIFF-CHECK FAIL: git status mismatch:
+ actual:   M KMesh_Research_Plan_v0.1.md
+     M README.md
+     M docs/decisions.md
+     M docs/handoffs/T0005-indexed-closure.md
+     M docs/implementation_status.md
+    ?? KMesh_Paper_Framework_v0.1.md
+    ?? docs/handoffs/T0006-proof-verifier.md
+    ?? reports/T0006/.gitignore
+    ?? reports/T0006/mutation_set_check.py
+    ?? reports/T0006/pi-r1-dev-syntax/record.json
+    ?? reports/T0006/pi-r1-dev-syntax/stderr.txt
+    ?? reports/T0006/pi-r1-dev-syntax/stdout.txt
+    ?? reports/T0006/pi-r1-diff-check/record.json
+    ?? reports/T0006/pi-r1-diff-check/stderr.txt
+    ?? reports/T0006/pi-r1-diff-check/stdout.txt
+    ?? reports/T0006/pi-r1-focused-r2/record.json
+    ?? reports/T0006/pi-r1-focused-r2/stderr.txt
+    ?? reports/T0006/pi-r1-focused-r2/stdout.txt
+    ?? reports/T0006/pi-r1-focused-r3/record.json
+    ?? reports/T0006/pi-r1-focused-r3/stderr.txt
+    ?? reports/T0006/pi-r1-focused-r3/stdout.txt
+    ?? reports/T0006/pi-r1-focused-r4/record.json
+    ?? reports/T0006/pi-r1-focused-r4/stderr.txt
+    ?? reports/T0006/pi-r1-focused-r4/stdout.txt
+    ?? reports/T0006/pi-r1-focused/record.json
+    ?? reports/T0006/pi-r1-focused/stderr.txt
+    ?? reports/T0006/pi-r1-focused/stdout.txt
+    ?? reports/T0006/pi-r1-full/record.json
+    ?? reports/T0006/pi-r1-full/stderr.txt
+    ?? reports/T0006/pi-r1-full/stdout.txt
+    ?? reports/T0006/pi-r1-mutation-set-r2/record.json
+    ?? reports/T0006/pi-r1-mutation-set/record.json
+    ?? reports/T0006/pi-r1-mutation-set/stderr.txt
+    ?? reports/T0006/pi-r1-mutation-set/stdout.txt
+    ?? reports/T0006/pi-r1-preflight-r2/record.json
+    ?? reports/T0006/pi-r1-preflight-r2/stderr.txt
+    ?? reports/T0006/pi-r1-preflight-r2/stdout.txt
+    ?? reports/T0006/pi-r1-preflight/record.json
+    ?? reports/T0006/pi-r1-preflight/stderr.txt
+    ?? reports/T0006/pi-r1-preflight/stdout.txt
+    ?? reports/T0006/planning-baseline.json
+    ?? reports/T0006/planning-checks.json
+    ?? reports/T0006/planning-final-check.json
+    ?? reports/T0006/planning-preflight/record.json
+    ?? reports/T0006/planning-preflight/stderr.txt
+    ?? reports/T0006/planning-preflight/stdout.txt
+    ?? reports/T0006/planning-review.md
+    ?? reports/T0006/provenance.md
+    ?? reports/T0006/record_check.py
+    ?? src/kmesh/logic/proof.py
+    ?? tests/test_proof.py
+ expected:  M README.md
+     M docs/handoffs/T0006-proof-verifier.md
+     M docs/implementation_status.md
+    ?? reports/T0006/
+    ?? src/kmesh/logic/proof.py
+    ?? tests/test_proof.py
+     M KMesh_Research_Plan_v0.1.md
+     M docs/decisions.md
+     M docs/handoffs/T0005-indexed-closure.md
+    ?? KMesh_Paper_Framework_v0.1.md

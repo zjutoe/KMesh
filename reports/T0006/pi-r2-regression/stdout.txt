@@ -1,0 +1,27 @@
+........................................................................ [ 82%]
+...........FF..                                                          [100%]
+=================================== FAILURES ===================================
+_________ TestGuardSelfCheck.test_guard_actually_blocks_engine_import __________
+
+self = <test_proof.TestGuardSelfCheck object at 0x7fdc4f585810>
+
+    def test_guard_actually_blocks_engine_import(self):
+>       with pytest.raises(ImportError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ImportError'>
+
+tests/test_proof.py:719: Failed
+____ TestGuardSelfCheck.test_guard_actually_blocks_reference_engine_import _____
+
+self = <test_proof.TestGuardSelfCheck object at 0x7fdc4f585950>
+
+    def test_guard_actually_blocks_reference_engine_import(self):
+>       with pytest.raises(ImportError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ImportError'>
+
+tests/test_proof.py:723: Failed
+=========================== short test summary info ============================
+FAILED tests/test_proof.py::TestGuardSelfCheck::test_guard_actually_blocks_engine_import
+FAILED tests/test_proof.py::TestGuardSelfCheck::test_guard_actually_blocks_reference_engine_import
+2 failed, 85 passed in 0.29s

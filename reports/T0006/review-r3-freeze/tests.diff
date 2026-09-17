@@ -1,0 +1,75 @@
+--- R2/tests/test_proof.py
++++ R3/tests/test_proof.py
+@@ -250,15 +250,24 @@
+         assert verify_proof(world, _atom("p", "a", "b"), proof) is False
+ 
+     def test_rule_with_too_few_premise_references_is_false(self):
+-        # Two-premise rule, only one reference submitted.  The query is
+-        # set equal to the step's conclusion so the insufficient
+-        # reference count is the sole violation.
+-        world = (_fact("p", "a", "b"), _fact("p", "b", "c"),
+-                 _rule((_atom("p", "?x", "?y"), _atom("p", "?y", "?z")),
+-                       "r", "?x", "?z"))
+-        proof = (ProofStep(0, (), _atom("p", "a", "b")),
+-                 ProofStep(2, (0,), _atom("r", "a", "b")))
+-        assert verify_proof(world, _atom("r", "a", "b"), proof) is False
++        # The head's variables all come from the first premise, so an
++        # implementation that tolerated the missing reference (e.g.
++        # zip-truncation over the rule body) would still return True;
++        # the correct product rejects the insufficient reference alone.
++        p = Atom("p", ("a", "b"))
++        q = Atom("q", ("b", "c"))
++        goal = Atom("r", ("a", "b"))
++        clauses = (
++            Clause((), p),
++            Clause((), q),
++            Clause((Atom("p", ("?x", "?y")), Atom("q", ("?y", "?z"))),
++                   Atom("r", ("?x", "?y"))),
++        )
++        good = (ProofStep(0, (), p), ProofStep(1, (), q),
++                ProofStep(2, (0, 1), goal))
++        bad = good[:2] + (ProofStep(2, (0,), goal),)
++        assert verify_proof(clauses, goal, good) is True
++        assert verify_proof(clauses, goal, bad) is False
+ 
+     def test_rule_with_too_many_premise_references_is_false(self):
+         # Single-premise rule: exactly one prior step may be cited.
+@@ -835,7 +844,7 @@
+ 
+ @pytest.fixture
+ def int_limit_4300():
+-    """Pin the interpreter's int<->str digit limit to its maximum value.
++    """Pin the interpreter's int<->str digit limit to 4300.
+ 
+     ``10**5000`` is above that 4300-digit limit, so a diagnostic that
+     stringifies the value would raise ValueError and abort the test.
+@@ -928,12 +937,23 @@
+     def test_positive_huge_premise_reference_verifies_false(
+         self, int_limit_4300
+     ):
+-        # Constructible; on a zero-premise fact clause the single
+-        # out-of-range reference is simply the wrong reference count,
+-        # so verification returns False without raising.
+-        step = ProofStep(0, (LARGE_DIGIT_VALUE,), self._query())
+-        assert verify_proof(self._world(), self._query(),
+-                            (step,)) is False
++        # A legal fact step plus a single-premise copy rule reach the
++        # actual reference comparison; the huge value is only a step
++        # reference, so the wrong-reference result cannot be masked by
++        # a premise-count error.  ``good`` verifies True; replacing the
++        # single reference with a huge positive int must return False
++        # (an implementation stringifying the reference before the
++        # range check would escape with ValueError at the 4300 limit).
++        large = 10 ** 5000
++        p = Atom("p", ("a", "b"))
++        goal = Atom("q", ("a", "b"))
++        clauses = (Clause((), p),
++                   Clause((Atom("p", ("?x", "?y")),), Atom("q", ("?x", "?y"))))
++        prefix = (ProofStep(0, (), p),)
++        good = prefix + (ProofStep(1, (0,), goal),)
++        bad = prefix + (ProofStep(1, (large,), goal),)
++        assert verify_proof(clauses, goal, good) is True
++        assert verify_proof(clauses, goal, bad) is False
+ 
+     def test_positive_huge_max_steps_accepted(self, int_limit_4300):
+         step = ProofStep(0, (), self._query())

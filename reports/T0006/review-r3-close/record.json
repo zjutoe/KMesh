@@ -1,0 +1,64 @@
+{
+  "started_at_utc": "2026-09-17T03:37:28.253261+00:00",
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "\nfrom pathlib import Path\nfrom datetime import datetime, timezone\nimport hashlib, json, re, subprocess, textwrap\nroot=Path.cwd()\ntask=root/\"reports/T0006\"\nfreeze=json.loads((task/\"review-r3-freeze/audit.json\").read_text())\nprior=json.loads((task/\"review-r2-freeze/audit.json\").read_text())\ndef sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()\ndocs=[\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0006-proof-verifier.md\",\"reports/T0006/review-r3/review.md\"]\nfor p,h in freeze[\"input_sha256\"].items():\n    if p not in docs: assert sha(p)==h,(\"input changed\",p)\nhistory=prior[\"history_sha256\"]|freeze[\"history_sha256\"]\nfor p,h in history.items(): assert sha(p)==h,(\"history changed\",p)\nprint(f\"PASS: product/test/unrelated inputs frozen; {len(history)} historical files unchanged\")\ncheck=subprocess.run([\"git\",\"diff\",\"--check\"],capture_output=True,text=True)\nprint(check.stdout,end=\"\")\nprint(check.stderr,end=\"\")\nassert check.returncode==0\nlinks=0\nblocks=0\nfor name in docs:\n    p=Path(name)\n    source=p.read_text()\n    assert source.endswith(\"\\n\") and all(line==line.rstrip() for line in source.splitlines()),name\n    assert \"accepted\" in source,name\n    for target in re.findall(r\"\\]\\(([^)]+)\\)\",source):\n        target=target.strip(\"<>\").split(\"#\",1)[0]\n        if target and not re.match(r\"^[a-zA-Z]+:\",target):\n            assert (p.parent/target).exists(),(name,target)\n            links+=1\n    for i,code in enumerate(re.findall(chr(96)*3+r\"python\\n(.*?)\"+chr(96)*3,source,re.S)):\n        compile(textwrap.dedent(code),f\"{name}:{i}\",\"exec\")\n        blocks+=1\nhandoff=Path(docs[2]).read_text()\nassert \"- \u72b6\u6001\uff1a\"+chr(96)+\"accepted\"+chr(96) in handoff\nfor i in range(1,8): assert f\"- [x] A{i}\uff1a\" in handoff\nruns={}\nfor name in (\"review-r3-freeze\",\"review-r3-probes\",\"review-r3-focused\"):\n    d=task/name\n    rec=json.loads((d/\"record.json\").read_text())\n    assert rec[\"status\"]==\"finished\" and rec[\"exit_code\"]==0,name\n    assert rec[\"before\"][\"source_sha256\"]==rec[\"after\"][\"source_sha256\"],name\n    for key in (\"stdout\",\"stderr\"): assert sha(d/(key+\".txt\"))==rec[key+\"_sha256\"],name\n    runs[name]={k:rec[k] for k in (\"argv\",\"exit_code\",\"elapsed_s\",\"started_at_utc\",\"finished_at_utc\")}\nassert \"101 passed in 0.23s\" in (task/\"review-r3-focused/stdout.txt\").read_text()\nassert not (task/\"review-r3-focused/stderr.txt\").read_bytes()\nartifacts=docs+[\"reports/T0006/review-r3/probe.py\",\"reports/T0006/review-r3-probes/findings.json\",\"reports/T0006/review-r3-freeze/audit.json\"]\naudit={\n \"created_at_utc\":datetime.now(timezone.utc).isoformat(),\n \"result\":\"PASS\",\"task_status\":\"accepted\",\n \"head\":freeze[\"head\"],\"reviewer\":\"Codex + gpt-6-astra xhigh\",\n \"independent_static_reviewer\":\"/root/review_t0006_tests\",\n \"accepted_files\":{p:sha(p) for p in (\"src/kmesh/logic/proof.py\",\"tests/test_proof.py\")},\n \"product_defect_found\":False,\"open_findings\":[],\n \"closed_findings\":[\"R1 isolation (previous round)\",\"R2 discriminating missing-reference fixture\",\"R3 huge positive reference reaches range check\",\"R4 appended record corrections\"],\n \"acceptance\":{f\"A{i}\":\"PASS\" for i in range(1,8)},\n \"A7_limits\":\"Evidence sufficient to accept current results; unrecorded /tmp precheck, self-reported link-check failure and first-round historical limitations remain. This is not a claim of complete procedural compliance.\",\n \"verification_runs\":runs,\n \"independent_tests_this_round\":\"101 passed in 0.23s; no skips/xfails\",\n \"pi_full_run_verified\":\"438 passed in 4.05s; all five Pi R3 RUN logs and before/after hashes verified\",\n \"full_suite_repeated_by_codex_this_round\":False,\n \"full_suite_scope_reason\":\"Only two proof test bodies and one docstring changed; product, original 337 tests and other proof tests unchanged. Focused independent run plus targeted mutants and Pi full evidence are sufficient.\",\n \"mutation_probe\":json.loads((task/\"review-r3-probes/findings.json\").read_text()),\n \"history_files_verified\":len(history),\"history_scope\":\"Union of previous 721-file freeze and current freeze; preserves older tasks' review-r3 reports as well.\",\n \"hygiene\":{\"git_diff_check\":\"PASS\",\"local_links_checked\":links,\"python_blocks_compiled\":blocks,\"text\":\"PASS\"},\n \"artifact_sha256\":{p:sha(p) for p in artifacts},\n \"limits\":[\"No source/test modification during review\",\"Given finite proof validation only; no proof generation/enumeration/world audit\",\"False is not a negative query label; resource limit is not False\",\"No commit or push\"]\n}\nwith (task/\"review-r3/final-audit.json\").open(\"x\") as f:\n    json.dump(audit,f,ensure_ascii=False,indent=2)\n    f.write(\"\\n\")\nprint(f\"PASS: diff, accepted status, {links} links, {blocks} Python blocks\")\nprint(\"PASS: final-audit.json written; accepted product 008bdd36..., tests 68fef57a...\")\n"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "env_overrides": {
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "timeout_s": 120,
+  "before": {
+    "head": "6dcaae2ef40459e80ed5919e658db84986526211\n",
+    "branch": "T0006-proof-verifier\n",
+    "status": " M KMesh_Research_Plan_v0.1.md\n M README.md\n M docs/decisions.md\n M docs/handoffs/T0005-indexed-closure.md\n M docs/implementation_status.md\n?? KMesh_Paper_Framework_v0.1.md\n?? docs/handoffs/T0006-proof-verifier.md\n?? reports/T0006/\n?? src/kmesh/logic/proof.py\n?? tests/test_proof.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0006/record_check.py": "54c5b72a5b35f0085804216ee9acf7f86905e93d00916b8051d45be108c527da"
+    }
+  },
+  "status": "finished",
+  "exit_code": 0,
+  "elapsed_s": 0.093,
+  "finished_at_utc": "2026-09-17T03:37:28.359137+00:00",
+  "after": {
+    "head": "6dcaae2ef40459e80ed5919e658db84986526211\n",
+    "branch": "T0006-proof-verifier\n",
+    "status": " M KMesh_Research_Plan_v0.1.md\n M README.md\n M docs/decisions.md\n M docs/handoffs/T0005-indexed-closure.md\n M docs/implementation_status.md\n?? KMesh_Paper_Framework_v0.1.md\n?? docs/handoffs/T0006-proof-verifier.md\n?? reports/T0006/\n?? src/kmesh/logic/proof.py\n?? tests/test_proof.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0006/record_check.py": "54c5b72a5b35f0085804216ee9acf7f86905e93d00916b8051d45be108c527da"
+    }
+  },
+  "stdout_sha256": "907c75f85de713ba74a725b3a100893ce71795b21e14451b68c613ae05f8dec8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

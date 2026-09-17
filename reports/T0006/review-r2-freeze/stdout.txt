@@ -1,0 +1,8 @@
+PASS frozen product/test hashes, original evidence, append-only provenance, recorder and prior tracked inputs
+R2 recorded RUNs: 6 Historical files frozen: 721
+pi-r2-diff-check exit= 0 elapsed_s= 0.007
+pi-r2-diff-check-r2 exit= 0 elapsed_s= 0.104
+pi-r2-focused exit= 0 elapsed_s= 0.46
+pi-r2-focused-dev1 exit= 1 elapsed_s= 0.62
+pi-r2-full exit= 0 elapsed_s= 4.292
+pi-r2-regression exit= 1 elapsed_s= 0.524

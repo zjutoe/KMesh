@@ -1,0 +1,56 @@
+.........................................................F.............. [ 84%]
+.............                                                            [100%]
+=================================== FAILURES ===================================
+___ TestDiagnosticsAndTypes.test_proof_step_field_validation[conclusion-int] ___
+
+self = <test_proof.TestDiagnosticsAndTypes object at 0x7fd57e79ea40>
+kind = 'conclusion-int'
+
+    @pytest.mark.parametrize("kind", STEP_CASES)
+    def test_proof_step_field_validation(self, kind):
+        with pytest.raises(LogicValidationError) as exc:
+            ProofStep(**_make_bad_step(kind))
+>       field, reason, got = _step_error_expectation(kind)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof.py:501: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+kind = 'conclusion-int'
+
+    def _step_error_expectation(kind):
+        """Return (field_path, reason_fragment, got_fragment_or_None)."""
+        prefixes = (
+            ("clause-index-", "proof_step.clause_index"),
+            ("premise-ref-", "proof_step.premise_steps[0]"),
+            ("premise-steps-", "proof_step.premise_steps"),
+            ("conclusion-", "proof_step.conclusion"),
+        )
+        for prefix, field in prefixes:
+            if kind.startswith(prefix):
+                sub = kind[len(prefix):]
+                break
+        else:
+            raise AssertionError(kind)
+        got = {"bool": "bool", "negative": "int", "huge-negative": "int",
+               "float": "float", "str": "str", "none": "NoneType"}
+        if field == "proof_step.premise_steps":
+            if sub == "list":
+                return field, "tuple", "got list"
+            if sub == "set":
+                return field, "tuple", "got set"
+            if sub == "too-many":
+                return field, "at most 2", None
+            raise AssertionError(kind)
+        if field == "proof_step.conclusion":
+            if sub in got:
+                return field, "Atom", "got " + got[sub]
+            if sub == "non-ground":
+                return field, "ground Atom", None
+>           raise AssertionError(kind)
+E           AssertionError: conclusion-int
+
+tests/test_proof.py:492: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof.py::TestDiagnosticsAndTypes::test_proof_step_field_validation[conclusion-int]
+1 failed, 84 passed in 0.27s

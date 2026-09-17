@@ -1,0 +1,21 @@
+DIFF-CHECK FAIL: git status mismatch:
+ actual:   M KMesh_Research_Plan_v0.1.md
+     M README.md
+     M docs/decisions.md
+     M docs/handoffs/T0005-indexed-closure.md
+     M docs/implementation_status.md
+    ?? KMesh_Paper_Framework_v0.1.md
+    ?? docs/handoffs/T0006-proof-verifier.md
+    ?? reports/T0006/
+    ?? src/kmesh/logic/proof.py
+    ?? tests/test_proof.py
+ expected:  M README.md
+     M docs/handoffs/T0006-proof-verifier.md
+     M docs/implementation_status.md
+    ?? reports/T0006/
+    ?? src/kmesh/logic/proof.py
+    ?? tests/test_proof.py
+     M KMesh_Research_Plan_v0.1.md
+     M docs/decisions.md
+     M docs/handoffs/T0005-indexed-closure.md
+    ?? KMesh_Paper_Framework_v0.1.md

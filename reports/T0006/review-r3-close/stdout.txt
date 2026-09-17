@@ -1,0 +1,3 @@
+PASS: product/test/unrelated inputs frozen; 766 historical files unchanged
+PASS: diff, accepted status, 73 links, 7 Python blocks
+PASS: final-audit.json written; accepted product 008bdd36..., tests 68fef57a...

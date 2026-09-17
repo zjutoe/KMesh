@@ -1,0 +1,14 @@
+{
+  "all_guard_roots_and_children_blocked": true,
+  "autouse_restoration_passed": true,
+  "repaired_join_rename_priority_passed": true,
+  "submitted_missing_reference_test_accepts_wrong_verifier": true,
+  "corrected_count_fixture_discriminates": true,
+  "submitted_huge_ref_test_accepts_stringification_bug": true,
+  "corrected_huge_ref_fixture_discriminates": true,
+  "new_provenance_broken_links": [
+    "../../provenance.md",
+    "../../provenance.md"
+  ],
+  "new_provenance_claims_wrong_root": true
+}

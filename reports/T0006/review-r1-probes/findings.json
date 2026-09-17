@@ -1,0 +1,34 @@
+{
+  "submitted_solver_guards_return_none": true,
+  "wrong_path_has_forged_fact_and_fact_as_join": true,
+  "submitted_pair_accepts_prefix_only_mutant": true,
+  "submitted_budget_tests_accept_wrong_priority": [
+    "test_exact_limit_passes",
+    "test_large_positive_max_steps_accepted",
+    "test_limit_counts_repeated_and_irrelevant_steps",
+    "test_one_below_limit_raises_not_false",
+    "test_proof_limit_error_is_runtime_error",
+    "test_single_fact_step_at_limit_one"
+  ],
+  "int_limit_100_invalid_in_actual_python": true,
+  "product_boundary_checks_passed": [
+    "limit_before_bad_member",
+    "within_limit_bad_member",
+    "query_validation_before_limit",
+    "clauses_validation_before_limit",
+    "budget_validation_before_limit",
+    "length_before_premise_members",
+    "huge_negative_clause",
+    "huge_negative_premise",
+    "huge_conclusion",
+    "huge_clause_member",
+    "huge_query",
+    "huge_proof_member",
+    "huge_negative_budget",
+    "huge_positive_clause",
+    "huge_positive_premise",
+    "huge_positive_budget"
+  ],
+  "product_independent_isolation_passed": true,
+  "readme_example_passed": true
+}
