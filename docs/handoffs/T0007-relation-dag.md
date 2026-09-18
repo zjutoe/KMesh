@@ -223,3 +223,7 @@ README 增加一个短 Python 使用例与本任务状态，测试命令补新�
 - [独立定向回归](../../reports/T0007/review-r2-focused/)：**44 passed in 0.11s**，独占 basetemp、stderr 空、无 skip/xfail。[诊断探针](../../reports/T0007/review-r2-probes/findings.json)分别删去原因与类型名，两种错误实现均被当前测试拒绝，冻结产品通过。原 482 项完整回归、512 个小图核验与 A1–A4／A6 结论继续有效，本轮未重跑 full／doctor。
 - 三个 Pi R2 RUN 的命令、两路输出、哈希与状态核对通过；记录更正与原始证据相符。实际存在的 `/tmp/t7d3.json` 已保存 [副本](../../reports/T0007/review-r2-freeze/supplement/t7d3.json)，支持一次 status=ok／RTX 3090 报告；原命令／环境、另外两次尝试及改名操作仍不能完整核验。依 Pi 自述的移动失败 RUN 后复用名字属于留证偏差，不因接受当前版本而抹去。
 - A7 在当前结果可独立复现、历史限制已披露后关闭，无须补造日志或再返工。详见 [第 2 轮验收报告](../../reports/T0007/review-r2/review.md)。最终状态／链接／文本和冻结范围另作检查。仅接受关系 DAG 条件，证明枚举和完整 world 审计仍未实施；未 commit/push。
+
+### 后续关联，2026-09-17
+
+接受实现已提交为 `a9441250626f087dc8dbc1f560b7fbe3fe92488b`，推送至 `origin/T0007-relation-dag`；规划时核对接受源码／测试哈希一致。下一项为 [T0008：无环世界的直接推导枚举](T0008-ground-derivations.md)，使用本任务 DAG 检查保存全部 ground 直接来源，再另拆完整证明展开／核验与唯一性、规范化审计。既有执行和验收记录保持原样。

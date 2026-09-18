@@ -1,0 +1,24 @@
+{
+  "result": "PASS",
+  "task_status": "ready",
+  "baseline": "a9441250626f087dc8dbc1f560b7fbe3fe92488b",
+  "source_snapshot_count": 19,
+  "old_sources_unchanged": true,
+  "new_product_and_tests": "not_run; absent",
+  "local_link_targets_checked": 67,
+  "shell_commands_checked": 4,
+  "acceptance_items": 7,
+  "independent_design_review": "PASS; Counter fix re-reviewed",
+  "git_diff_check": "PASS",
+  "scope": "handoff and verification preparation only",
+  "artifact_sha256": {
+    "docs/handoffs/T0008-ground-derivations.md": "bfbb1c547fba2a8c426678367fe387e8fa5de667eed50fa86bfa69efe12afa8c",
+    "docs/decisions.md": "0d5bd5c14d876993d36d82288ef729b7364436a3bb1a64554160d9edfbd0da73",
+    "docs/implementation_status.md": "eb443e2725cc062463bb974df2424b0051d0445cf414f59b5c85b0e50537a2c5",
+    "docs/handoffs/T0007-relation-dag.md": "230cb878d2c5fe0861597146d3a009e203b9eb5aace0d373b1c42dd6c663d49d",
+    "reports/T0008/planning-review.md": "eda4a8f6f650c1ab5287adc1678175137b4982157bb71fa8668e754c53f8cd08",
+    "reports/T0008/record_check.py": "ab6ff5a2f20fc8c20f82288fdc4e26ca08d72d7806cdbd1db8c2dd23286a07d1",
+    "reports/T0008/planning-baseline.json": "8c3de3639d5677ae200e8956245233a126af8cffb684f43349551f4d7656d48e",
+    "reports/T0008/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14"
+  }
+}

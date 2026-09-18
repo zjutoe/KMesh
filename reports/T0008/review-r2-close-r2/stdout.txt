@@ -1,0 +1,3 @@
+PASS: accepted source/tests frozen; 139 historical files unchanged.
+PASS: 67 local links, final status, A1-A7 and diff/text hygiene.
+VERDICT: accepted; R1-R4 closed; historical limitations preserved; no commit/push.

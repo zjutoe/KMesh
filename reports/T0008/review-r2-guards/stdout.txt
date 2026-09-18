@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "cases": [
+    {
+      "case": "frozen_product",
+      "exit_code": 0,
+      "summary": [
+        "3 passed in 0.02s"
+      ]
+    },
+    {
+      "case": "drop_ground_double",
+      "exit_code": 1,
+      "summary": [
+        "1 failed in 0.05s"
+      ]
+    },
+    {
+      "case": "share_inner_binding",
+      "exit_code": 1,
+      "summary": [
+        "2 failed in 0.07s"
+      ]
+    }
+  ]
+}

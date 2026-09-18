@@ -1,0 +1,56 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+________________ test_inner_candidate_bindings_are_independent _________________
+
+    def test_inner_candidate_bindings_are_independent():
+        # Two candidates in the second premise's bucket: scanning the first
+        # must not leave its variables visible when the second is scanned;
+        # otherwise the second inner match could be wrongly rejected or
+        # wrongly instantiated.
+        clauses = (fact("p", "a", "b"),
+                   fact("q", "b", "c"),
+                   fact("q", "b", "d"),
+                   rule([("p", "?x", "?y"), ("q", "?y", "?z")],
+                        ("r", "?x", "?z")))
+        expected = (rec(0, (), A("p", "a", "b")),
+                    rec(1, (), A("q", "b", "c")),
+                    rec(2, (), A("q", "b", "d")),
+                    rec(3, (A("p", "a", "b"), A("q", "b", "c")), A("r", "a", "c")),
+                    rec(3, (A("p", "a", "b"), A("q", "b", "d")), A("r", "a", "d")))
+        # C=3 (outer p(a,b): 1; inner q(b,c), q(b,d): 2), D=5.
+>       assert enumerate_derivations(clauses, max_fact_checks=3,
+                                     max_derivations=5) == expected
+E       AssertionError: assert (GroundDeriva...=('a', 'c')))) == (GroundDeriva...=('a', 'd'))))
+E         
+E         Right contains one more item: GroundDerivation(clause_index=3, premises=(Atom(pred='p', args=('a', 'b')), Atom(pred='q', args=('b', 'd'))), conclusion=Atom(pred='r', args=('a', 'd')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:338: AssertionError
+___________________ test_failed_inner_binding_does_not_leak ____________________
+
+    def test_failed_inner_binding_does_not_leak():
+        # The first candidate of the second premise FAILS to match; the
+        # variables that match wrote into its binding draft must not remain
+        # visible when the second candidate starts from an independent copy.
+        clauses = (fact("p", "a", "b"),
+                   fact("q", "c", "a"),
+                   fact("q", "d", "b"),
+                   rule([("p", "?x", "?y"), ("q", "?z", "?y")],
+                        ("r", "?x", "?z")))
+        expected = (rec(0, (), A("p", "a", "b")),
+                    rec(1, (), A("q", "c", "a")),
+                    rec(2, (), A("q", "d", "b")),
+                    rec(3, (A("p", "a", "b"), A("q", "d", "b")), A("r", "a", "d")))
+        # C=3 (1 outer + 2 inner, the failed match counts), D=4.
+>       assert enumerate_derivations(clauses, max_fact_checks=3,
+                                     max_derivations=4) == expected
+E       AssertionError: assert (GroundDeriva...=('d', 'b')))) == (GroundDeriva...=('a', 'd'))))
+E         
+E         Right contains one more item: GroundDerivation(clause_index=3, premises=(Atom(pred='p', args=('a', 'b')), Atom(pred='q', args=('d', 'b'))), conclusion=Atom(pred='r', args=('a', 'd')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:360: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_derivations.py::test_inner_candidate_bindings_are_independent
+FAILED tests/test_derivations.py::test_failed_inner_binding_does_not_leak - A...
+2 failed in 0.07s

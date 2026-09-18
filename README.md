@@ -156,14 +156,34 @@ assert relation_topological_order(clauses) == ("r1", "r2", "r3", "r4")
 ```
 
 **状态：已验收（`accepted`，2026-09-17），R1/R2 已关闭。** Codex 第 2 轮独立复跑 **44 项测试**，确认新 generator 断言能拒绝错误诊断；产品保持冻结，首轮 **482 项完整回归和 512 个小图核验**继续有效，本轮未重复全量运行。执行记录已更正，历史留证限制仍保留。详见 [T0007 交接文档](docs/handoffs/T0007-relation-dag.md)与 [验收报告](reports/T0007/review-r2/review.md)。
+直接推导枚举（T0008，落实 D26）：`kmesh.logic.derivations` 提供 `GroundDerivation`（frozen 三元记录：`clause_index`、`premises`、`conclusion`）、`DerivationLimitError` 与 `enumerate_derivations(clauses, *, max_fact_checks=100_000, max_derivations=100_000)`。输入为已校验 `Clause` 元组且关系依赖 DAG 无环（内部调用 T0007 检查）；按确定性拓扑序→同组原 index→候选桶内 args 字典序单次迭代，事实按输入位置与顺序保留，规则在每个新就绪 head 谓词处对其**当前全部具体前提**做穷举匹配，每次成功应用产出一条记录（body 按序、绑定后具体 ground 前提元组），同一结论的不同来源全部保留，候选 Atom 按谓词桶去重，**不展开**上游完整证明组合。它不是完整证明树：不能用记录数判定 query 的完整证明数、唯一性或最短深度。计数契约：每次单原子匹配消耗 1 次 `max_fact_checks`；每条新记录消耗 1；预算恰好够完成枚举时仍正常返回，仅当还需再执行一次操作（一次匹配或一条记录）才超限、不返回部分结果、抛 `DerivationLimitError`（消息固定为 `enumerate.max_fact_checks exhausted before enumeration completed` 或 `enumerate.max_derivations exhausted before enumeration completed`），不表示否定或唯一。输入边界：外层必须为 `tuple`、逐项 `Clause`、预算必须为非 bool 正整数，错误消息固定且不回显大整数值；循环输入在匹配前拒收；函数幂等于同输入、不修改输入、无全局状态；不导入 torch/yaml/engine/reference_engine/proof，全部新信息仅供离线审计，不成为模型 token、嵌入、读取路由或额外特征。最小使用例：
+
+```python
+from kmesh.logic.derivations import enumerate_derivations
+from kmesh.logic.types import Atom, Clause
+
+def atom(pred, x, y):
+    return Atom(pred, (x, y))
+
+clauses = (
+    Clause((), atom("r1", "a", "b")),
+    Clause((), atom("r2", "b", "c")),
+    Clause((atom("r1", "?x", "?y"), atom("r2", "?y", "?z")), atom("r3", "?x", "?z")),
+)
+derivations = enumerate_derivations(clauses)
+assert tuple(d.conclusion.pred for d in derivations) == ("r1", "r2", "r3")
+assert derivations[2].premises == (atom("r1", "a", "b"), atom("r2", "b", "c"))
+```
+
+**状态：已验收（`accepted`，2026-09-18，Codex 第 2 轮复验），R1–R4 已关闭。** 独立定向回归 **125 项通过**，新测试可拒绝两种已知错误实现；README 顺序收集 607 项无错误，隔离检查可发现禁用子模块。Pi 的 **607 项完整回归**原件与源码哈希已核对；产品冻结，首轮 128 个小世界的全部直接推导来源核验继续有效。历史留证限制保留，不代表已完成 M1 或 E0 world 完整审计。详见 [T0008 交接文档](docs/handoffs/T0008-ground-derivations.md)与 [验收报告](reports/T0008/review-r2/review.md)。
 
 运行测试：
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_proof.py tests/test_dependency.py tests/test_config.py tests/test_doctor.py
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_proof.py tests/test_dependency.py tests/test_derivations.py tests/test_config.py tests/test_doctor.py
 ```
 
-当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；证明生成／枚举、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；完整证明生成／枚举展开、唯一性、最短深度、motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
 截至 2026-09-16，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 

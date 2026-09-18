@@ -1,0 +1,16 @@
+
+==================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_derivations.py __________________
+tests/test_derivations.py:70: in <module>
+    rule([("r1", "?x", "?y"), ("r2", "?y", "?z")],
+tests/test_derivations.py:53: in rule
+    return Clause(tuple(Atom(*at) for at in body), Atom(*head))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_derivations.py:53: in <genexpr>
+    return Clause(tuple(Atom(*at) for at in body), Atom(*head))
+                        ^^^^^^^^^
+E   TypeError: Atom.__init__() takes 3 positional arguments but 4 were given
+=========================== short test summary info ============================
+ERROR tests/test_derivations.py - TypeError: Atom.__init__() takes 3 position...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.14s

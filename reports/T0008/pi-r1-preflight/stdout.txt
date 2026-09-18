@@ -1,0 +1,21 @@
+MISMATCH src/kmesh/logic/derivations.py
+MISMATCH tests/test_derivations.py
+OK        src/kmesh/logic/dependency.py
+OK        tests/test_dependency.py
+OK        src/kmesh/logic/proof.py
+OK        tests/test_proof.py
+OK        src/kmesh/logic/engine.py
+OK        tests/test_engine.py
+OK        src/kmesh/logic/reference_engine.py
+OK        tests/test_reference_engine.py
+OK        src/kmesh/logic/__init__.py
+OK        src/kmesh/logic/types.py
+OK        tests/test_logic_types.py
+OK        src/kmesh/cli.py
+OK        src/kmesh/config.py
+OK        tests/test_config.py
+OK        tests/test_doctor.py
+OK        pyproject.toml
+OK        reports/T0008/record_check.py
+preflight before sources: 19
+planning baseline entries: 19

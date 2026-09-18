@@ -1,0 +1,11 @@
+
+==================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_derivations.py __________________
+tests/test_derivations.py:33: in <module>
+    assert _blocked not in sys.modules
+E   AssertionError: assert 'kmesh.logic.engine' not in {'__future__': <module '__future__' from '/opt/anaconda3/lib/python3.13/__future__.py'>, '__main__': <module 'pytest._...on3.13/site-packages/pytest/__main__.py'>, '_abc': <module '_abc' (built-in)>, '_ast': <module '_ast' (built-in)>, ...}
+E    +  where {'__future__': <module '__future__' from '/opt/anaconda3/lib/python3.13/__future__.py'>, '__main__': <module 'pytest._...on3.13/site-packages/pytest/__main__.py'>, '_abc': <module '_abc' (built-in)>, '_ast': <module '_ast' (built-in)>, ...} = <module 'sys' (built-in)>.modules
+=========================== short test summary info ============================
+ERROR tests/test_derivations.py - AssertionError: assert 'kmesh.logic.engine'...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.21s

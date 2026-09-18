@@ -1,0 +1,135 @@
+PASS: original product, prior sources/review/history and all six R2 RUN streams verified
+{
+  "input_sha256": {
+    "src/kmesh/logic/derivations.py": "32634248f401865d068b13758e133037a7a9bc3dcfa409526bc7df86a9aaf29b",
+    "tests/test_derivations.py": "4738b484445afd6ada35cc2285f717f110825c667a7e0e6938587875a14ea3eb",
+    "README.md": "426d717f41c2056d66b2d11f7ebd686de49dac80f947998bbafa6d7fcdf07c4b",
+    "docs/implementation_status.md": "157e3331f9f16ff1a9bb21389cbd07f0d0589c386f8dcbd7f3ace2eb95fde710",
+    "docs/handoffs/T0008-ground-derivations.md": "31645c00feb8a93b44aa742711fa7b0abb6668351455b76d7e0c888d43d7c137",
+    "reports/T0008/pi-r2-full/provenance.md": "b16f3bb2afa8b03b64630046b2b2ffed2571ff1443abbe28121787f0514a8a07",
+    "reports/T0008/pi-r2-scripts/check_docs.py": "19172dda9710b0d2f0acc76dcb2b06474663997900552a30c40cd4937dec10c6"
+  },
+  "changed_test_functions": [
+    "test_disjoint_premise_variable_names_record_single_join",
+    "test_enumerate_budget_validation",
+    "test_enumerate_error_priority",
+    "test_failed_inner_binding_does_not_leak",
+    "test_import_isolation_in_subprocess",
+    "test_inner_candidate_bindings_are_independent",
+    "test_large_ints_type_validated_not_formatted",
+    "test_repeat_premise_empty_binding_still_records",
+    "test_two_ground_premises_match_empty_bindings"
+  ],
+  "pi_r2_runs": [
+    {
+      "run": "pi-r2-doc-check",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0008/pi-r2-scripts/check_docs.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.421,
+      "started_at_utc": "2026-09-18T04:08:55.345946+00:00",
+      "finished_at_utc": "2026-09-18T04:08:55.781923+00:00",
+      "stdout_tail": "doc-check OK: 2159 baseline files reconciled, 4 docs links/hygiene clean\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r2-focused",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_derivations.py",
+        "--basetemp",
+        "reports/T0008/pi-r2-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.545,
+      "started_at_utc": "2026-09-18T02:53:57.605707+00:00",
+      "finished_at_utc": "2026-09-18T02:53:58.165753+00:00",
+      "stdout_tail": ".. [ 57%]\n.....................................................                    [100%]\n125 passed in 0.30s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r2-full",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0008/pi-r2-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 4.716,
+      "started_at_utc": "2026-09-18T02:54:17.240438+00:00",
+      "finished_at_utc": "2026-09-18T02:54:21.970972+00:00",
+      "stdout_tail": ".. [ 94%]\n...............................                                          [100%]\n607 passed in 4.45s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r2-guards",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0008/review-r1/rework_guards.py",
+        "reports/T0008/pi-r2-guards"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.909,
+      "started_at_utc": "2026-09-18T02:53:38.474562+00:00",
+      "finished_at_utc": "2026-09-18T02:53:39.398639+00:00",
+      "stdout_tail": "hare_inner_binding\",\n      \"exit_code\": 1,\n      \"summary\": [\n        \"2 failed in 0.07s\"\n      ]\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r2-preflight",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "/home/mye/src/llm/KMesh/reports/T0008/pi-r2-scripts/check_preflight.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.41,
+      "started_at_utc": "2026-09-18T01:43:53.640831+00:00",
+      "finished_at_utc": "2026-09-18T01:43:54.065772+00:00",
+      "stdout_tail": "a6aaaf865ac081c338fc0\nmanifest: 2159 files -> reports/T0008/pi-r2-scripts/baseline_manifest.json\nPREFLIGHT_OK\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r2-readme-order",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "--collect-only",
+        "-q",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_proof.py",
+        "tests/test_dependency.py",
+        "tests/test_derivations.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0008/pi-r2-readme-order/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.361,
+      "started_at_utc": "2026-09-18T02:54:46.031246+00:00",
+      "finished_at_utc": "2026-09-18T02:54:46.406711+00:00",
+      "stdout_tail": "put_path_is_directory\ntests/test_doctor.py::test_arg_errors_exit_2_without_file\n\n607 tests collected in 0.11s\n",
+      "stderr": ""
+    }
+  ],
+  "history_files": 139
+}

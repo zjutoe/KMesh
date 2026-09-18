@@ -1,0 +1,386 @@
+..............................................................FF........ [ 43%]
+..................F....F................................................ [ 86%]
+..........F.F..FF.FFFF                                                   [100%]
+=================================== FAILURES ===================================
+______________________ test_main_fact_check_boundary[E7] _______________________
+
+case = ('E7', (Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), Clause(body=(Atom(pred='p', args=('a', 'b')),), head=At...vation(clause_index=1, premises=(Atom(pred='p', args=('a', 'b')),), conclusion=Atom(pred='q', args=('c', 'd')))), 1, 2)
+
+    @pytest.mark.parametrize("case", MAIN_CASES, ids=lambda case: case[0])
+    def test_main_fact_check_boundary(case):
+        name, clauses, expected, checks, _ = case
+        if checks > 0:
+            assert enumerate_derivations(clauses, max_fact_checks=checks) \
+                == expected
+            with pytest.raises(DerivationLimitError,
+                               match=FACT_CHECKS_MSG) as excinfo:
+>               enumerate_derivations(clauses, max_fact_checks=checks - 1)
+
+tests/test_derivations.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clauses = (Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), Clause(body=(Atom(pred='p', args=('a', 'b')),), head=Atom(pred='q', args=('c', 'd'))))
+
+    def enumerate_derivations(
+        clauses: tuple[Clause, ...],
+        *,
+        max_fact_checks: int = 100_000,
+        max_derivations: int = 100_000,
+    ) -> tuple[GroundDerivation, ...]:
+        """List every direct ground derivation of an acyclic clause world.
+    
+        Input is validated in order — clauses container, each clause, then
+        both budgets — and finally ``relation_topological_order`` runs and
+        any cycle error propagates unchanged.  Records are emitted in
+        relationship topological order, then original clause position within
+        a head predicate group, then the candidate nesting order of the
+        scan; the same conclusion may appear once per distinct (source
+        clause, ordered premises) pair.  Returns a tuple; ``()`` for empty
+        input.  Raises ``LogicValidationError`` for bad input and
+        ``DerivationLimitError`` (partial work discarded) when a budget is
+        exhausted; exhaustion says nothing about derivability or uniqueness.
+        """
+        if not isinstance(clauses, tuple):
+            raise LogicValidationError(
+                f"enumerate.clauses must be a tuple of Clause; "
+                f"got {type(clauses).__name__}")
+        for index, item in enumerate(clauses):
+            if not isinstance(item, Clause):
+                raise LogicValidationError(
+                    f"enumerate.clauses[{index}] must be a Clause; "
+                    f"got {type(item).__name__}")
+        for value, name in ((max_fact_checks, "max_fact_checks"),
+                            (max_derivations, "max_derivations")):
+            if type(value) is not int or value <= 0:
+>               raise LogicValidationError(
+                    f"enumerate.{name} must be a non-bool positive integer; "
+                    f"got {type(value).__name__}")
+E               kmesh.logic.types.LogicValidationError: enumerate.max_fact_checks must be a non-bool positive integer; got int
+
+src/kmesh/logic/derivations.py:155: LogicValidationError
+______________________ test_main_fact_check_boundary[E8] _______________________
+
+case = ('E8', (Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), Clause(body=(Atom(pred='p', args=('c', 'd')),), head=At...args=('c', 'd')))), (GroundDerivation(clause_index=0, premises=(), conclusion=Atom(pred='p', args=('a', 'b'))),), 1, 1)
+
+    @pytest.mark.parametrize("case", MAIN_CASES, ids=lambda case: case[0])
+    def test_main_fact_check_boundary(case):
+        name, clauses, expected, checks, _ = case
+        if checks > 0:
+            assert enumerate_derivations(clauses, max_fact_checks=checks) \
+                == expected
+            with pytest.raises(DerivationLimitError,
+                               match=FACT_CHECKS_MSG) as excinfo:
+>               enumerate_derivations(clauses, max_fact_checks=checks - 1)
+
+tests/test_derivations.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clauses = (Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), Clause(body=(Atom(pred='p', args=('c', 'd')),), head=Atom(pred='q', args=('c', 'd'))))
+
+    def enumerate_derivations(
+        clauses: tuple[Clause, ...],
+        *,
+        max_fact_checks: int = 100_000,
+        max_derivations: int = 100_000,
+    ) -> tuple[GroundDerivation, ...]:
+        """List every direct ground derivation of an acyclic clause world.
+    
+        Input is validated in order — clauses container, each clause, then
+        both budgets — and finally ``relation_topological_order`` runs and
+        any cycle error propagates unchanged.  Records are emitted in
+        relationship topological order, then original clause position within
+        a head predicate group, then the candidate nesting order of the
+        scan; the same conclusion may appear once per distinct (source
+        clause, ordered premises) pair.  Returns a tuple; ``()`` for empty
+        input.  Raises ``LogicValidationError`` for bad input and
+        ``DerivationLimitError`` (partial work discarded) when a budget is
+        exhausted; exhaustion says nothing about derivability or uniqueness.
+        """
+        if not isinstance(clauses, tuple):
+            raise LogicValidationError(
+                f"enumerate.clauses must be a tuple of Clause; "
+                f"got {type(clauses).__name__}")
+        for index, item in enumerate(clauses):
+            if not isinstance(item, Clause):
+                raise LogicValidationError(
+                    f"enumerate.clauses[{index}] must be a Clause; "
+                    f"got {type(item).__name__}")
+        for value, name in ((max_fact_checks, "max_fact_checks"),
+                            (max_derivations, "max_derivations")):
+            if type(value) is not int or value <= 0:
+>               raise LogicValidationError(
+                    f"enumerate.{name} must be a non-bool positive integer; "
+                    f"got {type(value).__name__}")
+E               kmesh.logic.types.LogicValidationError: enumerate.max_fact_checks must be a non-bool positive integer; got int
+
+src/kmesh/logic/derivations.py:155: LogicValidationError
+________________ test_1200_node_linear_chain_purity_and_repeat _________________
+
+    def test_1200_node_linear_chain_purity_and_repeat():
+        clauses = [fact("p0000", "a", "b")]
+        for i in range(1, 1200):
+            clauses.append(rule([(f"p{i-1:04d}", "?x", "?y")],
+                                (f"p{i:04d}", "?x", "?y")))
+        clauses = tuple(clauses)
+        expected = (rec(0, (), A("p0000", "a", "b")),)
+        for i in range(1, 1200):
+            expected += (rec(i, (A(f"p{i-1:04d}", "a", "b"),),
+                             A(f"p{i:04d}", "a", "b")),)
+        assert len(expected) == 1200
+        # C=1199: verify the full result at the exact boundary first.
+        assert enumerate_derivations(clauses, max_fact_checks=1199) == expected
+        # Purity: input objects are untouched.
+        before = list(clauses)
+        assert enumerate_derivations(clauses) == expected
+        assert all(c == b for c, b in zip(clauses, before))
+        # Repeated, failed, then later calls stay consistent.
+        assert enumerate_derivations(clauses) == expected
+        with pytest.raises(DerivationLimitError, match=FACT_CHECKS_MSG):
+            enumerate_derivations(clauses, max_fact_checks=1198)
+>       with pytest.raises(LogicValidationError, match=CYCLE_MSG):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'kmesh.logic.types.LogicValidationError'>
+
+tests/test_derivations.py:359: Failed
+___________________ test_ground_derivation_field_validation ____________________
+
+    def test_ground_derivation_field_validation():
+        cases = (
+            ((True, (), ATOM),
+             "derivation.clause_index must be a non-bool non-negative integer; "
+             "got bool"),
+            ((-3, (), ATOM),
+             "derivation.clause_index must be a non-bool non-negative integer; "
+             "got int"),
+            (("0", (), ATOM),
+             "derivation.clause_index must be a non-bool non-negative integer; "
+             "got str"),
+            ((0, (ATOM, ATOM, ATOM), ATOM),
+             "derivation.premises holds at most 2 atoms; got 3"),
+            ((0, (None,), ATOM),
+             "derivation.premises[0] must be an Atom; got NoneType"),
+            ((0, (ATOM, "x"), ATOM),
+             "derivation.premises[1] must be an Atom; got str"),
+            ((0, (A("t", "?x", "?y"),), ATOM),
+             "derivation.premises[0] must be a ground Atom"),
+            ((0, tuple(), "not an atom"),
+             "derivation.conclusion must be an Atom; got str"),
+            ((0, tuple(), A("t", "a", "?y")),
+             "derivation.conclusion must be a ground Atom"),
+        )
+        for args, message in cases:
+            with pytest.raises(LogicValidationError, match=message) as excinfo:
+>               GroundDerivation(*args)
+
+tests/test_derivations.py:479: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:6: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = GroundDerivation(clause_index=0, premises=(None,), conclusion=Atom(pred='p', args=('a', 'b')))
+
+    def __post_init__(self) -> None:
+        if type(self.clause_index) is not int or self.clause_index < 0:
+            # ``type(...) is int`` rejects bool as well as non-ints; the
+            # message names the actual type only, never the value.
+            raise LogicValidationError(
+                f"derivation.clause_index must be a non-bool non-negative "
+                f"integer; got {type(self.clause_index).__name__}")
+        if not isinstance(self.premises, tuple):
+            # Container is reported by type only: its members are
+            # unvalidated and may not be representable.
+            raise LogicValidationError(
+                f"derivation.premises must be a tuple of Atom; "
+                f"got {type(self.premises).__name__}")
+        if len(self.premises) > 2:
+            raise LogicValidationError(
+                f"derivation.premises holds at most 2 atoms; "
+                f"got {len(self.premises)}")
+        for index, atom in enumerate(self.premises):
+            if not isinstance(atom, Atom):
+>               raise LogicValidationError(
+                    f"derivation.premises[{index}] must be an Atom; "
+                    f"got {type(atom).__name__}")
+E               kmesh.logic.types.LogicValidationError: derivation.premises[0] must be an Atom; got NoneType
+
+src/kmesh/logic/derivations.py:73: LogicValidationError
+
+During handling of the above exception, another exception occurred:
+
+    def test_ground_derivation_field_validation():
+        cases = (
+            ((True, (), ATOM),
+             "derivation.clause_index must be a non-bool non-negative integer; "
+             "got bool"),
+            ((-3, (), ATOM),
+             "derivation.clause_index must be a non-bool non-negative integer; "
+             "got int"),
+            (("0", (), ATOM),
+             "derivation.clause_index must be a non-bool non-negative integer; "
+             "got str"),
+            ((0, (ATOM, ATOM, ATOM), ATOM),
+             "derivation.premises holds at most 2 atoms; got 3"),
+            ((0, (None,), ATOM),
+             "derivation.premises[0] must be an Atom; got NoneType"),
+            ((0, (ATOM, "x"), ATOM),
+             "derivation.premises[1] must be an Atom; got str"),
+            ((0, (A("t", "?x", "?y"),), ATOM),
+             "derivation.premises[0] must be a ground Atom"),
+            ((0, tuple(), "not an atom"),
+             "derivation.conclusion must be an Atom; got str"),
+            ((0, tuple(), A("t", "a", "?y")),
+             "derivation.conclusion must be a ground Atom"),
+        )
+        for args, message in cases:
+>           with pytest.raises(LogicValidationError, match=message) as excinfo:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E            Regex: 'derivation.premises[0] must be an Atom; got NoneType'
+E            Input: 'derivation.premises[0] must be an Atom; got NoneType'
+E            Did you mean to `re.escape()` the regex?
+
+tests/test_derivations.py:478: AssertionError
+___________ test_micro_worlds_match_hand_model_and_both_closures[53] ___________
+
+mask = 53
+
+    @pytest.mark.parametrize("mask", range(64), ids=lambda m: m)
+    def test_micro_worlds_match_hand_model_and_both_closures(mask):
+        clauses, copy_index, join_index = _world(mask)
+        clauses = tuple(clauses)
+        expected = _expected_world(clauses, copy_index, join_index)
+>       assert enumerate_derivations(clauses) == expected
+E       AssertionError: assert (GroundDeriva...=('a', 'b')))) == (GroundDeriva...=('a', 'd'))))
+E         
+E         At index 2 diff: GroundDerivation(clause_index=3, premises=(Atom(pred='p', args=('a', 'b')), Atom(pred='q', args=('b', 'd'))), conclusion=Atom(pred='r', args=('a', 'd'))) != GroundDerivation(clause_index=2, premises=(Atom(pred='p', args=('a', 'b')),), conclusion=Atom(pred='s', args=('a', 'b')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:643: AssertionError
+___________ test_micro_worlds_match_hand_model_and_both_closures[55] ___________
+
+mask = 55
+
+    @pytest.mark.parametrize("mask", range(64), ids=lambda m: m)
+    def test_micro_worlds_match_hand_model_and_both_closures(mask):
+        clauses, copy_index, join_index = _world(mask)
+        clauses = tuple(clauses)
+        expected = _expected_world(clauses, copy_index, join_index)
+>       assert enumerate_derivations(clauses) == expected
+E       AssertionError: assert (GroundDeriva...=('a', 'c')))) == (GroundDeriva...=('a', 'd'))))
+E         
+E         At index 3 diff: GroundDerivation(clause_index=4, premises=(Atom(pred='p', args=('a', 'b')), Atom(pred='q', args=('b', 'd'))), conclusion=Atom(pred='r', args=('a', 'd'))) != GroundDerivation(clause_index=3, premises=(Atom(pred='p', args=('a', 'b')),), conclusion=Atom(pred='s', args=('a', 'b')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:643: AssertionError
+___________ test_micro_worlds_match_hand_model_and_both_closures[58] ___________
+
+mask = 58
+
+    @pytest.mark.parametrize("mask", range(64), ids=lambda m: m)
+    def test_micro_worlds_match_hand_model_and_both_closures(mask):
+        clauses, copy_index, join_index = _world(mask)
+        clauses = tuple(clauses)
+        expected = _expected_world(clauses, copy_index, join_index)
+>       assert enumerate_derivations(clauses) == expected
+E       AssertionError: assert (GroundDeriva...=('a', 'c')))) == (GroundDeriva...=('a', 'd'))))
+E         
+E         At index 2 diff: GroundDerivation(clause_index=3, premises=(Atom(pred='p', args=('a', 'c')), Atom(pred='q', args=('c', 'd'))), conclusion=Atom(pred='r', args=('a', 'd'))) != GroundDerivation(clause_index=2, premises=(Atom(pred='p', args=('a', 'c')),), conclusion=Atom(pred='s', args=('a', 'c')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:643: AssertionError
+___________ test_micro_worlds_match_hand_model_and_both_closures[59] ___________
+
+mask = 59
+
+    @pytest.mark.parametrize("mask", range(64), ids=lambda m: m)
+    def test_micro_worlds_match_hand_model_and_both_closures(mask):
+        clauses, copy_index, join_index = _world(mask)
+        clauses = tuple(clauses)
+        expected = _expected_world(clauses, copy_index, join_index)
+>       assert enumerate_derivations(clauses) == expected
+E       AssertionError: assert (GroundDeriva...=('a', 'c')))) == (GroundDeriva...=('a', 'd'))))
+E         
+E         At index 3 diff: GroundDerivation(clause_index=4, premises=(Atom(pred='p', args=('a', 'c')), Atom(pred='q', args=('c', 'd'))), conclusion=Atom(pred='r', args=('a', 'd'))) != GroundDerivation(clause_index=3, premises=(Atom(pred='p', args=('a', 'b')),), conclusion=Atom(pred='s', args=('a', 'b')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:643: AssertionError
+___________ test_micro_worlds_match_hand_model_and_both_closures[61] ___________
+
+mask = 61
+
+    @pytest.mark.parametrize("mask", range(64), ids=lambda m: m)
+    def test_micro_worlds_match_hand_model_and_both_closures(mask):
+        clauses, copy_index, join_index = _world(mask)
+        clauses = tuple(clauses)
+        expected = _expected_world(clauses, copy_index, join_index)
+>       assert enumerate_derivations(clauses) == expected
+E       AssertionError: assert (GroundDeriva...=('a', 'b')))) == (GroundDeriva...=('a', 'd'))))
+E         
+E         At index 3 diff: GroundDerivation(clause_index=4, premises=(Atom(pred='p', args=('a', 'b')), Atom(pred='q', args=('b', 'd'))), conclusion=Atom(pred='r', args=('a', 'd'))) != GroundDerivation(clause_index=3, premises=(Atom(pred='p', args=('a', 'b')),), conclusion=Atom(pred='s', args=('a', 'b')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:643: AssertionError
+___________ test_micro_worlds_match_hand_model_and_both_closures[62] ___________
+
+mask = 62
+
+    @pytest.mark.parametrize("mask", range(64), ids=lambda m: m)
+    def test_micro_worlds_match_hand_model_and_both_closures(mask):
+        clauses, copy_index, join_index = _world(mask)
+        clauses = tuple(clauses)
+        expected = _expected_world(clauses, copy_index, join_index)
+>       assert enumerate_derivations(clauses) == expected
+E       AssertionError: assert (GroundDeriva...=('a', 'c')))) == (GroundDeriva...=('a', 'd'))))
+E         
+E         At index 3 diff: GroundDerivation(clause_index=4, premises=(Atom(pred='p', args=('a', 'c')), Atom(pred='q', args=('c', 'd'))), conclusion=Atom(pred='r', args=('a', 'd'))) != GroundDerivation(clause_index=3, premises=(Atom(pred='p', args=('a', 'c')),), conclusion=Atom(pred='s', args=('a', 'c')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:643: AssertionError
+___________ test_micro_worlds_match_hand_model_and_both_closures[63] ___________
+
+mask = 63
+
+    @pytest.mark.parametrize("mask", range(64), ids=lambda m: m)
+    def test_micro_worlds_match_hand_model_and_both_closures(mask):
+        clauses, copy_index, join_index = _world(mask)
+        clauses = tuple(clauses)
+        expected = _expected_world(clauses, copy_index, join_index)
+>       assert enumerate_derivations(clauses) == expected
+E       AssertionError: assert (GroundDeriva..., 'd'))), ...) == (GroundDeriva..., 'c'))), ...)
+E         
+E         At index 4 diff: GroundDerivation(clause_index=5, premises=(Atom(pred='p', args=('a', 'b')), Atom(pred='q', args=('b', 'd'))), conclusion=Atom(pred='r', args=('a', 'd'))) != GroundDerivation(clause_index=4, premises=(Atom(pred='p', args=('a', 'b')),), conclusion=Atom(pred='s', args=('a', 'b')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:643: AssertionError
+_____________________ test_import_isolation_in_subprocess ______________________
+
+    def test_import_isolation_in_subprocess():
+        script = Path(__file__).with_name("_isolation_t0008.py")
+        script.write_text(ISOLATION_SCRIPT, encoding="utf-8")
+        try:
+            proc = subprocess.run([sys.executable, str(script)],
+                                  capture_output=True, text=True, timeout=120)
+        finally:
+            script.unlink(missing_ok=True)
+>       assert proc.returncode == 0, proc.stderr
+E       AssertionError: expected DerivationLimitError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '/home/mye/src/llm/KMesh/tests/_isolation_t0008.py'], returncode=1, stdout='', stderr='expected DerivationLimitError\n').returncode
+
+tests/test_derivations.py:726: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_derivations.py::test_main_fact_check_boundary[E7] - kmesh.l...
+FAILED tests/test_derivations.py::test_main_fact_check_boundary[E8] - kmesh.l...
+FAILED tests/test_derivations.py::test_1200_node_linear_chain_purity_and_repeat
+FAILED tests/test_derivations.py::test_ground_derivation_field_validation - A...
+FAILED tests/test_derivations.py::test_micro_worlds_match_hand_model_and_both_closures[53]
+FAILED tests/test_derivations.py::test_micro_worlds_match_hand_model_and_both_closures[55]
+FAILED tests/test_derivations.py::test_micro_worlds_match_hand_model_and_both_closures[58]
+FAILED tests/test_derivations.py::test_micro_worlds_match_hand_model_and_both_closures[59]
+FAILED tests/test_derivations.py::test_micro_worlds_match_hand_model_and_both_closures[61]
+FAILED tests/test_derivations.py::test_micro_worlds_match_hand_model_and_both_closures[62]
+FAILED tests/test_derivations.py::test_micro_worlds_match_hand_model_and_both_closures[63]
+FAILED tests/test_derivations.py::test_import_isolation_in_subprocess - Asser...
+12 failed, 154 passed in 0.64s

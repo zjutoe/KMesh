@@ -1,0 +1,162 @@
+{
+  "created_at_utc": "2026-09-18T00:39:29.322442+00:00",
+  "result": "NEEDS_CHANGES",
+  "task_status": "needs_changes",
+  "head": "a9441250626f087dc8dbc1f560b7fbe3fe92488b",
+  "reviewer": "Codex + gpt-6-astra xhigh; non-author of Pi implementation",
+  "test_reviewer": "/root/review_t0008_design; read-only non-author review",
+  "reviewed_files": {
+    "src/kmesh/logic/derivations.py": "32634248f401865d068b13758e133037a7a9bc3dcfa409526bc7df86a9aaf29b",
+    "tests/test_derivations.py": "694c255ad5251ac1813b07ec335787b96a14e33b020a6aaaf865ac081c338fc0"
+  },
+  "product_defect_found": false,
+  "acceptance": {
+    "A1": "PASS in reviewed implementation",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "NEEDS_CHANGES",
+    "A6": "NEEDS_CHANGES: guard; product imports compliant",
+    "A7": "NEEDS_CHANGES"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P2",
+      "summary": "Order-dependent collection and incomplete subprocess import isolation"
+    },
+    {
+      "id": "R2",
+      "priority": "P2",
+      "summary": "Two incorrect matching implementations pass the submitted tests; add discriminating fixtures and explicit boundary cases"
+    },
+    {
+      "id": "R3",
+      "priority": "P2",
+      "summary": "README reverses exact-budget semantics and misstates candidate order"
+    },
+    {
+      "id": "R4",
+      "priority": "P2",
+      "summary": "Execution record conflicts with immutable RUN evidence; append corrections and disclose move/reuse"
+    }
+  ],
+  "verification": {
+    "review-r1-freeze": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path\nfrom datetime import datetime,timezone\nimport hashlib,json,subprocess\nroot=Path.cwd();task=Path(\"reports/T0008\");out=task/\"review-r1-freeze\"\ndef sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nbase=json.loads((task/\"planning-baseline.json\").read_text())\nhead=subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip()\nassert head==base[\"head\"]\nnew={\"src/kmesh/logic/derivations.py\",\"tests/test_derivations.py\"}\nfor p,h in base[\"source_sha256\"].items():\n    if p not in new:assert sha(p)==h,p\ninputs=[\"src/kmesh/logic/derivations.py\",\"tests/test_derivations.py\",\"docs/handoffs/T0008-ground-derivations.md\",\"README.md\",\"docs/implementation_status.md\",\"reports/T0008/pi-r1-full/provenance.md\",\"reports/T0008/pi-r1-scripts/check_docs.py\"]\nih={}\nfor p in inputs:\n    dest=out/\"input-snapshot\"/p;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(Path(p).read_bytes());ih[p]=sha(p)\nhistory={str(p):sha(p) for p in task.rglob(\"*\") if p.is_file() and not any(x in p.parts for x in (\"pytest-tmp\",\"__pycache__\")) and not str(p).startswith(str(out))}\nruns=[]\nfor p in sorted(task.glob(\"pi-*/**/record.json\")):\n    r=json.loads(p.read_text())\n    integrity={}\n    for stream in (\"stdout\",\"stderr\"):\n        stream_path=p.parent/(stream+\".txt\")\n        integrity[stream]=(sha(stream_path)==r.get(stream+\"_sha256\"))\n    runs.append({\"path\":str(p.parent),\"started_at\":r.get(\"started_at_utc\"),\"argv\":r.get(\"argv\"),\"exit_code\":r.get(\"exit_code\"),\"integrity\":integrity,\"sources_stable\":r.get(\"before\",{}).get(\"source_sha256\")==r.get(\"after\",{}).get(\"source_sha256\"),\"product_before\":r.get(\"before\",{}).get(\"source_sha256\",{}).get(\"src/kmesh/logic/derivations.py\"),\"tests_before\":r.get(\"before\",{}).get(\"source_sha256\",{}).get(\"tests/test_derivations.py\"),\"tail\":(p.parent/\"stdout.txt\").read_text()[-180:],\"stderr\":(p.parent/\"stderr.txt\").read_text()[:220]})\naudit={\"created_at\":datetime.now(timezone.utc).isoformat(),\"head\":head,\"input_sha256\":ih,\"history_sha256\":history,\"runs\":runs}\n(out/\"audit.json\").write_text(json.dumps(audit,ensure_ascii=False,indent=2)+\"\\n\")\nprint(\"Input SHA256\",json.dumps(ih,indent=2))\nfor r in sorted(runs,key=lambda r:r[\"started_at\"] or \"\"): print(json.dumps(r,ensure_ascii=False))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.068,
+      "started_at_utc": "2026-09-18T00:28:37.281531+00:00",
+      "finished_at_utc": "2026-09-18T00:28:37.364034+00:00"
+    },
+    "review-r1-full": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0008/review-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 4.704,
+      "started_at_utc": "2026-09-18T00:28:52.062309+00:00",
+      "finished_at_utc": "2026-09-18T00:28:56.781377+00:00"
+    },
+    "review-r1-readme-order": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_proof.py",
+        "tests/test_dependency.py",
+        "tests/test_derivations.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0008/review-r1-readme-order/pytest-tmp"
+      ],
+      "exit_code": 2,
+      "elapsed_s": 0.452,
+      "started_at_utc": "2026-09-18T00:28:52.035111+00:00",
+      "finished_at_utc": "2026-09-18T00:28:52.502386+00:00"
+    },
+    "review-r1-probes": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0008/review-r1/probe.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 1.365,
+      "started_at_utc": "2026-09-18T00:31:26.685680+00:00",
+      "finished_at_utc": "2026-09-18T00:31:28.065720+00:00"
+    },
+    "review-r1-isolation-probe": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path\nimport ast,json,subprocess,sys\nout=Path(\"reports/T0008/review-r1-isolation-probe\")\ntree=ast.parse(Path(\"tests/test_derivations.py\").read_text())\nscript=next(ast.literal_eval(n.value) for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id==\"ISOLATION_SCRIPT\" for t in n.targets))\nneedle='\\nfor blocked in BLOCKED:\\n    assert sys.modules.get(blocked) is None'\nassert script.count(needle)==1\nleak=\"\\nimport types\\nsys.modules['kmesh.logic.engine.review_hidden'] = types.ModuleType('kmesh.logic.engine.review_hidden')\\n\"\ninjected=script.replace(needle,leak+needle)\ncontrol=injected.replace('print(\"ISOLATION_OK\")','assert not any(name == root or name.startswith(root + \".\") for name in sys.modules for root in BLOCKED if sys.modules[name] is not None)\\nprint(\"ISOLATION_OK\")')\nresults={}\nfor name,code,expected in ((\"leak_before_submitted_scan\",injected,0),(\"complete_scan_control\",control,1)):\n    p=subprocess.run([sys.executable,\"-c\",code],capture_output=True,text=True,timeout=30)\n    (out/(name+\".stdout\")).write_text(p.stdout)\n    (out/(name+\".stderr\")).write_text(p.stderr)\n    assert p.returncode==expected,(name,p.returncode,p.stdout,p.stderr)\n    results[name]={\"exit_code\":p.returncode}\nresults[\"correction\"]=\"Earlier review-r1/probe.py injected the leak after the final scan; that isolation subprobe was insufficient. This new run injects before the submitted scan, with an exhaustive-scan control. Oracle and matching mutations from the earlier run remain valid.\"\n(out/\"findings.json\").write_text(json.dumps(results,indent=2)+\"\\n\")\nprint(json.dumps(results,indent=2))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.156,
+      "started_at_utc": "2026-09-18T00:32:25.743097+00:00",
+      "finished_at_utc": "2026-09-18T00:32:25.914014+00:00"
+    }
+  },
+  "oracle": {
+    "worlds": 128,
+    "records": 1934,
+    "seed": 20260918,
+    "result": "PASS"
+  },
+  "mutation_results": {
+    "drop_ground_double": {
+      "exit_code": 0,
+      "summary": [
+        "122 passed in 0.28s"
+      ]
+    },
+    "share_inner_binding": {
+      "exit_code": 0,
+      "summary": [
+        "122 passed in 0.28s"
+      ]
+    }
+  },
+  "pi_records_checked": 18,
+  "historical_files_preserved": 68,
+  "strict_local_links_checked": 60,
+  "rework_commands_checked": 6,
+  "rework_guards_validation": "syntax checked; requires the three new Pi test fixtures before execution",
+  "limits": [
+    "No product or submitted test changes by Codex",
+    "No commit/push",
+    "Historical move/reuse actions not independently reconstructed",
+    "First isolation subprobe injected after scan; replaced by separate before-scan run, original evidence retained",
+    "Direct derivations only; no full-proof, uniqueness or research claim"
+  ],
+  "artifact_sha256": {
+    "README.md": "c2c3aee8abdc9c5b44c5c0294f3b93d5c0057f9154670fa7d6604779472c5166",
+    "docs/implementation_status.md": "ae04e36f50e7fe891a9234fb53c2c797376a9ee901a037668f74a80d5f22acfe",
+    "docs/handoffs/T0008-ground-derivations.md": "dbdd9860b26fbd287c40ccbc4c94cb7cc416245a8d9e8c6cd10a5fbe4acdc878",
+    "reports/T0008/review-r1/review.md": "13e3bbb5360c1fc1bd0ec6ea9b47266275bca9cb30b62167b6b21b43460bbbdf",
+    "reports/T0008/review-r1/probe.py": "14c343a59489fc0c4aa491ebc8ce3850a42bcc620051683ac00f717953c79126",
+    "reports/T0008/review-r1/rework_guards.py": "a3b624a20bfaa94fd576742af595a798f0a66b0e9b81732deb19d8c3579439dc"
+  }
+}

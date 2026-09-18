@@ -1,0 +1,30 @@
+{
+  "result": "PASS",
+  "cases": [
+    {
+      "case": "frozen_product",
+      "exit_code": 0,
+      "summary": [
+        "3 passed in 0.02s"
+      ]
+    },
+    {
+      "case": "drop_ground_double",
+      "exit_code": 1,
+      "summary": [
+        "1 failed in 0.05s"
+      ]
+    },
+    {
+      "case": "share_inner_binding",
+      "exit_code": 1,
+      "summary": [
+        "2 failed in 0.07s"
+      ]
+    }
+  ],
+  "sha256": {
+    "src/kmesh/logic/derivations.py": "32634248f401865d068b13758e133037a7a9bc3dcfa409526bc7df86a9aaf29b",
+    "tests/test_derivations.py": "4738b484445afd6ada35cc2285f717f110825c667a7e0e6938587875a14ea3eb"
+  }
+}

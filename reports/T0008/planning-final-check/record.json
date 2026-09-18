@@ -1,0 +1,72 @@
+{
+  "started_at_utc": "2026-09-17T08:15:44.786642+00:00",
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "from pathlib import Path\nimport ast,hashlib,json,re,shlex,subprocess\nroot=Path.cwd()\ntask=Path(\"reports/T0008\")\nbaseline=json.loads((task/\"planning-baseline.json\").read_text())\nassert subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip()==baseline[\"head\"]\nfor p,h in baseline[\"source_sha256\"].items():\n    actual=hashlib.sha256(Path(p).read_bytes()).hexdigest() if Path(p).is_file() else None\n    assert actual==h,(p,actual)\nassert len(baseline[\"source_sha256\"])==19\ndocs=[\"docs/handoffs/T0008-ground-derivations.md\",\"docs/decisions.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0007-relation-dag.md\",\"reports/T0008/planning-review.md\"]\nlinks=[]\nfor name in docs:\n    p=Path(name);s=p.read_text()\n    assert s.endswith(\"\\n\"),name\n    assert all(line.rstrip()==line for line in s.splitlines()),name\n    assert \"\\u200b\" not in s,name\n    for target in re.findall(r\"\\[[^\\]]*\\]\\(([^)]+)\\)\",s):\n        if \"://\" in target or target.startswith(\"#\"):continue\n        dest=(p.parent/target.split(\"#\",1)[0]).resolve()\n        assert dest.exists(),(name,target)\n        links.append((name,target))\ns=Path(docs[0]).read_text()\nassert \"- \u72b6\u6001\uff1a\"+chr(96)+\"ready\"+chr(96) in s\nassert \"Counter(actual) == Counter(expected)\" in s\nassert len(re.findall(r\"^- \\[ \\] A[1-7]\uff1a\",s,re.M))==7\nfence=chr(96)*3\nfor i,code in enumerate(re.findall(fence+\"python\\n(.*?)\"+fence,s,re.S)):\n    compile(code,f\"handoff-python-{i}\",\"exec\")\nbash=re.findall(fence+\"bash\\n(.*?)\"+fence,s,re.S)\nassert len(bash)==1\ncommands=[shlex.split(line) for line in bash[0].splitlines() if line.strip()]\nassert len(commands)==4\nfor argv in commands:\n    assert argv[:2]==[\".venv/bin/python\",\"reports/T0008/record_check.py\"]\n    assert argv[3]==\"--\"\n    assert not (task/argv[2]).exists()\n    if \"-m\" in argv:\n        assert argv[4:7]==[\".venv/bin/python\",\"-m\",\"pytest\"]\n        assert argv[-2:]==[\"--basetemp\",f\"reports/T0008/{argv[2]}/pytest-tmp\"]\nassert commands[-1][4:]==[\"git\",\"diff\",\"--check\"]\nexpected_tests=[\"tests/test_derivations.py\",\"tests/test_dependency.py\",\"tests/test_proof.py\",\"tests/test_engine.py\",\"tests/test_reference_engine.py\",\"tests/test_logic_types.py\",\"tests/test_config.py\",\"tests/test_doctor.py\"]\nassert commands[2][8:-2]==expected_tests\nold=Path(\"reports/T0007/record_check.py\").read_text()\nexpected=old.replace(\"T0007\",\"T0008\").replace(\"SOURCES = (\\n\",'SOURCES = (\\n    \"src/kmesh/logic/derivations.py\", \"tests/test_derivations.py\",\\n')\nassert Path(\"reports/T0008/record_check.py\").read_text()==expected\nast.parse(expected)\nchanged=subprocess.check_output([\"git\",\"diff\",\"--name-only\"],text=True).splitlines()\nassert set(changed)=={\"docs/decisions.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0007-relation-dag.md\"},changed\nuntracked=subprocess.check_output([\"git\",\"ls-files\",\"--others\",\"--exclude-standard\",\"-z\"]).decode().split(\"\\0\")\nassert all(not p or p==\"docs/handoffs/T0008-ground-derivations.md\" or p.startswith(\"reports/T0008/\") for p in untracked)\nsubprocess.run([\"git\",\"diff\",\"--check\"],check=True)\nchecks={\"result\":\"PASS\",\"task_status\":\"ready\",\"baseline\":baseline[\"head\"],\"source_snapshot_count\":19,\"old_sources_unchanged\":True,\"new_product_and_tests\":\"not_run; absent\",\"local_link_targets_checked\":len(links),\"shell_commands_checked\":4,\"acceptance_items\":7,\"independent_design_review\":\"PASS; Counter fix re-reviewed\",\"git_diff_check\":\"PASS\",\"scope\":\"handoff and verification preparation only\",\"artifact_sha256\":{p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in docs+[\"reports/T0008/record_check.py\",\"reports/T0008/planning-baseline.json\",\"reports/T0008/.gitignore\"]}}\n(task/\"planning-final-check/checks.json\").write_text(json.dumps(checks,ensure_ascii=False,indent=2)+\"\\n\")\nprint(json.dumps(checks,ensure_ascii=False,indent=2))\n"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "env_overrides": {
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "timeout_s": 120,
+  "before": {
+    "head": "a9441250626f087dc8dbc1f560b7fbe3fe92488b\n",
+    "branch": "T0007-relation-dag\n",
+    "status": " M docs/decisions.md\n M docs/handoffs/T0007-relation-dag.md\n M docs/implementation_status.md\n?? docs/handoffs/T0008-ground-derivations.md\n?? reports/T0008/\n",
+    "source_sha256": {
+      "src/kmesh/logic/derivations.py": null,
+      "tests/test_derivations.py": null,
+      "src/kmesh/logic/dependency.py": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+      "tests/test_dependency.py": "722869ef49a4884d52c1423d3743d4802264bd55ebc7a84521f9433d74ba6313",
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0008/record_check.py": "ab6ff5a2f20fc8c20f82288fdc4e26ca08d72d7806cdbd1db8c2dd23286a07d1"
+    }
+  },
+  "status": "finished",
+  "exit_code": 0,
+  "elapsed_s": 0.08,
+  "finished_at_utc": "2026-09-17T08:15:44.882655+00:00",
+  "after": {
+    "head": "a9441250626f087dc8dbc1f560b7fbe3fe92488b\n",
+    "branch": "T0007-relation-dag\n",
+    "status": " M docs/decisions.md\n M docs/handoffs/T0007-relation-dag.md\n M docs/implementation_status.md\n?? docs/handoffs/T0008-ground-derivations.md\n?? reports/T0008/\n",
+    "source_sha256": {
+      "src/kmesh/logic/derivations.py": null,
+      "tests/test_derivations.py": null,
+      "src/kmesh/logic/dependency.py": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+      "tests/test_dependency.py": "722869ef49a4884d52c1423d3743d4802264bd55ebc7a84521f9433d74ba6313",
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0008/record_check.py": "ab6ff5a2f20fc8c20f82288fdc4e26ca08d72d7806cdbd1db8c2dd23286a07d1"
+    }
+  },
+  "stdout_sha256": "decdcd241a5697aa6660b89d4ba9adebab20f89262a05cd93c9060070ac7f42a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

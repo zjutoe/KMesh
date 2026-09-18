@@ -1,0 +1,9 @@
+{
+  "leak_before_submitted_scan": {
+    "exit_code": 0
+  },
+  "complete_scan_control": {
+    "exit_code": 1
+  },
+  "correction": "Earlier review-r1/probe.py injected the leak after the final scan; that isolation subprobe was insufficient. This new run injects before the submitted scan, with an exhaustive-scan control. Oracle and matching mutations from the earlier run remain valid."
+}
