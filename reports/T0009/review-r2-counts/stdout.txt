@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "S_1_counts": [
+    {
+      "rules": 16,
+      "records": 17,
+      "conclusion_reads_after_T0008": 21,
+      "regression_upper_bound": 136
+    },
+    {
+      "rules": 32,
+      "records": 33,
+      "conclusion_reads_after_T0008": 37,
+      "regression_upper_bound": 264
+    },
+    {
+      "rules": 64,
+      "records": 65,
+      "conclusion_reads_after_T0008": 69,
+      "regression_upper_bound": 520
+    }
+  ],
+  "recursive_helpers": [],
+  "full_expansion_S_2145_reads": 260,
+  "interpretation": "S=1 probe uses 69 reads at 65 records; 260 reproduced under S=2145 full expansion, a different measurement scope. Pi unrecorded probe history remains unknown."
+}

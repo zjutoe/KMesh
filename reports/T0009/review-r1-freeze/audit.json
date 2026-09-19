@@ -1,0 +1,137 @@
+{
+  "created_at_utc": "2026-09-19T05:56:47.934509+00:00",
+  "head": "bfb0f8e3c5c1c1168f7110ac6287aeb0f3330fff",
+  "input_sha256": {
+    "src/kmesh/logic/proof_enumeration.py": "139870337ca85dd50ea9bf60bca40a92e8f4d0bb2c4e4549e04e7d7e0754e29e",
+    "tests/test_proof_enumeration.py": "d8b6ec331fed77d05cc532e83dc034a18aba6fb185c9271308c873b9adc266f9",
+    "README.md": "b7e0718e975a169567b39f0f3533e138240eada0f993705e7bd4b64813c94f9d",
+    "docs/implementation_status.md": "cf782408ba843065fb5be37d83c1e72a844438d16d11d68334843bfc68adae32",
+    "docs/handoffs/T0009-proof-enumeration.md": "e2a08df9f23cefcfad0fc2754f37bdd4a6a927685ac11232437caf5a3874d2d9",
+    "reports/T0009/pi-r1-full/provenance.md": "7695301d5abf2164aa3b5b74238795791df197ec0140c55931aa143cad88b395",
+    "reports/T0009/pi-r1-scripts/isolation_guard.py": "9b1a79251e2038b6b06ad5dd42459f4536a354a876a90dff76b32acd14210a35"
+  },
+  "history_sha256": {
+    "reports/T0009/record_check.py": "555c0b9b41d8de7851a41f6b86d65184c6b42b8ade3f2574f6ceb86cd578da85",
+    "reports/T0009/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14",
+    "reports/T0009/planning-baseline.json": "54d447ec0c871e6b9def567275df2ff0235bb07c60fcc64294837a0e32d2a024",
+    "reports/T0009/check_delivery.py": "9ff1843401bed0ad0b5ce02de8a324c86b27773c9acdb8988d7210b861a7d1ca",
+    "reports/T0009/planning_examples.py": "fc57d6dcd6e0067814b8a1c4dbea11cd20858b3a47096c0126d0a56a303e114e",
+    "reports/T0009/planning-review.md": "08946b5d7de2b5b67f669ab63949dc69c62cede0a7d79398d4e0a0e0d24e4811",
+    "reports/T0009/planning-files.json": "be3b2cc79852eb02e389192128ccadb69c990d37397028af6f1d1a540e7c5d97",
+    "reports/T0009/planning-preflight/record.json": "d59a617bf16c89949850897f4b1774926f6e780f2829bcaebe7cace919fcee92",
+    "reports/T0009/planning-preflight/stdout.txt": "54d447ec0c871e6b9def567275df2ff0235bb07c60fcc64294837a0e32d2a024",
+    "reports/T0009/planning-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/planning-examples/record.json": "17a6b5ba25ea311eceadebb1a349eb847efef30a398686c0531a73559eda177e",
+    "reports/T0009/planning-examples/stdout.txt": "a0a0120eae8795d3b2c265cff3dc3848bd8bb2732f14cd6c8ac69ee39d203b0d",
+    "reports/T0009/planning-examples/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/planning-check/record.json": "19e51086b3b490a93a38028d3441721b41f13d19210703e6a8948eaab40a5be7",
+    "reports/T0009/planning-check/summary.json": "0dbde8a114088f10212b8827f879ad362c55d7b5dc2c06b84b747459906ba971",
+    "reports/T0009/planning-check/stdout.txt": "0dbde8a114088f10212b8827f879ad362c55d7b5dc2c06b84b747459906ba971",
+    "reports/T0009/planning-check/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-scripts/isolation_guard.py": "9b1a79251e2038b6b06ad5dd42459f4536a354a876a90dff76b32acd14210a35",
+    "reports/T0009/pi-r1-preflight/record.json": "6bcd2f18a293ce5bf76e90b9ba18bad627c35363d131e9343aa8a9a7284b1ed0",
+    "reports/T0009/pi-r1-preflight/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-preflight/stderr.txt": "0618537fd72817a4bf8322c03200564ad2bf3c388e913a3403ceeff4d8be9bdf",
+    "reports/T0009/pi-r1-preflight-verify/record.json": "37568deef04c1fa98ca525807c2464a11e8b2b3f49f7ed785ac0e54af3da2878",
+    "reports/T0009/pi-r1-preflight-verify/stdout.txt": "671ea52d0a7da106e615aaa6eeaa5f008bc40ec8c40b11c93781ef0f857ddd41",
+    "reports/T0009/pi-r1-preflight-verify/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-focused/record.json": "879c7ccb3a2f7608b205892b52fb240bcdbd381b80136dfe4a33a1a4ae7424f1",
+    "reports/T0009/pi-r1-focused/stdout.txt": "c247e16518799e9cd50f4603c7358dc2f98fb856279c0d2838a8b0044acc1c20",
+    "reports/T0009/pi-r1-focused/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-full/record.json": "eb4fa5f69e88ed5b13c3f2164ecfade5379b6edf228712c1fd428811b7d95675",
+    "reports/T0009/pi-r1-full/stdout.txt": "77de588287d70ee6641ac2efa44241ee1d7670d0c9218ac286f4e7c8586857f7",
+    "reports/T0009/pi-r1-full/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-full/provenance.md": "7695301d5abf2164aa3b5b74238795791df197ec0140c55931aa143cad88b395",
+    "reports/T0009/pi-r1-doc-check/record.json": "8965ea55887e75fa72a7c4c96b642a90e9890ee9400bd851dc2dea0769c90b49",
+    "reports/T0009/pi-r1-doc-check/stdout.txt": "afae7072e4807593655bd49e05ba115f427b3aca38c7746b6fd0c283e3812f5a",
+    "reports/T0009/pi-r1-doc-check/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "pi_runs": [
+    {
+      "run": "pi-r1-doc-check",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0009/check_delivery.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.077,
+      "started_at_utc": "2026-09-19T05:24:18.931064+00:00",
+      "finished_at_utc": "2026-09-19T05:24:19.023228+00:00",
+      "stdout_tail": "PASS: scope, frozen inputs, 4 documents/59 local links, text hygiene, awaiting_review\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-focused",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_enumeration.py",
+        "--basetemp",
+        "reports/T0009/pi-r1-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 13.116,
+      "started_at_utc": "2026-09-19T04:38:35.783936+00:00",
+      "finished_at_utc": "2026-09-19T04:38:48.915443+00:00",
+      "stdout_tail": ".......................................................................  [100%]\n71 passed in 12.87s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-full",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0009/pi-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 17.326,
+      "started_at_utc": "2026-09-19T05:04:43.855488+00:00",
+      "finished_at_utc": "2026-09-19T05:05:01.196191+00:00",
+      "stdout_tail": "............................... [ 74%]\n........................................................................ [ 84%]\n........................................................................ [ 95%]\n..............................                                           [100%]\n678 passed in 17.06s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-preflight",
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "import hashlib,json,sys; from pathlib import Path; from importlib.metadata import version; import kmesh; b=json.loads(Path(\"reports/T0009/planning-baseline.json\").read_text()); actual={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() if Path(p).is_file() else None for p in b[\"source_sha256\"]}; assert actual==b[\"source_sha256\"]; assert sys.version==b[\"python\"]; assert {n:version(n) for n in (\"kmesh\",\"pytest\")}==b[\"packages\"]; assert Path(kmesh.__file__).resolve()==Path(b[\"kmesh_path\"]).resolve(); print(\"PREFLIGHT_OK\",sys.executable,kmesh.__file__)"
+      ],
+      "exit_code": 1,
+      "elapsed_s": 0.077,
+      "started_at_utc": "2026-09-19T04:36:37.951362+00:00",
+      "finished_at_utc": "2026-09-19T04:36:38.043431+00:00",
+      "stdout_tail": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import hashlib,json,sys; from pathlib import Path; from importlib.metadata import version; import kmesh; b=json.loads(Path(\"reports/T0009/planning-baseline.json\").read_text()); actual={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() if Path(p).is_file() else None for p in b[\"source_sha256\"]}; assert actual==b[\"source_sha256\"]; assert sys.version==b[\"python\"]; assert {n:version(n) for n in (\"kmesh\",\"pytest\")}==b[\"packages\"]; assert Path(kmesh.__file__).resolve()==Path(b[\"kmesh_path\"]).resolve(); print(\"PREFLIGHT_OK\",sys.executable,kmesh.__file__)\n                                                                                                                                                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "run": "pi-r1-preflight-verify",
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "import hashlib,json,sys; from pathlib import Path; from importlib.metadata import version; import kmesh; b=json.loads(Path(\"reports/T0009/planning-baseline.json\").read_text()); new=(\"src/kmesh/logic/proof_enumeration.py\",\"tests/test_proof_enumeration.py\"); actual={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() if Path(p).is_file() else None for p in b[\"source_sha256\"]}; old={p:actual[p] for p in b[\"source_sha256\"] if p not in new}; assert old=={p:b[\"source_sha256\"][p] for p in old}, \"stale baseline\"; assert all(actual[p] is not None for p in new), \"new files missing\"; assert sys.version==b[\"python\"], \"python drift\"; assert {n:version(n) for n in (\"kmesh\",\"pytest\")}==b[\"packages\"], \"package drift\"; assert Path(kmesh.__file__).resolve()==Path(b[\"kmesh_path\"]).resolve(), \"kmesh path drift\"; print(\"PREFLIGHT_VERIFY_OK\",sys.version); print(\"new product sha256\",actual[new[0]]); print(\"new test sha256\",actual[new[1]])"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.094,
+      "started_at_utc": "2026-09-19T04:38:19.505096+00:00",
+      "finished_at_utc": "2026-09-19T04:38:19.614674+00:00",
+      "stdout_tail": "PREFLIGHT_VERIFY_OK 3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:16:10) [GCC 11.2.0]\nnew product sha256 139870337ca85dd50ea9bf60bca40a92e8f4d0bb2c4e4549e04e7d7e0754e29e\nnew test sha256 d8b6ec331fed77d05cc532e83dc034a18aba6fb185c9271308c873b9adc266f9\n",
+      "stderr": ""
+    }
+  ],
+  "planning_unchanged": true
+}

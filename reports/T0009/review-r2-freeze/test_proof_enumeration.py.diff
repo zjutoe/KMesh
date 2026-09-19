@@ -1,0 +1,167 @@
+--- R1/tests/test_proof_enumeration.py
++++ R2/tests/test_proof_enumeration.py
+@@ -407,13 +407,20 @@
+         enumerate_proofs(None, query)
+     assert str(exc.value) == "proofs.clauses must be a tuple of Clause; got NoneType"
+ 
++    consumed = []
++
+     def generator():
++        consumed.append(1)
+         yield 0
+         raise AssertionError("clauses generator must not be consumed")
+ 
+     with pytest.raises(LogicValidationError) as exc:
+         enumerate_proofs(generator(), query)
+     assert str(exc.value) == "proofs.clauses must be a tuple of Clause; got generator"
++    # A wrong implementation that consumes the generator once before the
++    # container check (next(gen, None)) would hit the yield; the marker must
++    # not have fired.
++    assert consumed == []
+ 
+ 
+ def test_clauses_member_diagnostics_before_cycle_check() -> None:
+@@ -497,9 +504,15 @@
+     # Local validation precedes the T0008 call: a cycle world must not mask
+     # an earlier local error (cycles surface only inside enumerate_derivations).
+     cyc_world = (rule(_QXY(), head=_RXY()), rule(_RXY(), head=_QXY()))
++    # S budget validation precedes the T0008 call as well: an illegal S on a
++    # cyclic world must surface the local S diagnostic, not the cycle error
++    # that only enumerate_derivations could raise.
+     with pytest.raises(LogicValidationError) as exc:
+         enumerate_proofs(cyc_world, atom("q", "a", "b"), max_fact_checks=True)
+     assert str(exc.value) == "proofs.max_fact_checks must be a non-bool positive integer; got bool"
++    with pytest.raises(LogicValidationError) as exc:
++        enumerate_proofs(cyc_world, atom("q", "a", "b"), max_proof_steps=0)
++    assert str(exc.value) == "proofs.max_proof_steps must be a non-bool positive integer; got int"
+     with pytest.raises(LogicValidationError) as exc:
+         enumerate_proofs(cyc_world, atom("q", "a", "b"))
+     assert str(exc.value) == "dependency.clauses: cyclic predicate dependency"
+@@ -543,7 +556,7 @@
+ @pytest.fixture()
+ def small_int_str_limit():
+     old = sys.get_int_max_str_digits()
+-    sys.set_int_max_str_digits(3000)
++    sys.set_int_max_str_digits(4300)
+     try:
+         yield
+     finally:
+@@ -573,7 +586,7 @@
+             cases[name] = str(exc)
+     assert len(cases) == 6
+     # The exact messages below prove no huge value ever reaches a diagnostic
+-    # while the int-str limit is 3000 (the fixture would raise ValueError if
++    # while the int-str limit is 4300 (the fixture would raise ValueError if
+     # the product stringified these values).
+     assert cases["clauses"] == "proofs.clauses must be a tuple of Clause; got int"
+     assert cases["member"] == "proofs.clauses[0] must be a Clause; got int"
+@@ -592,6 +605,9 @@
+         max_proof_steps=BIG,
+     )
+     assert out == ((step(0, (), "p", "a", "b"),),)
++    assert verify_proof(
++        (fact("p", "a", "b"),), atom("p", "a", "b"), out[0]
++    ) is True
+     with pytest.raises(LogicValidationError):
+         enumerate_proofs(
+             (fact("p", "a", "b"),),
+@@ -619,6 +635,7 @@
+     out = run(clauses, atom("p", "a", "b"), 7, 9, 100)
+     assert calls == [(clauses, 7, 9)]
+     assert out == ((step(0, (), "p", "a", "b"),),)
++    assert verify_proof(clauses, atom("p", "a", "b"), out[0]) is True
+ 
+ 
+ def test_t0008_exception_identity_passes_through(monkeypatch) -> None:
+@@ -657,8 +674,15 @@
+         lambda: enumerate_proofs([fact("p", "a", "b")], atom("p", "a", "b")),
+         lambda: enumerate_proofs((None,), atom("p", "a", "b")),
+         lambda: enumerate_proofs((fact("p", "a", "b"),), None),
++        lambda: enumerate_proofs((fact("p", "a", "b"),), Atom("p", ("?x", "b"))),
+         lambda: enumerate_proofs(
+             (fact("p", "a", "b"),), atom("p", "a", "b"), max_fact_checks=0
++        ),
++        lambda: enumerate_proofs(
++            (fact("p", "a", "b"),), atom("p", "a", "b"), max_derivations=True
++        ),
++        lambda: enumerate_proofs(
++            (fact("p", "a", "b"),), atom("p", "a", "b"), max_proof_steps=-1
+         ),
+     )
+     for bad in bad_inputs:
+@@ -686,6 +710,40 @@
+         (step(0, (), "k0", "a", "b"),)
+         + tuple(step(j, (j - 1,), f"k{j}", "a", "b") for j in range(1, n + 1))
+     )
++
++
++def test_ancestor_collection_uses_bounded_record_reads(monkeypatch) -> None:
++    import kmesh.logic.proof_enumeration as pe
++
++    # 64 COPY rules + 1 fact = 65 records. C=64, D=65, S=1: derivation
++    # enumeration succeeds, then the proof budget exhausts on the first rule
++    # combination. After the real T0008 returns, each record's conclusion is
++    # read only through the indexed work-list traversal: a per-round full
++    # re-scan of all 65 records reads 4229 times, the bound is 8 * 65.
++    n = 64
++    clauses, query = chain_world(n)
++    stats = {"active": False, "reads": 0}
++    original_getattribute = GroundDerivation.__getattribute__
++    original_enumerate = pe.enumerate_derivations
++
++    def counted_getattribute(self, name):
++        if stats["active"] and name == "conclusion":
++            stats["reads"] += 1
++        return original_getattribute(self, name)
++
++    def enumerate_then_count(*args, **kwargs):
++        result = original_enumerate(*args, **kwargs)
++        stats["active"] = True
++        return result
++
++    monkeypatch.setattr(GroundDerivation, "__getattribute__", counted_getattribute)
++    monkeypatch.setattr(pe, "enumerate_derivations", enumerate_then_count)
++    with pytest.raises(ProofEnumerationLimitError) as exc:
++        pe.enumerate_proofs(
++            clauses, query, max_fact_checks=n, max_derivations=n + 1, max_proof_steps=1
++        )
++    assert str(exc.value) == "proofs.max_proof_steps exhausted before enumeration completed"
++    assert stats["reads"] <= 8 * (n + 1)
+ 
+ 
+ def test_long_chain_1200_steps_success() -> None:
+@@ -736,7 +794,8 @@
+     else:
+         raise AssertionError("expected ProofEnumerationLimitError")
+     out = run(clauses, query, 1200, 1201, 721801)
+-    assert len(out) == 1 and len(out[0]) == 1201
++    assert list(out) == [chain_proof(n)]
++    assert verify_proof(clauses, query, out[0], max_steps=1201) is True
+ 
+ 
+ # --------------------------------------------------------------------------
+@@ -760,6 +819,7 @@
+     clauses = P7["clauses"] + (fact("z", "e", "f"),)
+     out = run(clauses, atom("z", "e", "f"), 4, 6, 1)
+     assert out == ((step(5, (), "z", "e", "f"),),)
++    assert verify_proof(clauses, atom("z", "e", "f"), out[0]) is True
+ 
+ 
+ def test_nonexistent_query_returns_empty_tuple() -> None:
+@@ -788,6 +848,7 @@
+     assert type(out) is tuple
+     proof = out[0]
+     assert type(proof) is tuple
++    assert verify_proof(P4["clauses"], P4["query"], proof) is True
+     with pytest.raises(dataclasses.FrozenInstanceError):
+         proof[0].clause_index = 1
+     with pytest.raises(dataclasses.FrozenInstanceError):
+@@ -795,7 +856,7 @@
+ 
+ 
+ # --------------------------------------------------------------------------
+-# README example world: budgets C=2, D=3, S=5, one proof.
++# README example world: budgets C=2, D=3, S=6, one proof.
+ # --------------------------------------------------------------------------
+ 
+ def test_readme_example_world() -> None:

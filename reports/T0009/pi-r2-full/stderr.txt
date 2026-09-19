@@ -1,0 +1,12 @@
+/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1/loader/configs
+<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1/loader/configs'
+  warnings.warn(
+/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1/loader
+<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1/loader'
+  warnings.warn(
+/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1
+<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1'
+  warnings.warn(
+/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712
+<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712'
+  warnings.warn(

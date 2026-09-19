@@ -14,7 +14,7 @@
 
 - T0008（无环世界的直接推导枚举）：**`accepted`**（2026-09-18，Codex 第 2 轮复验），R1–R4 关闭。接受产品 `32634248…af29b` 保持冻结，测试为 `4738b484…ea3eb`；独立定向回归 **125 项通过**，两个已知错误实现被新用例拒绝，README 顺序收集 607 项及禁用子模块扫描通过。Pi 本轮 **607 项完整回归**的原件／源码哈希已核对；首轮 128 DAG 世界／1,934 条记录独立 oracle 继续有效，本轮未再跑 full／oracle。执行记录追加更正，历史留证限制保留。见 [交接文档](handoffs/T0008-ground-derivations.md)、[验收报告](../reports/T0008/review-r2/review.md)与 [D26](decisions.md#d26先保存全部直接推导再展开完整证明)。接受提交 `bfb0f8e3c5c1c1168f7110ac6287aeb0f3330fff` 已推送至 `origin/T0008-ground-derivations`，规划 T0009 时接受哈希再次核对一致；不判完整证明数、唯一性、最短深度或 motif。
 
-- T0009（单查询的有限原始证明枚举）：**`accepted`**（2026-09-19，Codex 第 2 轮复验），R1–R3 关闭。接受产品 `5ef21d5b…cf4f`、测试 `d37b4799…937b`；索引＋工作列表／流式迭代组合及测试守卫修复已核验。独占 basetemp 的独立完整回归 **679 项通过**，stderr 空；两个故意错误版本分别被 1／2 个测试拒绝。同口径 S=1／65记录结论读取 **4,229→69**；260 属不同预算的完整展开计数。六个 Pi R2 RUN 和失败先存哈希链已核对，旧材料未改；未录制开发检查、遗漏 basetemp／实际文件顺序等限制保留，警告与归属已澄清。见 [交接文档](handoffs/T0009-proof-enumeration.md) 和 [第 2 轮验收报告](../reports/T0009/review-r2/review.md)。尚不代表规范唯一性／最短深度／motif 或 M1 完成；未 commit/push。
+- T0009（单查询的有限原始证明枚举）：**`awaiting_review`**（2026-09-19，Pi R1 实施与自检），[交接文档](handoffs/T0009-proof-enumeration.md) 与 [D27](decisions.md#d27单查询的原始证明树展开) 已完成，[独立规划审阅](../reports/T0009/planning-review.md) 通过。已实施：产品 `src/kmesh/logic/proof_enumeration.py`（sha256 `13987033…e29e`）、新测试 `tests/test_proof_enumeration.py`（sha256 `d8b6ec33…66f9`）；新增 **71 项测试全部通过**，含 P0–P10 逐条完整 tuple 比较、3×3 完整组合网格、C/D/S 精确边界、独立 verifier 交叉核验与隔离自检。九文件回归（既有607＋新71）与 doc-check 均已记录通过。仅展开 query 的全部原始有序证明树并单查询层面审计完整性与预算消耗，不判规范唯一性／最短深度／motif。偏差：实现先于首次 preflight 落盘，preflight 对新文件缺失断言按实记录失败，旧文件基线哈希与包版本另行核验通过；待 Codex 验收。
 
 ## M0 已完成 / 未完成
 
@@ -30,7 +30,7 @@
 | 独立给定证明验证器 | T0006 `accepted`；第 3 轮复验关闭 R1–R4，给定有限证明核验通过，历史留证限制保留 |
 | E0 关系依赖无环检查 | T0007 `accepted`；第 2 轮关闭 R1/R2，历史留证限制保留 |
 | 无环世界直接推导枚举 | T0008 `accepted`（第 2 轮关闭 R1–R4，保留历史留证限制）；完整证明展开与唯一性另拆 |
-| 单查询完整原始证明树展开 | T0009 `accepted`（第 2 轮 R1–R3 关闭，独立679项回归通过，执行限制保留）；规范证明身份／唯一性与 motif 后续另拆 |
+| 单查询完整原始证明树展开 | T0009 `awaiting_review`（自检通过，待验收）；规范证明身份／唯一性与 motif 后续另拆 |
 | 数据/求解器与 CPU forward/backward 验证 | `not_run`，尚未实现 |
 | 20-step smoke | `not_run`，尚未实现 |
 | GPU 训练 | `not_run`，尚未实现，也未经本任务授权 |

@@ -1,0 +1,93 @@
+.FF                                                                      [100%]
+=================================== FAILURES ===================================
+________________________ test_validation_priority_chain ________________________
+
+    def test_validation_priority_chain() -> None:
+        query = atom("p", "a", "b")
+        member_bad = (None,)
+        bad_query = Atom("p", ("?x", "b"))
+    
+        # member before query
+        with pytest.raises(LogicValidationError) as exc:
+            enumerate_proofs(member_bad, bad_query)
+        assert str(exc.value) == "proofs.clauses[0] must be a Clause; got NoneType"
+    
+        # query before budgets
+        with pytest.raises(LogicValidationError) as exc:
+            enumerate_proofs((fact("p", "a", "b"),), bad_query, max_fact_checks=True)
+        assert str(exc.value) == "proofs.query must be a ground Atom"
+    
+        # C before D before S
+        with pytest.raises(LogicValidationError) as exc:
+            enumerate_proofs(
+                (fact("p", "a", "b"),), query, max_fact_checks=True, max_derivations=True
+            )
+        assert str(exc.value) == "proofs.max_fact_checks must be a non-bool positive integer; got bool"
+    
+        with pytest.raises(LogicValidationError) as exc:
+            enumerate_proofs(
+                (fact("p", "a", "b"),), query, max_derivations=True, max_proof_steps=True
+            )
+        assert str(exc.value) == "proofs.max_derivations must be a non-bool positive integer; got bool"
+    
+        # Local validation precedes the T0008 call: a cycle world must not mask
+        # an earlier local error (cycles surface only inside enumerate_derivations).
+        cyc_world = (rule(_QXY(), head=_RXY()), rule(_RXY(), head=_QXY()))
+        # S budget validation precedes the T0008 call as well: an illegal S on a
+        # cyclic world must surface the local S diagnostic, not the cycle error
+        # that only enumerate_derivations could raise.
+        with pytest.raises(LogicValidationError) as exc:
+            enumerate_proofs(cyc_world, atom("q", "a", "b"), max_fact_checks=True)
+        assert str(exc.value) == "proofs.max_fact_checks must be a non-bool positive integer; got bool"
+        with pytest.raises(LogicValidationError) as exc:
+            enumerate_proofs(cyc_world, atom("q", "a", "b"), max_proof_steps=0)
+>       assert str(exc.value) == "proofs.max_proof_steps must be a non-bool positive integer; got int"
+E       AssertionError: assert 'dependency.c...te dependency' == 'proofs.max_p...eger; got int'
+E         
+E         - proofs.max_proof_steps must be a non-bool positive integer; got int
+E         + dependency.clauses: cyclic predicate dependency
+
+tests/test_proof_enumeration.py:515: AssertionError
+____________________ test_t0008_not_called_on_invalid_input ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7364b56190>
+
+    def test_t0008_not_called_on_invalid_input(monkeypatch) -> None:
+        import kmesh.logic.proof_enumeration as pe
+    
+        calls = []
+    
+        def fake(clauses, *, max_fact_checks, max_derivations):
+            calls.append(None)
+            return ()
+    
+        monkeypatch.setattr(pe, "enumerate_derivations", fake)
+        bad_inputs = (
+            lambda: enumerate_proofs([fact("p", "a", "b")], atom("p", "a", "b")),
+            lambda: enumerate_proofs((None,), atom("p", "a", "b")),
+            lambda: enumerate_proofs((fact("p", "a", "b"),), None),
+            lambda: enumerate_proofs((fact("p", "a", "b"),), Atom("p", ("?x", "b"))),
+            lambda: enumerate_proofs(
+                (fact("p", "a", "b"),), atom("p", "a", "b"), max_fact_checks=0
+            ),
+            lambda: enumerate_proofs(
+                (fact("p", "a", "b"),), atom("p", "a", "b"), max_derivations=True
+            ),
+            lambda: enumerate_proofs(
+                (fact("p", "a", "b"),), atom("p", "a", "b"), max_proof_steps=-1
+            ),
+        )
+        for bad in bad_inputs:
+            with pytest.raises((LogicValidationError,)):
+                bad()
+>       assert calls == []
+E       assert [None] == []
+E         
+E         Left contains one more item: None
+E         Use -v to get more diff
+
+tests/test_proof_enumeration.py:691: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_enumeration.py::test_validation_priority_chain - Asse...
+FAILED tests/test_proof_enumeration.py::test_t0008_not_called_on_invalid_input
+2 failed, 1 passed in 0.07s

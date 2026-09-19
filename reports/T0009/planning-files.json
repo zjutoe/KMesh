@@ -1,0 +1,20 @@
+{
+  "docs/decisions.md": "2501022d0c1359f255c2de231bd6d74c1346b7b9ed75ca5b8ea5d774fc21b41e",
+  "docs/handoffs/T0008-ground-derivations.md": "3c7c7c23eb6e6212743f80d32b27b6d8b5ef7796ee05d73d089055d2f1dd00c0",
+  "reports/T0009/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14",
+  "reports/T0009/check_delivery.py": "9ff1843401bed0ad0b5ce02de8a324c86b27773c9acdb8988d7210b861a7d1ca",
+  "reports/T0009/planning-baseline.json": "54d447ec0c871e6b9def567275df2ff0235bb07c60fcc64294837a0e32d2a024",
+  "reports/T0009/planning-check/record.json": "19e51086b3b490a93a38028d3441721b41f13d19210703e6a8948eaab40a5be7",
+  "reports/T0009/planning-check/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reports/T0009/planning-check/stdout.txt": "0dbde8a114088f10212b8827f879ad362c55d7b5dc2c06b84b747459906ba971",
+  "reports/T0009/planning-check/summary.json": "0dbde8a114088f10212b8827f879ad362c55d7b5dc2c06b84b747459906ba971",
+  "reports/T0009/planning-examples/record.json": "17a6b5ba25ea311eceadebb1a349eb847efef30a398686c0531a73559eda177e",
+  "reports/T0009/planning-examples/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reports/T0009/planning-examples/stdout.txt": "a0a0120eae8795d3b2c265cff3dc3848bd8bb2732f14cd6c8ac69ee39d203b0d",
+  "reports/T0009/planning-preflight/record.json": "d59a617bf16c89949850897f4b1774926f6e780f2829bcaebe7cace919fcee92",
+  "reports/T0009/planning-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reports/T0009/planning-preflight/stdout.txt": "54d447ec0c871e6b9def567275df2ff0235bb07c60fcc64294837a0e32d2a024",
+  "reports/T0009/planning-review.md": "08946b5d7de2b5b67f669ab63949dc69c62cede0a7d79398d4e0a0e0d24e4811",
+  "reports/T0009/planning_examples.py": "fc57d6dcd6e0067814b8a1c4dbea11cd20858b3a47096c0126d0a56a303e114e",
+  "reports/T0009/record_check.py": "555c0b9b41d8de7851a41f6b86d65184c6b42b8ade3f2574f6ceb86cd578da85"
+}

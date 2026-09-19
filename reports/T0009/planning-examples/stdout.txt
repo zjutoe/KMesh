@@ -1,0 +1,128 @@
+{
+  "result": "PASS",
+  "cases": [
+    {
+      "case": "P0",
+      "C": 0,
+      "D": 0,
+      "S": 0,
+      "output_lengths": [],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P1",
+      "C": 0,
+      "D": 1,
+      "S": 1,
+      "output_lengths": [
+        1
+      ],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P2",
+      "C": 2,
+      "D": 3,
+      "S": 6,
+      "output_lengths": [
+        3
+      ],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P3",
+      "C": 3,
+      "D": 4,
+      "S": 9,
+      "output_lengths": [
+        4
+      ],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P4",
+      "C": 4,
+      "D": 4,
+      "S": 10,
+      "output_lengths": [
+        5
+      ],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P5",
+      "C": 3,
+      "D": 5,
+      "S": 12,
+      "output_lengths": [
+        3,
+        3
+      ],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P6",
+      "C": 2,
+      "D": 3,
+      "S": 14,
+      "output_lengths": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P7",
+      "C": 4,
+      "D": 5,
+      "S": 30,
+      "output_lengths": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P8",
+      "C": 1,
+      "D": 3,
+      "S": 4,
+      "output_lengths": [
+        1,
+        2
+      ],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P9",
+      "C": 2,
+      "D": 3,
+      "S": 5,
+      "output_lengths": [
+        3
+      ],
+      "hand_authored_proofs_valid": true
+    },
+    {
+      "case": "P10",
+      "C": 3,
+      "D": 5,
+      "S": 5,
+      "output_lengths": [
+        3
+      ],
+      "hand_authored_proofs_valid": true
+    }
+  ],
+  "tampered_right_child_rejected": true,
+  "long_chain_arithmetic": {
+    "rules": 1200,
+    "length": 1201,
+    "S": 721801
+  },
+  "limits": "Only accepted T0006/T0008 and explicit examples checked; T0009 unimplemented; S is hand-counted, not product-verified."
+}

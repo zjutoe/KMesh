@@ -1,0 +1,102 @@
+--- R1/src/kmesh/logic/proof_enumeration.py
++++ R2/src/kmesh/logic/proof_enumeration.py
+@@ -26,6 +26,8 @@
+ """
+ 
+ from __future__ import annotations
++
++import itertools
+ 
+ from .derivations import enumerate_derivations
+ from .proof import ProofStep
+@@ -65,16 +67,6 @@
+     return steps, offset + len(child) - 1
+ 
+ 
+-def _flat_combos(parts: list[list]):
+-    """Yield every child combination in nested list order (outer first)."""
+-    if not parts:
+-        yield ()
+-        return
+-    for item in parts[0]:
+-        for tail in _flat_combos(parts[1:]):
+-            yield (item,) + tail
+-
+-
+ def enumerate_proofs(
+     clauses: tuple[Clause, ...],
+     query: Atom,
+@@ -92,12 +84,17 @@
+     world cycles) and ``DerivationLimitError`` propagate unchanged.
+     A query with no record returns ``()`` after that call.
+ 
+-    Proofs are returned in global record order: a pool per needed atom
+-    is built by scanning the T0008 records in order (facts yield a
+-    one-step proof; one- and two-premise records combine their premise
+-    pools, outer slot first, one proof per child combination with
+-    children re-anchored at their copy offset).  The query's pool is
+-    returned as a tuple.  When ``max_proof_steps`` runs out,
++    Proofs are returned in global record order: after the derivation call,
++    the records are indexed once by conclusion atom (every source record
++    per atom, in record order); a query absent from the index returns
++    ``()``.  The needed atoms are then collected with an explicit work
++    list, fully iterative with no per-round rescan of the records.  A
++    pool per needed atom is built by scanning the T0008 records in order
++    (facts yield a one-step proof; one- and two-premise records combine
++    their premise pools, outer slot first, one proof per child
++    combination streamed via ``itertools.product`` with children
++    re-anchored at their copy offset).  The query's pool is returned as
++    a tuple.  When ``max_proof_steps`` runs out,
+     ``ProofEnumerationLimitError`` is raised and no partial output is
+     returned.  The result is verified externally; this function never
+     calls ``verify_proof``.
+@@ -127,19 +124,28 @@
+         clauses, max_fact_checks=fact_checks, max_derivations=derivations
+     )
+ 
+-    # Needed set: the query plus every premise reachable through all of
+-    # an atom's direct sources, until no new atom appears.
+-    needed: set[Atom] = {query}
+-    changed = True
+-    while changed:
+-        changed = False
+-        for record in records:
+-            if record.conclusion not in needed:
+-                continue
+-            for premise in record.premises:
++    # Reverse index: every conclusion atom maps to the positions of all of
++    # its direct source records, in record order.
++    sources: dict[Atom, list[int]] = {}
++    for position, record in enumerate(records):
++        sources.setdefault(record.conclusion, []).append(position)
++    if query not in sources:
++        return ()
++
++    # Needed set: the query plus every premise reachable through the
++    # sources of an already-needed atom, walked with an explicit work
++    # list (no recursion, no per-round rescan of all records).
++    needed: set[Atom] = set()
++    worklist = [query]
++    while worklist:
++        atom = worklist.pop()
++        if atom in needed:
++            continue
++        needed.add(atom)
++        for position in sources.get(atom, ()):
++            for premise in records[position].premises:
+                 if premise not in needed:
+-                    needed.add(premise)
+-                    changed = True
++                    worklist.append(premise)
+ 
+     remaining = steps_budget
+     pools: dict[Atom, list[tuple[ProofStep, ...]]] = {}
+@@ -157,7 +163,7 @@
+         else:
+             children = [pools[premise] for premise in record.premises]
+             new_proofs = []
+-            for combo in _flat_combos(children):
++            for combo in itertools.product(*children):
+                 length = 1 + sum(len(child) for child in combo)
+                 if length > remaining:
+                     raise ProofEnumerationLimitError()

@@ -1,0 +1,141 @@
+{
+  "head": "bfb0f8e3c5c1c1168f7110ac6287aeb0f3330fff",
+  "input_sha256": {
+    "src/kmesh/logic/proof_enumeration.py": "5ef21d5be17d79da2b5f2a91484edd7366e5f861a8b6495aceee058b4836cf4f",
+    "tests/test_proof_enumeration.py": "d37b47993bc898cc34a26d52429889e7d4cdb626b61bfad7338731e41e21937b",
+    "README.md": "49fae414cf73fb73d6a5f11054467958edf217b27ddb6dbb63f177019450a09a",
+    "docs/implementation_status.md": "024664e4006843b45266dc88cf22081d579985a8eb791f106a2b99c5b8d7eb1a",
+    "docs/handoffs/T0009-proof-enumeration.md": "a4e35b8bf6975f2ed630dea1675a930dbeeeb4c9702220061907f42a99d85e6a",
+    "reports/T0009/pi-r2-full/provenance.md": "1ac0a1356071222352a21c367fa9aa018468538d20018a481d1bb93d3d2d62b7"
+  },
+  "history_count": 90,
+  "pi_r2_runs": [
+    {
+      "run": "pi-r2-doc-check",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0009/review-r1/check_rework_delivery.py"
+      ],
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exit_code": 0,
+      "elapsed_s": 0.084,
+      "started_at_utc": "2026-09-19T08:46:13.815618+00:00",
+      "finished_at_utc": "2026-09-19T08:46:13.915993+00:00",
+      "stdout_tail": "PASS: scope, frozen inputs, 5 documents/68 local links, text hygiene, awaiting_review\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r2-focused",
+      "argv": [
+        "env",
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1",
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_enumeration.py"
+      ],
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exit_code": 0,
+      "elapsed_s": 10.499,
+      "started_at_utc": "2026-09-19T07:35:16.503512+00:00",
+      "finished_at_utc": "2026-09-19T07:35:27.016921+00:00",
+      "stdout_tail": "........................................................................ [100%]\n72 passed in 10.26s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r2-full",
+      "argv": [
+        "env",
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1",
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_proof.py",
+        "tests/test_dependency.py",
+        "tests/test_derivations.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py"
+      ],
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exit_code": 0,
+      "elapsed_s": 15.471,
+      "started_at_utc": "2026-09-19T07:35:36.477190+00:00",
+      "finished_at_utc": "2026-09-19T07:35:51.963744+00:00",
+      "stdout_tail": "..................... [ 53%]\n........................................................................ [ 63%]\n........................................................................ [ 74%]\n........................................................................ [ 84%]\n........................................................................ [ 95%]\n...............................                                          [100%]\n679 passed in 15.19s\n",
+      "stderr": "/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1/loader/configs\n<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1/loader/configs'\n  warnings.warn(\n/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1/loader\n<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1/loader'\n  warnings.warn(\n/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1\n<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712/test_public_call_logs_then_blo1'\n  warnings.warn(\n/opt/anaconda3/lib/python3.13/site-packages/_pytest/pathlib.py:96: PytestWarning: (rm_rf) error removing /tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712\n<class 'OSError'>: [Errno 39] Directory not empty: '/tmp/pytest-of-mye/garbage-b42aa566-0163-48fe-aee6-b8ea2e575712'\n  warnings.warn(\n"
+    },
+    {
+      "run": "pi-r2-guards",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0009/review-r1/rework_guards.py",
+        "reports/T0009/pi-r2-guards"
+      ],
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exit_code": 0,
+      "elapsed_s": 0.911,
+      "started_at_utc": "2026-09-19T07:35:05.688188+00:00",
+      "finished_at_utc": "2026-09-19T07:35:06.614479+00:00",
+      "stdout_tail": "{\n  \"result\": \"PASS\",\n  \"cases\": [\n    {\n      \"case\": \"submitted\",\n      \"exit_code\": 0,\n      \"summary\": \"3 passed in 0.02s\"\n    },\n    {\n      \"case\": \"generator_consumed_once\",\n      \"exit_code\": 1,\n      \"summary\": \"1 failed, 2 passed in 0.05s\"\n    },\n    {\n      \"case\": \"proof_budget_after_T0008\",\n      \"exit_code\": 1,\n      \"summary\": \"2 failed, 1 passed in 0.07s\"\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r2-preflight",
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "import hashlib,json,subprocess; from pathlib import Path; r=json.loads(Path(\"reports/T0009/review-r1/final-audit.json\").read_text()); assert subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip()==r[\"head\"]; assert all(hashlib.sha256(Path(p).read_bytes()).hexdigest()==h for p,h in r[\"reviewed_files\"].items()); print(\"R2_PREFLIGHT_OK\")"
+      ],
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exit_code": 0,
+      "elapsed_s": 0.048,
+      "started_at_utc": "2026-09-19T06:46:42.918624+00:00",
+      "finished_at_utc": "2026-09-19T06:46:42.992891+00:00",
+      "stdout_tail": "R2_PREFLIGHT_OK\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r2-regression",
+      "argv": [
+        "env",
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1",
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_enumeration.py"
+      ],
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exit_code": 1,
+      "elapsed_s": 13.108,
+      "started_at_utc": "2026-09-19T07:33:28.279166+00:00",
+      "finished_at_utc": "2026-09-19T07:33:41.403614+00:00",
+      "stdout_tail": "\n            )\n        assert str(exc.value) == \"proofs.max_proof_steps exhausted before enumeration completed\"\n>       assert stats[\"reads\"] <= 8 * (n + 1)\nE       assert 4229 <= (8 * (64 + 1))\n\ntests/test_proof_enumeration.py:746: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_proof_enumeration.py::test_ancestor_collection_uses_bounded_record_reads\n1 failed, 71 passed in 12.86s\n",
+      "stderr": ""
+    }
+  ]
+}

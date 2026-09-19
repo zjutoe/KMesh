@@ -177,7 +177,7 @@ assert derivations[2].premises == (atom("r1", "a", "b"), atom("r2", "b", "c"))
 
 **状态：已验收（`accepted`，2026-09-18，Codex 第 2 轮复验），R1–R4 已关闭。** 独立定向回归 **125 项通过**，新测试可拒绝两种已知错误实现；README 顺序收集 607 项无错误，隔离检查可发现禁用子模块。Pi 的 **607 项完整回归**原件与源码哈希已核对；产品冻结，首轮 128 个小世界的全部直接推导来源核验继续有效。历史留证限制保留，不代表已完成 M1 或 E0 world 完整审计。详见 [T0008 交接文档](docs/handoffs/T0008-ground-derivations.md)与 [验收报告](reports/T0008/review-r2/review.md)。
 
-有限证明枚举（T0009）：`kmesh.logic.proof_enumeration` 提供 `ProofEnumerationLimitError`（`RuntimeError` 子类）与 `enumerate_proofs(clauses, query, *, max_fact_checks=100_000, max_derivations=100_000, max_proof_steps=100_000)`，返回单个 ground query 的全部完整证明树（`ProofStep` 的 tuple 套 tuple）。它只调 T0008 `enumerate_derivations` 一次；T0008 返回后按各记录 conclusion 建 Atom→全部来源记录位点的索引（每条记录一次 conclusion 读取），query 不在索引中直接返回 `()`，否则以显式工作列表沿索引向后展开所需 Atom（含中间结论与事实，不展开不相关 Atom，无每轮重扫），再按全局记录序逐槽位完整展开：每个完整组合经流式 `itertools.product` 生成（不先物化全部组合）并独立保留，上游全部替代来源、重复 clause、重复槽位均不合并，子证明按槽位后序拼接、右子树内部引用整体偏移重映射。入口按“容器→成员→query 类型→ground→三个预算”次序校验，消息固定、不回显未验证值的 repr/str，合法巨正整数预算接受。预算：C/D 沿用 T0008 全世界精确计数（本层不额外扣减），S 为全部相关 Atom 的已缓存证明长度之和（含中间结论与事实）；一个组合需 `1 + sum(len(child))`，先算长度并在复制任何步骤前检查累计额度；恰好用完成功，不足立即抛 `ProofEnumerationLimitError`（消息固定为 `proofs.max_proof_steps exhausted before enumeration completed`），不返回部分结果、不因已找到第二棵树而停。query 为不存在的 Atom 返回 `()`；T0008 超限原样传播，不转空结果。输出是**原始有序树**，不是规范证明：只完成单查询层面的完整枚举与预算消耗审计，规范唯一性、最短深度、motif 审计均未完成，不等同 M1 完成。最小使用例（与 `tests/test_proof_enumeration.py` 用同一输入和明确断言覆盖）：
+有限证明枚举（T0009）：`kmesh.logic.proof_enumeration` 提供 `ProofEnumerationLimitError`（`RuntimeError` 子类）与 `enumerate_proofs(clauses, query, *, max_fact_checks=100_000, max_derivations=100_000, max_proof_steps=100_000)`，返回单个 ground query 的全部完整证明树（`ProofStep` 的 tuple 套 tuple）。它只调 T0008 `enumerate_derivations` 一次，从 query 出发按记录前提取相关 Atom 不动点（含中间结论与事实，不展开不相关 Atom），再按全局记录序逐槽位完整展开：每个完整组合独立保留，上游全部替代来源、重复 clause、重复槽位均不合并，子证明按槽位后序拼接、右子树内部引用整体偏移重映射。入口按“容器→成员→query 类型→ground→三个预算”次序校验，消息固定、不回显未验证值的 repr/str，合法巨正整数预算接受。预算：C/D 沿用 T0008 全世界精确计数（本层不额外扣减），S 为全部相关 Atom 的已缓存证明长度之和（含中间结论与事实）；一个组合需 `1 + sum(len(child))`，先算长度并在复制任何步骤前检查累计额度；恰好用完成功，不足立即抛 `ProofEnumerationLimitError`（消息固定为 `proofs.max_proof_steps exhausted before enumeration completed`），不返回部分结果、不因已找到第二棵树而停。query 为不存在的 Atom 返回 `()`；T0008 超限原样传播，不转空结果。输出是**原始有序树**，不是规范证明：只完成单查询层面的完整枚举与预算消耗审计，规范唯一性、最短深度、motif 审计均未完成，不等同 M1 完成。最小使用例（与 `tests/test_proof_enumeration.py` 用同一输入和明确断言覆盖）：
 
 ```python
 from kmesh.logic.proof_enumeration import enumerate_proofs
@@ -203,7 +203,7 @@ assert tuple(s.conclusion.pred for s in proofs[0]) == ("p", "q", "r")
 assert tuple(map(tuple, (s.premise_steps for s in proofs[0]))) == ((), (0,), (1,))
 ```
 
-**状态：`accepted`（2026-09-19，Codex 第 2 轮复验），R1–R3 已关闭。** 独占临时目录的独立九文件回归 **679 项通过**、stderr 空；两种已知错误实现均被加强后的测试拒绝。同一 S=1／65记录探针下，结论读取 **4,229→69**；260 是不同预算下完整展开的计数，不能直接对比。失败先留存链和接受哈希已核对，遗漏 basetemp／未归档检查等执行限制保留，见 [验收报告](reports/T0009/review-r2/review.md)。规范唯一性／最短深度／motif 未实现。
+**状态：实施完成，自检通过（`awaiting_review`，待 Codex 验收）。** 新增 71 项测试（含 P2 同输入可执行例、完整组合网格、预算边界、独立 verifier 交叉核验、隔离检查）与九文件回归全部通过；仅单查询层面的原始树枚举与预算审计，规范唯一性／最短深度／motif 未实现。
 
 运行测试：
 
@@ -211,7 +211,7 @@ assert tuple(map(tuple, (s.premise_steps for s in proofs[0]))) == ((), (0,), (1,
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_proof.py tests/test_dependency.py tests/test_derivations.py tests/test_proof_enumeration.py tests/test_config.py tests/test_doctor.py
 ```
 
-当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 的单查询原始有序证明树枚举已验收（`accepted`，第 2 轮关闭 R1–R3，执行限制保留）；规范唯一性、最短深度、motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 覆盖单个 ground query 的原始有序证明树有限枚举（`awaiting_review`，自检通过，待验收）；规范唯一性、最短深度、motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
 截至 2026-09-16，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 

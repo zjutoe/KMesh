@@ -1,0 +1,183 @@
+{
+  "created_at_utc": "2026-09-19T11:41:32.014839+00:00",
+  "result": "PASS",
+  "task_status": "accepted",
+  "head": "bfb0f8e3c5c1c1168f7110ac6287aeb0f3330fff",
+  "reviewer": "Codex + gpt-6-astra xhigh; non-author of Pi product/tests",
+  "additional_read_only_test_reviewer": "/root/review_t0009_design",
+  "accepted_files": {
+    "src/kmesh/logic/proof_enumeration.py": "5ef21d5be17d79da2b5f2a91484edd7366e5f861a8b6495aceee058b4836cf4f",
+    "tests/test_proof_enumeration.py": "d37b47993bc898cc34a26d52429889e7d4cdb626b61bfad7338731e41e21937b"
+  },
+  "artifact_sha256": {
+    "README.md": "d9e617966b25942560f10b250d9793a6cb019fc261f98b7df089dfd02dd33397",
+    "docs/implementation_status.md": "dd7e0d2281f6455aa623194ae19040d775a8944d524a5451e8c15b3f3b29644f",
+    "docs/handoffs/T0009-proof-enumeration.md": "e340b16fdaefc50001abeccf04cadb620a555495518cef9a6857add83ab4cab1",
+    "reports/T0009/review-r2/review.md": "0e8021bbb8ec0ad222bf15ca729c10809ea4d29a7ae33f5013781c85b8f1022d",
+    "reports/T0009/review-r2-freeze/audit.json": "070c306cdcf23dc0e524d202f50b0d48fc289fd918adb1a1231c03398b0f7bde",
+    "reports/T0009/review-r2-counts/findings.json": "2262fcf011d4fd2cea565e73c027feaf290260e33b14c6f4a81aa26235233aeb",
+    "reports/T0009/review-r2-guards/guards.json": "a86b0fd5de802a599774654e16d0366bd4e3bddc82ae67ce2172218d850ab51d",
+    "reports/T0009/review-r2-close/summary.json": "4c8bb76b3e583510fe4908bf63a9b0691457ad9b57adf15d389acfb3e8741f9a"
+  },
+  "open_findings": [],
+  "closed_findings": [
+    "R1 indexed iterative ancestor traversal and lazy combinations",
+    "R2 effective validation/recovery/complexity guards",
+    "R3 accurate evidence attribution with historical limits retained"
+  ],
+  "acceptance": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "PASS",
+    "A6": "PASS",
+    "A7": "PASS"
+  },
+  "A7_limits": "Current accepted result independently verifiable; execution deviations and unarchived history retained, not full historical procedural compliance.",
+  "independent_runs": {
+    "review-r2-freeze": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path\nfrom datetime import datetime,timezone\nimport hashlib,json,difflib,subprocess\ntask=Path(\"reports/T0009\");out=task/\"review-r2-freeze\"\ndef sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nprior=json.loads((task/\"review-r1/final-audit.json\").read_text())\nhead=subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip();assert head==prior[\"head\"]\nfor p,h in prior[\"history_sha256\"].items():assert sha(p)==h,p\nbase=json.loads((task/\"planning-baseline.json\").read_text())\nfor p,h in base[\"source_sha256\"].items():\n if h is not None:assert sha(p)==h,p\nfor p,h in json.loads((task/\"planning-files.json\").read_text()).items():assert sha(p)==h,p\ninputs=[\"src/kmesh/logic/proof_enumeration.py\",\"tests/test_proof_enumeration.py\",\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0009-proof-enumeration.md\",\"reports/T0009/pi-r2-full/provenance.md\"]\nih={}\nfor p in inputs:\n dest=out/\"input-snapshot\"/p;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(Path(p).read_bytes());ih[p]=sha(p)\nfor p in inputs[:2]:\n before=(task/\"review-r1-freeze/input-snapshot\"/p).read_text();after=Path(p).read_text()\n (out/(Path(p).name+\".diff\")).write_text(\"\".join(difflib.unified_diff(before.splitlines(True),after.splitlines(True),fromfile=\"R1/\"+p,tofile=\"R2/\"+p)))\nruns=[]\nfor p in sorted(task.glob(\"pi-r2-*/record.json\")):\n r=json.loads(p.read_text());assert r[\"status\"]==\"finished\"\n assert r[\"before\"][\"source_sha256\"]==r[\"after\"][\"source_sha256\"],p\n for q,h in r[\"after\"][\"source_sha256\"].items():\n  want=prior[\"reviewed_files\"][q] if q in prior[\"reviewed_files\"] and (p.parent.name==\"pi-r2-preflight\" or (p.parent.name==\"pi-r2-regression\" and q.startswith(\"src/\"))) else sha(q)\n  assert h==want,(p,q,h,want)\n for stream in (\"stdout\",\"stderr\"):assert sha(p.parent/(stream+\".txt\"))==r[stream+\"_sha256\"],p\n expected=1 if p.parent.name==\"pi-r2-regression\" else 0;assert r[\"exit_code\"]==expected,p\n runs.append({\"run\":p.parent.name,**{k:r[k] for k in (\"argv\",\"env_overrides\",\"exit_code\",\"elapsed_s\",\"started_at_utc\",\"finished_at_utc\")},\"stdout_tail\":(p.parent/\"stdout.txt\").read_text()[-450:],\"stderr\":(p.parent/\"stderr.txt\").read_text()})\nassert len(runs)==6\nhistory={str(p):sha(p) for p in task.rglob(\"*\") if p.is_file() and not any(x in p.parts for x in (\"pytest-tmp\",\"__pycache__\")) and not str(p).startswith(str(out))}\naudit={\"created_at_utc\":datetime.now(timezone.utc).isoformat(),\"head\":head,\"input_sha256\":ih,\"history_sha256\":history,\"pi_r2_runs\":runs,\"old_review_and_history_unchanged\":True}\n(out/\"audit.json\").write_text(json.dumps(audit,ensure_ascii=False,indent=2)+\"\\n\")\nprint(json.dumps({\"head\":head,\"input_sha256\":ih,\"history_count\":len(history),\"pi_r2_runs\":runs},ensure_ascii=False,indent=2))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.082,
+      "started_at_utc": "2026-09-19T11:36:08.255191+00:00",
+      "finished_at_utc": "2026-09-19T11:36:08.352669+00:00"
+    },
+    "review-r2-full": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0009/review-r2-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 15.459,
+      "started_at_utc": "2026-09-19T11:37:00.786891+00:00",
+      "finished_at_utc": "2026-09-19T11:37:16.261094+00:00"
+    },
+    "review-r2-guards": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0009/review-r1/rework_guards.py",
+        "reports/T0009/review-r2-guards"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.919,
+      "started_at_utc": "2026-09-19T11:37:00.804529+00:00",
+      "finished_at_utc": "2026-09-19T11:37:01.737865+00:00"
+    },
+    "review-r2-counts": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "import ast,json,runpy\nfrom pathlib import Path\np=Path(\"reports/T0009/review-r2-counts\")\ncounts=runpy.run_path(\"reports/T0009/review-r1/probe.py\")[\"scan_counts\"]()\nassert all(x[\"conclusion_reads_after_T0008\"] <= x[\"regression_upper_bound\"] for x in counts)\ntree=ast.parse(Path(\"src/kmesh/logic/proof_enumeration.py\").read_text())\nrecursive=[f.name for f in tree.body if isinstance(f,ast.FunctionDef) and any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id==f.name for n in ast.walk(f))]\nassert not recursive\nimport kmesh.logic.proof_enumeration as pe\nfrom kmesh.logic.derivations import GroundDerivation\nfrom kmesh.logic.types import Atom,Clause\nfrom kmesh.logic.proof import verify_proof\nn=64\nclauses=(Clause((),Atom(\"k0\",(\"a\",\"b\"))),)+tuple(Clause((Atom(f\"k{j-1}\",(\"?x\",\"?y\")),),Atom(f\"k{j}\",(\"?x\",\"?y\"))) for j in range(1,n+1))\noriginal=GroundDerivation.__getattribute__; original_enum=pe.enumerate_derivations\nstats={\"active\":False,\"reads\":0}\ndef counted(self,name):\n if stats[\"active\"] and name==\"conclusion\":stats[\"reads\"]+=1\n return original(self,name)\ndef enum(*args,**kwargs):\n result=original_enum(*args,**kwargs);stats[\"active\"]=True;return result\ntry:\n GroundDerivation.__getattribute__=counted;pe.enumerate_derivations=enum\n proofs=pe.enumerate_proofs(clauses,Atom(\"k64\",(\"a\",\"b\")),max_fact_checks=64,max_derivations=65,max_proof_steps=2145)\nfinally:\n stats[\"active\"]=False;GroundDerivation.__getattribute__=original;pe.enumerate_derivations=original_enum\nassert len(proofs)==1 and len(proofs[0])==65 and verify_proof(clauses,Atom(\"k64\",(\"a\",\"b\")),proofs[0])\nresult={\"result\":\"PASS\",\"S_1_counts\":counts,\"recursive_helpers\":recursive,\"full_expansion_S_2145_reads\":stats[\"reads\"],\"interpretation\":\"S=1 probe uses 69 reads at 65 records; 260 reproduced under S=2145 full expansion, a different measurement scope. Pi unrecorded probe history remains unknown.\"}\n(p/\"findings.json\").write_text(json.dumps(result,indent=2)+\"\\n\")\nprint(json.dumps(result,indent=2))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.084,
+      "started_at_utc": "2026-09-19T11:37:00.833675+00:00",
+      "finished_at_utc": "2026-09-19T11:37:00.933801+00:00"
+    },
+    "review-r2-close": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path\nimport hashlib,json,re,subprocess\nfrom urllib.parse import urlsplit,unquote\ntask=Path(\"reports/T0009\")\nfreeze=json.loads((task/\"review-r2-freeze/audit.json\").read_text())\ndef sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nfor p,h in freeze[\"history_sha256\"].items():assert sha(p)==h,p\nfor p in (\"src/kmesh/logic/proof_enumeration.py\",\"tests/test_proof_enumeration.py\"):\n assert sha(p)==freeze[\"input_sha256\"][p],p\nfor p,h in json.loads((task/\"planning-files.json\").read_text()).items():assert sha(p)==h,p\nbase=json.loads((task/\"planning-baseline.json\").read_text())\nfor p,h in base[\"source_sha256\"].items():\n if h is not None:assert sha(p)==h,p\nfor name in (\"review-r2-freeze\",\"review-r2-full\",\"review-r2-guards\",\"review-r2-counts\"):\n r=json.loads((task/name/\"record.json\").read_text());assert r[\"status\"]==\"finished\" and r[\"exit_code\"]==0,name\n assert r[\"before\"][\"source_sha256\"]==r[\"after\"][\"source_sha256\"],name\n for stream in (\"stdout\",\"stderr\"):assert sha(task/name/(stream+\".txt\"))==r[stream+\"_sha256\"],(name,stream)\nassert \"679 passed\" in (task/\"review-r2-full/stdout.txt\").read_text()\nassert (task/\"review-r2-full/stderr.txt\").read_text()==\"\"\nallowed={\"README.md\",\"docs/decisions.md\",\"docs/handoffs/T0008-ground-derivations.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0009-proof-enumeration.md\",\"src/kmesh/logic/proof_enumeration.py\",\"tests/test_proof_enumeration.py\"}\nchanged=set()\nfor args in ([\"git\",\"diff\",base[\"head\"],\"--name-only\",\"-z\"],[\"git\",\"ls-files\",\"--others\",\"--exclude-standard\",\"-z\"]):\n changed.update(p for p in subprocess.check_output(args).decode().split(\"\\0\") if p)\nassert all(p in allowed or p.startswith(\"reports/T0009/\") for p in changed),changed\ndocs=[Path(p) for p in (\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0009-proof-enumeration.md\",\"reports/T0009/review-r2/review.md\")]\nlinks=0\nfor p in docs:\n s=p.read_text();assert s.endswith(\"\\n\") and all(x==x.rstrip() for x in s.splitlines()),p\n for link in re.findall(r\"\\[[^\\]]*\\]\\(([^)]+)\\)\",s):\n  u=urlsplit(link.strip().strip(\"<>\"))\n  if u.scheme or u.netloc or not u.path:continue\n  assert (p.parent/unquote(u.path)).exists(),(p,link)\n  links+=1\nassert \"- 状态：`accepted`\" in docs[2].read_text()\nassert \"`accepted`\" in next(x for x in docs[1].read_text().splitlines() if x.startswith(\"- T0009\"))\nassert \"**状态：`accepted`（2026-09-19，Codex 第 2 轮复验）\" in docs[0].read_text()\nsubprocess.run([\"git\",\"diff\",\"--check\"],check=True)\nsummary={\"result\":\"PASS\",\"task_status\":\"accepted\",\"closed_findings\":[\"R1\",\"R2\",\"R3\"],\"history_files_unchanged\":len(freeze[\"history_sha256\"]),\"local_links\":links,\"source_tests_frozen\":True,\"independent_full\":679,\"stderr_empty\":True,\"limits\":\"Execution deviations preserved; no full procedural-compliance claim; no commit/push\"}\n(task/\"review-r2-close/summary.json\").write_text(json.dumps(summary,indent=2)+\"\\n\")\nprint(json.dumps(summary,indent=2))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.08,
+      "started_at_utc": "2026-09-19T11:40:55.539974+00:00",
+      "finished_at_utc": "2026-09-19T11:40:55.635749+00:00"
+    }
+  },
+  "independent_regression": "679 passed in 15.18s; exclusive basetemp; stderr empty; no skips/xfails",
+  "pi_r2_runs_verified": 6,
+  "history_files_preserved": 90,
+  "count_probe": {
+    "result": "PASS",
+    "S_1_counts": [
+      {
+        "rules": 16,
+        "records": 17,
+        "conclusion_reads_after_T0008": 21,
+        "regression_upper_bound": 136
+      },
+      {
+        "rules": 32,
+        "records": 33,
+        "conclusion_reads_after_T0008": 37,
+        "regression_upper_bound": 264
+      },
+      {
+        "rules": 64,
+        "records": 65,
+        "conclusion_reads_after_T0008": 69,
+        "regression_upper_bound": 520
+      }
+    ],
+    "recursive_helpers": [],
+    "full_expansion_S_2145_reads": 260,
+    "interpretation": "S=1 probe uses 69 reads at 65 records; 260 reproduced under S=2145 full expansion, a different measurement scope. Pi unrecorded probe history remains unknown."
+  },
+  "guard_results": {
+    "result": "PASS",
+    "cases": [
+      {
+        "case": "submitted",
+        "exit_code": 0,
+        "summary": "3 passed in 0.02s"
+      },
+      {
+        "case": "generator_consumed_once",
+        "exit_code": 1,
+        "summary": "1 failed, 2 passed in 0.05s"
+      },
+      {
+        "case": "proof_budget_after_T0008",
+        "exit_code": 1,
+        "summary": "2 failed, 1 passed in 0.07s"
+      }
+    ]
+  },
+  "closure_checks": {
+    "result": "PASS",
+    "task_status": "accepted",
+    "closed_findings": [
+      "R1",
+      "R2",
+      "R3"
+    ],
+    "history_files_unchanged": 90,
+    "local_links": 76,
+    "source_tests_frozen": true,
+    "independent_full": 679,
+    "stderr_empty": true,
+    "limits": "Execution deviations preserved; no full procedural-compliance claim; no commit/push"
+  },
+  "record_clarifications": [
+    "Comparable S=1/65-record count is 4229 -> 69; 260 reproduced with S=2145 full expansion and cannot identify unrecorded Pi command",
+    "Pi full stderr has four warnings over 12 lines; cleanup failure alone does not establish when garbage directory arose",
+    "Pi regression/focused/full omitted basetemp; full used README file order and env prefix; no source/output evidence overwritten",
+    "Pi 679-test result is self-check, Codex independent run separately archived",
+    "R2 unrecorded probes and unknown document-state transition timestamps remain limitations"
+  ],
+  "limits": [
+    "Only raw ordered finite proof trees accepted; canonical uniqueness, minimum depth, motifs/families and world audit remain outside scope",
+    "No product/test/Pi-history modifications by Codex in this round",
+    "No commit/push"
+  ]
+}

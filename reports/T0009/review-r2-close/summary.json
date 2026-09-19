@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "task_status": "accepted",
+  "closed_findings": [
+    "R1",
+    "R2",
+    "R3"
+  ],
+  "history_files_unchanged": 90,
+  "local_links": 76,
+  "source_tests_frozen": true,
+  "independent_full": 679,
+  "stderr_empty": true,
+  "limits": "Execution deviations preserved; no full procedural-compliance claim; no commit/push"
+}
