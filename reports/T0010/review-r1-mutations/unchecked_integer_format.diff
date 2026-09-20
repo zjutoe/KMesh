@@ -1,0 +1,10 @@
+--- submitted/depth.py
++++ unchecked_integer_format/depth.py
+@@ -71,6 +71,7 @@
+     T0008's ``LogicValidationError`` (including the fixed cyclic-dependency
+     message) and ``DerivationLimitError`` propagate unchanged.
+     """
++    str(clauses)
+     if not isinstance(clauses, tuple):
+         raise LogicValidationError(
+             f"depth.clauses must be a tuple of Clause; "

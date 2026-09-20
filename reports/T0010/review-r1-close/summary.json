@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "task_status": "needs_changes",
+  "frozen_product_tests_unchanged": true,
+  "historical_files_unchanged": 41,
+  "local_links": 89,
+  "current_document_sha256": {
+    "README.md": "f5a64bdb1fbf038fef840090e503e23f9f43845f34a791afaaeaf005d85860f1",
+    "docs/implementation_status.md": "080bb4d8df673b3ff4304c69775f50f04c3e5dfa1b1340bc54472b3033bf1453",
+    "docs/handoffs/T0010-minimum-depth.md": "660f128fd92df4f1d4fa4f1558c1d2d308004fd417183d57026a6217a8dff10e",
+    "reports/T0010/review-r1/review.md": "2f84f0aa1443bce61add459e32eb7302cbc8f04c651ea908e4f4710ee8f26629"
+  }
+}

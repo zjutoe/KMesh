@@ -1,0 +1,12 @@
+--- submitted/depth.py
++++ budget_d_before_c/depth.py
+@@ -86,8 +86,8 @@
+     if not query.is_ground:
+         raise LogicValidationError("depth.query must be a ground Atom")
+     for value, name in (
++        (max_derivations, "max_derivations"),
+         (max_fact_checks, "max_fact_checks"),
+-        (max_derivations, "max_derivations"),
+     ):
+         if type(value) is not int or value <= 0:
+             raise LogicValidationError(

@@ -1,0 +1,70 @@
+[
+  {
+    "name": "unchecked_integer_format",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_depth.py",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0010/review-r1-mutations/pytest-tmp/unchecked_integer_format/tmp"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh/reports/T0010/review-r1-mutations/pytest-tmp/unchecked_integer_format",
+    "exit_code": 0,
+    "mutant_sha256": "7620dc1429ca6da7577f32ef7a5f90623d6602afaf0e16af01bdbbbd8ffc99c4",
+    "stdout": "........................................                                 [100%]\n40 passed in 0.28s\n",
+    "stderr": ""
+  },
+  {
+    "name": "lazy_solver_import",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_depth.py",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0010/review-r1-mutations/pytest-tmp/lazy_solver_import/tmp"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh/reports/T0010/review-r1-mutations/pytest-tmp/lazy_solver_import",
+    "exit_code": 0,
+    "mutant_sha256": "8eea746216f21f1e0129e30668d7def7ff788f94b485f97232192dc1837890ab",
+    "stdout": "........................................                                 [100%]\n40 passed in 0.26s\n",
+    "stderr": ""
+  },
+  {
+    "name": "invalid_input_calls_enumerator",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_depth.py",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0010/review-r1-mutations/pytest-tmp/invalid_input_calls_enumerator/tmp"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh/reports/T0010/review-r1-mutations/pytest-tmp/invalid_input_calls_enumerator",
+    "exit_code": 0,
+    "mutant_sha256": "5d916eb1daa3060d106bdd3d0ca9692cb2b081e95a97f4ed4e7cae6225de6bd6",
+    "stdout": "........................................                                 [100%]\n40 passed in 0.26s\n",
+    "stderr": ""
+  },
+  {
+    "name": "records_sorted_by_clause_position",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_depth.py",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0010/review-r1-mutations/pytest-tmp/records_sorted_by_clause_position/tmp"
+    ],
+    "cwd": "/home/mye/src/llm/KMesh/reports/T0010/review-r1-mutations/pytest-tmp/records_sorted_by_clause_position",
+    "exit_code": 0,
+    "mutant_sha256": "d0ce09bf593352f1b14d19d8aebb8f6b59092cf417e2990a76121969c8111e2e",
+    "stdout": "........................................                                 [100%]\n40 passed in 0.26s\n",
+    "stderr": ""
+  }
+]

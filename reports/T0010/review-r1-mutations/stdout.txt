@@ -1,0 +1,23 @@
+[
+  {
+    "name": "unchecked_integer_format",
+    "exit_code": 0,
+    "stdout": "........................................                                 [100%]\n40 passed in 0.28s\n"
+  },
+  {
+    "name": "lazy_solver_import",
+    "exit_code": 0,
+    "stdout": "........................................                                 [100%]\n40 passed in 0.26s\n"
+  },
+  {
+    "name": "invalid_input_calls_enumerator",
+    "exit_code": 0,
+    "stdout": "........................................                                 [100%]\n40 passed in 0.26s\n"
+  },
+  {
+    "name": "records_sorted_by_clause_position",
+    "exit_code": 0,
+    "stdout": "........................................                                 [100%]\n40 passed in 0.26s\n"
+  }
+]
+CONFIRMED: four contract-breaking mutants survive all 40 submitted tests

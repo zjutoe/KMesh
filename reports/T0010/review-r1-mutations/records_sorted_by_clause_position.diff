@@ -1,0 +1,11 @@
+--- submitted/depth.py
++++ records_sorted_by_clause_position/depth.py
+@@ -97,7 +97,7 @@
+         clauses, max_fact_checks=max_fact_checks,
+         max_derivations=max_derivations)
+     depths: dict[Atom, int] = {}
+-    for record in records:
++    for record in sorted(records, key=lambda item: item.clause_index):
+         if record.premises:
+             candidate = 1 + max(depths[premise] for premise in record.premises)
+         else:

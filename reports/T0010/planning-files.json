@@ -1,0 +1,22 @@
+{
+  "docs/decisions.md": "7ea1b9c41d39ad67344bb10690a3441d91fc9fac424d8dcf8cbc429b5e5cc6ca",
+  "docs/handoffs/T0009-proof-enumeration.md": "6151c39e0ea06939430d9079ded053d94e0784b624e8b16cf8682ae11349c91d",
+  "reports/T0010/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14",
+  "reports/T0010/check_delivery.py": "b083591454ea28ea8a275ef97daac7e4da74399a0a69edd43d41a6f21a9bc58c",
+  "reports/T0010/planning-baseline.json": "3f1f8a9951924f9c650f52b3201c29bd320e7513f4593594ea8c3d8900958502",
+  "reports/T0010/planning-check/record.json": "0e80246b5bd6aaea6b62f09a2dfa619357cc59636151c95fa7eb809a35717537",
+  "reports/T0010/planning-check/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reports/T0010/planning-check/stdout.txt": "636d91d195377fbc4e901ced7533d07ff3b4c6634658bc5abb47133158bbf8f4",
+  "reports/T0010/planning-examples/record.json": "410fa5e8af2cd8ee636ca55124cb97c429662bf84507d86d2dd905278cfe21b7",
+  "reports/T0010/planning-examples/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reports/T0010/planning-examples/stdout.txt": "c4b20f329849600805d3e2798e97d38fffeb86484532e777c1301a7efc8dcdcd",
+  "reports/T0010/planning-preflight/record.json": "12f8d362266cef25e20a0ad7d18fa0c8697bc77a7a93f76c07ef2ac232ca597f",
+  "reports/T0010/planning-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reports/T0010/planning-preflight/stdout.txt": "94880f9b4a1d1f4b512922de68bfc3882d9ac56b9c8f9952746d74e7f24fb95f",
+  "reports/T0010/planning-review.md": "4ba382fba8ef81849c4cd98e0cdbe89c19e7982a7f630c0c2128d759ce89018e",
+  "reports/T0010/planning_check.py": "d8cb13970db2117f6e3fa4e439baf8e7e0eabaf5995c3d7a0dd1defd69d0d6bf",
+  "reports/T0010/planning_examples.py": "fe0da3b017063ae6979cf80e74ce8cded615baba00e7e285310705c9b9f7eb83",
+  "reports/T0010/planning_preflight.py": "0d8250337bfd38ddaf9d4a36c0b246d27052439625c553c535c4f6f5a014bede",
+  "reports/T0010/record_check.py": "3943f0f57ff6bc23772ff4f9fc0b5606ab3e045918dcfed3d07225ca6c84496d",
+  "reports/T0010/run_checks.py": "aecc16711f9faf5f553c8c4e26978a22b6565b990bf9dc8ade0c67388bffbf5d"
+}

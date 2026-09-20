@@ -1,0 +1,72 @@
+{
+  "mutants": [
+    {
+      "name": "reconstruct_logic_error",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_depth.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0010/review-r2-probes/pytest-tmp/reconstruct_logic_error/tmp"
+      ],
+      "exit_code": 0,
+      "stdout": ".....................................................                    [100%]\n53 passed in 0.31s\n",
+      "stderr": ""
+    },
+    {
+      "name": "budget_d_before_c",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_depth.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0010/review-r2-probes/pytest-tmp/budget_d_before_c/tmp"
+      ],
+      "exit_code": 0,
+      "stdout": ".....................................................                    [100%]\n53 passed in 0.31s\n",
+      "stderr": ""
+    },
+    {
+      "name": "ground_check_after_budgets",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_depth.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0010/review-r2-probes/pytest-tmp/ground_check_after_budgets/tmp"
+      ],
+      "exit_code": 0,
+      "stdout": ".....................................................                    [100%]\n53 passed in 0.31s\n",
+      "stderr": ""
+    }
+  ],
+  "h8_swap_is_noop": true,
+  "h8_original_body_args": [
+    [
+      "?x",
+      "?y"
+    ],
+    [
+      "?y",
+      "?z"
+    ]
+  ],
+  "h8_required_body_args": [
+    [
+      "?y",
+      "?z"
+    ],
+    [
+      "?x",
+      "?y"
+    ]
+  ],
+  "actual_product_on_correctly_swapped_h8": 1
+}
+CONFIRMED: three contract-breaking mutants pass 53 tests; H8 swap is not executed

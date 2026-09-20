@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "task_status": "accepted",
+  "closed": [
+    "R1",
+    "R2",
+    "R3",
+    "R4"
+  ],
+  "open_findings": [],
+  "accepted_files": {
+    "src/kmesh/logic/depth.py": "0361a37e8fbfcceb69ac55336c8578176ab96f1c94a86fa50a98aaa2a839bf5d",
+    "tests/test_depth.py": "648d815a986634ef53adfc85015bd6b8571e71fa1b134b7eb290b6d68da2ae01"
+  },
+  "product_and_tests_unchanged_during_review": true,
+  "prior_history_unchanged": 188,
+  "independent_focused_passed": 53,
+  "guard_cases_valid": 5,
+  "prior_pi_full_evidence_verified": 732,
+  "full_regression_rerun": false,
+  "local_links": 93,
+  "document_sha256": {
+    "README.md": "6eee3e9d6ea1ca7fefb6337681d1716043912a8caa9a09627d547b38338de12e",
+    "docs/implementation_status.md": "ffdf45572ebf8544255ae2189a41be11be8edfc9eaeb5d15938f4c422185c774",
+    "docs/handoffs/T0010-minimum-depth.md": "c76ea82436b0c7e6743011efc569b88acb09383146109732a02b46d0a4e41855",
+    "reports/T0010/review-r3/review.md": "ed5224173b6ca1711460650188cb63d89c928122db10d3fbcdf2358227ee1af6"
+  },
+  "limitations": "Unrecorded development checks and historical model attribution remain limited; see review.md"
+}

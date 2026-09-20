@@ -1,0 +1,178 @@
+................................F.......F............                    [100%]
+=================================== FAILURES ===================================
+_________________________ test_c4_validation_priority __________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4758e2ba80>
+
+    def test_c4_validation_priority(monkeypatch):
+        calls = []
+        def spy(clauses, *, max_fact_checks, max_derivations):
+            calls.append(True)
+            raise RuntimeError("spy")
+        monkeypatch.setattr(depth_module, "enumerate_derivations", spy)
+        cyclic = cyclic_pair()
+        # Query type beats a cyclic world.
+        with pytest.raises(LogicValidationError) as e1:
+            run(cyclic, "not-an-atom")
+        assert str(e1.value) == "depth.query must be an Atom; got str"
+        # Bad member beats a non-ground query.
+        with pytest.raises(LogicValidationError) as e2:
+            run((fact("p"), 42), atom("p", "?x", "?y"))
+        assert str(e2.value) == "depth.clauses[1] must be a Clause; got int"
+        # Non-ground query beats a cyclic world.
+        with pytest.raises(LogicValidationError) as e3:
+            run(cyclic, atom("p", "?x", "?y"))
+        assert str(e3.value) == "depth.query must be a ground Atom"
+        # Container type beats a bad budget.
+        with pytest.raises(LogicValidationError) as e4:
+>           run([fact("p")], atom("p"), c=True)
+
+tests/test_depth.py:355: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_depth.py:57: in run
+    return minimum_proof_depth(world, query, max_fact_checks=c, max_derivations=d)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clauses = [Clause(body=(), head=Atom(pred='p', args=('a', 'b')))]
+query = Atom(pred='p', args=('a', 'b'))
+
+    def minimum_proof_depth(
+        clauses: tuple[Clause, ...],
+        query: Atom,
+        *,
+        max_fact_checks: int = 100_000,
+        max_derivations: int = 100_000,
+    ) -> int | None:
+        """Minimum reasoning-layer count for a ground query, or ``None``.
+    
+        ``clauses`` is a tuple of ``Clause``; ``query`` is a ground
+        ``Atom``; both budgets are non-bool positive integers (arbitrarily
+        large values are accepted).  Validation raises the existing
+        ``LogicValidationError`` with diagnostics that report only field
+        positions and type names, never the repr of an unchecked value, and
+        a non-tuple container is not consumed.  On full success, ``int``
+        (``0`` for a fact) or ``None`` for a query the world cannot derive.
+    
+        The whole world is always enumerated before any result is returned:
+        even a fact query, an absent query, or a world with an unrelated
+        component must first survive T0008's cycle check and budgets.
+        T0008's ``LogicValidationError`` (including the fixed cyclic-dependency
+        message) and ``DerivationLimitError`` propagate unchanged.
+        """
+        if not isinstance(clauses, tuple):
+>           enumerate_derivations(())
+E           TypeError: test_c4_validation_priority.<locals>.spy() missing 2 required keyword-only arguments: 'max_fact_checks' and 'max_derivations'
+
+src/kmesh/logic/depth.py:75: TypeError
+__________________ test_invalid_inputs_do_not_call_enumerator __________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4758c52d70>
+
+    def test_invalid_inputs_do_not_call_enumerator(monkeypatch):
+        calls = []
+        def spy(clauses, *, max_fact_checks, max_derivations):
+            calls.append((clauses, max_fact_checks, max_derivations))
+            raise RuntimeError("spy")
+        monkeypatch.setattr(depth_module, "enumerate_derivations", spy)
+        good = (fact("p"),)
+        cyclic = (fact("p"), self_loop()[0])
+        cases = (
+            ([fact("p")], atom("p"), {},
+             "depth.clauses must be a tuple of Clause; got list"),
+            (None, atom("p"), {},
+             "depth.clauses must be a tuple of Clause; got NoneType"),
+            ("p", atom("p"), {},
+             "depth.clauses must be a tuple of Clause; got str"),
+            (3, atom("p"), {},
+             "depth.clauses must be a tuple of Clause; got int"),
+            (iter([fact("p")]), atom("p"), {},
+             "depth.clauses must be a tuple of Clause; got list_iterator"),
+            (good, "p", {}, "depth.query must be an Atom; got str"),
+            (good, 3, {}, "depth.query must be an Atom; got int"),
+            (good, None, {}, "depth.query must be an Atom; got NoneType"),
+            (good, fact("p"), {}, "depth.query must be an Atom; got Clause"),
+            (good, atom("p", "?x", "?y"), {},
+             "depth.query must be a ground Atom"),
+            (good, atom("p"), {"max_fact_checks": True},
+             "depth.max_fact_checks must be a non-bool positive integer; "
+             "got bool"),
+            (good, atom("p"), {"max_fact_checks": 0},
+             "depth.max_fact_checks must be a non-bool positive integer; "
+             "got int"),
+            (good, atom("p"), {"max_fact_checks": -1},
+             "depth.max_fact_checks must be a non-bool positive integer; "
+             "got int"),
+            (good, atom("p"), {"max_fact_checks": "3"},
+             "depth.max_fact_checks must be a non-bool positive integer; "
+             "got str"),
+            (good, atom("p"), {"max_fact_checks": 3.0},
+             "depth.max_fact_checks must be a non-bool positive integer; "
+             "got float"),
+            (good, atom("p"), {"max_fact_checks": None},
+             "depth.max_fact_checks must be a non-bool positive integer; "
+             "got NoneType"),
+            (good, atom("p"), {"max_derivations": True},
+             "depth.max_derivations must be a non-bool positive integer; "
+             "got bool"),
+            (good, atom("p"), {"max_derivations": 0},
+             "depth.max_derivations must be a non-bool positive integer; "
+             "got int"),
+            (good, atom("p"), {"max_derivations": -5},
+             "depth.max_derivations must be a non-bool positive integer; "
+             "got int"),
+            (good, atom("p"), {"max_derivations": "9"},
+             "depth.max_derivations must be a non-bool positive integer; "
+             "got str"),
+            (good, atom("p"), {"max_derivations": 9.0},
+             "depth.max_derivations must be a non-bool positive integer; "
+             "got float"),
+            (good, atom("p"), {"max_derivations": None},
+             "depth.max_derivations must be a non-bool positive integer; "
+             "got NoneType"),
+            (cyclic, atom("q"), {"max_derivations": -1},
+             "depth.max_derivations must be a non-bool positive integer; "
+             "got int"),
+        )
+        for clauses, query, kwargs, message in cases:
+            with pytest.raises(LogicValidationError) as exc:
+>               minimum_proof_depth(clauses, query, **kwargs)
+
+tests/test_depth.py:485: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clauses = [Clause(body=(), head=Atom(pred='p', args=('a', 'b')))]
+query = Atom(pred='p', args=('a', 'b'))
+
+    def minimum_proof_depth(
+        clauses: tuple[Clause, ...],
+        query: Atom,
+        *,
+        max_fact_checks: int = 100_000,
+        max_derivations: int = 100_000,
+    ) -> int | None:
+        """Minimum reasoning-layer count for a ground query, or ``None``.
+    
+        ``clauses`` is a tuple of ``Clause``; ``query`` is a ground
+        ``Atom``; both budgets are non-bool positive integers (arbitrarily
+        large values are accepted).  Validation raises the existing
+        ``LogicValidationError`` with diagnostics that report only field
+        positions and type names, never the repr of an unchecked value, and
+        a non-tuple container is not consumed.  On full success, ``int``
+        (``0`` for a fact) or ``None`` for a query the world cannot derive.
+    
+        The whole world is always enumerated before any result is returned:
+        even a fact query, an absent query, or a world with an unrelated
+        component must first survive T0008's cycle check and budgets.
+        T0008's ``LogicValidationError`` (including the fixed cyclic-dependency
+        message) and ``DerivationLimitError`` propagate unchanged.
+        """
+        if not isinstance(clauses, tuple):
+>           enumerate_derivations(())
+E           TypeError: test_invalid_inputs_do_not_call_enumerator.<locals>.spy() missing 2 required keyword-only arguments: 'max_fact_checks' and 'max_derivations'
+
+src/kmesh/logic/depth.py:75: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_depth.py::test_c4_validation_priority - TypeError: test_c4_...
+FAILED tests/test_depth.py::test_invalid_inputs_do_not_call_enumerator - Type...
+2 failed, 51 passed in 0.36s

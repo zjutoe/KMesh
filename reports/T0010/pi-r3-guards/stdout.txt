@@ -1,0 +1,86 @@
+[
+  {
+    "variant": "submitted",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_depth.py",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0010/pi-r3-guards/pytest-tmp/submitted/tmp"
+    ],
+    "exit_code": 0,
+    "required_failed_test": null,
+    "guard_valid": true
+  },
+  {
+    "variant": "reconstruct_logic_error",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_depth.py::test_c4_validation_priority",
+      "tests/test_depth.py::test_d2b_exception_instance_identity",
+      "tests/test_depth.py::test_depth_invariant_under_transformations",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0010/pi-r3-guards/pytest-tmp/reconstruct_logic_error/tmp"
+    ],
+    "exit_code": 1,
+    "required_failed_test": "test_d2b_exception_instance_identity",
+    "guard_valid": true
+  },
+  {
+    "variant": "budget_d_before_c",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_depth.py::test_c4_validation_priority",
+      "tests/test_depth.py::test_d2b_exception_instance_identity",
+      "tests/test_depth.py::test_depth_invariant_under_transformations",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0010/pi-r3-guards/pytest-tmp/budget_d_before_c/tmp"
+    ],
+    "exit_code": 1,
+    "required_failed_test": "test_c4_validation_priority",
+    "guard_valid": true
+  },
+  {
+    "variant": "ground_check_after_budgets",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_depth.py::test_c4_validation_priority",
+      "tests/test_depth.py::test_d2b_exception_instance_identity",
+      "tests/test_depth.py::test_depth_invariant_under_transformations",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0010/pi-r3-guards/pytest-tmp/ground_check_after_budgets/tmp"
+    ],
+    "exit_code": 1,
+    "required_failed_test": "test_c4_validation_priority",
+    "guard_valid": true
+  },
+  {
+    "variant": "swap_helper_noop",
+    "argv": [
+      "/home/mye/src/llm/KMesh/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_depth.py::test_c4_validation_priority",
+      "tests/test_depth.py::test_d2b_exception_instance_identity",
+      "tests/test_depth.py::test_depth_invariant_under_transformations",
+      "--basetemp",
+      "/home/mye/src/llm/KMesh/reports/T0010/pi-r3-guards/pytest-tmp/swap_helper_noop/tmp"
+    ],
+    "exit_code": 1,
+    "required_failed_test": "test_depth_invariant_under_transformations",
+    "guard_valid": true
+  }
+]
+PASS: current focused suite and all four bounded R3 guards

@@ -1,0 +1,59 @@
+...................................................F.                    [100%]
+=================================== FAILURES ===================================
+__________________ test_depth_invariant_under_transformations __________________
+
+    def test_depth_invariant_under_transformations():
+        entity_map = {"a": "E1", "b": "E2", "c": "E3", "d": "E4"}
+        pred_map = {p: f"P_{p}" for p in
+                    ("p", "q", "z", "r", "m", "a", "b", "c", "d", "n", "u", "v")}
+    
+        def checks(world, query, expected):
+            def apply(name):
+                if name == "reversed":
+                    w, q = world[::-1], query
+                elif name == "twin_swap":
+                    w, q = _swap_twin_premises(world), query
+                elif name == "entities":
+                    w, q = _rename_entities(world, query, entity_map)
+                elif name == "predicates":
+                    w, q = _rename_predicates(world, query, pred_map)
+                elif name == "rule_vars":
+                    w, q = _rename_rule_vars(world), query
+                got = run(w, q, c=100, d=100)
+                if expected is None:
+                    assert got is None, (name, got)
+                else:
+                    assert_is_int(got, expected)
+                return w, q
+    
+            for name in ("reversed", "twin_swap", "entities", "predicates",
+                         "rule_vars"):
+                apply(name)
+    
+>       checks(h5_world(), atom("z"), 2)
+
+tests/test_depth.py:761: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_depth.py:759: in checks
+    apply(name)
+tests/test_depth.py:750: in apply
+    got = run(w, q, c=100, d=100)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_depth.py:57: in run
+    return minimum_proof_depth(world, query, max_fact_checks=c, max_derivations=d)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/kmesh/logic/depth.py:102: in minimum_proof_depth
+    candidate = 1 + max(depths[premise] for premise in record.premises)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x7ffb7a9e0220>
+
+>   candidate = 1 + max(depths[premise] for premise in record.premises)
+                        ^^^^^^^^^^^^^^^
+E   KeyError: Atom(pred='q', args=('a', 'b'))
+
+src/kmesh/logic/depth.py:102: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_depth.py::test_depth_invariant_under_transformations - KeyE...
+1 failed, 52 passed in 0.36s

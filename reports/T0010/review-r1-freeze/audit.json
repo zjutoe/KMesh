@@ -1,0 +1,171 @@
+{
+  "head": "153295c28788f27ef37e794c7c0ea19841accaa8",
+  "input_sha256": {
+    "src/kmesh/logic/depth.py": "0361a37e8fbfcceb69ac55336c8578176ab96f1c94a86fa50a98aaa2a839bf5d",
+    "tests/test_depth.py": "7ffa2fac70a401eb6dcfa04691ea4294fa631bb738ea60a27674d9f6a9ae470c",
+    "README.md": "128b8b246434464b94693590f0936a0c50f5258c98a533a9aaa9ee1abc2be817",
+    "docs/implementation_status.md": "f5768c95f622027cd0502fb540678cce7ccf9073807b57e0fe35504bffdb3e48",
+    "docs/handoffs/T0010-minimum-depth.md": "f5d5ed75a637defdc430d5e0665a34741a993dcbfe9eb0d4d5fe4fd22a241c56",
+    "reports/T0010/pi-r1-full/provenance.md": "b7dcb2a3a295dea4f644c7a100902489f40e7daefbb9d0d2524801178cb43969"
+  },
+  "history_sha256": {
+    "reports/T0010/record_check.py": "3943f0f57ff6bc23772ff4f9fc0b5606ab3e045918dcfed3d07225ca6c84496d",
+    "reports/T0010/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14",
+    "reports/T0010/planning_preflight.py": "0d8250337bfd38ddaf9d4a36c0b246d27052439625c553c535c4f6f5a014bede",
+    "reports/T0010/planning-baseline.json": "3f1f8a9951924f9c650f52b3201c29bd320e7513f4593594ea8c3d8900958502",
+    "reports/T0010/run_checks.py": "aecc16711f9faf5f553c8c4e26978a22b6565b990bf9dc8ade0c67388bffbf5d",
+    "reports/T0010/check_delivery.py": "b083591454ea28ea8a275ef97daac7e4da74399a0a69edd43d41a6f21a9bc58c",
+    "reports/T0010/planning_examples.py": "fe0da3b017063ae6979cf80e74ce8cded615baba00e7e285310705c9b9f7eb83",
+    "reports/T0010/planning_check.py": "d8cb13970db2117f6e3fa4e439baf8e7e0eabaf5995c3d7a0dd1defd69d0d6bf",
+    "reports/T0010/planning-review.md": "4ba382fba8ef81849c4cd98e0cdbe89c19e7982a7f630c0c2128d759ce89018e",
+    "reports/T0010/planning-files.json": "0dce418bc5901eac1e28287bee8c59be4e185f57c5700be27184f42a458f5512",
+    "reports/T0010/planning-preflight/record.json": "12f8d362266cef25e20a0ad7d18fa0c8697bc77a7a93f76c07ef2ac232ca597f",
+    "reports/T0010/planning-preflight/stdout.txt": "94880f9b4a1d1f4b512922de68bfc3882d9ac56b9c8f9952746d74e7f24fb95f",
+    "reports/T0010/planning-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0010/planning-examples/record.json": "410fa5e8af2cd8ee636ca55124cb97c429662bf84507d86d2dd905278cfe21b7",
+    "reports/T0010/planning-examples/stdout.txt": "c4b20f329849600805d3e2798e97d38fffeb86484532e777c1301a7efc8dcdcd",
+    "reports/T0010/planning-examples/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0010/planning-check/record.json": "0e80246b5bd6aaea6b62f09a2dfa619357cc59636151c95fa7eb809a35717537",
+    "reports/T0010/planning-check/stdout.txt": "636d91d195377fbc4e901ced7533d07ff3b4c6634658bc5abb47133158bbf8f4",
+    "reports/T0010/planning-check/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0010/pi-r1-preflight/record.json": "7af9dac23d6c2f82926f25b9fc221ef133f237af39c3a0a62281fbff68cdd0e6",
+    "reports/T0010/pi-r1-preflight/stdout.txt": "939a7a58f9d3798bd28f047cef3d9dde3104ac464392484db8c34b599efdcdfa",
+    "reports/T0010/pi-r1-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0010/pi-r1-focused/record.json": "67cef925167b94104b92d261279a4a2941a0e2b1015d420779f1f294abd50ee3",
+    "reports/T0010/pi-r1-focused/stdout.txt": "52ca591da4434ddb373d3ab04bb06dd81bd0d0e1d61dfe1ac1987f51641297b6",
+    "reports/T0010/pi-r1-focused/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0010/pi-r1-full/record.json": "3318eba86a64e48d1e50378b6d63c2348448d1966b290d0499525dbbb3d72874",
+    "reports/T0010/pi-r1-full/stdout.txt": "237c5e3a2dff3dc2ffcdeab7254e87b2a8817639418ce898c99b0219e2d3e20b",
+    "reports/T0010/pi-r1-full/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0010/pi-r1-full/provenance.md": "b7dcb2a3a295dea4f644c7a100902489f40e7daefbb9d0d2524801178cb43969",
+    "reports/T0010/pi-r1-docs/record.json": "0205e37665a52e3fc6dbba476a0c8f1b3c1ecd2857e693b49e4fc8ff1569e44c",
+    "reports/T0010/pi-r1-docs/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0010/pi-r1-docs/stderr.txt": "1bebb1495d48e6801e48a32c33c37c00e085a1457249f079f916f4feb1f5e1d5",
+    "reports/T0010/pi-r1-docs2/record.json": "50a9375870813af3a9faf3162856a4ca57cc54e97cc4f094af5e8aa7d9e5d5ba",
+    "reports/T0010/pi-r1-docs2/stdout.txt": "518bfb5e44ac4be797d4f5c640537ebaa9909464ae0cd18033569ad2d486c706",
+    "reports/T0010/pi-r1-docs2/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0010/pi-r1-docs3/record.json": "879b3974f55861b53ce8f1a1b4be961edaae71c518e4d3bf296ea3990a48e851",
+    "reports/T0010/pi-r1-docs3/stdout.txt": "fa47ef1bda38d4154dcf72ce118402780922d2e6479d627b061b910718c7a181",
+    "reports/T0010/pi-r1-docs3/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0010/pi-r1-docs4/record.json": "fc0f96fa02438c9f3ff19fdf7a99731b6c6996e2237a439f75864fea145bc527",
+    "reports/T0010/pi-r1-docs4/stdout.txt": "1a26cd09e06b96ba35400bbad9350f0802b87f029cdb3b303fd9bf7d65c55108",
+    "reports/T0010/pi-r1-docs4/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "runs": [
+    {
+      "run": "pi-r1-docs",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0010/check_delivery.py",
+        "docs"
+      ],
+      "started_at_utc": "2026-09-19T14:54:21.155781+00:00",
+      "finished_at_utc": "2026-09-19T14:54:21.280205+00:00",
+      "elapsed_s": 0.108,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0010/check_delivery.py\", line 83, in <module>\n    main()\n    ~~~~^^\n  File \"/home/mye/src/llm/KMesh/reports/T0010/check_delivery.py\", line 61, in main\n    assert provenance, \"missing Pi provenance\"\n           ^^^^^^^^^^\nAssertionError: missing Pi provenance\n"
+    },
+    {
+      "run": "pi-r1-docs2",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0010/check_delivery.py",
+        "docs"
+      ],
+      "started_at_utc": "2026-09-19T15:11:21.208849+00:00",
+      "finished_at_utc": "2026-09-19T15:11:21.333963+00:00",
+      "elapsed_s": 0.109,
+      "exit_code": 0,
+      "stdout": "PASS: scope, frozen inputs, 4 documents/72 local links, text hygiene, awaiting_review\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-docs3",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0010/check_delivery.py",
+        "docs"
+      ],
+      "started_at_utc": "2026-09-19T15:13:52.625288+00:00",
+      "finished_at_utc": "2026-09-19T15:13:52.750415+00:00",
+      "elapsed_s": 0.109,
+      "exit_code": 0,
+      "stdout": "PASS: scope, frozen inputs, 4 documents/73 local links, text hygiene, awaiting_review\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-docs4",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0010/check_delivery.py",
+        "docs"
+      ],
+      "started_at_utc": "2026-09-19T15:14:42.543587+00:00",
+      "finished_at_utc": "2026-09-19T15:14:42.669030+00:00",
+      "elapsed_s": 0.109,
+      "exit_code": 0,
+      "stdout": "PASS: scope, frozen inputs, 4 documents/74 local links, text hygiene, awaiting_review\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-focused",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_depth.py",
+        "--basetemp",
+        "reports/T0010/pi-r1-focused/pytest-tmp"
+      ],
+      "started_at_utc": "2026-09-19T14:46:55.765044+00:00",
+      "finished_at_utc": "2026-09-19T14:46:56.183480+00:00",
+      "elapsed_s": 0.402,
+      "exit_code": 0,
+      "stdout": "........................................                                 [100%]\n40 passed in 0.16s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-full",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_depth.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0010/pi-r1-full/pytest-tmp"
+      ],
+      "started_at_utc": "2026-09-19T14:47:08.909122+00:00",
+      "finished_at_utc": "2026-09-19T14:47:24.310470+00:00",
+      "elapsed_s": 15.386,
+      "exit_code": 0,
+      "stdout": "........................................................................ [ 10%]\n........................................................................ [ 20%]\n........................................................................ [ 30%]\n........................................................................ [ 40%]\n........................................................................ [ 50%]\n........................................................................ [ 60%]\n........................................................................ [ 70%]\n........................................................................ [ 80%]\n........................................................................ [ 90%]\n.......................................................................  [100%]\n719 passed in 15.11s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-preflight",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0010/check_delivery.py",
+        "preflight"
+      ],
+      "started_at_utc": "2026-09-19T13:21:38.335840+00:00",
+      "finished_at_utc": "2026-09-19T13:21:38.466533+00:00",
+      "elapsed_s": 0.115,
+      "exit_code": 0,
+      "stdout": "PASS: branch, frozen baseline, environment, scope; new product/tests absent\n",
+      "stderr": ""
+    }
+  ]
+}

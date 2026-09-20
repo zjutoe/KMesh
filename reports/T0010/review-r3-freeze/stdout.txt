@@ -1,0 +1,35 @@
+{
+  "input_sha256": {
+    "src/kmesh/logic/depth.py": "0361a37e8fbfcceb69ac55336c8578176ab96f1c94a86fa50a98aaa2a839bf5d",
+    "tests/test_depth.py": "648d815a986634ef53adfc85015bd6b8571e71fa1b134b7eb290b6d68da2ae01"
+  },
+  "changed_functions": [
+    "test_c4_validation_priority",
+    "test_d2b_exception_instance_identity",
+    "_swap_twin_premises",
+    "test_depth_invariant_under_transformations"
+  ],
+  "history_files": 188,
+  "pi_runs": [
+    {
+      "run": "pi-r3-dev1",
+      "exit_code": 0,
+      "elapsed_s": 0.542
+    },
+    {
+      "run": "pi-r3-docs",
+      "exit_code": 0,
+      "elapsed_s": 0.09
+    },
+    {
+      "run": "pi-r3-guards",
+      "exit_code": 0,
+      "elapsed_s": 2.259
+    },
+    {
+      "run": "pi-r3-preflight",
+      "exit_code": 0,
+      "elapsed_s": 0.064
+    }
+  ]
+}

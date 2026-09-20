@@ -1,0 +1,18 @@
+--- submitted/depth.py
++++ reconstruct_logic_error/depth.py
+@@ -93,9 +93,12 @@
+             raise LogicValidationError(
+                 f"depth.{name} must be a non-bool positive integer; "
+                 f"got {type(value).__name__}")
+-    records = enumerate_derivations(
+-        clauses, max_fact_checks=max_fact_checks,
+-        max_derivations=max_derivations)
++    try:
++        records = enumerate_derivations(
++            clauses, max_fact_checks=max_fact_checks,
++            max_derivations=max_derivations)
++    except LogicValidationError as exc:
++        raise LogicValidationError(str(exc)) from exc
+     depths: dict[Atom, int] = {}
+     for record in records:
+         if record.premises:

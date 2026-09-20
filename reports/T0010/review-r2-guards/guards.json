@@ -1,0 +1,32 @@
+[
+  {
+    "variant": "submitted",
+    "exit_code": 0,
+    "required_failed_test": null,
+    "guard_valid": true
+  },
+  {
+    "variant": "unchecked_integer_format",
+    "exit_code": 1,
+    "required_failed_test": "test_large_integer_diagnostics",
+    "guard_valid": true
+  },
+  {
+    "variant": "invalid_input_calls_enumerator",
+    "exit_code": 1,
+    "required_failed_test": "test_invalid_inputs_do_not_call_enumerator",
+    "guard_valid": true
+  },
+  {
+    "variant": "records_sorted_by_clause_position",
+    "exit_code": 1,
+    "required_failed_test": "test_depth_invariant_under_transformations",
+    "guard_valid": true
+  },
+  {
+    "variant": "lazy_solver_import",
+    "exit_code": 1,
+    "required_failed_test": "test_g_depth_import_pulls_no_forbidden_modules",
+    "guard_valid": true
+  }
+]

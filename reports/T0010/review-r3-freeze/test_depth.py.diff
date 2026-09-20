@@ -1,0 +1,60 @@
+--- R2
++++ R3
+@@ -359,6 +359,15 @@
+         run(cyclic, atom("q"), d=-1)
+     assert str(e5.value) == (
+         "depth.max_derivations must be a non-bool positive integer; got int")
++    # Non-ground query beats both invalid budgets (overlap).
++    with pytest.raises(LogicValidationError) as e6:
++        run((fact("p"),), atom("p", "?x", "?y"), c=0, d=-1)
++    assert str(e6.value) == "depth.query must be a ground Atom"
++    # With both budgets invalid, max_fact_checks is checked before max_derivations.
++    with pytest.raises(LogicValidationError) as e7:
++        run((fact("p"),), atom("p"), c=0, d=-1)
++    assert str(e7.value) == (
++        "depth.max_fact_checks must be a non-bool positive integer; got int")
+     assert calls == []
+ 
+ @pytest.fixture
+@@ -544,16 +553,17 @@
+         "depth.max_fact_checks must be a non-bool positive integer; got bool")
+ 
+ def test_d2b_exception_instance_identity(monkeypatch):
+-    cycle_error = RuntimeError("sentinel-cycle")
++    cycle_error = LogicValidationError(DCE)
+     limit_error = DerivationLimitError(DLE)
+     errors = (cycle_error, limit_error)
+     iterator = iter(errors)
+     def spy(clauses, *, max_fact_checks, max_derivations):
+         raise next(iterator)
+     monkeypatch.setattr(depth_module, "enumerate_derivations", spy)
+-    with pytest.raises(RuntimeError) as e1:
++    with pytest.raises(LogicValidationError) as e1:
+         run(cyclic_pair(), atom("q"))
+     assert e1.value is cycle_error
++    assert str(e1.value) == DCE
+     with pytest.raises(DerivationLimitError) as e2:
+         run(h3_world(), atom("z"), d=3)
+     assert e2.value is limit_error
+@@ -724,7 +734,7 @@
+ def _swap_twin_premises(world):
+     out = []
+     for clause in world:
+-        if len(clause.body) == 2 and clause.body[0].args == clause.body[1].args:
++        if len(clause.body) == 2:
+             out.append(Clause((clause.body[1], clause.body[0]), clause.head))
+         else:
+             out.append(clause)
+@@ -759,7 +769,11 @@
+             apply(name)
+ 
+     checks(h5_world(), atom("z"), 2)
+-    checks(h8_world(), atom("r", "a", "c"), 1)
++    h8 = h8_world()
++    swapped_h8 = _swap_twin_premises(h8)
++    assert swapped_h8[-1].body == (h8[-1].body[1], h8[-1].body[0])
++    assert swapped_h8[-1].body != h8[-1].body
++    checks(h8, atom("r", "a", "c"), 1)
+     checks(h8_world(), atom("r", "c", "a"), None)
+     checks(h12_world(), atom("z"), 2)
+ 
