@@ -1,0 +1,250 @@
+..............FFFFFF...................                                  [100%]
+=================================== FAILURES ===================================
+___________________ test_C_independent_enumeration[clause0] ____________________
+
+clause = Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?x', '?y')))
+
+    @pytest.mark.parametrize("clause", [K1, K2, K3, K5, K8, K9])
+    def test_C_independent_enumeration(clause):
+>       assert canonical_clause_key(clause) == _independent_min(clause)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_clause_key.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clause = Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?x', '?y')))
+
+    def _independent_min(clause):
+        names = sorted(
+            {
+                t[1:]
+                for atom in [clause.head] + list(clause.body)
+                for t in atom.args
+                if t.startswith("?")
+            }
+        )
+        orderings = list(clause.body)
+        if len(clause.body) == 2:
+            orderings.append(clause.body[::-1])
+        best = None
+        for perm in itertools.permutations(range(len(names))):
+            var_map = {v: p for v, p in zip(names, perm)}
+            head = clause.head
+            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))
+            for order in orderings:
+                body_keys = tuple(
+                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))
+>                   for a in order
+                             ^^^^^
+                )
+E               TypeError: 'Atom' object is not iterable
+
+tests/test_clause_key.py:230: TypeError
+___________________ test_C_independent_enumeration[clause1] ____________________
+
+clause = Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?y', '?x')))
+
+    @pytest.mark.parametrize("clause", [K1, K2, K3, K5, K8, K9])
+    def test_C_independent_enumeration(clause):
+>       assert canonical_clause_key(clause) == _independent_min(clause)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_clause_key.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clause = Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?y', '?x')))
+
+    def _independent_min(clause):
+        names = sorted(
+            {
+                t[1:]
+                for atom in [clause.head] + list(clause.body)
+                for t in atom.args
+                if t.startswith("?")
+            }
+        )
+        orderings = list(clause.body)
+        if len(clause.body) == 2:
+            orderings.append(clause.body[::-1])
+        best = None
+        for perm in itertools.permutations(range(len(names))):
+            var_map = {v: p for v, p in zip(names, perm)}
+            head = clause.head
+            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))
+            for order in orderings:
+                body_keys = tuple(
+                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))
+>                   for a in order
+                             ^^^^^
+                )
+E               TypeError: 'Atom' object is not iterable
+
+tests/test_clause_key.py:230: TypeError
+___________________ test_C_independent_enumeration[clause2] ____________________
+
+clause = Clause(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='q', args=('?y', '?z'))), head=Atom(pred='r', args=('?x', '?z')))
+
+    @pytest.mark.parametrize("clause", [K1, K2, K3, K5, K8, K9])
+    def test_C_independent_enumeration(clause):
+>       assert canonical_clause_key(clause) == _independent_min(clause)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_clause_key.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clause = Clause(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='q', args=('?y', '?z'))), head=Atom(pred='r', args=('?x', '?z')))
+
+    def _independent_min(clause):
+        names = sorted(
+            {
+                t[1:]
+                for atom in [clause.head] + list(clause.body)
+                for t in atom.args
+                if t.startswith("?")
+            }
+        )
+        orderings = list(clause.body)
+        if len(clause.body) == 2:
+            orderings.append(clause.body[::-1])
+        best = None
+        for perm in itertools.permutations(range(len(names))):
+            var_map = {v: p for v, p in zip(names, perm)}
+            head = clause.head
+            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))
+            for order in orderings:
+                body_keys = tuple(
+                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))
+>                   for a in order
+                             ^^^^^
+                )
+E               TypeError: 'Atom' object is not iterable
+
+tests/test_clause_key.py:230: TypeError
+___________________ test_C_independent_enumeration[clause3] ____________________
+
+clause = Clause(body=(Atom(pred='p', args=('?u', '?v')), Atom(pred='q', args=('?v', '?w'))), head=Atom(pred='r', args=('a', 'b')))
+
+    @pytest.mark.parametrize("clause", [K1, K2, K3, K5, K8, K9])
+    def test_C_independent_enumeration(clause):
+>       assert canonical_clause_key(clause) == _independent_min(clause)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_clause_key.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clause = Clause(body=(Atom(pred='p', args=('?u', '?v')), Atom(pred='q', args=('?v', '?w'))), head=Atom(pred='r', args=('a', 'b')))
+
+    def _independent_min(clause):
+        names = sorted(
+            {
+                t[1:]
+                for atom in [clause.head] + list(clause.body)
+                for t in atom.args
+                if t.startswith("?")
+            }
+        )
+        orderings = list(clause.body)
+        if len(clause.body) == 2:
+            orderings.append(clause.body[::-1])
+        best = None
+        for perm in itertools.permutations(range(len(names))):
+            var_map = {v: p for v, p in zip(names, perm)}
+            head = clause.head
+            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))
+            for order in orderings:
+                body_keys = tuple(
+                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))
+>                   for a in order
+                             ^^^^^
+                )
+E               TypeError: 'Atom' object is not iterable
+
+tests/test_clause_key.py:230: TypeError
+___________________ test_C_independent_enumeration[clause4] ____________________
+
+clause = Clause(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))
+
+    @pytest.mark.parametrize("clause", [K1, K2, K3, K5, K8, K9])
+    def test_C_independent_enumeration(clause):
+>       assert canonical_clause_key(clause) == _independent_min(clause)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_clause_key.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clause = Clause(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))
+
+    def _independent_min(clause):
+        names = sorted(
+            {
+                t[1:]
+                for atom in [clause.head] + list(clause.body)
+                for t in atom.args
+                if t.startswith("?")
+            }
+        )
+        orderings = list(clause.body)
+        if len(clause.body) == 2:
+            orderings.append(clause.body[::-1])
+        best = None
+        for perm in itertools.permutations(range(len(names))):
+            var_map = {v: p for v, p in zip(names, perm)}
+            head = clause.head
+            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))
+            for order in orderings:
+                body_keys = tuple(
+                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))
+>                   for a in order
+                             ^^^^^
+                )
+E               TypeError: 'Atom' object is not iterable
+
+tests/test_clause_key.py:230: TypeError
+___________________ test_C_independent_enumeration[clause5] ____________________
+
+clause = Clause(body=(Atom(pred='p', args=('?a', '?b')), Atom(pred='q', args=('?c', '?d'))), head=Atom(pred='r', args=('a', 'b')))
+
+    @pytest.mark.parametrize("clause", [K1, K2, K3, K5, K8, K9])
+    def test_C_independent_enumeration(clause):
+>       assert canonical_clause_key(clause) == _independent_min(clause)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_clause_key.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clause = Clause(body=(Atom(pred='p', args=('?a', '?b')), Atom(pred='q', args=('?c', '?d'))), head=Atom(pred='r', args=('a', 'b')))
+
+    def _independent_min(clause):
+        names = sorted(
+            {
+                t[1:]
+                for atom in [clause.head] + list(clause.body)
+                for t in atom.args
+                if t.startswith("?")
+            }
+        )
+        orderings = list(clause.body)
+        if len(clause.body) == 2:
+            orderings.append(clause.body[::-1])
+        best = None
+        for perm in itertools.permutations(range(len(names))):
+            var_map = {v: p for v, p in zip(names, perm)}
+            head = clause.head
+            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))
+            for order in orderings:
+                body_keys = tuple(
+                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))
+>                   for a in order
+                             ^^^^^
+                )
+E               TypeError: 'Atom' object is not iterable
+
+tests/test_clause_key.py:230: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_clause_key.py::test_C_independent_enumeration[clause0] - Ty...
+FAILED tests/test_clause_key.py::test_C_independent_enumeration[clause1] - Ty...
+FAILED tests/test_clause_key.py::test_C_independent_enumeration[clause2] - Ty...
+FAILED tests/test_clause_key.py::test_C_independent_enumeration[clause3] - Ty...
+FAILED tests/test_clause_key.py::test_C_independent_enumeration[clause4] - Ty...
+FAILED tests/test_clause_key.py::test_C_independent_enumeration[clause5] - Ty...
+6 failed, 33 passed in 0.20s

@@ -1,0 +1,7 @@
+{
+  "replacement": [
+    "if len(body) == 2:",
+    "if False:"
+  ],
+  "sha256": "0dabe67a163b6d8b45dfbd30b117bdfc6229de92ed9244e23ab89668f5025e7f"
+}

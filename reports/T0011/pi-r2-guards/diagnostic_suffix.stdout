@@ -1,0 +1,224 @@
+..................................................FFFFFFFFFFF..          [100%]
+=================================== FAILURES ===================================
+______________________ test_D_non_clause_diagnostic[None] ______________________
+
+obj = None
+
+    @pytest.mark.parametrize(
+        "obj",
+        [None, True, 42, "nope", Atom("p", ("a", "b")), ("a", "b"), ["a"], {"k": "v"}],
+    )
+    def test_D_non_clause_diagnostic(obj):
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(obj)
+>       assert str(excinfo.value) == _err_msg(type(obj).__name__)
+E       AssertionError: assert 'clause_key.c...oneType EXTRA' == 'clause_key.c... got NoneType'
+E         
+E         Skipping 37 identical leading characters in diff, use -v to show
+E         - ot NoneType
+E         + ot NoneType EXTRA
+E         ?            ++++++
+
+tests/test_clause_key.py:438: AssertionError
+______________________ test_D_non_clause_diagnostic[True] ______________________
+
+obj = True
+
+    @pytest.mark.parametrize(
+        "obj",
+        [None, True, 42, "nope", Atom("p", ("a", "b")), ("a", "b"), ["a"], {"k": "v"}],
+    )
+    def test_D_non_clause_diagnostic(obj):
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(obj)
+>       assert str(excinfo.value) == _err_msg(type(obj).__name__)
+E       AssertionError: assert 'clause_key.c...ot bool EXTRA' == 'clause_key.c...use; got bool'
+E         
+E         Skipping 33 identical leading characters in diff, use -v to show
+E         - e; got bool
+E         + e; got bool EXTRA
+E         ?            ++++++
+
+tests/test_clause_key.py:438: AssertionError
+_______________________ test_D_non_clause_diagnostic[42] _______________________
+
+obj = 42
+
+    @pytest.mark.parametrize(
+        "obj",
+        [None, True, 42, "nope", Atom("p", ("a", "b")), ("a", "b"), ["a"], {"k": "v"}],
+    )
+    def test_D_non_clause_diagnostic(obj):
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(obj)
+>       assert str(excinfo.value) == _err_msg(type(obj).__name__)
+E       AssertionError: assert 'clause_key.c...got int EXTRA' == 'clause_key.c...ause; got int'
+E         
+E         - clause_key.clause must be a Clause; got int
+E         + clause_key.clause must be a Clause; got int EXTRA
+E         ?                                            ++++++
+
+tests/test_clause_key.py:438: AssertionError
+______________________ test_D_non_clause_diagnostic[nope] ______________________
+
+obj = 'nope'
+
+    @pytest.mark.parametrize(
+        "obj",
+        [None, True, 42, "nope", Atom("p", ("a", "b")), ("a", "b"), ["a"], {"k": "v"}],
+    )
+    def test_D_non_clause_diagnostic(obj):
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(obj)
+>       assert str(excinfo.value) == _err_msg(type(obj).__name__)
+E       AssertionError: assert 'clause_key.c...got str EXTRA' == 'clause_key.c...ause; got str'
+E         
+E         - clause_key.clause must be a Clause; got str
+E         + clause_key.clause must be a Clause; got str EXTRA
+E         ?                                            ++++++
+
+tests/test_clause_key.py:438: AssertionError
+______________________ test_D_non_clause_diagnostic[obj4] ______________________
+
+obj = Atom(pred='p', args=('a', 'b'))
+
+    @pytest.mark.parametrize(
+        "obj",
+        [None, True, 42, "nope", Atom("p", ("a", "b")), ("a", "b"), ["a"], {"k": "v"}],
+    )
+    def test_D_non_clause_diagnostic(obj):
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(obj)
+>       assert str(excinfo.value) == _err_msg(type(obj).__name__)
+E       AssertionError: assert 'clause_key.c...ot Atom EXTRA' == 'clause_key.c...use; got Atom'
+E         
+E         Skipping 33 identical leading characters in diff, use -v to show
+E         - e; got Atom
+E         + e; got Atom EXTRA
+E         ?            ++++++
+
+tests/test_clause_key.py:438: AssertionError
+______________________ test_D_non_clause_diagnostic[obj5] ______________________
+
+obj = ('a', 'b')
+
+    @pytest.mark.parametrize(
+        "obj",
+        [None, True, 42, "nope", Atom("p", ("a", "b")), ("a", "b"), ["a"], {"k": "v"}],
+    )
+    def test_D_non_clause_diagnostic(obj):
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(obj)
+>       assert str(excinfo.value) == _err_msg(type(obj).__name__)
+E       AssertionError: assert 'clause_key.c...t tuple EXTRA' == 'clause_key.c...se; got tuple'
+E         
+E         Skipping 34 identical leading characters in diff, use -v to show
+E         - ; got tuple
+E         + ; got tuple EXTRA
+E         ?            ++++++
+
+tests/test_clause_key.py:438: AssertionError
+______________________ test_D_non_clause_diagnostic[obj6] ______________________
+
+obj = ['a']
+
+    @pytest.mark.parametrize(
+        "obj",
+        [None, True, 42, "nope", Atom("p", ("a", "b")), ("a", "b"), ["a"], {"k": "v"}],
+    )
+    def test_D_non_clause_diagnostic(obj):
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(obj)
+>       assert str(excinfo.value) == _err_msg(type(obj).__name__)
+E       AssertionError: assert 'clause_key.c...ot list EXTRA' == 'clause_key.c...use; got list'
+E         
+E         Skipping 33 identical leading characters in diff, use -v to show
+E         - e; got list
+E         + e; got list EXTRA
+E         ?            ++++++
+
+tests/test_clause_key.py:438: AssertionError
+______________________ test_D_non_clause_diagnostic[obj7] ______________________
+
+obj = {'k': 'v'}
+
+    @pytest.mark.parametrize(
+        "obj",
+        [None, True, 42, "nope", Atom("p", ("a", "b")), ("a", "b"), ["a"], {"k": "v"}],
+    )
+    def test_D_non_clause_diagnostic(obj):
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(obj)
+>       assert str(excinfo.value) == _err_msg(type(obj).__name__)
+E       AssertionError: assert 'clause_key.c...ot dict EXTRA' == 'clause_key.c...use; got dict'
+E         
+E         Skipping 33 identical leading characters in diff, use -v to show
+E         - e; got dict
+E         + e; got dict EXTRA
+E         ?            ++++++
+
+tests/test_clause_key.py:438: AssertionError
+________________________ test_D_generator_not_consumed _________________________
+
+    def test_D_generator_not_consumed():
+        state = {"consumed": False}
+    
+        def gen():
+            state["consumed"] = True
+            yield "x"
+    
+        g = gen()
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(g)
+>       assert str(excinfo.value) == _err_msg("generator")
+E       AssertionError: assert 'clause_key.c...nerator EXTRA' == 'clause_key.c...got generator'
+E         
+E         Skipping 38 identical leading characters in diff, use -v to show
+E         - t generator
+E         + t generator EXTRA
+E         ?            ++++++
+
+tests/test_clause_key.py:459: AssertionError
+_______________________ test_D_bad_repr_still_diagnoses ________________________
+
+    def test_D_bad_repr_still_diagnoses():
+        with pytest.raises(LogicValidationError) as excinfo:
+            canonical_clause_key(_BadRepr())
+>       assert str(excinfo.value) == _err_msg("_BadRepr")
+E       AssertionError: assert 'clause_key.c...BadRepr EXTRA' == 'clause_key.c... got _BadRepr'
+E         
+E         Skipping 37 identical leading characters in diff, use -v to show
+E         - ot _BadRepr
+E         + ot _BadRepr EXTRA
+E         ?            ++++++
+
+tests/test_clause_key.py:466: AssertionError
+____________________________ test_D_huge_int_guard _____________________________
+
+    def test_D_huge_int_guard():
+        prev = sys.get_int_max_str_digits()
+        try:
+            sys.set_int_max_str_digits(4300)
+            with pytest.raises(LogicValidationError) as excinfo:
+                canonical_clause_key(10 ** 5000)
+>           assert str(excinfo.value) == _err_msg("int")
+E           AssertionError: assert 'clause_key.c...got int EXTRA' == 'clause_key.c...ause; got int'
+E             
+E             - clause_key.clause must be a Clause; got int
+E             + clause_key.clause must be a Clause; got int EXTRA
+E             ?                                            ++++++
+
+tests/test_clause_key.py:475: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_clause_key.py::test_D_non_clause_diagnostic[None] - Asserti...
+FAILED tests/test_clause_key.py::test_D_non_clause_diagnostic[True] - Asserti...
+FAILED tests/test_clause_key.py::test_D_non_clause_diagnostic[42] - Assertion...
+FAILED tests/test_clause_key.py::test_D_non_clause_diagnostic[nope] - Asserti...
+FAILED tests/test_clause_key.py::test_D_non_clause_diagnostic[obj4] - Asserti...
+FAILED tests/test_clause_key.py::test_D_non_clause_diagnostic[obj5] - Asserti...
+FAILED tests/test_clause_key.py::test_D_non_clause_diagnostic[obj6] - Asserti...
+FAILED tests/test_clause_key.py::test_D_non_clause_diagnostic[obj7] - Asserti...
+FAILED tests/test_clause_key.py::test_D_generator_not_consumed - AssertionErr...
+FAILED tests/test_clause_key.py::test_D_bad_repr_still_diagnoses - AssertionE...
+FAILED tests/test_clause_key.py::test_D_huge_int_guard - AssertionError: asse...
+11 failed, 52 passed in 0.34s

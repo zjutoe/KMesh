@@ -1,0 +1,7 @@
+{
+  "result": "PASS",
+  "clauses_checked": 3571,
+  "renamed_and_reversed_pairs": 600,
+  "exact_invalid_diagnostics": 11,
+  "random_seed": 20260921
+}

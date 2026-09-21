@@ -1,0 +1,2 @@
+PASS: ready, planning scope, frozen baseline, 8 docs/128 local links, helper syntax/argv, scratch ignore
+Product implementation and new tests: not_run; old full regression not repeated

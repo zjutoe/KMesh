@@ -1,0 +1,15 @@
+
+==================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_clause_key.py ___________________
+tests/test_clause_key.py:50: in <module>
+    K1 = Clause((Atom("p", ("?x", "?y"))), Atom("q", ("?x", "?y")))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<string>:5: in __init__
+    ???
+src/kmesh/logic/types.py:126: in __post_init__
+    raise LogicValidationError(
+E   kmesh.logic.types.LogicValidationError: clause.body must be a tuple of Atoms, got Atom
+=========================== short test summary info ============================
+ERROR tests/test_clause_key.py - kmesh.logic.types.LogicValidationError: clau...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.14s

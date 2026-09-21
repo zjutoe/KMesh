@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/t0011_fix.py", line 40, in <module>
+    assert fixed == 7, fixed
+           ^^^^^^^^^^
+AssertionError: 3

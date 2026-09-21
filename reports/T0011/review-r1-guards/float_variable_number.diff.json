@@ -1,0 +1,7 @@
+{
+  "replacement": [
+    "return (\"v\", number)",
+    "return (\"v\", float(number))"
+  ],
+  "sha256": "7fce979fa08e6088c2675e5527a5c549eb29521b25f50b1e25e2a8fb3426b475"
+}

@@ -1,0 +1,1 @@
+PASS: K8 equal child headers require descendant comparison; AB=BA and AA!=AB

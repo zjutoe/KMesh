@@ -1,0 +1,92 @@
+{
+  "head": "4c457e21899f81274999855d905e66b2ba574798",
+  "input_sha256": {
+    "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+    "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d",
+    "README.md": "f65c6ec6b501fcceb806db0ced1c179c418362ae227ee75f94f0b7fa475b7390",
+    "docs/implementation_status.md": "3860611cdbe8f5f9ee81ebd9989f1fb2f478ae2704d271a758161c7691c2b37c",
+    "docs/handoffs/T0011-clause-key.md": "fe9424da61ace3673c1c397fd735ffdb849b2c631f129bd48382c2531308aee3"
+  },
+  "immutable_history_files": 74,
+  "run_count": 13,
+  "runs": [
+    {
+      "run": "pi-r1-preflight",
+      "started": "2026-09-20T15:10:54.782101+00:00",
+      "exit_code": 0,
+      "elapsed_s": 0.116
+    },
+    {
+      "run": "pi-r1-probe",
+      "started": "2026-09-20T16:49:39.671859+00:00",
+      "exit_code": 0,
+      "elapsed_s": 0.044
+    },
+    {
+      "run": "pi-r1-probe2",
+      "started": "2026-09-20T16:49:39.797397+00:00",
+      "exit_code": 0,
+      "elapsed_s": 0.046
+    },
+    {
+      "run": "pi-r1-probe3",
+      "started": "2026-09-20T17:18:19.681575+00:00",
+      "exit_code": 0,
+      "elapsed_s": 0.049
+    },
+    {
+      "run": "pi-r1-focused",
+      "started": "2026-09-20T17:18:21.924537+00:00",
+      "exit_code": 2,
+      "elapsed_s": 0.38
+    },
+    {
+      "run": "pi-r1-fix1",
+      "started": "2026-09-20T17:27:50.692931+00:00",
+      "exit_code": 1,
+      "elapsed_s": 0.045
+    },
+    {
+      "run": "pi-r1-fix2",
+      "started": "2026-09-20T17:29:06.211707+00:00",
+      "exit_code": 0,
+      "elapsed_s": 0.036
+    },
+    {
+      "run": "pi-r1-focused-2",
+      "started": "2026-09-20T17:29:15.622023+00:00",
+      "exit_code": 1,
+      "elapsed_s": 0.442
+    },
+    {
+      "run": "pi-r1-focused-3",
+      "started": "2026-09-20T17:29:50.194672+00:00",
+      "exit_code": 0,
+      "elapsed_s": 0.365
+    },
+    {
+      "run": "pi-r1-full",
+      "started": "2026-09-20T17:29:57.127068+00:00",
+      "exit_code": 0,
+      "elapsed_s": 15.404
+    },
+    {
+      "run": "pi-r1-docs",
+      "started": "2026-09-20T17:40:36.923575+00:00",
+      "exit_code": 1,
+      "elapsed_s": 0.104
+    },
+    {
+      "run": "pi-r1-docs2",
+      "started": "2026-09-20T17:44:02.306223+00:00",
+      "exit_code": 0,
+      "elapsed_s": 0.106
+    },
+    {
+      "run": "pi-r1-docs3",
+      "started": "2026-09-20T17:44:49.767381+00:00",
+      "exit_code": 0,
+      "elapsed_s": 0.107
+    }
+  ]
+}

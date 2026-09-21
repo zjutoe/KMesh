@@ -238,13 +238,38 @@ assert minimum_proof_depth(long_only, atom("q", "a", "b"),
 
 **状态：`accepted`（2026-09-20，Codex 第 3 轮复验），R1–R4 全部关闭。** 产品保持冻结；独立定向回归 **53 项通过**，四个故意违约副本均被指定测试拒绝，确认异常身份、校验优先级和 H8 真实前提交换的守卫有效。本轮未重复全量回归，沿用已核对原件与哈希的 Pi 第 2 轮 **732 项通过**记录。64 次 query／60 棵证明对照继续有效；未录制检查等历史限制保留，见 [第 3 轮验收报告](reports/T0010/review-r3/review.md)。规范唯一性与 motif 未实现。
 
+单条 clause 规范内容键（T0011，落实 D29）：`kmesh.logic.clause_key` 提供单一公开函数 `canonical_clause_key(clause) -> tuple`，返回全嵌套结构键 `("clause_key_v1", (head_pred, term0, term1), (body_atom_key, ...))`，其中 term 为 `("v", n)`（变量，首现编号）或 `("c", s)`（常量原拼写）；body 长度 0／1 只考察原顺序，长度 2 考察原序与逆序两个候选并取字典序最小值。只消除 clause 内变量改名与双前提顺序差异，**不**是证明键、世界级摘要或唯一性／motif 审计，不删除重复前提，不改变 `Clause` 结构性相等或 Python hash 语义；包零导入。最小使用例（与 `tests/test_clause_key.py` 相同输入）：
+
+```python
+from kmesh.logic.clause_key import canonical_clause_key
+from kmesh.logic.types import Atom, Clause
+
+def atom(pred, x, y):
+    return Atom(pred, (x, y))
+
+a = Clause((atom("p", "?x", "?y"),), atom("q", "?x", "?y"))
+b = Clause((atom("p", "?u", "?v"),), atom("q", "?u", "?v"))
+c = Clause((atom("p", "?x", "?y"),), atom("q", "?y", "?x"))
+
+# 同内容、仅变量改名：键相等；仅 head 方向不同：键不等
+assert canonical_clause_key(a) == canonical_clause_key(b)
+assert canonical_clause_key(a) != canonical_clause_key(c)
+assert canonical_clause_key(a) == (
+    "clause_key_v1",
+    ("q", ("v", 0), ("v", 1)),
+    (("p", ("v", 0), ("v", 1)),),
+)
+```
+
+**状态：`accepted`（2026-09-21，Codex 第 2 轮复验）**，R1–R4 关闭。独立定向 **63 项通过**，五种违约副本均被对应断言拒绝；补齐了实际改名／逆序、纯度与类型、完整诊断、根及子模块隔离守卫。产品保持冻结，本轮未重跑全量，沿用 Codex 第 1 轮 **771 项回归**与 **3571 次有限 oracle 检查**。记录更正与历史限制见 [T0011 交接文档](docs/handoffs/T0011-clause-key.md)及 [第 2 轮验收报告](reports/T0011/review-r2/review.md)。
+
 运行测试：
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_depth.py tests/test_proof_enumeration.py tests/test_derivations.py tests/test_dependency.py tests/test_proof.py tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_clause_key.py tests/test_depth.py tests/test_proof_enumeration.py tests/test_derivations.py tests/test_dependency.py tests/test_proof.py tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
 ```
 
-当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 的单查询原始有序证明树枚举已验收（`accepted`，第 2 轮关闭 R1–R3，执行限制保留）；T0010 的单查询最短证明深度已验收（`accepted`，第 3 轮关闭 R1–R4，历史留证限制保留）；规范唯一性、motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 的单查询原始有序证明树枚举已验收（`accepted`，第 2 轮关闭 R1–R3，执行限制保留）；T0010 的单查询最短证明深度已验收（`accepted`，第 3 轮关闭 R1–R4，历史留证限制保留）；T0011 的单条 clause 规范内容键已验收（`accepted`，第 2 轮关闭 R1–R4，独立 63 项及五个违约守卫通过）；规范唯一性、motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
 截至 2026-09-16，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
@@ -252,7 +277,7 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_depth.
 
 进一步阅读：
 
-- [完整研究计划](KMesh_Research_Plan_v0.1.md)：假设、实验设计、评价标准与参考论文；文档当前修订为 v0.1.1，保留原文件名。
+- [完整研究计划](KMesh_Research_Plan_v0.1.md)：假设、实验设计、评价标准与参考论文；文档当前修订为 v0.1.3，保留原文件名。
 - [项目工作协议](AGENTS.md)：职责分工、实施边界和验收流程。
 - [任务交接目录](docs/handoffs/)：逐项实施的任务契约与记录。
 - [首项任务 T0001](docs/handoffs/T0001-bootstrap-doctor.md)：建立可安装包和真实环境诊断入口。

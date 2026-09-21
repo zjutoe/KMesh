@@ -1,0 +1,7 @@
+{
+  "replacement": [
+    "body = clause.body",
+    "body = tuple(dict.fromkeys(clause.body))"
+  ],
+  "sha256": "ca7d40adb74bff221345c86c662a40800097af8a3496485788ac845b070990b4"
+}

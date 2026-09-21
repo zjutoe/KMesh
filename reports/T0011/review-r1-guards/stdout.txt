@@ -1,0 +1,91 @@
+{
+  "mode": "inspect",
+  "product_sha256": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+  "test_sha256": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d",
+  "cases": [
+    {
+      "name": "submitted",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0011/review-r1-guards/pytest-tmp/submitted/scratch"
+      ],
+      "exit_code": 0,
+      "detected": null
+    },
+    {
+      "name": "diagnostic_suffix",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0011/review-r1-guards/pytest-tmp/diagnostic_suffix/scratch"
+      ],
+      "exit_code": 0,
+      "detected": false
+    },
+    {
+      "name": "float_variable_number",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0011/review-r1-guards/pytest-tmp/float_variable_number/scratch"
+      ],
+      "exit_code": 0,
+      "detected": false
+    },
+    {
+      "name": "conditional_reverse",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0011/review-r1-guards/pytest-tmp/conditional_reverse/scratch"
+      ],
+      "exit_code": 0,
+      "detected": false
+    },
+    {
+      "name": "no_reverse",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0011/review-r1-guards/pytest-tmp/no_reverse/scratch"
+      ],
+      "exit_code": 1,
+      "detected": true
+    },
+    {
+      "name": "drop_duplicate_premises",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0011/review-r1-guards/pytest-tmp/drop_duplicate_premises/scratch"
+      ],
+      "exit_code": 1,
+      "detected": true
+    }
+  ]
+}

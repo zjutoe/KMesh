@@ -1,0 +1,35 @@
+.............................F.................................          [100%]
+=================================== FAILURES ===================================
+__________________________ test_R2_key_type_structure __________________________
+
+    def test_R2_key_type_structure():
+        for clause in (K3, K0, K5, K10, LOOP, K2, K7, K8, K9):
+>           _check_key_types(canonical_clause_key(clause))
+
+tests/test_clause_key.py:343: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_clause_key.py:148: in _check_key_types
+    _check_atom_terms(key[1], "head")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+atom = ('r', ('v', 0.0), ('v', 1.0)), where = 'head'
+
+    def _check_atom_terms(atom, where):
+        assert type(atom) is tuple and len(atom) == 3, where
+        assert type(atom[0]) is str and len(atom[0]) > 0, where
+        for term in (atom[1], atom[2]):
+            assert type(term) is tuple and len(term) == 2, (where, term)
+            label, val = term
+            assert type(label) is str and label in ("v", "c"), (where, term)
+            if label == "c":
+                assert type(val) is str, (where, term)
+            else:
+>               assert type(val) is int, (where, term)
+E               AssertionError: ('head', ('v', 0.0))
+E               assert <class 'float'> is int
+E                +  where <class 'float'> = type(0.0)
+
+tests/test_clause_key.py:141: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_clause_key.py::test_R2_key_type_structure - AssertionError:...
+1 failed, 62 passed in 0.23s

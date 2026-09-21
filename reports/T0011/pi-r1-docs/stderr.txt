@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/mye/src/llm/KMesh/reports/T0011/check_delivery.py", line 84, in <module>
+    main()
+    ~~~~^^
+  File "/home/mye/src/llm/KMesh/reports/T0011/check_delivery.py", line 62, in main
+    assert provenance, "missing Pi provenance"
+           ^^^^^^^^^^
+AssertionError: missing Pi provenance

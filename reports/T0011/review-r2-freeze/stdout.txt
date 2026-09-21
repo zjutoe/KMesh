@@ -1,0 +1,48 @@
+{
+  "input_sha256": {
+    "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+    "tests/test_clause_key.py": "a6aa60571d7c3e7b3ccb7060364572283a2859968de88bbd9a1439f3ce8d14f2",
+    "README.md": "77c181e369901fa863ef963720ad1c1aa24711ef03af2feeb710b0ba4ab802c8",
+    "docs/implementation_status.md": "8179b1aa0f3e6d07ee0e9e3d355de82c7bd5f2f0ea35093746c39dc6375dabc2",
+    "docs/handoffs/T0011-clause-key.md": "2563c1b312496af76f342292ef504614df4f790fc5a0b54c16e2d41981da464e"
+  },
+  "history_files": 159,
+  "runs": [
+    {
+      "run": "pi-r2-preflight",
+      "exit_code": 0,
+      "elapsed_s": 0.124,
+      "started": "2026-09-21T03:21:50.664028+00:00"
+    },
+    {
+      "run": "pi-r2-focused",
+      "exit_code": 1,
+      "elapsed_s": 0.449,
+      "started": "2026-09-21T03:37:33.181374+00:00"
+    },
+    {
+      "run": "pi-r2-focused2",
+      "exit_code": 0,
+      "elapsed_s": 0.36,
+      "started": "2026-09-21T03:38:55.477835+00:00"
+    },
+    {
+      "run": "pi-r2-guards",
+      "exit_code": 0,
+      "elapsed_s": 3.191,
+      "started": "2026-09-21T03:39:04.348851+00:00"
+    },
+    {
+      "run": "pi-r2-docs",
+      "exit_code": 1,
+      "elapsed_s": 0.104,
+      "started": "2026-09-21T03:50:16.045552+00:00"
+    },
+    {
+      "run": "pi-r2-docs2",
+      "exit_code": 0,
+      "elapsed_s": 0.123,
+      "started": "2026-09-21T03:50:55.234843+00:00"
+    }
+  ]
+}
