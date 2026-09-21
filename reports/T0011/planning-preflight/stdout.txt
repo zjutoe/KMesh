@@ -1,0 +1,1 @@
+PASS: accepted T0010 hashes, baseline, environment; new product/tests absent

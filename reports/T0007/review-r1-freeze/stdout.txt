@@ -1,0 +1,9 @@
+PASS: exact input hashes, 6 Pi RUN log hashes/source snapshots, old tracked/planning files unchanged
+Frozen 832 historical files.
+pi-r1-diff-check exit=0 elapsed_s=0.005 stderr_empty=True
+pi-r1-diff-check-r2 exit=0 elapsed_s=0.35 stderr_empty=True
+pi-r1-focused exit=0 elapsed_s=0.342 stderr_empty=True
+pi-r1-full exit=0 elapsed_s=6.428 stderr_empty=False
+pi-r1-full-dev1 exit=1 elapsed_s=4.529 stderr_empty=False
+pi-r1-preflight exit=0 elapsed_s=0.088 stderr_empty=True
+Archived doctor: {"torch": "2.10.0+cu126", "status": "cpu_only", "generated_at_utc": "2026-09-17T04:55:12.014051+00:00"}

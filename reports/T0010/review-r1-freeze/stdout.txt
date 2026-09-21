@@ -1,0 +1,48 @@
+{
+  "input_sha256": {
+    "src/kmesh/logic/depth.py": "0361a37e8fbfcceb69ac55336c8578176ab96f1c94a86fa50a98aaa2a839bf5d",
+    "tests/test_depth.py": "7ffa2fac70a401eb6dcfa04691ea4294fa631bb738ea60a27674d9f6a9ae470c",
+    "README.md": "128b8b246434464b94693590f0936a0c50f5258c98a533a9aaa9ee1abc2be817",
+    "docs/implementation_status.md": "f5768c95f622027cd0502fb540678cce7ccf9073807b57e0fe35504bffdb3e48",
+    "docs/handoffs/T0010-minimum-depth.md": "f5d5ed75a637defdc430d5e0665a34741a993dcbfe9eb0d4d5fe4fd22a241c56",
+    "reports/T0010/pi-r1-full/provenance.md": "b7dcb2a3a295dea4f644c7a100902489f40e7daefbb9d0d2524801178cb43969"
+  },
+  "history_files": 41,
+  "pi_runs": [
+    {
+      "run": "pi-r1-docs",
+      "exit_code": 1,
+      "elapsed_s": 0.108
+    },
+    {
+      "run": "pi-r1-docs2",
+      "exit_code": 0,
+      "elapsed_s": 0.109
+    },
+    {
+      "run": "pi-r1-docs3",
+      "exit_code": 0,
+      "elapsed_s": 0.109
+    },
+    {
+      "run": "pi-r1-docs4",
+      "exit_code": 0,
+      "elapsed_s": 0.109
+    },
+    {
+      "run": "pi-r1-focused",
+      "exit_code": 0,
+      "elapsed_s": 0.402
+    },
+    {
+      "run": "pi-r1-full",
+      "exit_code": 0,
+      "elapsed_s": 15.386
+    },
+    {
+      "run": "pi-r1-preflight",
+      "exit_code": 0,
+      "elapsed_s": 0.115
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/mye/src/llm/KMesh/reports/T0011/check_delivery.py", line 84, in <module>
+    main()
+    ~~~~^^
+  File "/home/mye/src/llm/KMesh/reports/T0011/check_delivery.py", line 43, in main
+    assert (name in MUTABLE or name in frozen or
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            name == "reports/T0011/planning-files.json" or
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            name.startswith("reports/T0011/pi-")), f"outside scope: {name}"
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: outside scope: reports/T0011/review-r1-probe/probe.json

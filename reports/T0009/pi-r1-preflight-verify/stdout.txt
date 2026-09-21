@@ -1,0 +1,3 @@
+PREFLIGHT_VERIFY_OK 3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:16:10) [GCC 11.2.0]
+new product sha256 139870337ca85dd50ea9bf60bca40a92e8f4d0bb2c4e4549e04e7d7e0754e29e
+new test sha256 d8b6ec331fed77d05cc532e83dc034a18aba6fb185c9271308c873b9adc266f9

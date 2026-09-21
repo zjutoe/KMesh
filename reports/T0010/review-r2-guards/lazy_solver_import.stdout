@@ -1,0 +1,105 @@
+....................................................F                    [100%]
+=================================== FAILURES ===================================
+________________ test_g_depth_import_pulls_no_forbidden_modules ________________
+
+    def test_g_depth_import_pulls_no_forbidden_modules():
+        code = (
+            "import importlib\n"
+            "import sys\n"
+            "\n"
+            "FORBIDDEN = ('torch', 'yaml', 'kmesh.logic.engine',\n"
+            "             'kmesh.logic.reference_engine', 'kmesh.logic.proof',\n"
+            "             'kmesh.logic.proof_enumeration')\n"
+            "\n"
+            "class BlockFinder:\n"
+            "    def find_spec(self, name, path=None, target=None):\n"
+            "        if any(name == r or name.startswith(r + '.')\n"
+            "               for r in FORBIDDEN):\n"
+            "            raise ImportError('blocked import: ' + name)\n"
+            "        return None\n"
+            "\n"
+            "sys.meta_path.insert(0, BlockFinder())\n"
+            "for root in FORBIDDEN:\n"
+            "    for name in (root, root + '.submodule'):\n"
+            "        try:\n"
+            "            importlib.import_module(name)\n"
+            "        except ImportError:\n"
+            "            pass\n"
+            "        else:\n"
+            "            raise SystemExit('self-check failed: ' + name)\n"
+            "\n"
+            "from kmesh.logic.depth import minimum_proof_depth\n"
+            "from kmesh.logic.types import Atom, Clause\n"
+            "\n"
+            "def atom(pred, x, y):\n"
+            "    return Atom(pred, (x, y))\n"
+            "\n"
+            "def fact(pred, x='a', y='b'):\n"
+            "    return Clause((), atom(pred, x, y))\n"
+            "\n"
+            "def rule(body, head):\n"
+            "    return Clause(tuple(body), head)\n"
+            "\n"
+            "def depth(clauses, query):\n"
+            "    return minimum_proof_depth(clauses, query,\n"
+            "                               max_fact_checks=100,\n"
+            "                               max_derivations=100)\n"
+            "\n"
+            "got = depth((fact('p'),), atom('p', 'a', 'b'))\n"
+            "assert got == 0 and type(got) is int, got\n"
+            "\n"
+            "copy = rule((atom('p', '?x', '?y'),), atom('c', '?x', '?y'))\n"
+            "got = depth((fact('p'), copy), atom('c', 'a', 'b'))\n"
+            "assert got == 1 and type(got) is int, got\n"
+            "\n"
+            "join = rule((atom('s', '?x', '?y'), atom('s', '?y', '?z')),\n"
+            "            atom('t', '?x', '?z'))\n"
+            "got = depth((fact('s'), fact('s', 'b', 'c'), join),\n"
+            "            atom('t', 'a', 'c'))\n"
+            "assert got == 1 and type(got) is int, got\n"
+            "\n"
+            "try:\n"
+            "    minimum_proof_depth('s', atom('p', 'a', 'b'))\n"
+            "except ValueError as exc:\n"
+            "    message = str(exc)\n"
+            "    assert message == ('depth.clauses must be a tuple of Clause; '\n"
+            "                       'got str'), message\n"
+            "else:\n"
+            "    raise SystemExit('invalid call did not raise')\n"
+            "\n"
+            "loaded = sorted(name for name in sys.modules\n"
+            "                if any(name == r or name.startswith(r + '.')\n"
+            "                       for r in FORBIDDEN))\n"
+            "assert not loaded, loaded\n"
+            "print('ISOLATION-PASS')\n"
+        )
+        root = Path(__file__).resolve().parents[1]
+        proc = subprocess.run(
+            [sys.executable, "-c", code],
+            cwd=root,
+            capture_output=True, text=True, timeout=120,
+            env={"PATH": "/usr/bin:/bin",
+                 "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+                 "PYTHONPATH": "src"},
+        )
+>       assert proc.returncode == 0, proc.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 42, in <module>
+E             got = depth((fact('p'),), atom('p', 'a', 'b'))
+E           File "<string>", line 38, in depth
+E             return minimum_proof_depth(clauses, query,
+E                                        max_fact_checks=100,
+E                                        max_derivations=100)
+E           File "/home/mye/src/llm/KMesh/reports/T0010/review-r2-guards/pytest-tmp/lazy_solver_import/src/kmesh/logic/depth.py", line 74, in minimum_proof_depth
+E             from .engine import indexed_closure
+E           File "<string>", line 12, in find_spec
+E             raise ImportError('blocked import: ' + name)
+E         ImportError: blocked import: kmesh.logic.engine
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', "import importlib\nimport sys\n\nFORBIDDEN = ..., in find_spec\n    raise ImportError(\'blocked import: \' + name)\nImportError: blocked import: kmesh.logic.engine\n').returncode
+
+tests/test_depth.py:848: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_depth.py::test_g_depth_import_pulls_no_forbidden_modules - ...
+1 failed, 52 passed in 0.34s

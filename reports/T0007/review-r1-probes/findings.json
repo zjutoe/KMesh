@@ -1,0 +1,12 @@
+{
+  "graph_oracle": {
+    "total": 512,
+    "dag": 25,
+    "cyclic": 487,
+    "result": "PASS"
+  },
+  "submitted_generator_test_accepts_wrong_diagnostic": true,
+  "wrong_diagnostic": "dependency.clauses: rejected",
+  "readme_example": "PASS",
+  "scope": "Review helper only; no product/test file changes"
+}

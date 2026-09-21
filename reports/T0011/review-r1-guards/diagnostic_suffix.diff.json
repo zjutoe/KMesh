@@ -1,0 +1,7 @@
+{
+  "replacement": [
+    "got {type(clause).__name__}\"",
+    "got {type(clause).__name__} EXTRA\""
+  ],
+  "sha256": "a17d3549d18ed6ef1b399d02aecffbf608cb31250a8739646f7a6309613f796a"
+}

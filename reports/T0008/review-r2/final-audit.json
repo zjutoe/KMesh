@@ -1,0 +1,178 @@
+{
+  "created_at_utc": "2026-09-18T07:14:30.073124+00:00",
+  "result": "PASS",
+  "task_status": "accepted",
+  "head": "a9441250626f087dc8dbc1f560b7fbe3fe92488b",
+  "reviewer": "Codex + gpt-6-astra xhigh; non-author of Pi product/tests",
+  "accepted_files": {
+    "src/kmesh/logic/derivations.py": "32634248f401865d068b13758e133037a7a9bc3dcfa409526bc7df86a9aaf29b",
+    "tests/test_derivations.py": "4738b484445afd6ada35cc2285f717f110825c667a7e0e6938587875a14ea3eb"
+  },
+  "product_defect_found": false,
+  "open_findings": [],
+  "closed_findings": [
+    "R1 collection and import isolation",
+    "R2 discriminating matching fixtures and input boundaries",
+    "R3 README budget/order",
+    "R4 evidence corrections with historical limits"
+  ],
+  "acceptance": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "PASS",
+    "A6": "PASS",
+    "A7": "PASS"
+  },
+  "A7_limits": "Current evidence independently verifiable; acceptance does not certify full historical procedural compliance.",
+  "independent_verification_runs": {
+    "review-r2-freeze": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path\nfrom datetime import datetime,timezone\nimport ast,difflib,hashlib,json,subprocess\ntask=Path(\"reports/T0008\");out=task/\"review-r2-freeze\"\ndef sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nprior=json.loads((task/\"review-r1/final-audit.json\").read_text())\nold=json.loads((task/\"review-r1-freeze/audit.json\").read_text())\nhead=subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip()\nassert head==prior[\"head\"]\nmutable={\"tests/test_derivations.py\",\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0008-ground-derivations.md\"}\nfor p,h in old[\"history_sha256\"].items():assert sha(p)==h,p\nfor p,h in prior[\"artifact_sha256\"].items():\n    if p not in mutable:assert sha(p)==h,p\nassert sha(\"src/kmesh/logic/derivations.py\")==prior[\"reviewed_files\"][\"src/kmesh/logic/derivations.py\"]\nbase=json.loads((task/\"planning-baseline.json\").read_text())\nfor p,h in base[\"source_sha256\"].items():\n    if h is not None:assert sha(p)==h,p\nbefore=(task/\"review-r1-freeze/input-snapshot/tests/test_derivations.py\").read_text()\nafter=Path(\"tests/test_derivations.py\").read_text()\n(out/\"tests.diff\").write_text(\"\".join(difflib.unified_diff(before.splitlines(True),after.splitlines(True),fromfile=\"R1/tests/test_derivations.py\",tofile=\"R2/tests/test_derivations.py\")))\ndef functions(s):return {n.name:ast.dump(n,include_attributes=False) for n in ast.parse(s).body if isinstance(n,ast.FunctionDef)}\nbf,af=functions(before),functions(after)\nchanged=sorted(k for k in bf.keys()|af.keys() if bf.get(k)!=af.get(k))\ninputs=[\"src/kmesh/logic/derivations.py\",\"tests/test_derivations.py\",\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0008-ground-derivations.md\",\"reports/T0008/pi-r2-full/provenance.md\",\"reports/T0008/pi-r2-scripts/check_docs.py\"]\nih={}\nfor p in inputs:\n    dest=out/\"input-snapshot\"/p;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(Path(p).read_bytes());ih[p]=sha(p)\nruns=[]\nfor p in sorted(task.glob(\"pi-r2-*/record.json\")):\n    r=json.loads(p.read_text())\n    assert r[\"status\"]==\"finished\" and r[\"exit_code\"]==0,p\n    assert r[\"before\"][\"source_sha256\"]==r[\"after\"][\"source_sha256\"],p\n    for q,h in r[\"before\"][\"source_sha256\"].items():\n        if q==\"tests/test_derivations.py\" and p.parent.name==\"pi-r2-preflight\":\n            assert h==prior[\"reviewed_files\"][q]\n        else:assert sha(q)==h,(p,q)\n    for stream in (\"stdout\",\"stderr\"):assert sha(p.parent/(stream+\".txt\"))==r[stream+\"_sha256\"],p\n    runs.append({\"run\":p.parent.name,**{k:r[k] for k in (\"argv\",\"exit_code\",\"elapsed_s\",\"started_at_utc\",\"finished_at_utc\")},\"stdout_tail\":(p.parent/\"stdout.txt\").read_text()[-110:],\"stderr\":(p.parent/\"stderr.txt\").read_text()})\nassert len(runs)==6\nhistory={str(p):sha(p) for p in task.rglob(\"*\") if p.is_file() and not any(x in p.parts for x in (\"pytest-tmp\",\"__pycache__\")) and not str(p).startswith(str(out))}\naudit={\"created_at_utc\":datetime.now(timezone.utc).isoformat(),\"head\":head,\"input_sha256\":ih,\"history_sha256\":history,\"changed_test_functions\":changed,\"pi_r2_runs\":runs,\"old_review_and_pi_files_unchanged\":True}\n(out/\"audit.json\").write_text(json.dumps(audit,ensure_ascii=False,indent=2)+\"\\n\")\nprint(\"PASS: original product, prior sources/review/history and all six R2 RUN streams verified\")\nprint(json.dumps({\"input_sha256\":ih,\"changed_test_functions\":changed,\"pi_r2_runs\":runs,\"history_files\":len(history)},ensure_ascii=False,indent=2))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.125,
+      "started_at_utc": "2026-09-18T07:08:16.719323+00:00",
+      "finished_at_utc": "2026-09-18T07:08:16.859880+00:00"
+    },
+    "review-r2-focused": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_derivations.py",
+        "--basetemp",
+        "reports/T0008/review-r2-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.545,
+      "started_at_utc": "2026-09-18T07:09:00.107119+00:00",
+      "finished_at_utc": "2026-09-18T07:09:00.666924+00:00"
+    },
+    "review-r2-guards": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0008/review-r1/rework_guards.py",
+        "reports/T0008/review-r2-guards"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.915,
+      "started_at_utc": "2026-09-18T07:09:00.085108+00:00",
+      "finished_at_utc": "2026-09-18T07:09:01.016900+00:00"
+    },
+    "review-r2-readme-order": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "--collect-only",
+        "-q",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_proof.py",
+        "tests/test_dependency.py",
+        "tests/test_derivations.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0008/review-r2-readme-order/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.366,
+      "started_at_utc": "2026-09-18T07:09:00.134041+00:00",
+      "finished_at_utc": "2026-09-18T07:09:00.513677+00:00"
+    },
+    "review-r2-isolation-probe": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "import ast,json,subprocess,sys\nfrom pathlib import Path\nout=Path(\"reports/T0008/review-r2-isolation-probe\")\ntree=ast.parse(Path(\"tests/test_derivations.py\").read_text())\nscript=next(ast.literal_eval(n.value) for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id==\"ISOLATION_SCRIPT\" for t in n.targets))\nneedle=\"for name in sorted(sys.modules):\"\nassert script.count(needle)==1\nresults={}\nfor name,code,want in (\n    (\"original\",script,0),\n    (\"forbidden_submodule\",script.replace(needle,\"import types\\nsys.modules['kmesh.logic.engine.review_hidden'] = types.ModuleType('kmesh.logic.engine.review_hidden')\\n\"+needle),1),\n):\n    p=subprocess.run([sys.executable,\"-c\",code],capture_output=True,text=True,timeout=30)\n    (out/(name+\".stdout\")).write_text(p.stdout)\n    (out/(name+\".stderr\")).write_text(p.stderr)\n    assert p.returncode==want,(name,p.stdout,p.stderr)\n    if want:assert \"blocked module present: kmesh.logic.engine.review_hidden\" in p.stderr\n    else:assert \"ISOLATION_OK\" in p.stdout\n    results[name]={\"exit_code\":p.returncode,\"result\":\"PASS\" if not want else \"rejected_by_submitted_scan\"}\n(out/\"findings.json\").write_text(json.dumps(results,indent=2)+\"\\n\")\nprint(json.dumps(results,indent=2))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.195,
+      "started_at_utc": "2026-09-18T07:09:18.918812+00:00",
+      "finished_at_utc": "2026-09-18T07:09:19.129224+00:00"
+    }
+  },
+  "independent_tests_this_round": "125 passed in 0.30s; stderr empty; no skips/xfails",
+  "independent_readme_collection": "607 collected in 0.11s",
+  "guard_results": [
+    {
+      "case": "frozen_product",
+      "exit_code": 0,
+      "summary": [
+        "3 passed in 0.02s"
+      ]
+    },
+    {
+      "case": "drop_ground_double",
+      "exit_code": 1,
+      "summary": [
+        "1 failed in 0.05s"
+      ]
+    },
+    {
+      "case": "share_inner_binding",
+      "exit_code": 1,
+      "summary": [
+        "2 failed in 0.07s"
+      ]
+    }
+  ],
+  "isolation_probe": {
+    "original": {
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    "forbidden_submodule": {
+      "exit_code": 1,
+      "result": "rejected_by_submitted_scan"
+    }
+  },
+  "pi_full_regression": {
+    "run": "pi-r2-full",
+    "result": "607 passed in 4.45s",
+    "raw_record_and_source_hashes_verified": true
+  },
+  "pi_r2_runs_verified": 6,
+  "full_test_reexecuted_by_codex_this_round": false,
+  "inherited_evidence": [
+    "review-r1-full: independent 604 passed",
+    "review-r1-probes: 128 fixed-seed DAG worlds; 1934 direct records matched independent oracle"
+  ],
+  "historical_files_preserved": 139,
+  "closure_checks": {
+    "git_diff_check": "PASS",
+    "strict_local_links": 67,
+    "text_hygiene": "PASS",
+    "product_and_tests_frozen": "PASS"
+  },
+  "record_clarifications": [
+    "Negative giant integer is 10**5000, parameter max_derivations; isolated JOIN has variables, ground fixture is separate",
+    "607 full regression is Pi execution; Codex independently ran focused/guards/collection/isolation",
+    "19 recorder hashes do not include handoff text; final document edit timing remains Pi self-report",
+    "RUN names can be supplemented; doc-check lacks git diff invocation, performed independently here",
+    "pi-r2-doc-check actual exit 0 at 2026-09-18T04:08:55Z"
+  ],
+  "limits": [
+    "First closure check over-scanned historical T0002 status wording; corrected in a fresh RUN without altering history",
+    "R1 move/reuse and unarchived operations remain historical limits",
+    "Pi reported status transition and final document-check timing deviations preserved",
+    "Only direct derivations accepted; full proofs/uniqueness/depth/motif/world audit remain unimplemented",
+    "No commit/push"
+  ],
+  "artifact_sha256": {
+    "README.md": "9f45e6a1d2795c1f778f58c12d8904355294e234ff62581244e7f3e5bf0f5306",
+    "docs/implementation_status.md": "3757424ad7a5a4c2facdf8da54e8da9593e26b169bffbf072d3f9ebe9da7b390",
+    "docs/handoffs/T0008-ground-derivations.md": "a7db491b77d2d76adad20aa2071a92597027b7061512e88ee467fc2b4897ed8d",
+    "reports/T0008/review-r2/review.md": "05715a4810e1174beab0045c1d5ec7f21fad5cedafb25155e51e7be9c34a889b",
+    "reports/T0008/review-r2-freeze/audit.json": "cedf3cbf3ad8e82fe98c292bc9b93ea726d644430f67d5b5dd22aaa5a0274323",
+    "reports/T0008/review-r2-guards/guards.json": "2628de20711de6feb51449291ed068b2215951b7ff59540b4d70fc74e35ae308",
+    "reports/T0008/review-r2-isolation-probe/findings.json": "62f9d4f3806097c09b3f12496b515b16d4b73709373df44e81aaab9ac2f08709"
+  }
+}

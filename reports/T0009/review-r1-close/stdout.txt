@@ -1,0 +1,2 @@
+PASS: product/tests frozen; 34 historical files unchanged; 71 local links; helper/command syntax and text hygiene.
+VERDICT: needs_changes, R1-R3. Independent 678 passed; two known-invalid variants escaped old targeted tests. No commit/push.

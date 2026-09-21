@@ -1,0 +1,6 @@
+branch: T0008-ground-derivations
+head: a9441250626f087dc8dbc1f560b7fbe3fe92488b
+product: 32634248f401865d068b13758e133037a7a9bc3dcfa409526bc7df86a9aaf29b
+tests_pre_rework: 694c255ad5251ac1813b07ec335787b96a14e33b020a6aaaf865ac081c338fc0
+manifest: 2159 files -> reports/T0008/pi-r2-scripts/baseline_manifest.json
+PREFLIGHT_OK

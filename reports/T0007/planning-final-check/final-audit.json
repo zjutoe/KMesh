@@ -1,0 +1,48 @@
+{
+  "checked_at_utc": "2026-09-17T04:17:34.113537+00:00",
+  "result": "PASS",
+  "task_status": "ready",
+  "product_acceptance": "not_run",
+  "head": "74a96f3735831d16a14dedffbaa6e0654f8b7658",
+  "independent_reviewer": "/root/review_t0001_code",
+  "records": {
+    "planning-preflight": {
+      "exit_code": 0,
+      "elapsed_s": 0.087,
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "import sys, kmesh; from importlib.metadata import version; print(sys.executable); print(sys.version); print(kmesh.__file__); print({n: version(n) for n in (\"kmesh\", \"pytest\")})"
+      ]
+    },
+    "planning-checks": {
+      "exit_code": 0,
+      "elapsed_s": 0.109,
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "\nfrom pathlib import Path\nfrom datetime import datetime, timezone\nimport ast, hashlib, itertools, json, re, shlex, subprocess, textwrap\nroot=Path.cwd()\ntask=root/\"reports/T0007\"\nbaseline=json.loads((task/\"planning-baseline.json\").read_text())\ndef sha(data): return hashlib.sha256(data).hexdigest()\nassert baseline[\"status\"]==\"\"\nassert baseline[\"head\"]==\"74a96f3735831d16a14dedffbaa6e0654f8b7658\"\nallowed={\"docs/decisions.md\",\"docs/handoffs/T0006-proof-verifier.md\",\"docs/implementation_status.md\"}\nfor p,h in baseline[\"tracked_sha256\"].items():\n    if p not in allowed:\n        assert sha(Path(p).read_bytes())==h,p\naccepted=json.loads(Path(\"reports/T0006/review-r3/final-audit.json\").read_text())[\"accepted_files\"]\nfor p,h in accepted.items():\n    assert sha(Path(p).read_bytes())==h\n    for commit in (\"df0ee6732ede7b484bd2cf729143fae7c4e79c1c\",baseline[\"head\"]):\n        assert sha(subprocess.check_output([\"git\",\"show\",commit+\":\"+p]))==h\nassert not Path(\"src/kmesh/logic/dependency.py\").exists()\nassert not Path(\"tests/test_dependency.py\").exists()\nrec_src=(task/\"record_check.py\").read_text()\nold_rec=Path(\"reports/T0006/record_check.py\").read_text().replace(\"T0006\",\"T0007\")\nassert rec_src==old_rec.replace('SOURCES = (\\n','SOURCES = (\\n    \"src/kmesh/logic/dependency.py\", \"tests/test_dependency.py\",\\n')\ntree=ast.parse(rec_src)\nsources=next(ast.literal_eval(n.value) for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id==\"SOURCES\" for t in n.targets))\nassert len(sources)==17 and len(set(sources))==17\npre=json.loads((task/\"planning-preflight/record.json\").read_text())\nassert pre[\"exit_code\"]==0\nassert pre[\"before\"][\"source_sha256\"]==pre[\"after\"][\"source_sha256\"]\nassert pre[\"before\"][\"source_sha256\"][\"src/kmesh/logic/dependency.py\"] is None\nassert pre[\"before\"][\"source_sha256\"][\"tests/test_dependency.py\"] is None\nfor stream in (\"stdout\",\"stderr\"):\n    assert sha((task/f\"planning-preflight/{stream}.txt\").read_bytes())==pre[stream+\"_sha256\"]\nenv=(task/\"planning-preflight/stdout.txt\").read_text()\nassert all(x in env for x in (\"3.13.9\",\"0.1.0\",\"8.4.2\",str(root/\"src/kmesh/__init__.py\")))\ndoc=Path(\"docs/handoffs/T0007-relation-dag.md\").read_text()\ncommands=[]\nfor block in re.findall(chr(96)*3+r\"bash\\n(.*?)\"+chr(96)*3,doc,re.S):\n    for line in block.splitlines():\n        if not line.strip(): continue\n        args=shlex.split(line)\n        assert args[:2]==[\".venv/bin/python\",\"reports/T0007/record_check.py\"]\n        assert args[3]==\"--\"\n        assert not (task/args[2]).exists()\n        if \"-m\" in args and \"pytest\" in args:\n            assert args[args.index(\"--basetemp\")+1]==f\"reports/T0007/{args[2]}/pytest-tmp\"\n        commands.append(args)\nassert len(commands)==4\npython_blocks=re.findall(chr(96)*3+r\"python\\n(.*?)\"+chr(96)*3,doc,re.S)\nfor i,b in enumerate(python_blocks): compile(textwrap.dedent(b),f\"<handoff-python-{i}>\",\"exec\")\nlinks=0\nfor name in [\"docs/handoffs/T0007-relation-dag.md\",\"docs/decisions.md\",\"docs/handoffs/T0006-proof-verifier.md\",\"docs/implementation_status.md\"]:\n    p=Path(name);data=p.read_text()\n    assert data.endswith(\"\\n\") and all(x==x.rstrip() for x in data.splitlines()),name\n    for link in re.findall(r\"\\]\\(([^)]+)\\)\",data):\n        target=link.split(\"#\",1)[0]\n        if target and not re.match(r\"^[a-zA-Z]+:\",target):\n            assert (p.parent/target).exists(),(name,link)\n            links+=1\n# Independently check the small table's claimed orders by exhaustive permutations.\n# This is a planning check of specified graphs, not the delivered algorithm.\ncases=[\n(\"empty\",(),(),()),\n(\"facts\",(\"z\",\"p\"),(),(\"p\",\"z\")),\n(\"body-only\",(\"p\",\"q\"),((\"p\",\"q\"),),(\"p\",\"q\")),\n(\"main\",(\"r1\",\"r2\",\"r3\",\"r4\"),((\"r1\",\"r3\"),(\"r2\",\"r3\"),(\"r3\",\"r4\")),(\"r1\",\"r2\",\"r3\",\"r4\")),\n(\"direction\",(\"z\",\"a\"),((\"z\",\"a\"),),(\"z\",\"a\")),\n(\"new-ready\",(\"a\",\"z\",\"b\"),((\"a\",\"b\"),),(\"a\",\"b\",\"z\")),\n(\"two-premises\",(\"z\",\"p\",\"a\"),((\"z\",\"a\"),(\"p\",\"a\")),(\"p\",\"z\",\"a\")),\n(\"duplicate-edge\",(\"p\",\"q\"),((\"p\",\"q\"),(\"p\",\"q\")),(\"p\",\"q\")),\n(\"case\",(\"A\",\"a\",\"z\"),(),(\"A\",\"a\",\"z\")),\n]\nfor name,vertices,edges,expected in cases:\n    candidates=[p for p in itertools.permutations(vertices) if all(p.index(u)<p.index(v) for u,v in edges)]\n    assert min(candidates)==expected,name\ncycles=[\n((\"p\",),((\"p\",\"p\"),)),\n((\"p\",\"q\"),((\"p\",\"q\"),(\"q\",\"p\"))),\n((\"p\",\"q\",\"r\"),((\"p\",\"q\"),(\"q\",\"r\"),(\"r\",\"p\"))),\n((\"a\",\"b\",\"q\",\"r\"),((\"a\",\"b\"),(\"q\",\"r\"),(\"r\",\"q\"))),\n((\"p\",\"q\",\"z\"),((\"p\",\"q\"),(\"q\",\"p\"),(\"q\",\"z\"))),\n((\"p\",\"q\"),((\"p\",\"q\"),(\"q\",\"q\"))),\n((\"p\",\"q\"),((\"p\",\"q\"),(\"q\",\"p\"))),\n]\nfor vertices,edges in cycles:\n    assert not any(all(p.index(u)<p.index(v) for u,v in edges) for p in itertools.permutations(vertices))\ndiff=subprocess.run([\"git\",\"diff\",\"--check\"],capture_output=True,text=True)\nassert diff.returncode==0,diff.stdout+diff.stderr\nreport={\"checked_at_utc\":datetime.now(timezone.utc).isoformat(),\"result\":\"PASS\",\n\"stage\":\"draft_contract_validation\",\"baseline\":baseline[\"head\"],\n\"tracked_files_preserved_except_allowed_docs\":len(baseline[\"tracked_sha256\"])-len(allowed),\n\"accepted_T0006_commit_and_merge_hashes\":accepted,\"recorder_sources\":len(sources),\n\"preflight\":\"PASS\",\"command_count\":len(commands),\"python_blocks\":len(python_blocks),\n\"local_links\":links,\"hand_table_orders\":len(cases),\"cycle_graphs\":len(cycles),\n\"product_and_test_not_created\":True,\"product_acceptance\":\"not_run\"}\n(task/\"planning-checks/checks.json\").write_text(json.dumps(report,ensure_ascii=False,indent=2)+\"\\n\")\nprint(json.dumps(report,ensure_ascii=False,indent=2))\n"
+      ]
+    }
+  },
+  "tracked_files_preserved_except_allowed_docs": 827,
+  "source_files_created": false,
+  "local_links_checked": 76,
+  "git_diff_check": "PASS",
+  "artifact_sha256": {
+    "docs/handoffs/T0007-relation-dag.md": "ffe73bca6e6b4c3b39d21a4c7f9ed8212002bbc532853a5ad62146b74f33eb60",
+    "docs/implementation_status.md": "0f003226f93be54409bec07065fd68316ccfbad3828acfc7b171f65f7ef691f3",
+    "docs/decisions.md": "0a61c8bdb1bf78f83685159ca33c7ebd6d7aa9d7ba9209f4f5afbc1f162e1448",
+    "docs/handoffs/T0006-proof-verifier.md": "9a41c12abc7a86c9e6b1141e41c9e1e31ef66f1017f917b013640c89147727bd",
+    "reports/T0007/planning-review.md": "cccd1eedc3fb8c43797a1ccb27c3018d8b8d6ce5a3fba673072c36fb9f41bca1",
+    "reports/T0007/record_check.py": "80ae8697f6205cd7db997b8185f4b32a7515bef5199a33b747493f09db5beea8",
+    "reports/T0007/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14",
+    "reports/T0007/planning-baseline.json": "6a214524ed0078ad200401d5783ffc7281f0442b9ab78974f1ec857ded199f30",
+    "reports/T0007/planning-checks/checks.json": "d1ab054e9b5dd885d1b61760e645e80c6e763fe27cb694acd111761e009ca94d"
+  },
+  "limits": [
+    "Planning/handoff only; no product implementation or product tests",
+    "No Pi launch",
+    "No commit/push"
+  ]
+}

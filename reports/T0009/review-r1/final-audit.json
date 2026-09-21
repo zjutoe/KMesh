@@ -1,0 +1,221 @@
+{
+  "created_at_utc": "2026-09-19T06:05:00.817916+00:00",
+  "result": "NEEDS_CHANGES",
+  "task_status": "needs_changes",
+  "head": "bfb0f8e3c5c1c1168f7110ac6287aeb0f3330fff",
+  "reviewer": "Codex + gpt-6-astra xhigh, non-author of Pi product/tests",
+  "read_only_test_reviewer": "/root/review_t0009_design",
+  "reviewed_files": {
+    "src/kmesh/logic/proof_enumeration.py": "139870337ca85dd50ea9bf60bca40a92e8f4d0bb2c4e4549e04e7d7e0754e29e",
+    "tests/test_proof_enumeration.py": "d8b6ec331fed77d05cc532e83dc034a18aba6fb185c9271308c873b9adc266f9"
+  },
+  "artifact_sha256": {
+    "README.md": "c124b51fc6b36b6d41d45f2aed219a07c59ffab7ccc5252805a09133c41f5b6c",
+    "docs/implementation_status.md": "d481475658095fdf012408db44986d721a3f5fe0604f8cdaecf6dfeffe288309",
+    "docs/handoffs/T0009-proof-enumeration.md": "56f3ed9303f66c8f781ece22b841b8b21a6ff7537971542530abb6587f413696",
+    "reports/T0009/review-r1/review.md": "e411e6334c9e75dc9cab777648a628f19522d4e07d51446155fd4bf4e8493409"
+  },
+  "history_sha256": {
+    "reports/T0009/record_check.py": "555c0b9b41d8de7851a41f6b86d65184c6b42b8ade3f2574f6ceb86cd578da85",
+    "reports/T0009/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14",
+    "reports/T0009/planning-baseline.json": "54d447ec0c871e6b9def567275df2ff0235bb07c60fcc64294837a0e32d2a024",
+    "reports/T0009/check_delivery.py": "9ff1843401bed0ad0b5ce02de8a324c86b27773c9acdb8988d7210b861a7d1ca",
+    "reports/T0009/planning_examples.py": "fc57d6dcd6e0067814b8a1c4dbea11cd20858b3a47096c0126d0a56a303e114e",
+    "reports/T0009/planning-review.md": "08946b5d7de2b5b67f669ab63949dc69c62cede0a7d79398d4e0a0e0d24e4811",
+    "reports/T0009/planning-files.json": "be3b2cc79852eb02e389192128ccadb69c990d37397028af6f1d1a540e7c5d97",
+    "reports/T0009/planning-preflight/record.json": "d59a617bf16c89949850897f4b1774926f6e780f2829bcaebe7cace919fcee92",
+    "reports/T0009/planning-preflight/stdout.txt": "54d447ec0c871e6b9def567275df2ff0235bb07c60fcc64294837a0e32d2a024",
+    "reports/T0009/planning-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/planning-examples/record.json": "17a6b5ba25ea311eceadebb1a349eb847efef30a398686c0531a73559eda177e",
+    "reports/T0009/planning-examples/stdout.txt": "a0a0120eae8795d3b2c265cff3dc3848bd8bb2732f14cd6c8ac69ee39d203b0d",
+    "reports/T0009/planning-examples/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/planning-check/record.json": "19e51086b3b490a93a38028d3441721b41f13d19210703e6a8948eaab40a5be7",
+    "reports/T0009/planning-check/summary.json": "0dbde8a114088f10212b8827f879ad362c55d7b5dc2c06b84b747459906ba971",
+    "reports/T0009/planning-check/stdout.txt": "0dbde8a114088f10212b8827f879ad362c55d7b5dc2c06b84b747459906ba971",
+    "reports/T0009/planning-check/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-scripts/isolation_guard.py": "9b1a79251e2038b6b06ad5dd42459f4536a354a876a90dff76b32acd14210a35",
+    "reports/T0009/pi-r1-preflight/record.json": "6bcd2f18a293ce5bf76e90b9ba18bad627c35363d131e9343aa8a9a7284b1ed0",
+    "reports/T0009/pi-r1-preflight/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-preflight/stderr.txt": "0618537fd72817a4bf8322c03200564ad2bf3c388e913a3403ceeff4d8be9bdf",
+    "reports/T0009/pi-r1-preflight-verify/record.json": "37568deef04c1fa98ca525807c2464a11e8b2b3f49f7ed785ac0e54af3da2878",
+    "reports/T0009/pi-r1-preflight-verify/stdout.txt": "671ea52d0a7da106e615aaa6eeaa5f008bc40ec8c40b11c93781ef0f857ddd41",
+    "reports/T0009/pi-r1-preflight-verify/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-focused/record.json": "879c7ccb3a2f7608b205892b52fb240bcdbd381b80136dfe4a33a1a4ae7424f1",
+    "reports/T0009/pi-r1-focused/stdout.txt": "c247e16518799e9cd50f4603c7358dc2f98fb856279c0d2838a8b0044acc1c20",
+    "reports/T0009/pi-r1-focused/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-full/record.json": "eb4fa5f69e88ed5b13c3f2164ecfade5379b6edf228712c1fd428811b7d95675",
+    "reports/T0009/pi-r1-full/stdout.txt": "77de588287d70ee6641ac2efa44241ee1d7670d0c9218ac286f4e7c8586857f7",
+    "reports/T0009/pi-r1-full/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/pi-r1-full/provenance.md": "7695301d5abf2164aa3b5b74238795791df197ec0140c55931aa143cad88b395",
+    "reports/T0009/pi-r1-doc-check/record.json": "8965ea55887e75fa72a7c4c96b642a90e9890ee9400bd851dc2dea0769c90b49",
+    "reports/T0009/pi-r1-doc-check/stdout.txt": "afae7072e4807593655bd49e05ba115f427b3aca38c7746b6fd0c283e3812f5a",
+    "reports/T0009/pi-r1-doc-check/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/review-r1-freeze/record.json": "465a0ccdb2fd132184c20f548eed7af476f04334dc03c9dd01c9da3c4c023e8b",
+    "reports/T0009/review-r1-freeze/audit.json": "0bb661476595ad6cf6b5720524068159bcc8b0fc00eae10d1c5cb77d92d6cb8d",
+    "reports/T0009/review-r1-freeze/stdout.txt": "e47b0894af49413c95758d51ca8e04a7832810412791efc13f4a1866af3578fb",
+    "reports/T0009/review-r1-freeze/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/review-r1-full/record.json": "3f9f8bee459560d149c245c837eac7f8b5e7a29e359bae8ae055c0a9148b813b",
+    "reports/T0009/review-r1-full/stdout.txt": "f01212778ad02617e61d6f54c6d0e2204a6a1969763125306d01c6dcb313f18e",
+    "reports/T0009/review-r1-full/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/review-r1/probe.py": "05fc77fabc3e690fe04dc32cecf7f284da1e5b1a42409b3a6d238c660b9dee8c",
+    "reports/T0009/review-r1/rework_guards.py": "b9ebc3e99ecc157b2785aa871aa24eeee4118b9d8ecf807a6b0b4890c83a74c5",
+    "reports/T0009/review-r1/review.md": "e411e6334c9e75dc9cab777648a628f19522d4e07d51446155fd4bf4e8493409",
+    "reports/T0009/review-r1/check_rework_delivery.py": "1e9482184cabbe613cf1d82b2a3e2e9a14517f10a86ae7d450fe034017f074ac",
+    "reports/T0009/review-r1-probes/record.json": "f6db0ca91144d1dcc653a9a84c3ae206d989abd991702bf8d59bc8c373e20e10",
+    "reports/T0009/review-r1-probes/generator_consumed_once.stdout": "a71df3ef716cabe43ead70bd8311cda3aeadcb986bea501da0ea9262f31c3925",
+    "reports/T0009/review-r1-probes/generator_consumed_once.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/review-r1-probes/proof_budget_validated_after_T0008.stdout": "c3788640522b7a73a8a63ce1a35822e59814788116a50e7dc72a1c192363d3f2",
+    "reports/T0009/review-r1-probes/proof_budget_validated_after_T0008.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/review-r1-probes/findings.json": "580f12436dfb03ea76872427f4ecd40d0deff432a487da4668c33dded0b35397",
+    "reports/T0009/review-r1-probes/stdout.txt": "580f12436dfb03ea76872427f4ecd40d0deff432a487da4668c33dded0b35397",
+    "reports/T0009/review-r1-probes/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/review-r1-close/record.json": "399e43bb80d007867226f1e5688153a56742a510a97c13e0d36f98cc1f91cbe4",
+    "reports/T0009/review-r1-close/stdout.txt": "b63d319d8fe6a55ce29c0d0edf63ae117e049b92ea146708dbb66e9868b6510a",
+    "reports/T0009/review-r1-close/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0009/review-r1-freeze/input-snapshot/README.md": "b7e0718e975a169567b39f0f3533e138240eada0f993705e7bd4b64813c94f9d",
+    "reports/T0009/review-r1-freeze/input-snapshot/tests/test_proof_enumeration.py": "d8b6ec331fed77d05cc532e83dc034a18aba6fb185c9271308c873b9adc266f9",
+    "reports/T0009/review-r1-freeze/input-snapshot/docs/implementation_status.md": "cf782408ba843065fb5be37d83c1e72a844438d16d11d68334843bfc68adae32",
+    "reports/T0009/review-r1-freeze/input-snapshot/reports/T0009/pi-r1-full/provenance.md": "7695301d5abf2164aa3b5b74238795791df197ec0140c55931aa143cad88b395",
+    "reports/T0009/review-r1-freeze/input-snapshot/reports/T0009/pi-r1-scripts/isolation_guard.py": "9b1a79251e2038b6b06ad5dd42459f4536a354a876a90dff76b32acd14210a35",
+    "reports/T0009/review-r1-freeze/input-snapshot/docs/handoffs/T0009-proof-enumeration.md": "e2a08df9f23cefcfad0fc2754f37bdd4a6a927685ac11232437caf5a3874d2d9",
+    "reports/T0009/review-r1-freeze/input-snapshot/src/kmesh/logic/proof_enumeration.py": "139870337ca85dd50ea9bf60bca40a92e8f4d0bb2c4e4549e04e7d7e0754e29e"
+  },
+  "independent_runs": {
+    "review-r1-freeze": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path\nimport hashlib,json,subprocess\nfrom datetime import datetime,timezone\ntask=Path(\"reports/T0009\"); out=task/\"review-r1-freeze\"\ndef sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nbase=json.loads((task/\"planning-baseline.json\").read_text())\nhead=subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip()\nassert head==base[\"head\"]\nfor p,h in base[\"source_sha256\"].items():\n if h is not None:assert sha(p)==h,p\nplanned=json.loads((task/\"planning-files.json\").read_text())\nfor p,h in planned.items():assert sha(p)==h,p\ninputs=[\"src/kmesh/logic/proof_enumeration.py\",\"tests/test_proof_enumeration.py\",\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0009-proof-enumeration.md\",\"reports/T0009/pi-r1-full/provenance.md\",\"reports/T0009/pi-r1-scripts/isolation_guard.py\"]\nhashes={}\nfor p in inputs:\n dest=out/\"input-snapshot\"/p;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(Path(p).read_bytes());hashes[p]=sha(p)\nruns=[]\nfor p in sorted(task.glob(\"pi-*/record.json\")):\n r=json.loads(p.read_text())\n assert r[\"status\"]==\"finished\" and r[\"before\"][\"source_sha256\"]==r[\"after\"][\"source_sha256\"],p\n for q,h in r[\"after\"][\"source_sha256\"].items():assert sha(q)==h,(p,q)\n for stream in (\"stdout\",\"stderr\"):assert sha(p.parent/(stream+\".txt\"))==r[stream+\"_sha256\"],p\n runs.append({\"run\":p.parent.name,**{k:r[k] for k in (\"argv\",\"exit_code\",\"elapsed_s\",\"started_at_utc\",\"finished_at_utc\")},\"stdout_tail\":(p.parent/\"stdout.txt\").read_text()[-300:],\"stderr\":(p.parent/\"stderr.txt\").read_text()})\nhistory={str(p):sha(p) for p in task.rglob(\"*\") if p.is_file() and not any(x in p.parts for x in (\"pytest-tmp\",\"__pycache__\")) and not str(p).startswith(str(out))}\naudit={\"created_at_utc\":datetime.now(timezone.utc).isoformat(),\"head\":head,\"input_sha256\":hashes,\"history_sha256\":history,\"pi_runs\":runs,\"planning_unchanged\":True}\n(out/\"audit.json\").write_text(json.dumps(audit,ensure_ascii=False,indent=2)+\"\\n\")\nprint(json.dumps({\"head\":head,\"input_sha256\":hashes,\"historical_file_count\":len(history),\"pi_runs\":runs},ensure_ascii=False,indent=2))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.067,
+      "started_at_utc": "2026-09-19T05:56:47.858171+00:00",
+      "finished_at_utc": "2026-09-19T05:56:47.941171+00:00"
+    },
+    "review-r1-full": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0009/review-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 17.789,
+      "started_at_utc": "2026-09-19T05:57:23.210088+00:00",
+      "finished_at_utc": "2026-09-19T05:57:41.014028+00:00"
+    },
+    "review-r1-probes": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0009/review-r1/probe.py",
+        "reports/T0009/review-r1-probes"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.611,
+      "started_at_utc": "2026-09-19T05:59:03.197576+00:00",
+      "finished_at_utc": "2026-09-19T05:59:03.824151+00:00"
+    },
+    "review-r1-close": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "from pathlib import Path\nimport hashlib,json,re,shlex,subprocess\nfrom urllib.parse import urlsplit,unquote\ntask=Path(\"reports/T0009\")\nfreeze=json.loads((task/\"review-r1-freeze/audit.json\").read_text())\ndef sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nfor p,h in freeze[\"history_sha256\"].items():assert sha(p)==h,p\nfor p in (\"src/kmesh/logic/proof_enumeration.py\",\"tests/test_proof_enumeration.py\"):\n assert sha(p)==freeze[\"input_sha256\"][p],p\nfor p,h in json.loads((task/\"planning-files.json\").read_text()).items():assert sha(p)==h,p\nfull=json.loads((task/\"review-r1-full/record.json\").read_text())\nassert full[\"exit_code\"]==0 and full[\"before\"][\"source_sha256\"]==full[\"after\"][\"source_sha256\"]\nassert \"678 passed\" in (task/\"review-r1-full/stdout.txt\").read_text()\ndocs=[Path(p) for p in (\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0009-proof-enumeration.md\",\"reports/T0009/review-r1/review.md\")]\nlinks=0\nfor p in docs:\n s=p.read_text();assert s.endswith(\"\\n\") and all(x==x.rstrip() for x in s.splitlines()),p\n for link in re.findall(r\"\\[[^\\]]*\\]\\(([^)]+)\\)\",s):\n  u=urlsplit(link.strip().strip(\"<>\"))\n  if u.scheme or u.netloc or not u.path:continue\n  assert (p.parent/unquote(u.path)).exists(),(p,link)\n  links+=1\nfor p in (task/\"review-r1\").glob(\"*.py\"):\n compile(p.read_text(),str(p),\"exec\")\nhandoff=docs[2].read_text()\nassert \"- 状态：`needs_changes`\" in handoff\nfor line in handoff.splitlines():\n if line.startswith(\".venv/bin/python \") and \" -c \" in line:\n  tokens=shlex.split(line);compile(tokens[tokens.index(\"-c\")+1],\"handoff-inline\",\"exec\")\nsubprocess.run([\"git\",\"diff\",\"--check\"],check=True)\nprint(f\"PASS: product/tests frozen; {len(freeze['history_sha256'])} historical files unchanged; {links} local links; helper/command syntax and text hygiene.\")\nprint(\"VERDICT: needs_changes, R1-R3. Independent 678 passed; two known-invalid variants escaped old targeted tests. No commit/push.\")\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.069,
+      "started_at_utc": "2026-09-19T06:04:27.328256+00:00",
+      "finished_at_utc": "2026-09-19T06:04:27.412700+00:00"
+    }
+  },
+  "independent_regression": "678 passed in 17.52s; no skips/xfails; stderr empty",
+  "original_pi_runs_verified": 5,
+  "original_pi_exit_codes": {
+    "pi-r1-preflight": 1,
+    "pi-r1-preflight-verify": 0,
+    "pi-r1-focused": 0,
+    "pi-r1-full": 0,
+    "pi-r1-doc-check": 0
+  },
+  "probe_findings": {
+    "scan_counts": [
+      {
+        "rules": 16,
+        "records": 17,
+        "conclusion_reads_after_T0008": 293,
+        "regression_upper_bound": 136
+      },
+      {
+        "rules": 32,
+        "records": 33,
+        "conclusion_reads_after_T0008": 1093,
+        "regression_upper_bound": 264
+      },
+      {
+        "rules": 64,
+        "records": 65,
+        "conclusion_reads_after_T0008": 4229,
+        "regression_upper_bound": 520
+      }
+    ],
+    "recursive_helpers": [
+      "_flat_combos"
+    ],
+    "test_guard_gaps": [
+      {
+        "mutation": "generator_consumed_once",
+        "exit_code": 0,
+        "finding": "submitted targeted tests did not reject known-invalid behavior",
+        "summary": "1 passed in 0.02s"
+      },
+      {
+        "mutation": "proof_budget_validated_after_T0008",
+        "exit_code": 0,
+        "finding": "submitted targeted tests did not reject known-invalid behavior",
+        "summary": "17 passed in 0.03s"
+      }
+    ]
+  },
+  "acceptance": {
+    "A1": "PASS within inspected scope",
+    "A2": "PASS",
+    "A3": "PASS within inspected scope; recovery test improvement required",
+    "A4": "NEEDS_CHANGES R1",
+    "A5": "NEEDS_CHANGES R2",
+    "A6": "PASS",
+    "A7": "NEEDS_CHANGES R3"
+  },
+  "open_findings": [
+    {
+      "id": "R1",
+      "priority": "P2",
+      "summary": "Restore indexed iterative ancestor collection and nonrecursive lazy combinations"
+    },
+    {
+      "id": "R2",
+      "priority": "P2",
+      "summary": "Generator no-consumption and S-before-T0008 guards; recovery verifier and agreed int limit"
+    },
+    {
+      "id": "R3",
+      "priority": "P2",
+      "summary": "Correct implementation/provenance boundaries; preserve unarchived development-history limits"
+    }
+  ],
+  "limits": [
+    "No returned-proof semantic counterexample found in tested cases; algorithm contract and test/evidence gaps block acceptance",
+    "Unrecorded development attempts cannot be reconstructed from later source hashes",
+    "No uniqueness/motif/minimum-depth/world audit or research conclusion",
+    "No product/tests/Pi history modified; no commit/push"
+  ]
+}

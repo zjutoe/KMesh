@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "hand_queries": 18,
+  "transformation_checks": 15,
+  "giant_integer_paths": 6,
+  "exception_identity_checks": 2,
+  "isolation": "hard finder + 6 root self-checks + fact/COPY/JOIN calls + prefix scan",
+  "frozen_matrix_proof_count": 60,
+  "readme_example": "PASS",
+  "conclusion": "No product counterexample found; submitted tests lack required guards"
+}

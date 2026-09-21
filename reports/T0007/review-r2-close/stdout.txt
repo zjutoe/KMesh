@@ -1,0 +1,3 @@
+PASS: frozen sources/tests, 875 historical files and copied supplement unchanged
+PASS: accepted status, diff, 68 strict local links, 6 Python blocks
+PASS: final-audit.json written; A1-A7 accepted with historical evidence limits

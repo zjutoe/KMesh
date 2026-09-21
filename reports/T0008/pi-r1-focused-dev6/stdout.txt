@@ -1,0 +1,24 @@
+........................................................................ [ 43%]
+........................................................................ [ 86%]
+.....................F                                                   [100%]
+=================================== FAILURES ===================================
+_____________________ test_import_isolation_in_subprocess ______________________
+
+    def test_import_isolation_in_subprocess():
+        script = Path(__file__).with_name("_isolation_t0008.py")
+        script.write_text(ISOLATION_SCRIPT, encoding="utf-8")
+        try:
+            proc = subprocess.run([sys.executable, str(script)],
+                                  capture_output=True, text=True, timeout=120)
+        finally:
+            script.unlink(missing_ok=True)
+>       assert proc.returncode == 0, proc.stderr
+E       AssertionError: expected DerivationLimitError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '/home/mye/src/llm/KMesh/tests/_isolation_t0008.py'], returncode=1, stdout='', stderr='expected DerivationLimitError\n').returncode
+
+tests/test_derivations.py:737: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_derivations.py::test_import_isolation_in_subprocess - Asser...
+1 failed, 165 passed in 0.46s

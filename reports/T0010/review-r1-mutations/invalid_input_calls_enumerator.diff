@@ -1,0 +1,10 @@
+--- submitted/depth.py
++++ invalid_input_calls_enumerator/depth.py
+@@ -72,6 +72,7 @@
+     message) and ``DerivationLimitError`` propagate unchanged.
+     """
+     if not isinstance(clauses, tuple):
++        enumerate_derivations(())
+         raise LogicValidationError(
+             f"depth.clauses must be a tuple of Clause; "
+             f"got {type(clauses).__name__}")

@@ -1,0 +1,310 @@
+--- R1/tests/test_derivations.py
++++ R2/tests/test_derivations.py
+@@ -10,7 +10,6 @@
+ import subprocess
+ import sys
+ from dataclasses import FrozenInstanceError
+-from pathlib import Path
+ 
+ import re
+ import pytest
+@@ -23,17 +22,8 @@
+ from kmesh.logic.dependency import relation_topological_order
+ from kmesh.logic.types import Atom, Clause, LogicValidationError
+ 
+-# Import-order guard, checked before any solver import in this file:
+-# the product pulls nothing beyond types and dependency.
+-for _blocked in (
+-    "kmesh.logic.engine",
+-    "kmesh.logic.reference_engine",
+-    "kmesh.logic.proof",
+-):
+-    assert _blocked not in sys.modules
+-
+-from kmesh.logic.engine import indexed_closure  # noqa: E402
+-from kmesh.logic.reference_engine import reference_closure  # noqa: E402
++from kmesh.logic.engine import indexed_closure
++from kmesh.logic.reference_engine import reference_closure
+ 
+ FACT_CHECKS_MSG = (
+     "enumerate.max_fact_checks exhausted before enumeration completed")
+@@ -295,7 +285,10 @@
+     assert enumerate_derivations(clauses, max_fact_checks=3) == expected
+ 
+ 
+-def test_repeat_premise_empty_binding_still_records():
++def test_disjoint_premise_variable_names_record_single_join():
++    # Two independent variable-name sets, one ground fact each: exactly
++    # one join record, premises in body order, empty binding nowhere
++    # relied upon.
+     clauses = (fact("p", "a", "b"), fact("q", "c", "d"),
+                rule([("p", "?x", "?y"), ("q", "?u", "?v")],
+                     ("r", "e", "f")))
+@@ -305,6 +298,71 @@
+     assert enumerate_derivations(clauses, max_fact_checks=2) == expected
+     with pytest.raises(DerivationLimitError, match=DERIVATIONS_MSG):
+         enumerate_derivations(clauses, max_derivations=2)
++
++
++def test_two_ground_premises_match_empty_bindings():
++    # Both premises are ground atoms, so _match succeeds with the EMPTY
++    # binding; that success must not be treated as a failed match by
++    # truthiness ({} is falsy).
++    clauses = (fact("p", "a", "b"), fact("q", "c", "d"),
++               rule([("p", "a", "b"), ("q", "c", "d")],
++                    ("r", "e", "f")))
++    expected = (rec(0, (), A("p", "a", "b")),
++                rec(1, (), A("q", "c", "d")),
++                rec(2, (A("p", "a", "b"), A("q", "c", "d")), A("r", "e", "f")))
++    # C=2, D=3: the exact budgets succeed, one less raises.
++    assert enumerate_derivations(clauses, max_fact_checks=2,
++                                 max_derivations=3) == expected
++    with pytest.raises(DerivationLimitError, match=FACT_CHECKS_MSG):
++        enumerate_derivations(clauses, max_fact_checks=1)
++    with pytest.raises(DerivationLimitError, match=DERIVATIONS_MSG):
++        enumerate_derivations(clauses, max_derivations=2)
++
++
++def test_inner_candidate_bindings_are_independent():
++    # Two candidates in the second premise's bucket: scanning the first
++    # must not leave its variables visible when the second is scanned;
++    # otherwise the second inner match could be wrongly rejected or
++    # wrongly instantiated.
++    clauses = (fact("p", "a", "b"),
++               fact("q", "b", "c"),
++               fact("q", "b", "d"),
++               rule([("p", "?x", "?y"), ("q", "?y", "?z")],
++                    ("r", "?x", "?z")))
++    expected = (rec(0, (), A("p", "a", "b")),
++                rec(1, (), A("q", "b", "c")),
++                rec(2, (), A("q", "b", "d")),
++                rec(3, (A("p", "a", "b"), A("q", "b", "c")), A("r", "a", "c")),
++                rec(3, (A("p", "a", "b"), A("q", "b", "d")), A("r", "a", "d")))
++    # C=3 (outer p(a,b): 1; inner q(b,c), q(b,d): 2), D=5.
++    assert enumerate_derivations(clauses, max_fact_checks=3,
++                                 max_derivations=5) == expected
++    with pytest.raises(DerivationLimitError, match=FACT_CHECKS_MSG):
++        enumerate_derivations(clauses, max_fact_checks=2)
++    with pytest.raises(DerivationLimitError, match=DERIVATIONS_MSG):
++        enumerate_derivations(clauses, max_derivations=4)
++
++
++def test_failed_inner_binding_does_not_leak():
++    # The first candidate of the second premise FAILS to match; the
++    # variables that match wrote into its binding draft must not remain
++    # visible when the second candidate starts from an independent copy.
++    clauses = (fact("p", "a", "b"),
++               fact("q", "c", "a"),
++               fact("q", "d", "b"),
++               rule([("p", "?x", "?y"), ("q", "?z", "?y")],
++                    ("r", "?x", "?z")))
++    expected = (rec(0, (), A("p", "a", "b")),
++                rec(1, (), A("q", "c", "a")),
++                rec(2, (), A("q", "d", "b")),
++                rec(3, (A("p", "a", "b"), A("q", "d", "b")), A("r", "a", "d")))
++    # C=3 (1 outer + 2 inner, the failed match counts), D=4.
++    assert enumerate_derivations(clauses, max_fact_checks=3,
++                                 max_derivations=4) == expected
++    with pytest.raises(DerivationLimitError, match=FACT_CHECKS_MSG):
++        enumerate_derivations(clauses, max_fact_checks=2)
++    with pytest.raises(DerivationLimitError, match=DERIVATIONS_MSG):
++        enumerate_derivations(clauses, max_derivations=3)
+ 
+ 
+ def test_immediate_append_budget_order_two_premise():
+@@ -419,6 +477,9 @@
+              (True, "enumerate.max_fact_checks", "got bool"),
+              (1.5, "enumerate.max_fact_checks", "got float"),
+              (None, "enumerate.max_fact_checks", "got NoneType"),
++             (0, "enumerate.max_derivations", "got int"),
++             (True, "enumerate.max_derivations", "got bool"),
++             (1.5, "enumerate.max_derivations", "got float"),
+              (-1, "enumerate.max_derivations", "got int"),
+              (None, "enumerate.max_derivations", "got NoneType"))
+     for bad, field, tail in cases:
+@@ -448,6 +509,15 @@
+     with pytest.raises(LogicValidationError) as excinfo:
+         enumerate_derivations(cyclic)
+     assert "enumerate.clauses[1]" in str(excinfo.value)
++    # Invalid member AFTER the cyclic rule: structural validation still
++    # precedes the cycle check, and the index names the actual position.
++    cyclic_then_nill = (fact("p", "a", "b"),
++                        rule([("p", "?x", "?y")], ("p", "?x", "?y")),
++                        None)
++    with pytest.raises(LogicValidationError) as excinfo:
++        enumerate_derivations(cyclic_then_nill)
++    assert (str(excinfo.value) ==
++            "enumerate.clauses[2] must be a Clause; got NoneType")
+     # Cyclic clauses plus bad budget -> budget error, not the cycle.
+     with pytest.raises(LogicValidationError) as excinfo:
+         enumerate_derivations(
+@@ -574,10 +644,20 @@
+     assert str(excinfo.value) == (
+         "derivation.conclusion must be an Atom; got int")
+     with pytest.raises(LogicValidationError) as excinfo:
++        enumerate_derivations(10 ** 5000)
++    assert str(excinfo.value) == (
++        "enumerate.clauses must be a tuple of Clause; got int")
++    with pytest.raises(LogicValidationError) as excinfo:
+         enumerate_derivations(
+             (fact("p", "a", "b"),), max_fact_checks=NEG_BIG)
+     assert str(excinfo.value) == (
+         "enumerate.max_fact_checks must be a non-bool positive integer; "
++        "got int")
++    with pytest.raises(LogicValidationError) as excinfo:
++        enumerate_derivations(
++            (fact("p", "a", "b"),), max_derivations=NEG_BIG)
++    assert str(excinfo.value) == (
++        "enumerate.max_derivations must be a non-bool positive integer; "
+         "got int")
+     with pytest.raises(LogicValidationError) as excinfo:
+         enumerate_derivations((fact("p", "a", "b"),), max_derivations=0)
+@@ -670,75 +750,95 @@
+ 
+ 
+ ISOLATION_SCRIPT = r'''
++import importlib
++import importlib.abc
+ import sys
+ 
++# A MetaPathFinder that rejects every blocked root (and any prefix of
++# its submodules) with ImportError, so an accidental import fails at
++# import time instead of being masked by a spoofed sys.modules entry.
+ BLOCKED = ("torch", "yaml", "kmesh.logic.engine",
+            "kmesh.logic.reference_engine", "kmesh.logic.proof")
+ 
+-for blocked in BLOCKED:
+-    assert blocked not in sys.modules, f"{blocked} preloaded"
+-    sys.modules[blocked] = None
+-
+-from kmesh.logic.derivations import (  # noqa: E402
+-    DerivationLimitError,
+-    GroundDerivation,
+-    enumerate_derivations,
+-)
+-from kmesh.logic.types import Atom  # noqa: E402
+-
+-
+-def atom(pred, x, y):
+-    return Atom(pred, (x, y))
+-
+-
+-def clause(body, head):
+-    from kmesh.logic.types import Clause
+-    return Clause(tuple(body), head)
+-
+-
+-record = GroundDerivation(0, (atom("p", "a", "b"),), atom("q", "c", "d"))
++
++class _BlockedRootFinder(importlib.abc.MetaPathFinder):
++    def find_spec(self, fullname, path=None, target=None):
++        for root in BLOCKED:
++            if fullname == root or fullname.startswith(root + "."):
++                raise ImportError(
++                    "blocked root for isolation check: " + root)
++        return None
++
++
++sys.meta_path.insert(0, _BlockedRootFinder())
++
++_blocked_finder = sys.meta_path[0]
++
++try:
++    for root in BLOCKED:
++        try:
++            importlib.import_module(root)
++        except ImportError:
++            pass  # expected: the finder refused it
++        else:
++            raise AssertionError("blocked root imported: " + root)
++
++    import kmesh.logic.derivations as derivations_mod
++    import kmesh.logic.types as types_mod
++finally:
++    sys.meta_path.remove(_blocked_finder)
++
++Atom = types_mod.Atom
++Clause = types_mod.Clause
++GroundDerivation = derivations_mod.GroundDerivation
++enumerate_derivations = derivations_mod.enumerate_derivations
++
++
++# GroundDerivation record smoke path.
++atom_p = Atom("p", ("a", "b"))
++record = GroundDerivation(0, (atom_p,), Atom("q", ("c", "d")))
+ assert record.clause_index == 0
+-assert record.premises == (atom("p", "a", "b"),)
+-assert record.conclusion == atom("q", "c", "d")
+-
+-assert enumerate_derivations(()) == ()
+-
+-clauses = (
+-    clause((), atom("r1", "a", "b")),
+-    clause((), atom("r2", "b", "c")),
+-    clause((atom("r1", "?x", "?y"), atom("r2", "?y", "?z")),
+-           atom("r3", "?x", "?z")),
+-)
+-
++assert record.premises == (atom_p,)
++
++# Enumeration API sample with a 3-clause join world.
++facts = (Clause((), Atom("p", ("a", "b"))),
++         Clause((), Atom("q", ("b", "c"))))
++join = Clause((Atom("p", ("?x", "?y")), Atom("q", ("?y", "?z"))),
++              Atom("r", ("?x", "?z")))
++clauses = facts + (join,)
+ expected = (
+-    GroundDerivation(0, (), atom("r1", "a", "b")),
+-    GroundDerivation(1, (), atom("r2", "b", "c")),
+-    GroundDerivation(2, (atom("r1", "a", "b"), atom("r2", "b", "c")),
+-                     atom("r3", "a", "c")),
++    GroundDerivation(0, (), Atom("p", ("a", "b"))),
++    GroundDerivation(1, (), Atom("q", ("b", "c"))),
++    GroundDerivation(2, (Atom("p", ("a", "b")), Atom("q", ("b", "c"))),
++                     Atom("r", ("a", "c"))),
+ )
+ assert enumerate_derivations(clauses) == expected
+ 
++# Budget-exhausted error path (C=2 for this world; 1 must raise).
+ try:
+     enumerate_derivations(clauses, max_fact_checks=1)
+-except DerivationLimitError as exc:
+-    assert "max_fact_checks" in str(exc)
++except Exception as exc:  # noqa: BLE001 - subclass checked below
++    assert type(exc).__name__ == "DerivationLimitError"
+ else:
+-    raise SystemExit("expected DerivationLimitError")
+-
+-for blocked in BLOCKED:
+-    assert sys.modules.get(blocked) is None, f"imported: {blocked}"
++    raise AssertionError("expected DerivationLimitError")
++
++# Full sys.modules scan: no blocked root or submodule present.
++for name in sorted(sys.modules):
++    for root in BLOCKED:
++        if name == root or name.startswith(root + "."):
++            raise AssertionError("blocked module present: " + name)
++
+ print("ISOLATION_OK")
+ '''
+ 
+ 
+ def test_import_isolation_in_subprocess():
+-    script = Path(__file__).with_name("_isolation_t0008.py")
+-    script.write_text(ISOLATION_SCRIPT, encoding="utf-8")
+-    try:
+-        proc = subprocess.run([sys.executable, str(script)],
+-                              capture_output=True, text=True, timeout=120)
+-    finally:
+-        script.unlink(missing_ok=True)
+-    assert proc.returncode == 0, proc.stderr
++    # The script is passed to the interpreter via -c, so no temporary
++    # file is ever written into tests/ (or anywhere in the repository).
++    proc = subprocess.run(
++        [sys.executable, "-c", ISOLATION_SCRIPT],
++        capture_output=True, text=True, timeout=60)
++    assert proc.returncode == 0, (
++        f"exit_code={proc.returncode}\nstdout={proc.stdout!r}\n"
++        f"stderr={proc.stderr!r}")
+     assert "ISOLATION_OK" in proc.stdout
+-    assert "torch" not in proc.stderr.lower()

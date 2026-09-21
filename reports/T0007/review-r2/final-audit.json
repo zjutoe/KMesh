@@ -1,0 +1,123 @@
+{
+  "created_at_utc": "2026-09-17T07:46:57.176817+00:00",
+  "result": "PASS",
+  "task_status": "accepted",
+  "head": "74a96f3735831d16a14dedffbaa6e0654f8b7658",
+  "reviewer": "Codex + gpt-6-astra xhigh (non-author of Pi implementation)",
+  "accepted_files": {
+    "src/kmesh/logic/dependency.py": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+    "tests/test_dependency.py": "722869ef49a4884d52c1423d3743d4802264bd55ebc7a84521f9433d74ba6313"
+  },
+  "product_defect_found": false,
+  "open_findings": [],
+  "closed_findings": [
+    "R1 generator reason/type assertions",
+    "R2 record corrections with disclosed historical limits"
+  ],
+  "acceptance": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "PASS",
+    "A6": "PASS",
+    "A7": "PASS"
+  },
+  "A7_limits": "Current results independently reproducible. Missing historical attempts and self-reported move/reuse of RUN are not deemed full procedural compliance.",
+  "verification_runs": {
+    "review-r2-freeze": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nimport ast,difflib,hashlib,json,subprocess\ntask=Path(\"reports/T0007\");out=task/\"review-r2-freeze\"\ndef sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nold=json.loads((task/\"review-r1-freeze/audit.json\").read_text())\nlast=json.loads((task/\"review-r1/final-audit.json\").read_text())\nmutable={\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0007-relation-dag.md\",\"tests/test_dependency.py\"}\nfor p,h in old[\"input_sha256\"].items():\n    if p not in mutable:assert sha(p)==h,p\nfor p,h in old[\"history_sha256\"].items():assert sha(p)==h,p\nfor p,h in last[\"artifact_sha256\"].items():\n    if p not in mutable:assert sha(p)==h,p\nassert subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip()==old[\"head\"]\nbefore=(task/\"review-r1-freeze/input-snapshot/tests/test_dependency.py\").read_text()\nafter=Path(\"tests/test_dependency.py\").read_text()\n(out/\"tests.diff\").write_text(\"\".join(difflib.unified_diff(before.splitlines(True),after.splitlines(True),fromfile=\"R1/tests/test_dependency.py\",tofile=\"R2/tests/test_dependency.py\")))\ndef functions(source):\n    return {n.name:ast.dump(n,include_attributes=False) for n in ast.parse(source).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}\nbf,af=functions(before),functions(after)\nchanged=[k for k in bf.keys()|af.keys() if bf.get(k)!=af.get(k)]\nassert changed==[\"test_generator_outer_not_consumed\"],changed\ninputs=[\"src/kmesh/logic/dependency.py\",\"tests/test_dependency.py\",\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0007-relation-dag.md\",\"reports/T0007/pi-r2-focused/provenance.md\",\"reports/T0007/pi-r2-scripts/doc_check.py\",\"reports/T0007/record_check.py\"]\nhashes={}\nfor p in inputs:\n    dest=out/\"input-snapshot\"/p;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(Path(p).read_bytes());hashes[p]=sha(p)\nassert hashes[inputs[1]]==\"722869ef49a4884d52c1423d3743d4802264bd55ebc7a84521f9433d74ba6313\"\nassert hashes[inputs[0]]==old[\"input_sha256\"][inputs[0]]\nrecords=[]\nfor d in sorted(task.glob(\"pi-r2*/record.json\")):\n    rec=json.loads(d.read_text())\n    assert rec[\"exit_code\"]==0 and rec[\"status\"]==\"finished\",d\n    assert rec[\"before\"][\"source_sha256\"]==rec[\"after\"][\"source_sha256\"],d\n    for p,h in rec[\"before\"][\"source_sha256\"].items():assert sha(p)==h,(d,p)\n    for stream in (\"stdout\",\"stderr\"):assert sha(d.parent/(stream+\".txt\"))==rec[stream+\"_sha256\"]\n    records.append({\"run\":d.parent.name,**{k:rec[k] for k in (\"argv\",\"exit_code\",\"elapsed_s\",\"started_at_utc\",\"finished_at_utc\")}})\nassert len(records)==3\nhistory={str(p):sha(p) for p in Path(\"reports\").rglob(\"*\") if p.is_file() and \"pytest-tmp\" not in p.parts and \"__pycache__\" not in p.parts and not str(p).startswith(\"reports/T0007/review-r2\")}\nsupplement=Path(\"/tmp/t7d3.json\")\nsupplement_info={\"path\":str(supplement),\"exists_at_review\":supplement.is_file(),\"limits\":\"Report content only; original invocation and environment not recorded by record_check.\"}\nif supplement.is_file():\n    report=json.loads(supplement.read_text())\n    dest=out/\"supplement/t7d3.json\";dest.parent.mkdir(exist_ok=True);dest.write_bytes(supplement.read_bytes())\n    supplement_info|={\"copied_to\":str(dest),\"sha256\":sha(supplement),\"generated_at_utc\":report.get(\"generated_at_utc\"),\"torch\":report.get(\"packages\",{}).get(\"torch\"),\"status\":report.get(\"status\"),\"cuda\":report.get(\"cuda\")}\naudit={\"observed_at_utc\":datetime.now(timezone.utc).isoformat(),\"head\":old[\"head\"],\"input_sha256\":hashes,\"history_sha256\":history,\"pi_r2_records\":records,\"changed_test_functions\":changed,\"previous_832_history_unchanged\":True,\"previous_review_artifacts_unchanged\":True,\"supplement\":supplement_info}\n(out/\"audit.json\").write_text(json.dumps(audit,ensure_ascii=False,indent=2)+\"\\n\")\nprint(\"PASS: product frozen, only target test function changed, all three Pi R2 RUN hashes/outputs verified\")\nprint(f\"PASS: {len(history)} historical files frozen; old 832-file set and Codex review unchanged\")\nprint(\"Supplement:\",json.dumps(supplement_info,ensure_ascii=False))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.206,
+      "started_at_utc": "2026-09-17T07:41:19.148528+00:00",
+      "finished_at_utc": "2026-09-17T07:41:19.369699+00:00"
+    },
+    "review-r2-focused": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_dependency.py",
+        "--basetemp",
+        "reports/T0007/review-r2-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.351,
+      "started_at_utc": "2026-09-17T07:41:55.294017+00:00",
+      "finished_at_utc": "2026-09-17T07:41:55.658664+00:00"
+    },
+    "review-r2-probes": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0007/review-r2/probe.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.173,
+      "started_at_utc": "2026-09-17T07:41:55.818579+00:00",
+      "finished_at_utc": "2026-09-17T07:41:56.006144+00:00"
+    }
+  },
+  "independent_tests_this_round": "44 passed in 0.11s; stderr empty; no skips/xfails",
+  "inherited_evidence": [
+    "review-r1-full: 482 passed in 4.30s",
+    "review-r1-probes: 512 directed three-vertex graphs (25 DAG, 487 cyclic)"
+  ],
+  "full_or_doctor_rerun_this_round": false,
+  "probe_results": {
+    "frozen_product": "PASS",
+    "missing_reason": "rejected_by_submitted_test",
+    "missing_type": "rejected_by_submitted_test"
+  },
+  "pi_r2_runs_verified": 3,
+  "historical_files_preserved": 875,
+  "supplement": {
+    "path": "/tmp/t7d3.json",
+    "exists_at_review": true,
+    "limits": "Report content only; original invocation and environment not recorded by record_check.",
+    "copied_to": "reports/T0007/review-r2-freeze/supplement/t7d3.json",
+    "sha256": "866f9a3949f1637f4f4b6dbc889aad7e73b2bbf3d71d692ed594c6c068f231da",
+    "generated_at_utc": "2026-09-17T04:58:09.601679+00:00",
+    "torch": "2.10.0+cu126",
+    "status": "ok",
+    "cuda": {
+      "runtime_version": "12.6",
+      "available": true,
+      "device_count": 1,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 3090",
+          "total_memory_bytes": 25296044032
+        }
+      ]
+    }
+  },
+  "closure_checks": {
+    "git_diff_check": "PASS",
+    "strict_local_links_checked": 68,
+    "python_blocks_compiled": 6,
+    "text_hygiene": "PASS"
+  },
+  "artifact_sha256": {
+    "README.md": "989bcc38f17d49e81d96f6f8bf3ec360f5c95f7b2c00da697c86d9da5f845430",
+    "docs/implementation_status.md": "9d877aefa4341fffaf1f7aa30860c7403b13c05350f7fd8bed5fc065e6b5435b",
+    "docs/handoffs/T0007-relation-dag.md": "0a036f52aea1ca417b2b181a2702e0e81c68bfb1a9cd3c15ed4ed2da38e20b7e",
+    "reports/T0007/review-r2/review.md": "9b828cdcf2e24e12bb826f5d7cffe019fb5ce38e476a984e66859f4ebfbc5858",
+    "reports/T0007/review-r2/probe.py": "f78e060bf92f6d4dbfabaca7eb9c0610330184a6111273ebc9458957b930700d",
+    "reports/T0007/review-r2-probes/findings.json": "0d4540a281425a20dfa1fa9f0854050df868f49ae0ce49a496281926ff03c03b",
+    "reports/T0007/review-r2-freeze/audit.json": "eeed4cf6825dc28b91727eff32f81f7a624852b3f569fa1e389a5c6bedcd0768",
+    "reports/T0007/review-r2-freeze/supplement/t7d3.json": "866f9a3949f1637f4f4b6dbc889aad7e73b2bbf3d71d692ed594c6c068f231da"
+  },
+  "limits": [
+    "No product/test edit by Codex",
+    "Original invocation/environment for supplemental doctor JSON not archived; two further attempts unavailable",
+    "RUN rename/reuse is self-reported, not independently reconstructed",
+    "Given DAG check only, not full world audit or research result",
+    "No commit/push"
+  ]
+}

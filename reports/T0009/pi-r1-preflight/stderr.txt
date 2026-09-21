@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import hashlib,json,sys; from pathlib import Path; from importlib.metadata import version; import kmesh; b=json.loads(Path("reports/T0009/planning-baseline.json").read_text()); actual={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() if Path(p).is_file() else None for p in b["source_sha256"]}; assert actual==b["source_sha256"]; assert sys.version==b["python"]; assert {n:version(n) for n in ("kmesh","pytest")}==b["packages"]; assert Path(kmesh.__file__).resolve()==Path(b["kmesh_path"]).resolve(); print("PREFLIGHT_OK",sys.executable,kmesh.__file__)
+                                                                                                                                                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

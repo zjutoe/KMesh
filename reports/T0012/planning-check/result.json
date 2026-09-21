@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "task_status": "ready",
+  "product_implemented": false,
+  "documents": 5,
+  "local_links": 63,
+  "preserved_initial_files": 1682,
+  "baseline": "accepted uncommitted T0011 worktree at 4c457e2",
+  "scope": "planning only"
+}

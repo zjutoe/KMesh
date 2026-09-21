@@ -1,0 +1,47 @@
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+_________________________ test_c4_validation_priority __________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5faee75940>
+
+    def test_c4_validation_priority(monkeypatch):
+        calls = []
+        def spy(clauses, *, max_fact_checks, max_derivations):
+            calls.append(True)
+            raise RuntimeError("spy")
+        monkeypatch.setattr(depth_module, "enumerate_derivations", spy)
+        cyclic = cyclic_pair()
+        # Query type beats a cyclic world.
+        with pytest.raises(LogicValidationError) as e1:
+            run(cyclic, "not-an-atom")
+        assert str(e1.value) == "depth.query must be an Atom; got str"
+        # Bad member beats a non-ground query.
+        with pytest.raises(LogicValidationError) as e2:
+            run((fact("p"), 42), atom("p", "?x", "?y"))
+        assert str(e2.value) == "depth.clauses[1] must be a Clause; got int"
+        # Non-ground query beats a cyclic world.
+        with pytest.raises(LogicValidationError) as e3:
+            run(cyclic, atom("p", "?x", "?y"))
+        assert str(e3.value) == "depth.query must be a ground Atom"
+        # Container type beats a bad budget.
+        with pytest.raises(LogicValidationError) as e4:
+            run([fact("p")], atom("p"), c=True)
+        assert str(e4.value) == "depth.clauses must be a tuple of Clause; got list"
+        # Bad max_derivations beats a cyclic world.
+        with pytest.raises(LogicValidationError) as e5:
+            run(cyclic, atom("q"), d=-1)
+        assert str(e5.value) == (
+            "depth.max_derivations must be a non-bool positive integer; got int")
+        # Non-ground query beats both invalid budgets (overlap).
+        with pytest.raises(LogicValidationError) as e6:
+            run((fact("p"),), atom("p", "?x", "?y"), c=0, d=-1)
+>       assert str(e6.value) == "depth.query must be a ground Atom"
+E       AssertionError: assert 'depth.max_fa...eger; got int' == 'depth.query ...a ground Atom'
+E         
+E         - depth.query must be a ground Atom
+E         + depth.max_fact_checks must be a non-bool positive integer; got int
+
+tests/test_depth.py:365: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_depth.py::test_c4_validation_priority - AssertionError: ass...
+1 failed, 2 passed in 0.17s

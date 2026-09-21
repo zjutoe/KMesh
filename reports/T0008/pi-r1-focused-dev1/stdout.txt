@@ -1,0 +1,27 @@
+
+==================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_dependency.py ___________________
+ImportError while importing test module '/home/mye/src/llm/KMesh/tests/test_dependency.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/anaconda3/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_dependency.py:16: in <module>
+    from kmesh.logic.dependency import relation_topological_order
+E   ModuleNotFoundError: No module named 'kmesh'
+__________________ ERROR collecting tests/test_derivations.py __________________
+ImportError while importing test module '/home/mye/src/llm/KMesh/tests/test_derivations.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/anaconda3/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_derivations.py:17: in <module>
+    from kmesh.logic.derivations import (
+E   ModuleNotFoundError: No module named 'kmesh'
+=========================== short test summary info ============================
+ERROR tests/test_dependency.py
+ERROR tests/test_derivations.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!
+2 errors in 0.19s

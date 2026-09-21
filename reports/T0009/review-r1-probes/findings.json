@@ -1,0 +1,39 @@
+{
+  "scan_counts": [
+    {
+      "rules": 16,
+      "records": 17,
+      "conclusion_reads_after_T0008": 293,
+      "regression_upper_bound": 136
+    },
+    {
+      "rules": 32,
+      "records": 33,
+      "conclusion_reads_after_T0008": 1093,
+      "regression_upper_bound": 264
+    },
+    {
+      "rules": 64,
+      "records": 65,
+      "conclusion_reads_after_T0008": 4229,
+      "regression_upper_bound": 520
+    }
+  ],
+  "recursive_helpers": [
+    "_flat_combos"
+  ],
+  "test_guard_gaps": [
+    {
+      "mutation": "generator_consumed_once",
+      "exit_code": 0,
+      "finding": "submitted targeted tests did not reject known-invalid behavior",
+      "summary": "1 passed in 0.02s"
+    },
+    {
+      "mutation": "proof_budget_validated_after_T0008",
+      "exit_code": 0,
+      "finding": "submitted targeted tests did not reject known-invalid behavior",
+      "summary": "17 passed in 0.03s"
+    }
+  ]
+}

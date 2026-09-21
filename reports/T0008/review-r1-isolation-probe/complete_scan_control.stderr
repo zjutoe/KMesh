@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 62, in <module>
+    assert not any(name == root or name.startswith(root + ".") for name in sys.modules for root in BLOCKED if sys.modules[name] is not None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

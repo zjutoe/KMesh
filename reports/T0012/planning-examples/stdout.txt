@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "hand_cases": 15,
+  "enumerator_crosschecks": [
+    {
+      "name": "K5",
+      "raw_trees": 4,
+      "canonical_keys": 4,
+      "C": 3,
+      "D": 4,
+      "S": 20
+    },
+    {
+      "name": "K6",
+      "raw_trees": 4,
+      "canonical_keys": 3,
+      "C": 3,
+      "D": 4,
+      "S": 20
+    }
+  ],
+  "product_implemented": false
+}

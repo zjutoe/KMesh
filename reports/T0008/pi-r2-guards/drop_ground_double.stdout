@@ -1,0 +1,26 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________________ test_two_ground_premises_match_empty_bindings _________________
+
+    def test_two_ground_premises_match_empty_bindings():
+        # Both premises are ground atoms, so _match succeeds with the EMPTY
+        # binding; that success must not be treated as a failed match by
+        # truthiness ({} is falsy).
+        clauses = (fact("p", "a", "b"), fact("q", "c", "d"),
+                   rule([("p", "a", "b"), ("q", "c", "d")],
+                        ("r", "e", "f")))
+        expected = (rec(0, (), A("p", "a", "b")),
+                    rec(1, (), A("q", "c", "d")),
+                    rec(2, (A("p", "a", "b"), A("q", "c", "d")), A("r", "e", "f")))
+        # C=2, D=3: the exact budgets succeed, one less raises.
+>       assert enumerate_derivations(clauses, max_fact_checks=2,
+                                     max_derivations=3) == expected
+E       AssertionError: assert (GroundDeriva...=('c', 'd')))) == (GroundDeriva...=('e', 'f'))))
+E         
+E         Right contains one more item: GroundDerivation(clause_index=2, premises=(Atom(pred='p', args=('a', 'b')), Atom(pred='q', args=('c', 'd'))), conclusion=Atom(pred='r', args=('e', 'f')))
+E         Use -v to get more diff
+
+tests/test_derivations.py:314: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_derivations.py::test_two_ground_premises_match_empty_bindings
+1 failed in 0.05s

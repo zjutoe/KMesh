@@ -1,0 +1,22 @@
+....................F..........................................          [100%]
+=================================== FAILURES ===================================
+_____________ test_R1_alpha_reverse_combination_invariant[clause6] _____________
+
+clause = Clause(body=(Atom(pred='p', args=('a', 'b')),), head=Atom(pred='q', args=('b', 'a')))
+
+    @pytest.mark.parametrize("clause", _KS)
+    def test_R1_alpha_reverse_combination_invariant(clause):
+        base = canonical_clause_key(clause)
+        renamed = _rename_map(clause, _fresh_mapping(clause))
+        rev = _reverse_body(clause)
+        both = _reverse_body(renamed)
+>       assert _var_names(renamed) != _var_names(clause), "rename is a no-op"
+E       AssertionError: rename is a no-op
+E       assert set() != set()
+E         
+E         Both sets are equal
+
+tests/test_clause_key.py:290: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_clause_key.py::test_R1_alpha_reverse_combination_invariant[clause6]
+1 failed, 62 passed in 0.20s

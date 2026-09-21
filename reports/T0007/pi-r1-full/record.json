@@ -1,0 +1,68 @@
+{
+  "started_at_utc": "2026-09-17T04:55:05.859061+00:00",
+  "argv": [
+    "bash",
+    "-c",
+    ".venv/bin/python -m pytest tests -q && .venv/bin/python -m kmesh.cli doctor --out reports/T0007/pi-r1-full-doctor.json"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "env_overrides": {
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "timeout_s": 120,
+  "before": {
+    "head": "74a96f3735831d16a14dedffbaa6e0654f8b7658\n",
+    "branch": "T0007-relation-dag\n",
+    "status": " M docs/decisions.md\n M docs/handoffs/T0006-proof-verifier.md\n M docs/implementation_status.md\n?? docs/handoffs/T0007-relation-dag.md\n?? reports/T0007/\n?? src/kmesh/logic/dependency.py\n?? tests/test_dependency.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/dependency.py": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+      "tests/test_dependency.py": "a4e428e9d1acc99a7dc3e01e725e7b3da8d009c8f1c39eeac957b8dd57d7e09c",
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0007/record_check.py": "80ae8697f6205cd7db997b8185f4b32a7515bef5199a33b747493f09db5beea8"
+    }
+  },
+  "status": "finished",
+  "exit_code": 0,
+  "elapsed_s": 6.428,
+  "finished_at_utc": "2026-09-17T04:55:12.300336+00:00",
+  "after": {
+    "head": "74a96f3735831d16a14dedffbaa6e0654f8b7658\n",
+    "branch": "T0007-relation-dag\n",
+    "status": " M docs/decisions.md\n M docs/handoffs/T0006-proof-verifier.md\n M docs/implementation_status.md\n?? docs/handoffs/T0007-relation-dag.md\n?? reports/T0007/\n?? src/kmesh/logic/dependency.py\n?? tests/test_dependency.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/dependency.py": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+      "tests/test_dependency.py": "a4e428e9d1acc99a7dc3e01e725e7b3da8d009c8f1c39eeac957b8dd57d7e09c",
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0007/record_check.py": "80ae8697f6205cd7db997b8185f4b32a7515bef5199a33b747493f09db5beea8"
+    }
+  },
+  "stdout_sha256": "13e8f54ec894e6c61568295b7b69224fb80a74b5fa90755105601a96ff926923",
+  "stderr_sha256": "240a9823f77a58e2c5a8d7939b33d87222ac53a03d1754793c2a1e526d1e4298"
+}

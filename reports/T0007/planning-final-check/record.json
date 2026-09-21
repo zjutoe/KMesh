@@ -1,0 +1,68 @@
+{
+  "started_at_utc": "2026-09-17T04:17:34.009523+00:00",
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "\nfrom pathlib import Path\nfrom datetime import datetime, timezone\nimport hashlib, json, re, subprocess\ndef sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()\ntask=Path(\"reports/T0007\")\nbase=json.loads((task/\"planning-baseline.json\").read_text())\nallowed={\"docs/decisions.md\",\"docs/handoffs/T0006-proof-verifier.md\",\"docs/implementation_status.md\"}\nfor p,h in base[\"tracked_sha256\"].items():\n    if p not in allowed: assert sha(p)==h,p\nassert not Path(\"src/kmesh/logic/dependency.py\").exists()\nassert not Path(\"tests/test_dependency.py\").exists()\ndoc_paths=[\"docs/handoffs/T0007-relation-dag.md\",\"docs/implementation_status.md\",\"docs/decisions.md\",\"docs/handoffs/T0006-proof-verifier.md\",\"reports/T0007/planning-review.md\"]\nlinks=0\nfor name in doc_paths:\n    p=Path(name); s=p.read_text()\n    assert s.endswith(\"\\n\") and all(line==line.rstrip() for line in s.splitlines()),name\n    for target in re.findall(r\"\\]\\(([^)]+)\\)\",s):\n        target=target.strip(\"<>\").split(\"#\",1)[0]\n        if target and not re.match(r\"^[a-zA-Z]+:\",target):\n            assert (p.parent/target).exists(),(name,target)\n            links+=1\nhandoff=Path(doc_paths[0]).read_text()\nassert \"- \u72b6\u6001\uff1a\"+chr(96)+\"ready\"+chr(96) in handoff\nassert all(f\"- [ ] A{i}\uff1a\" in handoff for i in range(1,8))\nassert \"T0007\" in Path(doc_paths[1]).read_text()\nassert subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip()==base[\"head\"]\np=subprocess.run([\"git\",\"diff\",\"--check\"],capture_output=True,text=True)\nassert p.returncode==0,p.stdout+p.stderr\nstatus=subprocess.check_output([\"git\",\"status\",\"--short\"],text=True)\nassert set(status.splitlines())=={\n\" M docs/decisions.md\",\" M docs/handoffs/T0006-proof-verifier.md\",\n\" M docs/implementation_status.md\",\"?? docs/handoffs/T0007-relation-dag.md\",\"?? reports/T0007/\"\n},status\nrecords={}\nfor run in (\"planning-preflight\",\"planning-checks\"):\n    d=task/run\n    rec=json.loads((d/\"record.json\").read_text())\n    assert rec[\"status\"]==\"finished\" and rec[\"exit_code\"]==0\n    assert rec[\"before\"][\"source_sha256\"]==rec[\"after\"][\"source_sha256\"]\n    for stream in (\"stdout\",\"stderr\"): assert sha(d/(stream+\".txt\"))==rec[stream+\"_sha256\"]\n    records[run]={k:rec[k] for k in (\"exit_code\",\"elapsed_s\",\"argv\")}\nartifacts=doc_paths+[\"reports/T0007/record_check.py\",\"reports/T0007/.gitignore\",\"reports/T0007/planning-baseline.json\",\"reports/T0007/planning-checks/checks.json\"]\naudit={\"checked_at_utc\":datetime.now(timezone.utc).isoformat(),\n\"result\":\"PASS\",\"task_status\":\"ready\",\"product_acceptance\":\"not_run\",\"head\":base[\"head\"],\n\"independent_reviewer\":\"/root/review_t0001_code\",\"records\":records,\n\"tracked_files_preserved_except_allowed_docs\":len(base[\"tracked_sha256\"])-len(allowed),\n\"source_files_created\":False,\"local_links_checked\":links,\"git_diff_check\":\"PASS\",\n\"artifact_sha256\":{p:sha(p) for p in artifacts},\n\"limits\":[\"Planning/handoff only; no product implementation or product tests\",\"No Pi launch\",\"No commit/push\"]}\n(task/\"planning-final-check/final-audit.json\").write_text(json.dumps(audit,ensure_ascii=False,indent=2)+\"\\n\")\nprint(f\"PASS: ready handoff, {links} local links, frozen source/history, allowed mutation scope\")\nprint(\"PASS: no product/test implementation created; no commit/push\")\n"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "env_overrides": {
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "timeout_s": 120,
+  "before": {
+    "head": "74a96f3735831d16a14dedffbaa6e0654f8b7658\n",
+    "branch": "master\n",
+    "status": " M docs/decisions.md\n M docs/handoffs/T0006-proof-verifier.md\n M docs/implementation_status.md\n?? docs/handoffs/T0007-relation-dag.md\n?? reports/T0007/\n",
+    "source_sha256": {
+      "src/kmesh/logic/dependency.py": null,
+      "tests/test_dependency.py": null,
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0007/record_check.py": "80ae8697f6205cd7db997b8185f4b32a7515bef5199a33b747493f09db5beea8"
+    }
+  },
+  "status": "finished",
+  "exit_code": 0,
+  "elapsed_s": 0.097,
+  "finished_at_utc": "2026-09-17T04:17:34.120725+00:00",
+  "after": {
+    "head": "74a96f3735831d16a14dedffbaa6e0654f8b7658\n",
+    "branch": "master\n",
+    "status": " M docs/decisions.md\n M docs/handoffs/T0006-proof-verifier.md\n M docs/implementation_status.md\n?? docs/handoffs/T0007-relation-dag.md\n?? reports/T0007/\n",
+    "source_sha256": {
+      "src/kmesh/logic/dependency.py": null,
+      "tests/test_dependency.py": null,
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0007/record_check.py": "80ae8697f6205cd7db997b8185f4b32a7515bef5199a33b747493f09db5beea8"
+    }
+  },
+  "stdout_sha256": "9fa3d7d836be9ff2a6457c7f52a5293464414a3ebe50586bec38fc02de7de5ad",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

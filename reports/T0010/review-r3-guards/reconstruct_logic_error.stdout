@@ -1,0 +1,24 @@
+.F.                                                                      [100%]
+=================================== FAILURES ===================================
+_____________________ test_d2b_exception_instance_identity _____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f37e8aabce0>
+
+    def test_d2b_exception_instance_identity(monkeypatch):
+        cycle_error = LogicValidationError(DCE)
+        limit_error = DerivationLimitError(DLE)
+        errors = (cycle_error, limit_error)
+        iterator = iter(errors)
+        def spy(clauses, *, max_fact_checks, max_derivations):
+            raise next(iterator)
+        monkeypatch.setattr(depth_module, "enumerate_derivations", spy)
+        with pytest.raises(LogicValidationError) as e1:
+            run(cyclic_pair(), atom("q"))
+>       assert e1.value is cycle_error
+E       AssertionError: assert LogicValidationError('dependency.clauses: cyclic predicate dependency') is LogicValidationError('dependency.clauses: cyclic predicate dependency')
+E        +  where LogicValidationError('dependency.clauses: cyclic predicate dependency') = <ExceptionInfo LogicValidationError('dependency.clauses: cyclic predicate dependency') tblen=3>.value
+
+tests/test_depth.py:565: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_depth.py::test_d2b_exception_instance_identity - AssertionE...
+1 failed, 2 passed in 0.17s

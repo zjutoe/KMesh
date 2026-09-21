@@ -1,0 +1,20 @@
+--- submitted/depth.py
++++ ground_check_after_budgets/depth.py
+@@ -83,8 +83,6 @@
+     if not isinstance(query, Atom):
+         raise LogicValidationError(
+             f"depth.query must be an Atom; got {type(query).__name__}")
+-    if not query.is_ground:
+-        raise LogicValidationError("depth.query must be a ground Atom")
+     for value, name in (
+         (max_fact_checks, "max_fact_checks"),
+         (max_derivations, "max_derivations"),
+@@ -93,6 +91,8 @@
+             raise LogicValidationError(
+                 f"depth.{name} must be a non-bool positive integer; "
+                 f"got {type(value).__name__}")
++    if not query.is_ground:
++        raise LogicValidationError("depth.query must be a ground Atom")
+     records = enumerate_derivations(
+         clauses, max_fact_checks=max_fact_checks,
+         max_derivations=max_derivations)

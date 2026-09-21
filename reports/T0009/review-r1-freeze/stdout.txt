@@ -1,0 +1,100 @@
+{
+  "head": "bfb0f8e3c5c1c1168f7110ac6287aeb0f3330fff",
+  "input_sha256": {
+    "src/kmesh/logic/proof_enumeration.py": "139870337ca85dd50ea9bf60bca40a92e8f4d0bb2c4e4549e04e7d7e0754e29e",
+    "tests/test_proof_enumeration.py": "d8b6ec331fed77d05cc532e83dc034a18aba6fb185c9271308c873b9adc266f9",
+    "README.md": "b7e0718e975a169567b39f0f3533e138240eada0f993705e7bd4b64813c94f9d",
+    "docs/implementation_status.md": "cf782408ba843065fb5be37d83c1e72a844438d16d11d68334843bfc68adae32",
+    "docs/handoffs/T0009-proof-enumeration.md": "e2a08df9f23cefcfad0fc2754f37bdd4a6a927685ac11232437caf5a3874d2d9",
+    "reports/T0009/pi-r1-full/provenance.md": "7695301d5abf2164aa3b5b74238795791df197ec0140c55931aa143cad88b395",
+    "reports/T0009/pi-r1-scripts/isolation_guard.py": "9b1a79251e2038b6b06ad5dd42459f4536a354a876a90dff76b32acd14210a35"
+  },
+  "historical_file_count": 34,
+  "pi_runs": [
+    {
+      "run": "pi-r1-doc-check",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0009/check_delivery.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.077,
+      "started_at_utc": "2026-09-19T05:24:18.931064+00:00",
+      "finished_at_utc": "2026-09-19T05:24:19.023228+00:00",
+      "stdout_tail": "PASS: scope, frozen inputs, 4 documents/59 local links, text hygiene, awaiting_review\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-focused",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_enumeration.py",
+        "--basetemp",
+        "reports/T0009/pi-r1-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 13.116,
+      "started_at_utc": "2026-09-19T04:38:35.783936+00:00",
+      "finished_at_utc": "2026-09-19T04:38:48.915443+00:00",
+      "stdout_tail": ".......................................................................  [100%]\n71 passed in 12.87s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-full",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0009/pi-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 17.326,
+      "started_at_utc": "2026-09-19T05:04:43.855488+00:00",
+      "finished_at_utc": "2026-09-19T05:05:01.196191+00:00",
+      "stdout_tail": "............................... [ 74%]\n........................................................................ [ 84%]\n........................................................................ [ 95%]\n..............................                                           [100%]\n678 passed in 17.06s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-preflight",
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "import hashlib,json,sys; from pathlib import Path; from importlib.metadata import version; import kmesh; b=json.loads(Path(\"reports/T0009/planning-baseline.json\").read_text()); actual={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() if Path(p).is_file() else None for p in b[\"source_sha256\"]}; assert actual==b[\"source_sha256\"]; assert sys.version==b[\"python\"]; assert {n:version(n) for n in (\"kmesh\",\"pytest\")}==b[\"packages\"]; assert Path(kmesh.__file__).resolve()==Path(b[\"kmesh_path\"]).resolve(); print(\"PREFLIGHT_OK\",sys.executable,kmesh.__file__)"
+      ],
+      "exit_code": 1,
+      "elapsed_s": 0.077,
+      "started_at_utc": "2026-09-19T04:36:37.951362+00:00",
+      "finished_at_utc": "2026-09-19T04:36:38.043431+00:00",
+      "stdout_tail": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import hashlib,json,sys; from pathlib import Path; from importlib.metadata import version; import kmesh; b=json.loads(Path(\"reports/T0009/planning-baseline.json\").read_text()); actual={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() if Path(p).is_file() else None for p in b[\"source_sha256\"]}; assert actual==b[\"source_sha256\"]; assert sys.version==b[\"python\"]; assert {n:version(n) for n in (\"kmesh\",\"pytest\")}==b[\"packages\"]; assert Path(kmesh.__file__).resolve()==Path(b[\"kmesh_path\"]).resolve(); print(\"PREFLIGHT_OK\",sys.executable,kmesh.__file__)\n                                                                                                                                                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "run": "pi-r1-preflight-verify",
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "import hashlib,json,sys; from pathlib import Path; from importlib.metadata import version; import kmesh; b=json.loads(Path(\"reports/T0009/planning-baseline.json\").read_text()); new=(\"src/kmesh/logic/proof_enumeration.py\",\"tests/test_proof_enumeration.py\"); actual={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() if Path(p).is_file() else None for p in b[\"source_sha256\"]}; old={p:actual[p] for p in b[\"source_sha256\"] if p not in new}; assert old=={p:b[\"source_sha256\"][p] for p in old}, \"stale baseline\"; assert all(actual[p] is not None for p in new), \"new files missing\"; assert sys.version==b[\"python\"], \"python drift\"; assert {n:version(n) for n in (\"kmesh\",\"pytest\")}==b[\"packages\"], \"package drift\"; assert Path(kmesh.__file__).resolve()==Path(b[\"kmesh_path\"]).resolve(), \"kmesh path drift\"; print(\"PREFLIGHT_VERIFY_OK\",sys.version); print(\"new product sha256\",actual[new[0]]); print(\"new test sha256\",actual[new[1]])"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.094,
+      "started_at_utc": "2026-09-19T04:38:19.505096+00:00",
+      "finished_at_utc": "2026-09-19T04:38:19.614674+00:00",
+      "stdout_tail": "PREFLIGHT_VERIFY_OK 3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:16:10) [GCC 11.2.0]\nnew product sha256 139870337ca85dd50ea9bf60bca40a92e8f4d0bb2c4e4549e04e7d7e0754e29e\nnew test sha256 d8b6ec331fed77d05cc532e83dc034a18aba6fb185c9271308c873b9adc266f9\n",
+      "stderr": ""
+    }
+  ]
+}

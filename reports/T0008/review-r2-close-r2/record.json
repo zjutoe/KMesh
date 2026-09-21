@@ -1,0 +1,72 @@
+{
+  "started_at_utc": "2026-09-18T07:14:29.990036+00:00",
+  "argv": [
+    "/home/mye/src/llm/KMesh/.venv/bin/python",
+    "-c",
+    "from pathlib import Path\nfrom datetime import datetime,timezone\nimport hashlib,json,re,subprocess\ntask=Path(\"reports/T0008\");freeze=json.loads((task/\"review-r2-freeze/audit.json\").read_text())\ndef sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nassert subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip()==freeze[\"head\"]\nfor p,h in freeze[\"history_sha256\"].items():assert sha(p)==h,p\naccepted={}\nfor p in (\"src/kmesh/logic/derivations.py\",\"tests/test_derivations.py\"):\n    assert sha(p)==freeze[\"input_sha256\"][p],p\n    accepted[p]=sha(p)\nbase=json.loads((task/\"planning-baseline.json\").read_text())\nfor p,h in base[\"source_sha256\"].items():\n    if h is not None:assert sha(p)==h,p\ndocs=[\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0008-ground-derivations.md\",\"reports/T0008/review-r2/review.md\"]\nlinks=0\nfor name in docs:\n    p=Path(name);s=p.read_text()\n    assert s.endswith(\"\\n\") and all(line.rstrip()==line for line in s.splitlines()),name\n    for target in re.findall(r\"\\[[^\\]]*\\]\\(([^)]+)\\)\",s):\n        if \"://\" in target or target.startswith(\"#\"):continue\n        assert (p.parent/target.split(\"#\",1)[0]).resolve().exists(),(name,target)\n        links+=1\ns=Path(docs[2]).read_text()\nassert \"- \u72b6\u6001\uff1a\"+chr(96)+\"accepted\"+chr(96) in s\nassert len(re.findall(r\"^- \\[x\\] A[1-7]\uff1a\",s,re.M))==7\nassert \"awaiting_review\" not in Path(docs[0]).read_text()\nassert all(\"awaiting_review\" not in line and \"accepted\" in line for line in Path(docs[1]).read_text().splitlines() if line.startswith(\"- T0008\") or line.startswith(\"| \u65e0\u73af\u4e16\u754c\u76f4\u63a5\u63a8\u5bfc\u679a\u4e3e\"))\nsubprocess.run([\"git\",\"diff\",\"--check\"],check=True)\nchanged=set(subprocess.check_output([\"git\",\"diff\",\"--name-only\"],text=True).splitlines())\nassert changed=={\"README.md\",\"docs/decisions.md\",\"docs/handoffs/T0007-relation-dag.md\",\"docs/implementation_status.md\"},changed\nplan=json.loads((task/\"planning-final-check/checks.json\").read_text())\nfor p in (\"docs/decisions.md\",\"docs/handoffs/T0007-relation-dag.md\"):assert sha(p)==plan[\"artifact_sha256\"][p]\nruns={}\nfor name in (\"review-r2-freeze\",\"review-r2-focused\",\"review-r2-guards\",\"review-r2-readme-order\",\"review-r2-isolation-probe\"):\n    r=json.loads((task/name/\"record.json\").read_text())\n    assert r[\"exit_code\"]==0 and r[\"before\"][\"source_sha256\"]==r[\"after\"][\"source_sha256\"],name\n    for stream in (\"stdout\",\"stderr\"):assert sha(task/name/(stream+\".txt\"))==r[stream+\"_sha256\"],name\n    runs[name]={k:r[k] for k in (\"argv\",\"exit_code\",\"elapsed_s\",\"started_at_utc\",\"finished_at_utc\")}\nguard=json.loads((task/\"review-r2-guards/guards.json\").read_text())\nassert [x[\"exit_code\"] for x in guard[\"cases\"]]==[0,1,1]\naudit={\"created_at_utc\":datetime.now(timezone.utc).isoformat(),\"result\":\"PASS\",\"task_status\":\"accepted\",\"head\":freeze[\"head\"],\"reviewer\":\"Codex + gpt-6-astra xhigh; non-author of Pi product/tests\",\"accepted_files\":accepted,\"product_defect_found\":False,\"open_findings\":[],\"closed_findings\":[\"R1 collection and import isolation\",\"R2 discriminating matching fixtures and input boundaries\",\"R3 README budget/order\",\"R4 evidence corrections with historical limits\"],\"acceptance\":{f\"A{i}\":\"PASS\" for i in range(1,8)},\"A7_limits\":\"Current evidence independently verifiable; acceptance does not certify full historical procedural compliance.\",\"independent_verification_runs\":runs,\"independent_tests_this_round\":\"125 passed in 0.30s; stderr empty; no skips/xfails\",\"independent_readme_collection\":\"607 collected in 0.11s\",\"guard_results\":guard[\"cases\"],\"isolation_probe\":json.loads((task/\"review-r2-isolation-probe/findings.json\").read_text()),\"pi_full_regression\":{\"run\":\"pi-r2-full\",\"result\":\"607 passed in 4.45s\",\"raw_record_and_source_hashes_verified\":True},\"pi_r2_runs_verified\":6,\"full_test_reexecuted_by_codex_this_round\":False,\"inherited_evidence\":[\"review-r1-full: independent 604 passed\",\"review-r1-probes: 128 fixed-seed DAG worlds; 1934 direct records matched independent oracle\"],\"historical_files_preserved\":len(freeze[\"history_sha256\"]),\"closure_checks\":{\"git_diff_check\":\"PASS\",\"strict_local_links\":links,\"text_hygiene\":\"PASS\",\"product_and_tests_frozen\":\"PASS\"},\"record_clarifications\":[\"Negative giant integer is 10**5000, parameter max_derivations; isolated JOIN has variables, ground fixture is separate\",\"607 full regression is Pi execution; Codex independently ran focused/guards/collection/isolation\",\"19 recorder hashes do not include handoff text; final document edit timing remains Pi self-report\",\"RUN names can be supplemented; doc-check lacks git diff invocation, performed independently here\",\"pi-r2-doc-check actual exit 0 at 2026-09-18T04:08:55Z\"],\"limits\":[\"First closure check over-scanned historical T0002 status wording; corrected in a fresh RUN without altering history\",\"R1 move/reuse and unarchived operations remain historical limits\",\"Pi reported status transition and final document-check timing deviations preserved\",\"Only direct derivations accepted; full proofs/uniqueness/depth/motif/world audit remain unimplemented\",\"No commit/push\"],\"artifact_sha256\":{p:sha(p) for p in docs+[\"reports/T0008/review-r2-freeze/audit.json\",\"reports/T0008/review-r2-guards/guards.json\",\"reports/T0008/review-r2-isolation-probe/findings.json\"]}}\n(task/\"review-r2/final-audit.json\").write_text(json.dumps(audit,ensure_ascii=False,indent=2)+\"\\n\")\nprint(f\"PASS: accepted source/tests frozen; {len(freeze['history_sha256'])} historical files unchanged.\")\nprint(f\"PASS: {links} local links, final status, A1-A7 and diff/text hygiene.\")\nprint(\"VERDICT: accepted; R1-R4 closed; historical limitations preserved; no commit/push.\")\n"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "env_overrides": {
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "timeout_s": 120,
+  "before": {
+    "head": "a9441250626f087dc8dbc1f560b7fbe3fe92488b\n",
+    "branch": "T0008-ground-derivations\n",
+    "status": " M README.md\n M docs/decisions.md\n M docs/handoffs/T0007-relation-dag.md\n M docs/implementation_status.md\n?? docs/handoffs/T0008-ground-derivations.md\n?? reports/T0008/\n?? src/kmesh/logic/derivations.py\n?? tests/test_derivations.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/derivations.py": "32634248f401865d068b13758e133037a7a9bc3dcfa409526bc7df86a9aaf29b",
+      "tests/test_derivations.py": "4738b484445afd6ada35cc2285f717f110825c667a7e0e6938587875a14ea3eb",
+      "src/kmesh/logic/dependency.py": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+      "tests/test_dependency.py": "722869ef49a4884d52c1423d3743d4802264bd55ebc7a84521f9433d74ba6313",
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0008/record_check.py": "ab6ff5a2f20fc8c20f82288fdc4e26ca08d72d7806cdbd1db8c2dd23286a07d1"
+    }
+  },
+  "status": "finished",
+  "exit_code": 0,
+  "elapsed_s": 0.075,
+  "finished_at_utc": "2026-09-18T07:14:30.080118+00:00",
+  "after": {
+    "head": "a9441250626f087dc8dbc1f560b7fbe3fe92488b\n",
+    "branch": "T0008-ground-derivations\n",
+    "status": " M README.md\n M docs/decisions.md\n M docs/handoffs/T0007-relation-dag.md\n M docs/implementation_status.md\n?? docs/handoffs/T0008-ground-derivations.md\n?? reports/T0008/\n?? src/kmesh/logic/derivations.py\n?? tests/test_derivations.py\n",
+    "source_sha256": {
+      "src/kmesh/logic/derivations.py": "32634248f401865d068b13758e133037a7a9bc3dcfa409526bc7df86a9aaf29b",
+      "tests/test_derivations.py": "4738b484445afd6ada35cc2285f717f110825c667a7e0e6938587875a14ea3eb",
+      "src/kmesh/logic/dependency.py": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+      "tests/test_dependency.py": "722869ef49a4884d52c1423d3743d4802264bd55ebc7a84521f9433d74ba6313",
+      "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+      "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566",
+      "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+      "tests/test_engine.py": "deba65d0b4f9e20c3f386e0b0f9cc78b9b63bac05e09ea20b0a6e656577bd97b",
+      "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+      "tests/test_reference_engine.py": "2434c17e929a9af13281041a9f92ac97e1f03eef98fb3c31a2b3347d1e213090",
+      "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+      "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8",
+      "tests/test_logic_types.py": "2ff50a225cc0efb910794d004a5a0392339bf366802e25fa246686d154efedab",
+      "src/kmesh/cli.py": "b31633908a700ade6bfd043203bc011b7d43c0ff5c5c05d43ede0637e5d6b121",
+      "src/kmesh/config.py": "7a3a43db57389e466f31bd0d5ab7ceb432d8081c3a236d6b20903ca7b8b9fe10",
+      "tests/test_config.py": "e0e63ff44767895d0e36920607c796778569f832ccd7d16263985e6e68738e12",
+      "tests/test_doctor.py": "5a1f324d506415a2a7fae52dc1e39000bfa46e169cbf9af0fdceb91748ce63ff",
+      "pyproject.toml": "ce59b3debd40a18b18ce8c8ad45066b00730219617267ca19c443612292d7202",
+      "reports/T0008/record_check.py": "ab6ff5a2f20fc8c20f82288fdc4e26ca08d72d7806cdbd1db8c2dd23286a07d1"
+    }
+  },
+  "stdout_sha256": "007f3c3525ece4247fe213c8bc9ea3270224f3ef3d76d0e19131b495b6f02b10",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

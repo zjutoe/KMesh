@@ -1,0 +1,34 @@
+{
+  "reviewed_files": {
+    "src/kmesh/logic/depth.py": "0361a37e8fbfcceb69ac55336c8578176ab96f1c94a86fa50a98aaa2a839bf5d",
+    "tests/test_depth.py": "ddc238a67816c94fee35b122f1690bc441bff657f2d5b5fc8b22047b0e111a2a"
+  },
+  "history_files": 115,
+  "runs": [
+    {
+      "run": "pi-r2-docs",
+      "exit_code": 0,
+      "elapsed_s": 0.085
+    },
+    {
+      "run": "pi-r2-focused",
+      "exit_code": 0,
+      "elapsed_s": 0.45
+    },
+    {
+      "run": "pi-r2-full",
+      "exit_code": 0,
+      "elapsed_s": 15.361
+    },
+    {
+      "run": "pi-r2-guards",
+      "exit_code": 0,
+      "elapsed_s": 3.07
+    },
+    {
+      "run": "pi-r2-preflight",
+      "exit_code": 0,
+      "elapsed_s": 0.061
+    }
+  ]
+}

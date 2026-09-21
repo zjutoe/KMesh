@@ -1,0 +1,115 @@
+.................................FF..................                    [100%]
+=================================== FAILURES ===================================
+___________________ test_large_integer_diagnostics[clauses] ____________________
+
+field = 'clauses', capped_int_str_limit = 4300
+
+    @pytest.mark.parametrize("field", [
+        "clauses", "member", "query",
+        "max_fact_checks", "max_derivations", "both_positive",
+    ])
+    def test_large_integer_diagnostics(field, capped_int_str_limit):
+        big = 10 ** 5000
+        world = (fact("p"),)
+        if field == "clauses":
+            with pytest.raises(LogicValidationError) as exc:
+>               run(big, atom("p"))
+
+tests/test_depth.py:383: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_depth.py:57: in run
+    return minimum_proof_depth(world, query, max_fact_checks=c, max_derivations=d)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clauses = <int instance with roughly 5001 digits (limit at 4300) at 0x1dd2f10>
+query = Atom(pred='p', args=('a', 'b'))
+
+    def minimum_proof_depth(
+        clauses: tuple[Clause, ...],
+        query: Atom,
+        *,
+        max_fact_checks: int = 100_000,
+        max_derivations: int = 100_000,
+    ) -> int | None:
+        """Minimum reasoning-layer count for a ground query, or ``None``.
+    
+        ``clauses`` is a tuple of ``Clause``; ``query`` is a ground
+        ``Atom``; both budgets are non-bool positive integers (arbitrarily
+        large values are accepted).  Validation raises the existing
+        ``LogicValidationError`` with diagnostics that report only field
+        positions and type names, never the repr of an unchecked value, and
+        a non-tuple container is not consumed.  On full success, ``int``
+        (``0`` for a fact) or ``None`` for a query the world cannot derive.
+    
+        The whole world is always enumerated before any result is returned:
+        even a fact query, an absent query, or a world with an unrelated
+        component must first survive T0008's cycle check and budgets.
+        T0008's ``LogicValidationError`` (including the fixed cyclic-dependency
+        message) and ``DerivationLimitError`` propagate unchanged.
+        """
+>       str(clauses)
+E       ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/depth.py:74: ValueError
+____________________ test_large_integer_diagnostics[member] ____________________
+
+field = 'member', capped_int_str_limit = 4300
+
+    @pytest.mark.parametrize("field", [
+        "clauses", "member", "query",
+        "max_fact_checks", "max_derivations", "both_positive",
+    ])
+    def test_large_integer_diagnostics(field, capped_int_str_limit):
+        big = 10 ** 5000
+        world = (fact("p"),)
+        if field == "clauses":
+            with pytest.raises(LogicValidationError) as exc:
+                run(big, atom("p"))
+            assert str(exc.value) == (
+                "depth.clauses must be a tuple of Clause; got int")
+        elif field == "member":
+            with pytest.raises(LogicValidationError) as exc:
+>               run(world + (big,), atom("p"))
+
+tests/test_depth.py:388: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_depth.py:57: in run
+    return minimum_proof_depth(world, query, max_fact_checks=c, max_derivations=d)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clauses = (Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), <int instance with roughly 5001 digits (limit at 4300) at 0x1e1a770>)
+query = Atom(pred='p', args=('a', 'b'))
+
+    def minimum_proof_depth(
+        clauses: tuple[Clause, ...],
+        query: Atom,
+        *,
+        max_fact_checks: int = 100_000,
+        max_derivations: int = 100_000,
+    ) -> int | None:
+        """Minimum reasoning-layer count for a ground query, or ``None``.
+    
+        ``clauses`` is a tuple of ``Clause``; ``query`` is a ground
+        ``Atom``; both budgets are non-bool positive integers (arbitrarily
+        large values are accepted).  Validation raises the existing
+        ``LogicValidationError`` with diagnostics that report only field
+        positions and type names, never the repr of an unchecked value, and
+        a non-tuple container is not consumed.  On full success, ``int``
+        (``0`` for a fact) or ``None`` for a query the world cannot derive.
+    
+        The whole world is always enumerated before any result is returned:
+        even a fact query, an absent query, or a world with an unrelated
+        component must first survive T0008's cycle check and budgets.
+        T0008's ``LogicValidationError`` (including the fixed cyclic-dependency
+        message) and ``DerivationLimitError`` propagate unchanged.
+        """
+>       str(clauses)
+E       ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/depth.py:74: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_depth.py::test_large_integer_diagnostics[clauses] - ValueEr...
+FAILED tests/test_depth.py::test_large_integer_diagnostics[member] - ValueErr...
+2 failed, 51 passed in 0.39s

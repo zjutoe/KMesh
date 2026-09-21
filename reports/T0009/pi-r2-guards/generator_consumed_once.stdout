@@ -1,0 +1,37 @@
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+______________________ test_clauses_container_diagnostics ______________________
+
+    def test_clauses_container_diagnostics() -> None:
+        query = atom("p", "a", "b")
+        with pytest.raises(LogicValidationError) as exc:
+            enumerate_proofs([fact("p", "a", "b")], query)
+        assert str(exc.value) == "proofs.clauses must be a tuple of Clause; got list"
+    
+        with pytest.raises(LogicValidationError) as exc:
+            enumerate_proofs(None, query)
+        assert str(exc.value) == "proofs.clauses must be a tuple of Clause; got NoneType"
+    
+        consumed = []
+    
+        def generator():
+            consumed.append(1)
+            yield 0
+            raise AssertionError("clauses generator must not be consumed")
+    
+        with pytest.raises(LogicValidationError) as exc:
+            enumerate_proofs(generator(), query)
+        assert str(exc.value) == "proofs.clauses must be a tuple of Clause; got generator"
+        # A wrong implementation that consumes the generator once before the
+        # container check (next(gen, None)) would hit the yield; the marker must
+        # not have fired.
+>       assert consumed == []
+E       assert [1] == []
+E         
+E         Left contains one more item: 1
+E         Use -v to get more diff
+
+tests/test_proof_enumeration.py:423: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_enumeration.py::test_clauses_container_diagnostics - ...
+1 failed, 2 passed in 0.05s

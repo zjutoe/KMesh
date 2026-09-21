@@ -1,0 +1,44 @@
+............................................................F........... [100%]
+=================================== FAILURES ===================================
+______________ test_ancestor_collection_uses_bounded_record_reads ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f0f8eea0270>
+
+    def test_ancestor_collection_uses_bounded_record_reads(monkeypatch) -> None:
+        import kmesh.logic.proof_enumeration as pe
+    
+        # 64 COPY rules + 1 fact = 65 records. C=64, D=65, S=1: derivation
+        # enumeration succeeds, then the proof budget exhausts on the first rule
+        # combination. After the real T0008 returns, each record's conclusion is
+        # read only through the indexed work-list traversal: a per-round full
+        # re-scan of all 65 records reads 4229 times, the bound is 8 * 65.
+        n = 64
+        clauses, query = chain_world(n)
+        stats = {"active": False, "reads": 0}
+        original_getattribute = GroundDerivation.__getattribute__
+        original_enumerate = pe.enumerate_derivations
+    
+        def counted_getattribute(self, name):
+            if stats["active"] and name == "conclusion":
+                stats["reads"] += 1
+            return original_getattribute(self, name)
+    
+        def enumerate_then_count(*args, **kwargs):
+            result = original_enumerate(*args, **kwargs)
+            stats["active"] = True
+            return result
+    
+        monkeypatch.setattr(GroundDerivation, "__getattribute__", counted_getattribute)
+        monkeypatch.setattr(pe, "enumerate_derivations", enumerate_then_count)
+        with pytest.raises(ProofEnumerationLimitError) as exc:
+            pe.enumerate_proofs(
+                clauses, query, max_fact_checks=n, max_derivations=n + 1, max_proof_steps=1
+            )
+        assert str(exc.value) == "proofs.max_proof_steps exhausted before enumeration completed"
+>       assert stats["reads"] <= 8 * (n + 1)
+E       assert 4229 <= (8 * (64 + 1))
+
+tests/test_proof_enumeration.py:746: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_enumeration.py::test_ancestor_collection_uses_bounded_record_reads
+1 failed, 71 passed in 12.86s

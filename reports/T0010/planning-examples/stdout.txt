@@ -1,0 +1,19 @@
+H0: C=0, D=0, verified raw heights=(), hand minimum=None
+H1: C=0, D=1, verified raw heights=(0,), hand minimum=0
+H1-reversed: C=0, D=1, verified raw heights=(), hand minimum=None
+H2: C=1, D=2, verified raw heights=(1,), hand minimum=1
+H3: C=5, D=6, verified raw heights=(3,), hand minimum=3
+H4: C=3, D=4, verified raw heights=(2, 1), hand minimum=1
+H5: C=4, D=5, verified raw heights=(3, 2), hand minimum=2
+H6-rule-first: C=1, D=3, verified raw heights=(1, 0), hand minimum=0
+H6-fact-first: C=1, D=3, verified raw heights=(0, 1), hand minimum=0
+H7: C=2, D=2, verified raw heights=(1,), hand minimum=1
+H8: C=6, D=3, verified raw heights=(1,), hand minimum=1
+H8-reversed: C=6, D=3, verified raw heights=(), hand minimum=None
+H9-a: C=1, D=3, verified raw heights=(0,), hand minimum=0
+H9-c: C=1, D=3, verified raw heights=(1,), hand minimum=1
+H10: C=0, D=0, verified raw heights=(), hand minimum=None
+H11: C=3, D=5, verified raw heights=(0,), hand minimum=0
+H11-absent: C=3, D=5, verified raw heights=(), hand minimum=None
+H12: C=9, D=10, verified raw heights=(3, 2), hand minimum=2
+PASS: 18 hand-authored query fixtures; new depth API remains unimplemented

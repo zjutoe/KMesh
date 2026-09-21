@@ -1,0 +1,26 @@
+{
+  "product_oracle": "PASS",
+  "seed": 20260918,
+  "worlds": 128,
+  "records_checked": 1934,
+  "mutation_results": {
+    "drop_ground_double": {
+      "exit_code": 0,
+      "summary": [
+        "122 passed in 0.28s"
+      ]
+    },
+    "share_inner_binding": {
+      "exit_code": 0,
+      "summary": [
+        "122 passed in 0.28s"
+      ]
+    }
+  },
+  "isolation_hidden_submodule": "not detected by submitted script",
+  "frozen_product_missing_fixtures": "PASS",
+  "product_and_test_sha256_unchanged": {
+    "/home/mye/src/llm/KMesh/src/kmesh/logic/derivations.py": "32634248f401865d068b13758e133037a7a9bc3dcfa409526bc7df86a9aaf29b",
+    "/home/mye/src/llm/KMesh/tests/test_derivations.py": "694c255ad5251ac1813b07ec335787b96a14e33b020a6aaaf865ac081c338fc0"
+  }
+}

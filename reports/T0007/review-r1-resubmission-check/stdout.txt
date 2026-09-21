@@ -1,0 +1,27 @@
+{
+  "files": {
+    "src/kmesh/logic/dependency.py": {
+      "sha256": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+      "unchanged": true
+    },
+    "tests/test_dependency.py": {
+      "sha256": "a4e428e9d1acc99a7dc3e01e725e7b3da8d009c8f1c39eeac957b8dd57d7e09c",
+      "unchanged": true
+    },
+    "README.md": {
+      "sha256": "6674873f54b7dc493c42504a0900201bfc88f73e09a95c54b00f3b7bf0e4bb03",
+      "unchanged": true
+    },
+    "docs/implementation_status.md": {
+      "sha256": "d9720da3ecf512a62d7a4bf39ec1ed86f061e7e6160026a2ab94e263285af5e3",
+      "unchanged": true
+    },
+    "docs/handoffs/T0007-relation-dag.md": {
+      "sha256": "a4816a544a566750b19bc7e643ab10f7cdb6c1671d1c2e877877fa73dff0efa5",
+      "unchanged": true
+    }
+  },
+  "all_unchanged": true,
+  "task_status_line": "- 状态：`needs_changes`（2026-09-17，Codex 首轮验收：A1–A4／A6 通过；仅一个测试的原因断言及执行记录需返工，产品冻结）。",
+  "pi_round2_runs": []
+}

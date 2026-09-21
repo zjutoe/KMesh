@@ -1,0 +1,400 @@
+{
+  "head": "4c457e21899f81274999855d905e66b2ba574798",
+  "input_sha256": {
+    "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+    "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d",
+    "README.md": "f65c6ec6b501fcceb806db0ced1c179c418362ae227ee75f94f0b7fa475b7390",
+    "docs/implementation_status.md": "3860611cdbe8f5f9ee81ebd9989f1fb2f478ae2704d271a758161c7691c2b37c",
+    "docs/handoffs/T0011-clause-key.md": "fe9424da61ace3673c1c397fd735ffdb849b2c631f129bd48382c2531308aee3"
+  },
+  "history_sha256": {
+    "reports/T0011/record_check.py": "baf7b556b04fe635efb7b4ecf921ed2b42b40f21024ad2561d158a8d433e4050",
+    "reports/T0011/.gitignore": "44d2731587b03ee8694f7ebe41dcbc002d0ff7eb5c486f9df8af98323f7cbb14",
+    "reports/T0011/planning_preflight.py": "b9284374e9afeba56331592ce392c44cd6d949d04a2981376a5fccda4c73664e",
+    "reports/T0011/planning-baseline.json": "2b0cdec8cfee3405568940defbd30696c771ea16fe277ec73ff5512bc998a144",
+    "reports/T0011/run_checks.py": "97e06942f9b7303c7748e13c010a47f754104e11b8d409ee6525305ccff84184",
+    "reports/T0011/check_delivery.py": "71ad0c46f7b03ceb2e15738f6c398b4ed6a9aca5fa07de86b9549507651474ee",
+    "reports/T0011/planning_examples.py": "3c2520084af47a7c114af2d8cc2a4e8cbf2148df09eb818e9c242be9bb82ffb9",
+    "reports/T0011/planning_check.py": "203a4a6956f52172a19abced06d1d6b4a468040cb94d29715dd27510aeaae3a6",
+    "reports/T0011/planning-review.md": "496a9a2a132531c31b5f9dd9ff77c9b5a6c572d626669614ba7867812ee72bb7",
+    "reports/T0011/planning-files.json": "cf7428ef08209c28c5e25d218c3371f941da73bb199f0ec3446eceb7e429be8b",
+    "reports/T0011/planning-preflight/record.json": "755cab4389426f86ea3142717b03effc6367920357a0ba62dc8f594170cda8e2",
+    "reports/T0011/planning-preflight/stdout.txt": "dae61c416fb6182435ef1ff5339e97669c1d0d4900406650bb816138d731b61f",
+    "reports/T0011/planning-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/planning-examples/record.json": "5d1727d5f6762ce43932a25c153eb43b836c8e281fffda0e0370c35b75a07c40",
+    "reports/T0011/planning-examples/stdout.txt": "13c78a2cccd9ee90eb175348a18b4e7237ef8ae114d18f2826439a722b9cd8ae",
+    "reports/T0011/planning-examples/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/planning-examples-r2/record.json": "ebad2068afadc59fe9340ff9d8787ac17f5fe11086b1dce08e333d5b9cede59b",
+    "reports/T0011/planning-examples-r2/stdout.txt": "74b88c6ef106acb8852e62cf23f94cecf0bfabefa668bea9ee38130cd0e485a8",
+    "reports/T0011/planning-examples-r2/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/planning-check/record.json": "25e3ea9411130c2f4124a5f71ae1ccec96c95adf67d7d9fb6637966ec89efd20",
+    "reports/T0011/planning-check/stdout.txt": "9e8cf1679ad31b62741979d24c82e147011b724ce448a6c1f219f0a55315f60e",
+    "reports/T0011/planning-check/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-preflight/record.json": "9aee9d6b0e9909034fdc7383d0b849e4f931a9fd07749ddf50a119c25eab1541",
+    "reports/T0011/pi-r1-preflight/stdout.txt": "939a7a58f9d3798bd28f047cef3d9dde3104ac464392484db8c34b599efdcdfa",
+    "reports/T0011/pi-r1-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-preflight/provenance.md": "44d98156930c481310516ca9223492e2c0c6ad94ac107de4fb0c8b924de0d268",
+    "reports/T0011/pi-r1-probe/record.json": "faba8bd87a83e9a9c49112c20bfc7a6fef059f80bc4cb70146fb02e3540f545a",
+    "reports/T0011/pi-r1-probe/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-probe/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-probe/provenance.md": "0aef65d395e1d09c69ac7d68723673d9c8f41a34ac5ecc682915b6b0a023376d",
+    "reports/T0011/pi-r1-probe2/record.json": "f1e14ba187042df0c0079ea7aa37dc090019ef9fddf3ecdab40cba9b8a041a4b",
+    "reports/T0011/pi-r1-probe2/stdout.txt": "c6462a58750956775a75ca4dfe395b3ccc55ffc09119c0d2c509fbb7a8c3710b",
+    "reports/T0011/pi-r1-probe2/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-probe2/provenance.md": "a8d8bcfc3fe72c922730e71bc50ac48762fb6796d4354bd6a245f27fc67cb9ac",
+    "reports/T0011/pi-r1-probe3/record.json": "424a8bedc63b4a87501edd1cb0e143c05d256c90f8caf699411c25d6e9e0b836",
+    "reports/T0011/pi-r1-probe3/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-probe3/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-probe3/provenance.md": "f489bb26ea76b66a18f279d72367b3a54e8dcaa915ad272fa2f3a82e51c16daf",
+    "reports/T0011/pi-r1-focused/record.json": "746629c0e83a40da319523de25d0e8b5377b1e2c449e606d2dde2ea0989f4ea4",
+    "reports/T0011/pi-r1-focused/stdout.txt": "582aeaccc6433f224f8664d0e0d8661f7e48ec259c71eb12d21fc37b4aecc688",
+    "reports/T0011/pi-r1-focused/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-focused/provenance.md": "bb93c65207b456e714cafe367adb058d74112de051642c140e29c34e6d20df45",
+    "reports/T0011/pi-r1-fix1/record.json": "981c1847c8ee34c0d4f3b0918bfb521a28525ad8da896124caeb0ae68461f7fa",
+    "reports/T0011/pi-r1-fix1/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-fix1/stderr.txt": "7fd8b2c58e349f2226bb89f5f674102d09dcef8e555d780857e37894080b11b5",
+    "reports/T0011/pi-r1-fix1/provenance.md": "3ed6b715b37887389aabd13ab2eec5eee557f6145a31e7f9a432aedd563810a3",
+    "reports/T0011/pi-r1-fix2/record.json": "247dd0693afe812f86a84ae4d23aac64ca48d110e6d6b722fafbcd5a162178d6",
+    "reports/T0011/pi-r1-fix2/stdout.txt": "f30cfcc5a510083a1db2107e4d550da7c3473f8e9fda0d0f57702533febe55ee",
+    "reports/T0011/pi-r1-fix2/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-fix2/provenance.md": "63226fd6ff54c178b00cccfe13a8292bbd2894490294845ec9e95b46e5a038a7",
+    "reports/T0011/pi-r1-focused-2/record.json": "878f9a246b59197dc3706e3b9e23caf8e48f3d58b53b8e6e6baf1cd671eaa4bf",
+    "reports/T0011/pi-r1-focused-2/stdout.txt": "1c881b12c21997523301bdfd1c31f5fa0935ab8b76949b0a7ac174a9fa9c2b39",
+    "reports/T0011/pi-r1-focused-2/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-focused-2/provenance.md": "e612b8568943a4eb05fba9d08fb6bde5ed3106861ef4d64210af1aff4ff2872f",
+    "reports/T0011/pi-r1-focused-3/record.json": "eb2d2fc3b05c4def744f8cbac25d4f6cb719b49a8cfb7871b74f4665782c93cd",
+    "reports/T0011/pi-r1-focused-3/stdout.txt": "ff3e3a0adf735ad9ff28af84012120def84aadb71d71d3476d532220cdad2771",
+    "reports/T0011/pi-r1-focused-3/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-focused-3/provenance.md": "5ee5ba0c99c6e2d5dcdcdb77f9ab894a5331f073ce49509841af1c6da4d6ec04",
+    "reports/T0011/pi-r1-full/record.json": "59f21b85b2f5ac4b2934b4daa38cd8885a76228e406b6f9a5c91a71012231f3e",
+    "reports/T0011/pi-r1-full/stdout.txt": "a829a274ea6d86a126f059b90c1ff38d09ea6880f90cab224fc8f88b5574fd99",
+    "reports/T0011/pi-r1-full/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-full/provenance.md": "dd845fd721a9a0841fcc73c8ae67b5f275303a71a0ecb7e3c19712763baf4d89",
+    "reports/T0011/pi-r1-docs/record.json": "aabf1a1ad280daae1b42537f14b039e6632be2d94353fc6b01f53f66a4654d62",
+    "reports/T0011/pi-r1-docs/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-docs/stderr.txt": "a638d100a9037bd6fa8d30515405b3bc5a790d8e2e93e1b7eb0ce268062c19ae",
+    "reports/T0011/pi-r1-docs/provenance.md": "3c9e384e295aed3ca320ef42a572781c54e7546adcaa7ab04b886652d8489705",
+    "reports/T0011/pi-r1-docs2/record.json": "c10640f0c4f84ecd6d78b1cf924a846b745e9f225cc203eb2199c5a3a6205e77",
+    "reports/T0011/pi-r1-docs2/stdout.txt": "42ae17080beaa2f3489cb9f2b765f23370345f21ea94874b30cd98f907ee8466",
+    "reports/T0011/pi-r1-docs2/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-docs2/provenance.md": "c88d79442d3a606664e92b2cbe0411b346e1dd596bdac641afa88ece6e3e5c40",
+    "reports/T0011/pi-r1-docs3/record.json": "909347022b05c71419a90f4f909e6ecaaad438878e3c48a1cbefa588883e78d5",
+    "reports/T0011/pi-r1-docs3/stdout.txt": "5cbd9a4deebb02b44a16f755bb9d8d86825f42c6a8fe2b92fc493ff966301738",
+    "reports/T0011/pi-r1-docs3/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0011/pi-r1-docs3/provenance.md": "2b513274bdaf8b38b5bba8ef9e613226af2f6cbb73490b340a3a625ce0b8eebd"
+  },
+  "pi_runs": [
+    {
+      "run": "pi-r1-preflight",
+      "started": "2026-09-20T15:10:54.782101+00:00",
+      "finished": "2026-09-20T15:10:54.915318+00:00",
+      "elapsed_s": 0.116,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0011/check_delivery.py",
+        "preflight"
+      ],
+      "exit_code": 0,
+      "before": {
+        "src/kmesh/logic/clause_key.py": null,
+        "tests/test_clause_key.py": null
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": null,
+        "tests/test_clause_key.py": null
+      },
+      "stdout": "PASS: branch, frozen baseline, environment, scope; new product/tests absent\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-probe",
+      "started": "2026-09-20T16:49:39.671859+00:00",
+      "finished": "2026-09-20T16:49:39.733209+00:00",
+      "elapsed_s": 0.044,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "py_compile",
+        "src/kmesh/logic/clause_key.py"
+      ],
+      "exit_code": 0,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": null
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": null
+      },
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-probe2",
+      "started": "2026-09-20T16:49:39.797397+00:00",
+      "finished": "2026-09-20T16:49:39.858913+00:00",
+      "elapsed_s": 0.046,
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "\nfrom kmesh.logic.clause_key import canonical_clause_key\nfrom kmesh.logic.types import Atom, Clause\nprint('import OK')\nf = Clause((), Atom('p', ('a','b')))\nj = Clause((Atom('p',('?x','?y')), Atom('q',('?y','?z'))), Atom('r',('?x','?z')))\nprint(canonical_clause_key(f))\nprint(canonical_clause_key(j))\n"
+      ],
+      "exit_code": 0,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": null
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": null
+      },
+      "stdout": "import OK\n('clause_key_v1', ('p', ('c', 'a'), ('c', 'b')), ())\n('clause_key_v1', ('r', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 2)), ('q', ('v', 2), ('v', 1))))\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-probe3",
+      "started": "2026-09-20T17:18:19.681575+00:00",
+      "finished": "2026-09-20T17:18:19.747872+00:00",
+      "elapsed_s": 0.049,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "py_compile",
+        "tests/test_clause_key.py"
+      ],
+      "exit_code": 0,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "b87efb5322bc4173258409dc93be7c2e2d3059a3e3d7bf3a9e426bd8fa20b53b"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "b87efb5322bc4173258409dc93be7c2e2d3059a3e3d7bf3a9e426bd8fa20b53b"
+      },
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-focused",
+      "started": "2026-09-20T17:18:21.924537+00:00",
+      "finished": "2026-09-20T17:18:22.321837+00:00",
+      "elapsed_s": 0.38,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "--basetemp",
+        "reports/T0011/pi-r1-focused/pytest-tmp"
+      ],
+      "exit_code": 2,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "b87efb5322bc4173258409dc93be7c2e2d3059a3e3d7bf3a9e426bd8fa20b53b"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "b87efb5322bc4173258409dc93be7c2e2d3059a3e3d7bf3a9e426bd8fa20b53b"
+      },
+      "stdout": "\n==================================== ERRORS ====================================\n__________________ ERROR collecting tests/test_clause_key.py ___________________\ntests/test_clause_key.py:50: in <module>\n    K1 = Clause((Atom(\"p\", (\"?x\", \"?y\"))), Atom(\"q\", (\"?x\", \"?y\")))\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n<string>:5: in __init__\n    ???\nsrc/kmesh/logic/types.py:126: in __post_init__\n    raise LogicValidationError(\nE   kmesh.logic.types.LogicValidationError: clause.body must be a tuple of Atoms, got Atom\n=========================== short test summary info ============================\nERROR tests/test_clause_key.py - kmesh.logic.types.LogicValidationError: clau...\n!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n1 error in 0.14s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-fix1",
+      "started": "2026-09-20T17:27:50.692931+00:00",
+      "finished": "2026-09-20T17:27:50.755589+00:00",
+      "elapsed_s": 0.045,
+      "argv": [
+        ".venv/bin/python",
+        "/tmp/t0011_fix.py"
+      ],
+      "exit_code": 1,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "b87efb5322bc4173258409dc93be7c2e2d3059a3e3d7bf3a9e426bd8fa20b53b"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "b87efb5322bc4173258409dc93be7c2e2d3059a3e3d7bf3a9e426bd8fa20b53b"
+      },
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/t0011_fix.py\", line 40, in <module>\n    assert fixed == 7, fixed\n           ^^^^^^^^^^\nAssertionError: 3\n"
+    },
+    {
+      "run": "pi-r1-fix2",
+      "started": "2026-09-20T17:29:06.211707+00:00",
+      "finished": "2026-09-20T17:29:06.265447+00:00",
+      "elapsed_s": 0.036,
+      "argv": [
+        ".venv/bin/python",
+        "/tmp/t0011_fix.py"
+      ],
+      "exit_code": 0,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "b87efb5322bc4173258409dc93be7c2e2d3059a3e3d7bf3a9e426bd8fa20b53b"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "1e917f569c90c9863ae936f94cd419224a7d3ee0f59290ca656bdce91da4e554"
+      },
+      "stdout": "fixed 7\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-focused-2",
+      "started": "2026-09-20T17:29:15.622023+00:00",
+      "finished": "2026-09-20T17:29:16.082313+00:00",
+      "elapsed_s": 0.442,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "--basetemp",
+        "reports/T0011/pi-r1-focused-2/pytest-tmp"
+      ],
+      "exit_code": 1,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "1e917f569c90c9863ae936f94cd419224a7d3ee0f59290ca656bdce91da4e554"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "1e917f569c90c9863ae936f94cd419224a7d3ee0f59290ca656bdce91da4e554"
+      },
+      "stdout": "..............FFFFFF...................                                  [100%]\n=================================== FAILURES ===================================\n___________________ test_C_independent_enumeration[clause0] ____________________\n\nclause = Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?x', '?y')))\n\n    @pytest.mark.parametrize(\"clause\", [K1, K2, K3, K5, K8, K9])\n    def test_C_independent_enumeration(clause):\n>       assert canonical_clause_key(clause) == _independent_min(clause)\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/test_clause_key.py:240: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nclause = Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?x', '?y')))\n\n    def _independent_min(clause):\n        names = sorted(\n            {\n                t[1:]\n                for atom in [clause.head] + list(clause.body)\n                for t in atom.args\n                if t.startswith(\"?\")\n            }\n        )\n        orderings = list(clause.body)\n        if len(clause.body) == 2:\n            orderings.append(clause.body[::-1])\n        best = None\n        for perm in itertools.permutations(range(len(names))):\n            var_map = {v: p for v, p in zip(names, perm)}\n            head = clause.head\n            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))\n            for order in orderings:\n                body_keys = tuple(\n                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))\n>                   for a in order\n                             ^^^^^\n                )\nE               TypeError: 'Atom' object is not iterable\n\ntests/test_clause_key.py:230: TypeError\n___________________ test_C_independent_enumeration[clause1] ____________________\n\nclause = Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?y', '?x')))\n\n    @pytest.mark.parametrize(\"clause\", [K1, K2, K3, K5, K8, K9])\n    def test_C_independent_enumeration(clause):\n>       assert canonical_clause_key(clause) == _independent_min(clause)\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/test_clause_key.py:240: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nclause = Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?y', '?x')))\n\n    def _independent_min(clause):\n        names = sorted(\n            {\n                t[1:]\n                for atom in [clause.head] + list(clause.body)\n                for t in atom.args\n                if t.startswith(\"?\")\n            }\n        )\n        orderings = list(clause.body)\n        if len(clause.body) == 2:\n            orderings.append(clause.body[::-1])\n        best = None\n        for perm in itertools.permutations(range(len(names))):\n            var_map = {v: p for v, p in zip(names, perm)}\n            head = clause.head\n            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))\n            for order in orderings:\n                body_keys = tuple(\n                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))\n>                   for a in order\n                             ^^^^^\n                )\nE               TypeError: 'Atom' object is not iterable\n\ntests/test_clause_key.py:230: TypeError\n___________________ test_C_independent_enumeration[clause2] ____________________\n\nclause = Clause(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='q', args=('?y', '?z'))), head=Atom(pred='r', args=('?x', '?z')))\n\n    @pytest.mark.parametrize(\"clause\", [K1, K2, K3, K5, K8, K9])\n    def test_C_independent_enumeration(clause):\n>       assert canonical_clause_key(clause) == _independent_min(clause)\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/test_clause_key.py:240: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nclause = Clause(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='q', args=('?y', '?z'))), head=Atom(pred='r', args=('?x', '?z')))\n\n    def _independent_min(clause):\n        names = sorted(\n            {\n                t[1:]\n                for atom in [clause.head] + list(clause.body)\n                for t in atom.args\n                if t.startswith(\"?\")\n            }\n        )\n        orderings = list(clause.body)\n        if len(clause.body) == 2:\n            orderings.append(clause.body[::-1])\n        best = None\n        for perm in itertools.permutations(range(len(names))):\n            var_map = {v: p for v, p in zip(names, perm)}\n            head = clause.head\n            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))\n            for order in orderings:\n                body_keys = tuple(\n                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))\n>                   for a in order\n                             ^^^^^\n                )\nE               TypeError: 'Atom' object is not iterable\n\ntests/test_clause_key.py:230: TypeError\n___________________ test_C_independent_enumeration[clause3] ____________________\n\nclause = Clause(body=(Atom(pred='p', args=('?u', '?v')), Atom(pred='q', args=('?v', '?w'))), head=Atom(pred='r', args=('a', 'b')))\n\n    @pytest.mark.parametrize(\"clause\", [K1, K2, K3, K5, K8, K9])\n    def test_C_independent_enumeration(clause):\n>       assert canonical_clause_key(clause) == _independent_min(clause)\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/test_clause_key.py:240: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nclause = Clause(body=(Atom(pred='p', args=('?u', '?v')), Atom(pred='q', args=('?v', '?w'))), head=Atom(pred='r', args=('a', 'b')))\n\n    def _independent_min(clause):\n        names = sorted(\n            {\n                t[1:]\n                for atom in [clause.head] + list(clause.body)\n                for t in atom.args\n                if t.startswith(\"?\")\n            }\n        )\n        orderings = list(clause.body)\n        if len(clause.body) == 2:\n            orderings.append(clause.body[::-1])\n        best = None\n        for perm in itertools.permutations(range(len(names))):\n            var_map = {v: p for v, p in zip(names, perm)}\n            head = clause.head\n            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))\n            for order in orderings:\n                body_keys = tuple(\n                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))\n>                   for a in order\n                             ^^^^^\n                )\nE               TypeError: 'Atom' object is not iterable\n\ntests/test_clause_key.py:230: TypeError\n___________________ test_C_independent_enumeration[clause4] ____________________\n\nclause = Clause(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))\n\n    @pytest.mark.parametrize(\"clause\", [K1, K2, K3, K5, K8, K9])\n    def test_C_independent_enumeration(clause):\n>       assert canonical_clause_key(clause) == _independent_min(clause)\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/test_clause_key.py:240: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nclause = Clause(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))\n\n    def _independent_min(clause):\n        names = sorted(\n            {\n                t[1:]\n                for atom in [clause.head] + list(clause.body)\n                for t in atom.args\n                if t.startswith(\"?\")\n            }\n        )\n        orderings = list(clause.body)\n        if len(clause.body) == 2:\n            orderings.append(clause.body[::-1])\n        best = None\n        for perm in itertools.permutations(range(len(names))):\n            var_map = {v: p for v, p in zip(names, perm)}\n            head = clause.head\n            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))\n            for order in orderings:\n                body_keys = tuple(\n                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))\n>                   for a in order\n                             ^^^^^\n                )\nE               TypeError: 'Atom' object is not iterable\n\ntests/test_clause_key.py:230: TypeError\n___________________ test_C_independent_enumeration[clause5] ____________________\n\nclause = Clause(body=(Atom(pred='p', args=('?a', '?b')), Atom(pred='q', args=('?c', '?d'))), head=Atom(pred='r', args=('a', 'b')))\n\n    @pytest.mark.parametrize(\"clause\", [K1, K2, K3, K5, K8, K9])\n    def test_C_independent_enumeration(clause):\n>       assert canonical_clause_key(clause) == _independent_min(clause)\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/test_clause_key.py:240: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nclause = Clause(body=(Atom(pred='p', args=('?a', '?b')), Atom(pred='q', args=('?c', '?d'))), head=Atom(pred='r', args=('a', 'b')))\n\n    def _independent_min(clause):\n        names = sorted(\n            {\n                t[1:]\n                for atom in [clause.head] + list(clause.body)\n                for t in atom.args\n                if t.startswith(\"?\")\n            }\n        )\n        orderings = list(clause.body)\n        if len(clause.body) == 2:\n            orderings.append(clause.body[::-1])\n        best = None\n        for perm in itertools.permutations(range(len(names))):\n            var_map = {v: p for v, p in zip(names, perm)}\n            head = clause.head\n            h = (head.pred, _term(head.args[0], var_map), _term(head.args[1], var_map))\n            for order in orderings:\n                body_keys = tuple(\n                    (a.pred, _term(a.args[0], var_map), _term(a.args[1], var_map))\n>                   for a in order\n                             ^^^^^\n                )\nE               TypeError: 'Atom' object is not iterable\n\ntests/test_clause_key.py:230: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_clause_key.py::test_C_independent_enumeration[clause0] - Ty...\nFAILED tests/test_clause_key.py::test_C_independent_enumeration[clause1] - Ty...\nFAILED tests/test_clause_key.py::test_C_independent_enumeration[clause2] - Ty...\nFAILED tests/test_clause_key.py::test_C_independent_enumeration[clause3] - Ty...\nFAILED tests/test_clause_key.py::test_C_independent_enumeration[clause4] - Ty...\nFAILED tests/test_clause_key.py::test_C_independent_enumeration[clause5] - Ty...\n6 failed, 33 passed in 0.20s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-focused-3",
+      "started": "2026-09-20T17:29:50.194672+00:00",
+      "finished": "2026-09-20T17:29:50.577860+00:00",
+      "elapsed_s": 0.365,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "--basetemp",
+        "reports/T0011/pi-r1-focused-3/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "stdout": ".......................................                                  [100%]\n39 passed in 0.13s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-full",
+      "started": "2026-09-20T17:29:57.127068+00:00",
+      "finished": "2026-09-20T17:30:12.548873+00:00",
+      "elapsed_s": 15.404,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_clause_key.py",
+        "tests/test_depth.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0011/pi-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "stdout": "........................................................................ [  9%]\n........................................................................ [ 18%]\n........................................................................ [ 28%]\n........................................................................ [ 37%]\n........................................................................ [ 46%]\n........................................................................ [ 56%]\n........................................................................ [ 65%]\n........................................................................ [ 74%]\n........................................................................ [ 84%]\n........................................................................ [ 93%]\n...................................................                      [100%]\n771 passed in 15.12s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-docs",
+      "started": "2026-09-20T17:40:36.923575+00:00",
+      "finished": "2026-09-20T17:40:37.044434+00:00",
+      "elapsed_s": 0.104,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0011/check_delivery.py",
+        "docs"
+      ],
+      "exit_code": 1,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0011/check_delivery.py\", line 84, in <module>\n    main()\n    ~~~~^^\n  File \"/home/mye/src/llm/KMesh/reports/T0011/check_delivery.py\", line 62, in main\n    assert provenance, \"missing Pi provenance\"\n           ^^^^^^^^^^\nAssertionError: missing Pi provenance\n"
+    },
+    {
+      "run": "pi-r1-docs2",
+      "started": "2026-09-20T17:44:02.306223+00:00",
+      "finished": "2026-09-20T17:44:02.430191+00:00",
+      "elapsed_s": 0.106,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0011/check_delivery.py",
+        "docs"
+      ],
+      "exit_code": 0,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "stdout": "PASS: scope, frozen inputs, 14 documents/62 local links, text hygiene, awaiting_review\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-docs3",
+      "started": "2026-09-20T17:44:49.767381+00:00",
+      "finished": "2026-09-20T17:44:49.890787+00:00",
+      "elapsed_s": 0.107,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0011/check_delivery.py",
+        "docs"
+      ],
+      "exit_code": 0,
+      "before": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "after": {
+        "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+        "tests/test_clause_key.py": "a1024156645a2c02622b19f401cbabc21b266d3b2be4a4b97b31366a0c7a200d"
+      },
+      "stdout": "PASS: scope, frozen inputs, 15 documents/62 local links, text hygiene, awaiting_review\n",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+FFF.......F.......F...................F                                  [100%]
+=================================== FAILURES ===================================
+________________________________ test_A_anchors ________________________________
+
+    def test_A_anchors():
+        assert canonical_clause_key(K0) == (
+            "clause_key_v1",
+            ("p", ("c", "a"), ("c", "b")),
+            (),
+        )
+        assert canonical_clause_key(K3) == (
+            "clause_key_v1",
+            ("r", ("v", 0), ("v", 1)),
+            (("p", ("v", 0), ("v", 2)), ("q", ("v", 2), ("v", 1))),
+        )
+        assert canonical_clause_key(K6) == (
+            "clause_key_v1",
+            ("q", ("v", 0), ("c", "x")),
+            (("p", ("v", 0), ("c", "x")),),
+        )
+        for clause, key in [
+            (K1, K1_KEY),
+            (K2, K2_KEY),
+            (K4, K4_KEY),
+            (K5, K5_KEY),
+            (K7, K7_KEY),
+            (K8, K8_KEY),
+            (K9, K9_KEY),
+            (K10, K10_KEY),
+        ]:
+>           assert canonical_clause_key(clause) == key
+E           AssertionError: assert ('clause_key_...), ('v', 2)))) == ('clause_key_...), ('v', 0))))
+E             
+E             At index 2 diff: (('p', ('v', 1), ('v', 0)), ('p', ('v', 0), ('v', 2))) != (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0)))
+E             Use -v to get more diff
+
+tests/test_clause_key.py:102: AssertionError
+__________________________ test_A_K8_min_from_reverse __________________________
+
+    def test_A_K8_min_from_reverse():
+        # K8's minimum comes from the reversed premise ordering.
+>       assert canonical_clause_key(K8) == K8_KEY
+E       AssertionError: assert ('clause_key_...), ('v', 2)))) == ('clause_key_...), ('v', 0))))
+E         
+E         At index 2 diff: (('p', ('v', 1), ('v', 0)), ('p', ('v', 0), ('v', 2))) != (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0)))
+E         Use -v to get more diff
+
+tests/test_clause_key.py:107: AssertionError
+____________________________ test_A_K8a_same_as_K8 _____________________________
+
+    def test_A_K8a_same_as_K8():
+        K8a = Clause(
+            (Atom("p", ("?a", "?z")), Atom("p", ("?z", "?b"))),
+            Atom("q", ("?z", "?z")),
+        )
+        assert K8a != K8
+>       assert canonical_clause_key(K8a) == K8_KEY
+E       AssertionError: assert ('clause_key_...), ('v', 2)))) == ('clause_key_...), ('v', 0))))
+E         
+E         At index 2 diff: (('p', ('v', 1), ('v', 0)), ('p', ('v', 0), ('v', 2))) != (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0)))
+E         Use -v to get more diff
+
+tests/test_clause_key.py:116: AssertionError
+________________________ test_B_symmetric_reverse_equal ________________________
+
+    def test_B_symmetric_reverse_equal():
+        a = Clause(
+            (Atom("p", ("a", "a")), Atom("p", ("b", "b"))),
+            Atom("q", ("c", "c")),
+        )
+        b = Clause(
+            (Atom("p", ("b", "b")), Atom("p", ("a", "a"))),
+            Atom("q", ("c", "c")),
+        )
+        assert a != b
+>       assert canonical_clause_key(a) == canonical_clause_key(b)
+E       AssertionError: assert ('clause_key_... ('c', 'b')))) == ('clause_key_... ('c', 'a'))))
+E         
+E         At index 2 diff: (('p', ('c', 'a'), ('c', 'a')), ('p', ('c', 'b'), ('c', 'b'))) != (('p', ('c', 'b'), ('c', 'b')), ('p', ('c', 'a'), ('c', 'a')))
+E         Use -v to get more diff
+
+tests/test_clause_key.py:174: AssertionError
+___________________ test_C_independent_enumeration[clause4] ____________________
+
+clause = Clause(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))
+
+    @pytest.mark.parametrize("clause", [K1, K2, K3, K5, K8, K9])
+    def test_C_independent_enumeration(clause):
+>       assert canonical_clause_key(clause) == _independent_min(clause)
+E       AssertionError: assert ('clause_key_...), ('v', 2)))) == ('clause_key_...), ('v', 0))))
+E         
+E         At index 2 diff: (('p', ('v', 1), ('v', 0)), ('p', ('v', 0), ('v', 2))) != (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0)))
+E         Use -v to get more diff
+
+tests/test_clause_key.py:240: AssertionError
+_________________________ test_E_hard_import_isolation _________________________
+
+    def test_E_hard_import_isolation():
+        env = dict(os.environ)
+        env["PYTHONPATH"] = SRC_DIR
+        proc = subprocess.run(
+            [sys.executable, "-c", _E_SCRIPT],
+            env=env,
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+>       assert proc.returncode == 0, proc.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 35, in <module>
+E             assert canonical_clause_key(k8) == ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))))
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', 'import importlib\nimport sys\nBLOCKED = [\n ...^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+tests/test_clause_key.py:374: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_clause_key.py::test_A_anchors - AssertionError: assert ('cl...
+FAILED tests/test_clause_key.py::test_A_K8_min_from_reverse - AssertionError:...
+FAILED tests/test_clause_key.py::test_A_K8a_same_as_K8 - AssertionError: asse...
+FAILED tests/test_clause_key.py::test_B_symmetric_reverse_equal - AssertionEr...
+FAILED tests/test_clause_key.py::test_C_independent_enumeration[clause4] - As...
+FAILED tests/test_clause_key.py::test_E_hard_import_isolation - AssertionErro...
+6 failed, 33 passed in 0.20s

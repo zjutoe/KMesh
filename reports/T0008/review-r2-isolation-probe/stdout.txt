@@ -1,0 +1,10 @@
+{
+  "original": {
+    "exit_code": 0,
+    "result": "PASS"
+  },
+  "forbidden_submodule": {
+    "exit_code": 1,
+    "result": "rejected_by_submitted_scan"
+  }
+}

@@ -1,0 +1,50 @@
+F...F..................................                                  [100%]
+=================================== FAILURES ===================================
+________________________________ test_A_anchors ________________________________
+
+    def test_A_anchors():
+        assert canonical_clause_key(K0) == (
+            "clause_key_v1",
+            ("p", ("c", "a"), ("c", "b")),
+            (),
+        )
+        assert canonical_clause_key(K3) == (
+            "clause_key_v1",
+            ("r", ("v", 0), ("v", 1)),
+            (("p", ("v", 0), ("v", 2)), ("q", ("v", 2), ("v", 1))),
+        )
+        assert canonical_clause_key(K6) == (
+            "clause_key_v1",
+            ("q", ("v", 0), ("c", "x")),
+            (("p", ("v", 0), ("c", "x")),),
+        )
+        for clause, key in [
+            (K1, K1_KEY),
+            (K2, K2_KEY),
+            (K4, K4_KEY),
+            (K5, K5_KEY),
+            (K7, K7_KEY),
+            (K8, K8_KEY),
+            (K9, K9_KEY),
+            (K10, K10_KEY),
+        ]:
+>           assert canonical_clause_key(clause) == key
+E           AssertionError: assert ('clause_key_..., ('v', 1)),)) == ('clause_key_...), ('v', 1))))
+E             
+E             At index 2 diff: (('p', ('v', 0), ('v', 1)),) != (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 1)))
+E             Use -v to get more diff
+
+tests/test_clause_key.py:102: AssertionError
+________________________ test_B_premise_size_not_equal _________________________
+
+    def test_B_premise_size_not_equal():
+>       assert canonical_clause_key(K1) != canonical_clause_key(K10)
+E       AssertionError: assert ('clause_key_v1', ('q', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)),)) != ('clause_key_v1', ('q', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)),))
+E        +  where ('clause_key_v1', ('q', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)),)) = canonical_clause_key(Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?x', '?y'))))
+E        +  and   ('clause_key_v1', ('q', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)),)) = canonical_clause_key(Clause(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?y'))))
+
+tests/test_clause_key.py:125: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_clause_key.py::test_A_anchors - AssertionError: assert ('cl...
+FAILED tests/test_clause_key.py::test_B_premise_size_not_equal - AssertionErr...
+2 failed, 37 passed in 0.17s

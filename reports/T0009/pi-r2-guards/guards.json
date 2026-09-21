@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "cases": [
+    {
+      "case": "submitted",
+      "exit_code": 0,
+      "summary": "3 passed in 0.02s"
+    },
+    {
+      "case": "generator_consumed_once",
+      "exit_code": 1,
+      "summary": "1 failed, 2 passed in 0.05s"
+    },
+    {
+      "case": "proof_budget_after_T0008",
+      "exit_code": 1,
+      "summary": "2 failed, 1 passed in 0.07s"
+    }
+  ]
+}

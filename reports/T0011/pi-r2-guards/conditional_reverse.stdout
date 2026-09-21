@@ -1,0 +1,105 @@
+................FFF...F..F.....................................          [100%]
+=================================== FAILURES ===================================
+_____________ test_R1_alpha_reverse_combination_invariant[clause2] _____________
+
+clause = Clause(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='q', args=('?y', '?z'))), head=Atom(pred='r', args=('?x', '?z')))
+
+    @pytest.mark.parametrize("clause", _KS)
+    def test_R1_alpha_reverse_combination_invariant(clause):
+        base = canonical_clause_key(clause)
+        renamed = _rename_map(clause, _fresh_mapping(clause))
+        rev = _reverse_body(clause)
+        both = _reverse_body(renamed)
+        if _var_names(clause):
+            assert _var_names(renamed) != _var_names(clause), "rename is a no-op"
+        assert canonical_clause_key(renamed) == base
+>       assert canonical_clause_key(rev) == base
+E       AssertionError: assert ('clause_key_...), ('v', 2)))) == ('clause_key_...), ('v', 1))))
+E         
+E         At index 2 diff: (('q', ('v', 2), ('v', 1)), ('p', ('v', 0), ('v', 2))) != (('p', ('v', 0), ('v', 2)), ('q', ('v', 2), ('v', 1)))
+E         Use -v to get more diff
+
+tests/test_clause_key.py:293: AssertionError
+_____________ test_R1_alpha_reverse_combination_invariant[clause3] _____________
+
+clause = Clause(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='q', args=('?x', '?y'))), head=Atom(pred='r', args=('?x', '?y')))
+
+    @pytest.mark.parametrize("clause", _KS)
+    def test_R1_alpha_reverse_combination_invariant(clause):
+        base = canonical_clause_key(clause)
+        renamed = _rename_map(clause, _fresh_mapping(clause))
+        rev = _reverse_body(clause)
+        both = _reverse_body(renamed)
+        if _var_names(clause):
+            assert _var_names(renamed) != _var_names(clause), "rename is a no-op"
+        assert canonical_clause_key(renamed) == base
+>       assert canonical_clause_key(rev) == base
+E       AssertionError: assert ('clause_key_...), ('v', 1)))) == ('clause_key_...), ('v', 1))))
+E         
+E         At index 2 diff: (('q', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 1))) != (('p', ('v', 0), ('v', 1)), ('q', ('v', 0), ('v', 1)))
+E         Use -v to get more diff
+
+tests/test_clause_key.py:293: AssertionError
+_____________ test_R1_alpha_reverse_combination_invariant[clause4] _____________
+
+clause = Clause(body=(Atom(pred='p', args=('?u', '?v')), Atom(pred='q', args=('?v', '?w'))), head=Atom(pred='r', args=('a', 'b')))
+
+    @pytest.mark.parametrize("clause", _KS)
+    def test_R1_alpha_reverse_combination_invariant(clause):
+        base = canonical_clause_key(clause)
+        renamed = _rename_map(clause, _fresh_mapping(clause))
+        rev = _reverse_body(clause)
+        both = _reverse_body(renamed)
+        if _var_names(clause):
+            assert _var_names(renamed) != _var_names(clause), "rename is a no-op"
+        assert canonical_clause_key(renamed) == base
+>       assert canonical_clause_key(rev) == base
+E       AssertionError: assert ('clause_key_...), ('v', 0)))) == ('clause_key_...), ('v', 2))))
+E         
+E         At index 2 diff: (('q', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))) != (('p', ('v', 0), ('v', 1)), ('q', ('v', 1), ('v', 2)))
+E         Use -v to get more diff
+
+tests/test_clause_key.py:293: AssertionError
+_____________ test_R1_alpha_reverse_combination_invariant[clause8] _____________
+
+clause = Clause(body=(Atom(pred='p', args=('?a', '?b')), Atom(pred='q', args=('?c', '?d'))), head=Atom(pred='r', args=('a', 'b')))
+
+    @pytest.mark.parametrize("clause", _KS)
+    def test_R1_alpha_reverse_combination_invariant(clause):
+        base = canonical_clause_key(clause)
+        renamed = _rename_map(clause, _fresh_mapping(clause))
+        rev = _reverse_body(clause)
+        both = _reverse_body(renamed)
+        if _var_names(clause):
+            assert _var_names(renamed) != _var_names(clause), "rename is a no-op"
+        assert canonical_clause_key(renamed) == base
+>       assert canonical_clause_key(rev) == base
+E       AssertionError: assert ('clause_key_...), ('v', 3)))) == ('clause_key_...), ('v', 3))))
+E         
+E         At index 2 diff: (('q', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 3))) != (('p', ('v', 0), ('v', 1)), ('q', ('v', 2), ('v', 3)))
+E         Use -v to get more diff
+
+tests/test_clause_key.py:293: AssertionError
+_________________ test_R1_K3_K8_body_and_vars_changed[clause0] _________________
+
+clause = Clause(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='q', args=('?y', '?z'))), head=Atom(pred='r', args=('?x', '?z')))
+
+    @pytest.mark.parametrize("clause", [K3, K8])
+    def test_R1_K3_K8_body_and_vars_changed(clause):
+        base = canonical_clause_key(clause)
+        rev = _reverse_body(clause)
+        assert clause.body != rev.body, "body reversal is a no-op"
+>       assert canonical_clause_key(rev) == base
+E       AssertionError: assert ('clause_key_...), ('v', 2)))) == ('clause_key_...), ('v', 1))))
+E         
+E         At index 2 diff: (('q', ('v', 2), ('v', 1)), ('p', ('v', 0), ('v', 2))) != (('p', ('v', 0), ('v', 2)), ('q', ('v', 2), ('v', 1)))
+E         Use -v to get more diff
+
+tests/test_clause_key.py:310: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_clause_key.py::test_R1_alpha_reverse_combination_invariant[clause2]
+FAILED tests/test_clause_key.py::test_R1_alpha_reverse_combination_invariant[clause3]
+FAILED tests/test_clause_key.py::test_R1_alpha_reverse_combination_invariant[clause4]
+FAILED tests/test_clause_key.py::test_R1_alpha_reverse_combination_invariant[clause8]
+FAILED tests/test_clause_key.py::test_R1_K3_K8_body_and_vars_changed[clause0]
+5 failed, 58 passed in 0.27s

@@ -1,0 +1,2 @@
+PASS: accepted hashes and 139 historical files unchanged; 191 in-scope files, no scratch.
+Verification inherited unchanged from accepted review: Pi full 607 passed; Codex focused 125 passed plus mutation/isolation checks.

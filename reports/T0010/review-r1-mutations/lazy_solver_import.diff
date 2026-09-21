@@ -1,0 +1,10 @@
+--- submitted/depth.py
++++ lazy_solver_import/depth.py
+@@ -71,6 +71,7 @@
+     T0008's ``LogicValidationError`` (including the fixed cyclic-dependency
+     message) and ``DerivationLimitError`` propagate unchanged.
+     """
++    from .engine import indexed_closure
+     if not isinstance(clauses, tuple):
+         raise LogicValidationError(
+             f"depth.clauses must be a tuple of Clause; "

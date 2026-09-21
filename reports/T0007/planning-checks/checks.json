@@ -1,0 +1,20 @@
+{
+  "checked_at_utc": "2026-09-17T04:15:52.145702+00:00",
+  "result": "PASS",
+  "stage": "draft_contract_validation",
+  "baseline": "74a96f3735831d16a14dedffbaa6e0654f8b7658",
+  "tracked_files_preserved_except_allowed_docs": 827,
+  "accepted_T0006_commit_and_merge_hashes": {
+    "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+    "tests/test_proof.py": "68fef57a21500f733f9d7a4e1bac671fd71ae5ec2465157dbf71f216d07e3566"
+  },
+  "recorder_sources": 17,
+  "preflight": "PASS",
+  "command_count": 4,
+  "python_blocks": 1,
+  "local_links": 69,
+  "hand_table_orders": 9,
+  "cycle_graphs": 7,
+  "product_and_test_not_created": true,
+  "product_acceptance": "not_run"
+}

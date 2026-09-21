@@ -1,0 +1,2 @@
+PASS: accepted hashes and 90 historical files unchanged; 133 in-scope files, no scratch.
+Accepted independent verification retained unchanged: 679 passed; mutation and indexed traversal probes passed; historical limitations preserved.

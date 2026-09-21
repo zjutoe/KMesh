@@ -1,0 +1,11 @@
+PASS: accepted T0011 hashes/history, environment, new files absent; baseline captured
+{
+  "head": "4c457e21899f81274999855d905e66b2ba574798",
+  "branch": "T0011-clause-key",
+  "packages": {
+    "kmesh": "0.1.0",
+    "pytest": "8.4.2"
+  },
+  "prior_test_inventory": 795,
+  "prior_full_executed": 771
+}

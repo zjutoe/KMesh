@@ -1,0 +1,122 @@
+{
+  "created_at_utc": "2026-09-17T06:15:55.210839+00:00",
+  "result": "NEEDS_CHANGES",
+  "task_status": "needs_changes",
+  "head": "74a96f3735831d16a14dedffbaa6e0654f8b7658",
+  "branch": "T0007-relation-dag",
+  "reviewer": "Codex + gpt-6-astra xhigh",
+  "independent_static_reviewer": "/root/review_t0006_tests",
+  "reviewed_files": {
+    "src/kmesh/logic/dependency.py": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+    "tests/test_dependency.py": "a4e428e9d1acc99a7dc3e01e725e7b3da8d009c8f1c39eeac957b8dd57d7e09c"
+  },
+  "product_defect_found": false,
+  "acceptance": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "needs_changes_R1",
+    "A6": "PASS",
+    "A7": "needs_changes_R2"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P2",
+      "file": "tests/test_dependency.py",
+      "line": 276,
+      "summary": "Generator rejection test misses required complete reason/type; a wrong diagnostic passes.",
+      "minimal_change": "Add must be a tuple of Clause and got generator assertions; preserve not-consumed check."
+    },
+    {
+      "id": "R2",
+      "priority": "P2",
+      "file": "reports/T0007/pi-r1-full/provenance.md",
+      "line": 6,
+      "summary": "Torch version and GPU fluctuation explanation contradict archived version and CUDA hiding; command/basetemp deviations and evidence limits omitted.",
+      "minimal_change": "Append accurate corrections and clarify unarchived doctor repeats / RUN rename; do not modify old evidence or recreate history."
+    }
+  ],
+  "verification_runs": {
+    "review-r1-freeze": {
+      "argv": [
+        ".venv/bin/python",
+        "-c",
+        "\nfrom pathlib import Path\nimport difflib,hashlib,json,subprocess\nroot=Path.cwd(); task=Path(\"reports/T0007\"); out=task/\"review-r1-freeze\"\ndef sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()\nbase=json.loads((task/\"planning-baseline.json\").read_text())\nplanned=json.loads((task/\"planning-final-check/final-audit.json\").read_text())\nallow={\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0007-relation-dag.md\"}\nfor p,h in base[\"tracked_sha256\"].items():\n    if p not in allow|{\"docs/decisions.md\",\"docs/handoffs/T0006-proof-verifier.md\"}: assert sha(p)==h,p\nfor p,h in planned[\"artifact_sha256\"].items():\n    if p not in allow: assert sha(p)==h,p\ninputs=[\"src/kmesh/logic/dependency.py\",\"tests/test_dependency.py\",\"README.md\",\"docs/implementation_status.md\",\"docs/handoffs/T0007-relation-dag.md\",\"reports/T0007/pi-r1-full/provenance.md\",\"reports/T0007/pi-r1-full-doctor.json\",\"reports/T0007/record_check.py\",\"docs/decisions.md\",\"docs/handoffs/T0006-proof-verifier.md\"]\nhashes={}\nfor p in inputs:\n    dest=out/\"input-snapshot\"/p\n    dest.parent.mkdir(parents=True,exist_ok=True)\n    dest.write_bytes(Path(p).read_bytes())\n    hashes[p]=sha(p)\nassert hashes[inputs[0]]==\"4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f\"\nassert hashes[inputs[1]]==\"a4e428e9d1acc99a7dc3e01e725e7b3da8d009c8f1c39eeac957b8dd57d7e09c\"\nrecords=[]\nfor p in sorted(task.glob(\"pi-*/record.json\")):\n    rec=json.loads(p.read_text())\n    assert rec[\"status\"]==\"finished\",p\n    assert rec[\"before\"][\"source_sha256\"]==rec[\"after\"][\"source_sha256\"],p\n    for stream in (\"stdout\",\"stderr\"): assert sha(p.parent/(stream+\".txt\"))==rec[stream+\"_sha256\"],(p,stream)\n    for name,h in rec[\"before\"][\"source_sha256\"].items():\n        if name in inputs[:2] and p.parent.name==\"pi-r1-preflight\":\n            assert h is None\n        else: assert sha(name)==h,(p,name)\n    records.append({\"run\":p.parent.name,**{k:rec[k] for k in (\"argv\",\"env_overrides\",\"exit_code\",\"elapsed_s\",\"started_at_utc\",\"finished_at_utc\")},\n                    \"stderr_empty\":not (p.parent/\"stderr.txt\").read_bytes()})\nassert len(records)==6\nhistory={str(p):sha(p) for p in Path(\"reports\").rglob(\"*\") if p.is_file() and \"pytest-tmp\" not in p.parts and \"__pycache__\" not in p.parts and not str(p).startswith(\"reports/T0007/review-r1\")}\ndoc=json.loads((task/\"pi-r1-full-doctor.json\").read_text())\naudit={\"head\":subprocess.check_output([\"git\",\"rev-parse\",\"HEAD\"],text=True).strip(),\n\"branch\":subprocess.check_output([\"git\",\"branch\",\"--show-current\"],text=True).strip(),\n\"input_sha256\":hashes,\"history_sha256\":history,\"pi_records\":records,\n\"old_tracked_files_and_frozen_planning_unchanged\":True,\n\"doctor_report\":{\"torch\":doc[\"packages\"][\"torch\"],\"status\":doc[\"status\"],\"generated_at_utc\":doc[\"generated_at_utc\"]},\n\"pending_record_findings\":[\"No Pi pytest argv includes required --basetemp; full added unrelated doctor call.\",\n\"Archived doctor uses CUDA_VISIBLE_DEVICES empty; GPU fluctuation explanation unsupported.\",\n\"Provenance torch version 2.9.1+cu128 conflicts with archived report 2.10.0+cu126.\",\n\"Three later doctor successes have no archived RUN in supplied report tree; RUN rename is self-reported.\"]}\n(out/\"audit.json\").write_text(json.dumps(audit,ensure_ascii=False,indent=2)+\"\\n\")\n(out/\"readme-status.diff\").write_text(subprocess.check_output([\"git\",\"diff\",\"--\",\"README.md\",\"docs/implementation_status.md\"],text=True))\nprint(f\"PASS: exact input hashes, {len(records)} Pi RUN log hashes/source snapshots, old tracked/planning files unchanged\")\nprint(f\"Frozen {len(history)} historical files.\")\nfor rec in records:\n    print(rec[\"run\"],\"exit=\"+str(rec[\"exit_code\"]),\"elapsed_s=\"+str(rec[\"elapsed_s\"]),\"stderr_empty=\"+str(rec[\"stderr_empty\"]))\nprint(\"Archived doctor:\",json.dumps(audit[\"doctor_report\"]))\n"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.195,
+      "started_at_utc": "2026-09-17T06:10:33.957545+00:00",
+      "finished_at_utc": "2026-09-17T06:10:34.167719+00:00"
+    },
+    "review-r1-full": {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0007/review-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 4.56,
+      "started_at_utc": "2026-09-17T06:10:34.332468+00:00",
+      "finished_at_utc": "2026-09-17T06:10:38.907656+00:00"
+    },
+    "review-r1-probes": {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0007/review-r1/probe.py"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.217,
+      "started_at_utc": "2026-09-17T06:11:38.892511+00:00",
+      "finished_at_utc": "2026-09-17T06:11:39.123927+00:00"
+    }
+  },
+  "full_regression": "482 passed in 4.30s; no skip/xfail; stderr empty",
+  "probe_results": {
+    "graph_oracle": {
+      "total": 512,
+      "dag": 25,
+      "cyclic": 487,
+      "result": "PASS"
+    },
+    "submitted_generator_test_accepts_wrong_diagnostic": true,
+    "wrong_diagnostic": "dependency.clauses: rejected",
+    "readme_example": "PASS",
+    "scope": "Review helper only; no product/test file changes"
+  },
+  "pi_records_hash_verified": 6,
+  "historical_files_preserved": 832,
+  "closure_checks": {
+    "git_diff_check": "PASS",
+    "local_links_checked": 63,
+    "python_blocks_compiled": 6,
+    "text_hygiene": "PASS"
+  },
+  "artifact_sha256": {
+    "README.md": "6674873f54b7dc493c42504a0900201bfc88f73e09a95c54b00f3b7bf0e4bb03",
+    "docs/implementation_status.md": "d9720da3ecf512a62d7a4bf39ec1ed86f061e7e6160026a2ab94e263285af5e3",
+    "docs/handoffs/T0007-relation-dag.md": "a4816a544a566750b19bc7e643ab10f7cdb6c1671d1c2e877877fa73dff0efa5",
+    "reports/T0007/review-r1/review.md": "47d10c6d9d516c344632bf8ed3f2e69ca9a1b275ee70cfc7bf8ed12204985cd9",
+    "reports/T0007/review-r1/probe.py": "24ef94c9b666290a548b0221115c1793e8fdd272aaccf5c58ca3e6d3aeac98a0",
+    "reports/T0007/review-r1-probes/findings.json": "7af010c260bac91fd203c212b24937f3e3796d1b9865dd363c60173420e4c07a",
+    "reports/T0007/review-r1-freeze/audit.json": "0c2696712e983a516d5d59f6f577857aed4812f149bf43f09dbc0c4876b05e75"
+  },
+  "next_round_scope": "Frozen product; two assertions plus optional inaccurate comment removal; new focused run with basetemp and doc hygiene only, inherit this full regression when original sources/tests unchanged.",
+  "limits": [
+    "No product/test edit by Codex",
+    "Three later doctor successes and original failed RUN name unverified pending clarification",
+    "No commit/push",
+    "No scientific conclusion or complete world-audit claim"
+  ]
+}
