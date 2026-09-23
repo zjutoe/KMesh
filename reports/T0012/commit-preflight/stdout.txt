@@ -1,0 +1,2 @@
+PASS: accepted hashes 86 ; scoped changed files 753
+Total changed-file bytes: 6037155

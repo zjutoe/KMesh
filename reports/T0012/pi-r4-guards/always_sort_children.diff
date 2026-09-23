@@ -1,0 +1,13 @@
+--- submitted
++++ always_sort_children
+@@ -178,6 +178,10 @@
+                 else:
+                     chosen_refs = (ref0, ref1)
+ 
++        if len(premise_steps) == 2:
++            cmp = _compare_subtrees(ref0, ref1, headers, children_order)
++            chosen_refs = (ref0, ref1) if cmp <= 0 else (ref1, ref0)
++
+         conclusion = step.conclusion
+         ground_key = (conclusion.pred, conclusion.args[0], conclusion.args[1])
+         headers[i] = (ground_key, clause_key)

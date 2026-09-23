@@ -1,0 +1,73 @@
+.....F...............F..F....................                            [100%]
+=================================== FAILURES ===================================
+______________ TestAHandComputed.test_k5_nonsymmetric_degenerate _______________
+
+self = <test_proof_key.TestAHandComputed object at 0x7f5430c98d10>
+
+    def test_k5_nonsymmetric_degenerate(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?z", "?x"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?x")))
+        AB = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (0, 2), "q", "a", "a"))
+        kAB = _expected(c, AB, (3, 2, 1, 0))
+        BA = (_ps(1, (), "s", "a", "a"), _ps(2, (0,), "p", "a", "a"),
+              _ps(0, (), "p", "a", "a"), _ps(3, (1, 2), "q", "a", "a"))
+        kBA = _expected(c, BA, (3, 2, 1, 0))
+>       assert key(c, _A("q", "a", "a"), AB) == kAB
+E       AssertionError: assert ('proof_key_v... 'a')), ())))) == ('proof_key_v... 'a')), ()))))
+E         
+E         At index 1 diff: ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', ('v', 0), ('v', 1)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ()))) != ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', (...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_proof_key.py:139: AssertionError
+____________ TestCOracleAndEnumeration.test_k5_two_supports_oracle _____________
+
+self = <test_proof_key.TestCOracleAndEnumeration object at 0x7f5430bad090>
+
+    def test_k5_two_supports_oracle(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?z", "?x"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?x")))
+        AB = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (0, 2), "q", "a", "a"))
+        BA = (_ps(1, (), "s", "a", "a"), _ps(2, (0,), "p", "a", "a"),
+              _ps(0, (), "p", "a", "a"), _ps(3, (1, 2), "q", "a", "a"))
+        a = _build_nodes(c, AB)[-1]
+        b = _build_nodes(c, BA)[-1]
+        assert not oracle_equiv(a, b)
+>       assert key(c, _A("q", "a", "a"), AB) != key(c, _A("q", "a", "a"), BA)
+E       AssertionError: assert ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) != ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ()))))
+E        +  where ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) = key((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))), Atom(pred='q', args=('a', 'a')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'a'))), ProofStep(clause_index=1, pr...ed='p', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(0, 2), conclusion=Atom(pred='q', args=('a', 'a')))))
+E        +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')
+E        +  and   ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) = key((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))), Atom(pred='q', args=('a', 'a')), (ProofStep(clause_index=1, premise_steps=(), conclusion=Atom(pred='s', args=('a', 'a'))), ProofStep(clause_index=2, pr...ed='p', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(1, 2), conclusion=Atom(pred='q', args=('a', 'a')))))
+E        +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')
+
+tests/test_proof_key.py:427: AssertionError
+___________ TestCOracleAndEnumeration.test_t0009_k5_enumeration_4to4 ___________
+
+self = <test_proof_key.TestCOracleAndEnumeration object at 0x7f543125f770>
+
+    def test_t0009_k5_enumeration_4to4(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?z", "?x"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?x")))
+        trees = enumerate_proofs(c, _A("q", "a", "a"),
+                                 max_fact_checks=3, max_derivations=4,
+                                 max_proof_steps=20)
+        assert len(trees) == 4
+>       assert len({key(c, _A("q", "a", "a"), t) for t in trees}) == 4
+E       AssertionError: assert 3 == 4
+E        +  where 3 = len({('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', (...), (...)), ((...), (...)))), (('p', 'a', 'a'), ('clau...'), ('clause_key_v1', ('p', (...), (...)), ((...),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', (...), (...)), ()))))})
+
+tests/test_proof_key.py:471: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/pi-r2-guards-baseline/always_sort_children.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestAHandComputed::test_k5_nonsymmetric_degenerate
+FAILED tests/test_proof_key.py::TestCOracleAndEnumeration::test_k5_two_supports_oracle
+FAILED tests/test_proof_key.py::TestCOracleAndEnumeration::test_t0009_k5_enumeration_4to4
+3 failed, 42 passed in 0.34s

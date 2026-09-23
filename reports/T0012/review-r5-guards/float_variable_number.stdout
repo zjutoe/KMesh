@@ -1,0 +1,117 @@
+...................F...............................................F.    [100%]
+=================================== FAILURES ===================================
+___________________ TestBTransformations.test_type_soundness ___________________
+
+self = <test_proof_key.TestBTransformations object at 0x7fc1b7742f30>
+
+    def test_type_soundness(self):
+        # K3 join: exercises top, header, ground-key, clause-key, pred,
+        # arg-key, and body (two distinct premises) layers.
+        c = (_fact("p", "a", "b"), _fact("q", "b", "c"),
+             Clause((_A("p", "?x", "?y"), _A("q", "?y", "?z")),
+                   _A("r", "?x", "?z")))
+        p = (_ps(0, (), "p", "a", "b"), _ps(1, (), "q", "b", "c"),
+             _ps(2, (0, 1), "r", "a", "c"))
+        k = key(c, _A("r", "a", "c"), p)
+        assert type(k) is tuple and len(k) == 2
+        assert type(k[0]) is str and k[0] == "proof_key_v1"
+        assert type(k[1]) is tuple
+        def _argkey(a):
+            assert type(a) is tuple and len(a) == 2
+            assert type(a[0]) is str and a[0] in ("c", "v")
+            if a[0] == "c":
+                assert type(a[1]) is str
+            else:
+                assert type(a[1]) is int and not isinstance(a[1], bool)
+                assert a[1] >= 0
+        def _predkey(pkey):
+            assert type(pkey) is tuple and len(pkey) == 3
+            assert type(pkey[0]) is str and not pkey[0].startswith("?")
+            _argkey(pkey[1]); _argkey(pkey[2])
+        for h in k[1]:
+            assert type(h) is tuple and len(h) == 2
+            g, ck = h
+            assert type(g) is tuple and len(g) == 3
+            for x in g:
+                assert type(x) is str and not x.startswith("?")
+            assert type(ck) is tuple and len(ck) == 3
+            assert type(ck[0]) is str and ck[0] == "clause_key_v1"
+>           _predkey(ck[1])
+
+tests/test_proof_key.py:477: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof_key.py:468: in _predkey
+    _argkey(pkey[1]); _argkey(pkey[2])
+    ^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = ('v', 0.0)
+
+    def _argkey(a):
+        assert type(a) is tuple and len(a) == 2
+        assert type(a[0]) is str and a[0] in ("c", "v")
+        if a[0] == "c":
+            assert type(a[1]) is str
+        else:
+>           assert type(a[1]) is int and not isinstance(a[1], bool)
+E           AssertionError: assert (<class 'float'> is int)
+E            +  where <class 'float'> = type(0.0)
+
+tests/test_proof_key.py:463: AssertionError
+_______________ TestFGuardQuality.test_variable_numbers_are_ints _______________
+
+self = <test_proof_key.TestFGuardQuality object at 0x7fc1b68296d0>
+
+    def test_variable_numbers_are_ints(self):
+        # float_variable_number guard: every variable number must be a
+        # non-bool int (rebuilding to float would change the key type).
+        c = (_fact("p", "a", "a"),
+             Clause((_A("p", "?x", "?y"),), _A("q", "?x", "?y")))
+        p = (_ps(0, (), "p", "a", "a"), _ps(1, (0,), "q", "a", "a"))
+        k = key(c, _A("q", "a", "a"), p)
+        def _check_term(term):
+            assert isinstance(term, tuple) and len(term) == 2
+            if term[0] == "v":
+                assert type(term[1]) is int and not isinstance(term[1], bool), term
+                assert term[1] >= 0
+            else:
+                assert isinstance(term[1], str), term
+        def _check_clause_key(ck):
+            assert isinstance(ck, tuple) and len(ck) == 3 and ck[0] == "clause_key_v1", ck
+            head = ck[1]
+            assert isinstance(head, tuple) and len(head) == 3, head
+            assert isinstance(head[0], str), head
+            _check_term(head[1]); _check_term(head[2])
+            body = ck[2]
+            assert isinstance(body, tuple), body
+            for atom in body:
+                assert isinstance(atom, tuple) and len(atom) == 3, atom
+                assert isinstance(atom[0], str), atom
+                _check_term(atom[1]); _check_term(atom[2])
+        for h in k[1]:
+            assert isinstance(h, tuple) and len(h) == 2
+>           _check_clause_key(h[1])
+
+tests/test_proof_key.py:1456: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof_key.py:1447: in _check_clause_key
+    _check_term(head[1]); _check_term(head[2])
+    ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+term = ('v', 0.0)
+
+    def _check_term(term):
+        assert isinstance(term, tuple) and len(term) == 2
+        if term[0] == "v":
+>           assert type(term[1]) is int and not isinstance(term[1], bool), term
+E           AssertionError: ('v', 0.0)
+E           assert (<class 'float'> is int)
+E            +  where <class 'float'> = type(0.0)
+
+tests/test_proof_key.py:1438: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/review-r5-guards/float_variable_number.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestBTransformations::test_type_soundness - A...
+FAILED tests/test_proof_key.py::TestFGuardQuality::test_variable_numbers_are_ints
+2 failed, 67 passed in 1.00s

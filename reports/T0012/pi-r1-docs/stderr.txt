@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/mye/src/llm/KMesh/reports/T0012/check_delivery.py", line 87, in <module>
+    main()
+    ~~~~^^
+  File "/home/mye/src/llm/KMesh/reports/T0012/check_delivery.py", line 60, in main
+    assert text.endswith('\n') and all(s == s.rstrip() for s in text.splitlines()), path
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: /home/mye/src/llm/KMesh/tests/test_proof_key.py

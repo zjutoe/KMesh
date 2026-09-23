@@ -1,0 +1,11 @@
+--- submitted
++++ float_variable_number
+@@ -38,7 +38,7 @@
+     """
+     if term.startswith("?"):
+         number = numbering.setdefault(term, len(numbering))
+-        return ("v", number)
++        return ("v", float(number))
+     return ("c", term)
+ 
+ 

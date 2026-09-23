@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="52" time="0.448" timestamp="2026-09-22T03:15:53.962476+00:00" hostname="ai86"><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestAHandComputed" name="test_k0_fact" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestAHandComputed" name="test_k1_copy_full_literal" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestAHandComputed" name="test_k2_inv_full_literal" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestAHandComputed" name="test_k3_join_full_literal" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestAHandComputed" name="test_k4_symmetric_two_facts" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestAHandComputed" name="test_k5_nonsymmetric_degenerate" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestAHandComputed" name="test_k6_duplicate_premises" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestAHandComputed" name="test_k7_valid_self_rule_differs_from_fact" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestAHandComputed" name="test_k8_deep_same_header" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_var_bijection_same" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_world_reorder_remapped_same" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_joint_swap_two_slot_clause" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_non_contiguous_topology" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_k1_insert_equivalent_duplicate_same" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_add_unused_clauses_same" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_constant_change_differs" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_two_bridge_supports_differ" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_copy_inv_schema_differs" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_input_purity_and_stability" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestBTransformations" name="test_type_soundness" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k1_oracle_matches" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k5_two_supports_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k6_ab_vs_aa_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k8_same_header_successor_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestCOracleAndEnumeration" name="test_t0009_k5_enumeration_4to4" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestCOracleAndEnumeration" name="test_t0009_k6_enumeration_4to3" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_empty_proof_valid_message" time="0.001"><failure message="AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'&#10;  &#10;  Skipping 35 identical leading characters in diff, use -v to show&#10;  - of of query&#10;  + of of query EXTRA&#10;  ?            ++++++">self = &lt;test_proof_key.TestDErrors object at 0x7fecc81d11d0&gt;
+
+    def test_empty_proof_valid_message(self):
+        c = (_fact("p", "a", "b"),)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("p", "a", "b"), ())
+&gt;       assert str(e.value) == "proof_key.proof must be a valid proof of query"
+E       AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'
+E         
+E         Skipping 35 identical leading characters in diff, use -v to show
+E         - of of query
+E         + of of query EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:493: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_wrong_query_valid_message" time="0.001"><failure message="AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'&#10;  &#10;  Skipping 35 identical leading characters in diff, use -v to show&#10;  - of of query&#10;  + of of query EXTRA&#10;  ?            ++++++">self = &lt;test_proof_key.TestDErrors object at 0x7fecc81d1310&gt;
+
+    def test_wrong_query_valid_message(self):
+        c = (_fact("q", "a", "b"),)
+        p = (_ps(0, (), "p", "a", "b"),)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("q", "a", "b"), p)
+&gt;       assert str(e.value) == "proof_key.proof must be a valid proof of query"
+E       AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'
+E         
+E         Skipping 35 identical leading characters in diff, use -v to show
+E         - of of query
+E         + of of query EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:501: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_invalid_derivation_valid_message" time="0.001"><failure message="AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'&#10;  &#10;  Skipping 35 identical leading characters in diff, use -v to show&#10;  - of of query&#10;  + of of query EXTRA&#10;  ?            ++++++">self = &lt;test_proof_key.TestDErrors object at 0x7fecc884a2c0&gt;
+
+    def test_invalid_derivation_valid_message(self):
+        c = (_fact("p", "a", "b"), _fact("q", "a", "b"))
+        p = (_ps(0, (), "p", "a", "b"),)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("q", "a", "b"), p)
+&gt;       assert str(e.value) == "proof_key.proof must be a valid proof of query"
+E       AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'
+E         
+E         Skipping 35 identical leading characters in diff, use -v to show
+E         - of of query
+E         + of of query EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:509: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_bad_clauses_outer" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_bad_clauses_member" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_bad_query_nonground" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_bad_query_type" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_bad_proof_member" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_bad_max_steps_types" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_generator_unconsumed_marker" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_proof_limit_priority" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_single_occurrence_message" time="0.001"><failure message="AssertionError: assert 'proof_key.pr...ce tree EXTRA' == 'proof_key.pr...currence tree'&#10;  &#10;  Skipping 37 identical leading characters in diff, use -v to show&#10;  - rrence tree&#10;  + rrence tree EXTRA&#10;  ?            ++++++">self = &lt;test_proof_key.TestDErrors object at 0x7fecc88e5470&gt;
+
+    def test_single_occurrence_message(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?x", "?y"), _A("p", "?x", "?y")), _A("q", "?x", "?y")))
+        shared = (_ps(0, (), "p", "a", "a"), _ps(3, (0, 0), "q", "a", "a"))
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("q", "a", "a"), shared)
+&gt;       assert str(e.value) == "proof_key.proof must be a single occurrence tree"
+E       AssertionError: assert 'proof_key.pr...ce tree EXTRA' == 'proof_key.pr...currence tree'
+E         
+E         Skipping 37 identical leading characters in diff, use -v to show
+E         - rrence tree
+E         + rrence tree EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:570: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_unused_legal_step_rejected" time="0.001"><failure message="AssertionError: assert 'proof_key.pr...ce tree EXTRA' == 'proof_key.pr...currence tree'&#10;  &#10;  Skipping 37 identical leading characters in diff, use -v to show&#10;  - rrence tree&#10;  + rrence tree EXTRA&#10;  ?            ++++++">self = &lt;test_proof_key.TestDErrors object at 0x7fecc88e5710&gt;
+
+    def test_unused_legal_step_rejected(self):
+        # a legal step that is never referenced (ref 0) and is not the final
+        # step must be rejected: the single-occurrence tree requires every
+        # non-final step to be referenced exactly once.
+        c = (_fact("p", "a", "b"), _fact("p", "a", "b"))
+        query = _A("p", "a", "b")
+        proof = (_ps(0, (), "p", "a", "b"), _ps(1, (), "p", "a", "b"))
+        assert verify_proof(c, query, proof)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, query, proof)
+&gt;       assert str(e.value) == "proof_key.proof must be a single occurrence tree"
+E       AssertionError: assert 'proof_key.pr...ce tree EXTRA' == 'proof_key.pr...currence tree'
+E         
+E         Skipping 37 identical leading characters in diff, use -v to show
+E         - rrence tree
+E         + rrence tree EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:583: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_clauses_list_rejected_by_product" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_semantic_before_single_occurrence" time="0.001"><failure message="AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'&#10;  &#10;  Skipping 35 identical leading characters in diff, use -v to show&#10;  - of of query&#10;  + of of query EXTRA&#10;  ?            ++++++">self = &lt;test_proof_key.TestDErrors object at 0x7fecc8805550&gt;
+
+    def test_semantic_before_single_occurrence(self):
+        # semantic-invalid (final != query) is raised before the single-occurrence
+        # check; a bad ref_count must not mask the invalid-proof message.
+        c = (_fact("p", "a", "b"), _fact("p", "a", "b"))
+        query = _A("q", "a", "b")
+        proof = (_ps(0, (), "p", "a", "b"), _ps(1, (), "p", "a", "b"))
+        assert not verify_proof(c, query, proof)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, query, proof)
+&gt;       assert str(e.value) == "proof_key.proof must be a valid proof of query"
+E       AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'
+E         
+E         Skipping 35 identical leading characters in diff, use -v to show
+E         - of of query
+E         + of of query EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:603: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_length_before_bad_member" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_legal_length_boundary" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_superint_max_steps_accept" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_missing_extra_unknown_args" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_exception_instance_propagation" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestDErrors" name="test_prooflimit_instance_propagation" time="0.001" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestELongAndIsolation" name="test_long_chain_1201" time="0.028" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestELongAndIsolation" name="test_import_isolation_hard_block" time="0.049" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestFGuardQuality" name="test_guard_rejects_index_in_key" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestFGuardQuality" name="test_variable_numbers_are_ints" time="0.000" /><testcase classname="reports.T0012.pi-r2-guards2.pytest-tmp.diagnostic_suffix.tests.test_proof_key.TestFGuardQuality" name="test_module_all" time="0.000" /></testsuite></testsuites>

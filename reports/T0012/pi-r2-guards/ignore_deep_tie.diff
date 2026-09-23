@@ -1,0 +1,11 @@
+--- submitted
++++ ignore_deep_tie
+@@ -170,7 +170,7 @@
+                 chosen_refs = (ref1, ref0)
+             else:
+                 clause_key = fwd_key
+-                cmp = _compare_subtrees(ref0, ref1, headers, children_order)
++                cmp = 0
+                 if cmp < 0:
+                     chosen_refs = (ref0, ref1)
+                 elif cmp > 0:

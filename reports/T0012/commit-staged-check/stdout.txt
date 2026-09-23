@@ -1,0 +1,1343 @@
+reports/T0012/pi-r2-guards-baseline/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards-baseline/always_sort_children.stdout:20: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/always_sort_children.stdout:22: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/always_sort_children.xml:16: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/always_sort_children.xml:18: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards-baseline/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards-baseline/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards-baseline/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards-baseline/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards-baseline/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.stdout:19: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.stdout:48: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.stdout:50: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.stdout:84: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.stdout:86: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.xml:15: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.xml:41: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.xml:43: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.xml:74: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards-baseline/ignore_deep_tie.xml:76: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards/always_sort_children.stdout:20: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/always_sort_children.stdout:22: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/always_sort_children.xml:16: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/always_sort_children.xml:18: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards/diagnostic_suffix.stdout:13: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.stdout:31: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.stdout:49: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.stdout:69: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.stdout:92: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.stdout:114: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.xml:9: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.xml:24: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.xml:39: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.xml:56: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.xml:76: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/diagnostic_suffix.xml:95: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/pi-r2-guards/float_variable_number.stdout:37: trailing whitespace.
++tests/test_proof_key.py:781: 
+reports/T0012/pi-r2-guards/float_variable_number.stdout:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r2-guards/float_variable_number.stdout:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r2-guards/float_variable_number.xml:33: trailing whitespace.
++tests/test_proof_key.py:781: 
+reports/T0012/pi-r2-guards/float_variable_number.xml:34: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r2-guards/float_variable_number.xml:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r2-guards/ignore_deep_tie.stdout:19: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/ignore_deep_tie.stdout:48: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/ignore_deep_tie.stdout:50: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/ignore_deep_tie.stdout:84: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/ignore_deep_tie.stdout:86: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/ignore_deep_tie.xml:15: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/ignore_deep_tie.xml:41: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/ignore_deep_tie.xml:43: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/ignore_deep_tie.xml:74: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/ignore_deep_tie.xml:76: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/lazy_forbidden_import.stdout:60: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards/lazy_forbidden_import.xml:56: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards2/always_sort_children.stdout:20: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/always_sort_children.stdout:22: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/always_sort_children.xml:16: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/always_sort_children.xml:18: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards2/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards2/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards2/diagnostic_suffix.stdout:13: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.stdout:31: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.stdout:49: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.stdout:69: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.stdout:92: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.stdout:114: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.xml:9: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.xml:24: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.xml:39: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.xml:56: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.xml:76: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/diagnostic_suffix.xml:95: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards2/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/pi-r2-guards2/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/pi-r2-guards2/float_variable_number.stdout:37: trailing whitespace.
++tests/test_proof_key.py:781: 
+reports/T0012/pi-r2-guards2/float_variable_number.stdout:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r2-guards2/float_variable_number.stdout:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r2-guards2/float_variable_number.xml:33: trailing whitespace.
++tests/test_proof_key.py:781: 
+reports/T0012/pi-r2-guards2/float_variable_number.xml:34: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r2-guards2/float_variable_number.xml:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r2-guards2/ignore_deep_tie.stdout:19: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/ignore_deep_tie.stdout:48: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/ignore_deep_tie.stdout:50: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/ignore_deep_tie.stdout:84: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/ignore_deep_tie.stdout:86: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/ignore_deep_tie.xml:15: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/ignore_deep_tie.xml:41: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/ignore_deep_tie.xml:43: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/ignore_deep_tie.xml:74: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/ignore_deep_tie.xml:76: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/lazy_forbidden_import.stdout:60: trailing whitespace.
++E         
+reports/T0012/pi-r2-guards2/lazy_forbidden_import.xml:56: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/pi-r3-guards2/always_sort_children.stdout:36: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/always_sort_children.stdout:38: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/always_sort_children.stdout:118: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/always_sort_children.xml:32: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/always_sort_children.xml:34: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/always_sort_children.xml:108: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/pi-r3-guards2/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/pi-r3-guards2/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/pi-r3-guards2/diagnostic_suffix.stdout:14: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.stdout:33: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.stdout:52: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.stdout:74: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.stdout:96: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.stdout:119: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.stdout:147: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.xml:10: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.xml:26: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.xml:42: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.xml:61: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.xml:80: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.xml:100: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/diagnostic_suffix.xml:125: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/pi-r3-guards2/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/pi-r3-guards2/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/pi-r3-guards2/float_variable_number.stdout:37: trailing whitespace.
++tests/test_proof_key.py:424: 
+reports/T0012/pi-r3-guards2/float_variable_number.stdout:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r3-guards2/float_variable_number.stdout:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r3-guards2/float_variable_number.stdout:88: trailing whitespace.
++tests/test_proof_key.py:1108: 
+reports/T0012/pi-r3-guards2/float_variable_number.stdout:89: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r3-guards2/float_variable_number.stdout:93: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r3-guards2/float_variable_number.xml:33: trailing whitespace.
++tests/test_proof_key.py:424: 
+reports/T0012/pi-r3-guards2/float_variable_number.xml:34: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r3-guards2/float_variable_number.xml:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r3-guards2/float_variable_number.xml:81: trailing whitespace.
++tests/test_proof_key.py:1108: 
+reports/T0012/pi-r3-guards2/float_variable_number.xml:82: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r3-guards2/float_variable_number.xml:86: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:28: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:80: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:82: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:133: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:135: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:164: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:166: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:203: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:205: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.stdout:255: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:24: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:73: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:75: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:123: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:125: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:151: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:153: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:187: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:189: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/ignore_deep_tie.xml:236: trailing whitespace.
++E         
+reports/T0012/pi-r3-guards2/lazy_dependency_import.stdout:9: trailing whitespace.
++    
+reports/T0012/pi-r3-guards2/lazy_dependency_import.stdout:117: trailing whitespace.
++E             
+reports/T0012/pi-r3-guards2/lazy_dependency_import.xml:5: trailing whitespace.
++    
+reports/T0012/pi-r3-guards2/lazy_dependency_import.xml:113: trailing whitespace.
++E             
+reports/T0012/pi-r3-guards2/lazy_forbidden_import.stdout:9: trailing whitespace.
++    
+reports/T0012/pi-r3-guards2/lazy_forbidden_import.stdout:117: trailing whitespace.
++E             
+reports/T0012/pi-r3-guards2/lazy_forbidden_import.xml:5: trailing whitespace.
++    
+reports/T0012/pi-r3-guards2/lazy_forbidden_import.xml:113: trailing whitespace.
++E             
+reports/T0012/pi-r4-guards/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/always_sort_children.stdout:36: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/always_sort_children.stdout:38: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/always_sort_children.stdout:118: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/always_sort_children.stdout:131: trailing whitespace.
++    
+reports/T0012/pi-r4-guards/always_sort_children.stdout:248: trailing whitespace.
++E             
+reports/T0012/pi-r4-guards/always_sort_children.xml:32: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/always_sort_children.xml:34: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/always_sort_children.xml:108: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/always_sort_children.xml:118: trailing whitespace.
++    
+reports/T0012/pi-r4-guards/always_sort_children.xml:235: trailing whitespace.
++E             
+reports/T0012/pi-r4-guards/coerce_clauses.stdout:27: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/coerce_clauses.xml:20: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/consume_generator_before_verify.stdout:28: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/consume_generator_before_verify.xml:24: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/diagnostic_suffix.stdout:14: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.stdout:33: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.stdout:52: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.stdout:74: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.stdout:96: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.stdout:119: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.stdout:147: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.xml:10: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.xml:26: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.xml:42: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.xml:61: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.xml:80: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.xml:100: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/diagnostic_suffix.xml:125: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/pi-r4-guards/float_variable_number.stdout:41: trailing whitespace.
++tests/test_proof_key.py:444: 
+reports/T0012/pi-r4-guards/float_variable_number.stdout:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r4-guards/float_variable_number.stdout:46: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r4-guards/float_variable_number.stdout:95: trailing whitespace.
++tests/test_proof_key.py:1364: 
+reports/T0012/pi-r4-guards/float_variable_number.stdout:96: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r4-guards/float_variable_number.stdout:100: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r4-guards/float_variable_number.xml:37: trailing whitespace.
++tests/test_proof_key.py:444: 
+reports/T0012/pi-r4-guards/float_variable_number.xml:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r4-guards/float_variable_number.xml:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r4-guards/float_variable_number.xml:88: trailing whitespace.
++tests/test_proof_key.py:1364: 
+reports/T0012/pi-r4-guards/float_variable_number.xml:89: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r4-guards/float_variable_number.xml:93: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:28: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:80: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:82: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:133: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:135: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:164: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:166: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:203: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:205: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.stdout:255: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:24: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:73: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:75: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:123: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:125: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:151: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:153: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:187: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:189: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/ignore_deep_tie.xml:236: trailing whitespace.
++E         
+reports/T0012/pi-r4-guards/lazy_dependency_import.stdout:10: trailing whitespace.
++    
+reports/T0012/pi-r4-guards/lazy_dependency_import.stdout:130: trailing whitespace.
++E             
+reports/T0012/pi-r4-guards/lazy_dependency_import.xml:6: trailing whitespace.
++    
+reports/T0012/pi-r4-guards/lazy_dependency_import.xml:126: trailing whitespace.
++E             
+reports/T0012/pi-r4-guards/lazy_forbidden_import.stdout:10: trailing whitespace.
++    
+reports/T0012/pi-r4-guards/lazy_forbidden_import.stdout:130: trailing whitespace.
++E             
+reports/T0012/pi-r4-guards/lazy_forbidden_import.xml:6: trailing whitespace.
++    
+reports/T0012/pi-r4-guards/lazy_forbidden_import.xml:126: trailing whitespace.
++E             
+reports/T0012/pi-r4-guards/lowercase_actual_symbols.diff:9: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/lowercase_actual_symbols.diff:10: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/lowercase_actual_symbols.diff:30: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/lowercase_actual_symbols.diff:36: trailing whitespace.
++ 
+reports/T0012/pi-r4-guards/lowercase_actual_symbols.diff:36: new blank line at EOF.
+reports/T0012/pi-r4-guards/lowercase_actual_symbols.stdout:20: trailing whitespace.
++tests/test_proof_key.py:575: 
+reports/T0012/pi-r4-guards/lowercase_actual_symbols.stdout:21: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r4-guards/lowercase_actual_symbols.xml:16: trailing whitespace.
++tests/test_proof_key.py:575: 
+reports/T0012/pi-r4-guards/lowercase_actual_symbols.xml:17: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/always_sort_children.stdout:36: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/always_sort_children.stdout:38: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/always_sort_children.stdout:79: trailing whitespace.
++tests/test_proof_key.py:615: 
+reports/T0012/pi-r5-guards/always_sort_children.stdout:80: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/always_sort_children.stdout:168: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/always_sort_children.stdout:181: trailing whitespace.
++    
+reports/T0012/pi-r5-guards/always_sort_children.stdout:298: trailing whitespace.
++E             
+reports/T0012/pi-r5-guards/always_sort_children.xml:32: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/always_sort_children.xml:34: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/always_sort_children.xml:72: trailing whitespace.
++tests/test_proof_key.py:615: 
+reports/T0012/pi-r5-guards/always_sort_children.xml:73: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/always_sort_children.xml:155: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/always_sort_children.xml:165: trailing whitespace.
++    
+reports/T0012/pi-r5-guards/always_sort_children.xml:282: trailing whitespace.
++E             
+reports/T0012/pi-r5-guards/coerce_clauses.stdout:27: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/coerce_clauses.xml:20: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/consume_generator_before_verify.stdout:28: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/consume_generator_before_verify.xml:24: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/diagnostic_suffix.stdout:14: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.stdout:33: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.stdout:52: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.stdout:74: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.stdout:96: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.stdout:119: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.stdout:147: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.xml:10: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.xml:26: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.xml:42: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.xml:61: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.xml:80: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.xml:100: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/diagnostic_suffix.xml:125: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/pi-r5-guards/float_variable_number.stdout:41: trailing whitespace.
++tests/test_proof_key.py:477: 
+reports/T0012/pi-r5-guards/float_variable_number.stdout:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/float_variable_number.stdout:46: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/float_variable_number.stdout:95: trailing whitespace.
++tests/test_proof_key.py:1456: 
+reports/T0012/pi-r5-guards/float_variable_number.stdout:96: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/float_variable_number.stdout:100: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/float_variable_number.xml:37: trailing whitespace.
++tests/test_proof_key.py:477: 
+reports/T0012/pi-r5-guards/float_variable_number.xml:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/float_variable_number.xml:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/float_variable_number.xml:88: trailing whitespace.
++tests/test_proof_key.py:1456: 
+reports/T0012/pi-r5-guards/float_variable_number.xml:89: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/float_variable_number.xml:93: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:28: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:80: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:82: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:133: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:135: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:163: trailing whitespace.
++    
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:181: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:211: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:213: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:250: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:252: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.stdout:302: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:24: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:73: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:75: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:123: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:125: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:150: trailing whitespace.
++    
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:168: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:195: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:197: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:231: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:233: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/ignore_deep_tie.xml:280: trailing whitespace.
++E         
+reports/T0012/pi-r5-guards/lazy_dependency_import.stdout:10: trailing whitespace.
++    
+reports/T0012/pi-r5-guards/lazy_dependency_import.stdout:130: trailing whitespace.
++E             
+reports/T0012/pi-r5-guards/lazy_dependency_import.xml:6: trailing whitespace.
++    
+reports/T0012/pi-r5-guards/lazy_dependency_import.xml:126: trailing whitespace.
++E             
+reports/T0012/pi-r5-guards/lazy_forbidden_import.stdout:10: trailing whitespace.
++    
+reports/T0012/pi-r5-guards/lazy_forbidden_import.stdout:130: trailing whitespace.
++E             
+reports/T0012/pi-r5-guards/lazy_forbidden_import.xml:6: trailing whitespace.
++    
+reports/T0012/pi-r5-guards/lazy_forbidden_import.xml:126: trailing whitespace.
++E             
+reports/T0012/pi-r5-guards/lowercase_actual_symbols.diff:9: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/lowercase_actual_symbols.diff:10: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/lowercase_actual_symbols.diff:30: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/lowercase_actual_symbols.diff:36: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/lowercase_actual_symbols.diff:36: new blank line at EOF.
+reports/T0012/pi-r5-guards/lowercase_actual_symbols.stdout:22: trailing whitespace.
++tests/test_proof_key.py:650: 
+reports/T0012/pi-r5-guards/lowercase_actual_symbols.stdout:23: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/lowercase_actual_symbols.xml:18: trailing whitespace.
++tests/test_proof_key.py:650: 
+reports/T0012/pi-r5-guards/lowercase_actual_symbols.xml:19: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/lowercase_constants_only.diff:9: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/lowercase_constants_only.diff:10: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/lowercase_constants_only.diff:14: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/lowercase_constants_only.diff:20: trailing whitespace.
++ 
+reports/T0012/pi-r5-guards/lowercase_constants_only.diff:20: new blank line at EOF.
+reports/T0012/pi-r5-guards/lowercase_constants_only.stdout:32: trailing whitespace.
++tests/test_proof_key.py:660: 
+reports/T0012/pi-r5-guards/lowercase_constants_only.stdout:33: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/pi-r5-guards/lowercase_constants_only.xml:28: trailing whitespace.
++tests/test_proof_key.py:660: 
+reports/T0012/pi-r5-guards/lowercase_constants_only.xml:29: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r1-guards/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/review-r1-guards/always_sort_children.stdout:20: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/always_sort_children.stdout:22: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/always_sort_children.xml:16: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/always_sort_children.xml:18: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/review-r1-guards/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/review-r1-guards/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/review-r1-guards/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r1-guards/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/review-r1-guards/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/review-r1-guards/ignore_deep_tie.stdout:19: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/ignore_deep_tie.stdout:48: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/ignore_deep_tie.stdout:50: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/ignore_deep_tie.stdout:84: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/ignore_deep_tie.stdout:86: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/ignore_deep_tie.xml:15: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/ignore_deep_tie.xml:41: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/ignore_deep_tie.xml:43: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/ignore_deep_tie.xml:74: trailing whitespace.
++E         
+reports/T0012/review-r1-guards/ignore_deep_tie.xml:76: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/review-r2-guards/always_sort_children.stdout:20: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/always_sort_children.stdout:22: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/always_sort_children.xml:16: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/always_sort_children.xml:18: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/review-r2-guards/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/review-r2-guards/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/review-r2-guards/diagnostic_suffix.stdout:13: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.stdout:31: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.stdout:49: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.stdout:69: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.stdout:92: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.stdout:114: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.xml:9: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.xml:24: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.xml:39: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.xml:56: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.xml:76: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/diagnostic_suffix.xml:95: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r2-guards/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/review-r2-guards/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/review-r2-guards/float_variable_number.stdout:37: trailing whitespace.
++tests/test_proof_key.py:781: 
+reports/T0012/review-r2-guards/float_variable_number.stdout:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r2-guards/float_variable_number.stdout:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r2-guards/float_variable_number.xml:33: trailing whitespace.
++tests/test_proof_key.py:781: 
+reports/T0012/review-r2-guards/float_variable_number.xml:34: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r2-guards/float_variable_number.xml:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r2-guards/ignore_deep_tie.stdout:19: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/ignore_deep_tie.stdout:48: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/ignore_deep_tie.stdout:50: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/ignore_deep_tie.stdout:84: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/ignore_deep_tie.stdout:86: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/ignore_deep_tie.xml:15: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/ignore_deep_tie.xml:41: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/ignore_deep_tie.xml:43: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/ignore_deep_tie.xml:74: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/ignore_deep_tie.xml:76: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/lazy_forbidden_import.stdout:60: trailing whitespace.
++E         
+reports/T0012/review-r2-guards/lazy_forbidden_import.xml:56: trailing whitespace.
++E         
+reports/T0012/review-r3-freeze/input-snapshot/tests/test_proof_key.py:1113: new blank line at EOF.
+reports/T0012/review-r3-guards/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/always_sort_children.stdout:36: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/always_sort_children.stdout:38: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/always_sort_children.stdout:118: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/always_sort_children.xml:32: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/always_sort_children.xml:34: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/always_sort_children.xml:108: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/diagnostic_suffix.stdout:14: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.stdout:33: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.stdout:52: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.stdout:74: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.stdout:96: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.stdout:119: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.stdout:147: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.xml:10: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.xml:26: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.xml:42: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.xml:61: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.xml:80: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.xml:100: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/diagnostic_suffix.xml:125: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/review-r3-guards/float_variable_number.stdout:37: trailing whitespace.
++tests/test_proof_key.py:424: 
+reports/T0012/review-r3-guards/float_variable_number.stdout:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r3-guards/float_variable_number.stdout:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r3-guards/float_variable_number.stdout:88: trailing whitespace.
++tests/test_proof_key.py:1108: 
+reports/T0012/review-r3-guards/float_variable_number.stdout:89: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r3-guards/float_variable_number.stdout:93: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r3-guards/float_variable_number.xml:33: trailing whitespace.
++tests/test_proof_key.py:424: 
+reports/T0012/review-r3-guards/float_variable_number.xml:34: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r3-guards/float_variable_number.xml:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r3-guards/float_variable_number.xml:81: trailing whitespace.
++tests/test_proof_key.py:1108: 
+reports/T0012/review-r3-guards/float_variable_number.xml:82: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r3-guards/float_variable_number.xml:86: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:28: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:80: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:82: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:133: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:135: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:164: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:166: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:203: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:205: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.stdout:255: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:24: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:73: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:75: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:123: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:125: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:151: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:153: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:187: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:189: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/ignore_deep_tie.xml:236: trailing whitespace.
++E         
+reports/T0012/review-r3-guards/lazy_dependency_import.stdout:9: trailing whitespace.
++    
+reports/T0012/review-r3-guards/lazy_dependency_import.stdout:117: trailing whitespace.
++E             
+reports/T0012/review-r3-guards/lazy_dependency_import.xml:5: trailing whitespace.
++    
+reports/T0012/review-r3-guards/lazy_dependency_import.xml:113: trailing whitespace.
++E             
+reports/T0012/review-r3-guards/lazy_forbidden_import.stdout:9: trailing whitespace.
++    
+reports/T0012/review-r3-guards/lazy_forbidden_import.stdout:117: trailing whitespace.
++E             
+reports/T0012/review-r3-guards/lazy_forbidden_import.xml:5: trailing whitespace.
++    
+reports/T0012/review-r3-guards/lazy_forbidden_import.xml:113: trailing whitespace.
++E             
+reports/T0012/review-r3-guards/lowercase_actual_symbols.diff:9: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/lowercase_actual_symbols.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/lowercase_actual_symbols.diff:30: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/lowercase_actual_symbols.diff:36: trailing whitespace.
++ 
+reports/T0012/review-r3-guards/lowercase_actual_symbols.diff:36: new blank line at EOF.
+reports/T0012/review-r4-freeze/input-snapshot/tests/test_proof_key.py:1369: new blank line at EOF.
+reports/T0012/review-r4-guards/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/always_sort_children.stdout:36: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/always_sort_children.stdout:38: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/always_sort_children.stdout:118: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/always_sort_children.stdout:131: trailing whitespace.
++    
+reports/T0012/review-r4-guards/always_sort_children.stdout:248: trailing whitespace.
++E             
+reports/T0012/review-r4-guards/always_sort_children.xml:32: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/always_sort_children.xml:34: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/always_sort_children.xml:108: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/always_sort_children.xml:118: trailing whitespace.
++    
+reports/T0012/review-r4-guards/always_sort_children.xml:235: trailing whitespace.
++E             
+reports/T0012/review-r4-guards/coerce_clauses.stdout:27: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/coerce_clauses.xml:20: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/consume_generator_before_verify.stdout:28: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/consume_generator_before_verify.xml:24: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/diagnostic_suffix.stdout:14: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.stdout:33: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.stdout:52: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.stdout:74: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.stdout:96: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.stdout:119: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.stdout:147: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.xml:10: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.xml:26: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.xml:42: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.xml:61: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.xml:80: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.xml:100: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/diagnostic_suffix.xml:125: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/review-r4-guards/float_variable_number.stdout:41: trailing whitespace.
++tests/test_proof_key.py:444: 
+reports/T0012/review-r4-guards/float_variable_number.stdout:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/float_variable_number.stdout:46: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/float_variable_number.stdout:95: trailing whitespace.
++tests/test_proof_key.py:1364: 
+reports/T0012/review-r4-guards/float_variable_number.stdout:96: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/float_variable_number.stdout:100: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/float_variable_number.xml:37: trailing whitespace.
++tests/test_proof_key.py:444: 
+reports/T0012/review-r4-guards/float_variable_number.xml:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/float_variable_number.xml:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/float_variable_number.xml:88: trailing whitespace.
++tests/test_proof_key.py:1364: 
+reports/T0012/review-r4-guards/float_variable_number.xml:89: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/float_variable_number.xml:93: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:28: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:80: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:82: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:133: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:135: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:164: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:166: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:203: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:205: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.stdout:255: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:24: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:73: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:75: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:123: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:125: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:151: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:153: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:187: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:189: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/ignore_deep_tie.xml:236: trailing whitespace.
++E         
+reports/T0012/review-r4-guards/lazy_dependency_import.stdout:10: trailing whitespace.
++    
+reports/T0012/review-r4-guards/lazy_dependency_import.stdout:130: trailing whitespace.
++E             
+reports/T0012/review-r4-guards/lazy_dependency_import.xml:6: trailing whitespace.
++    
+reports/T0012/review-r4-guards/lazy_dependency_import.xml:126: trailing whitespace.
++E             
+reports/T0012/review-r4-guards/lazy_forbidden_import.stdout:10: trailing whitespace.
++    
+reports/T0012/review-r4-guards/lazy_forbidden_import.stdout:130: trailing whitespace.
++E             
+reports/T0012/review-r4-guards/lazy_forbidden_import.xml:6: trailing whitespace.
++    
+reports/T0012/review-r4-guards/lazy_forbidden_import.xml:126: trailing whitespace.
++E             
+reports/T0012/review-r4-guards/lowercase_actual_symbols.diff:9: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/lowercase_actual_symbols.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/lowercase_actual_symbols.diff:30: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/lowercase_actual_symbols.diff:36: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/lowercase_actual_symbols.diff:36: new blank line at EOF.
+reports/T0012/review-r4-guards/lowercase_actual_symbols.stdout:20: trailing whitespace.
++tests/test_proof_key.py:575: 
+reports/T0012/review-r4-guards/lowercase_actual_symbols.stdout:21: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/lowercase_actual_symbols.xml:16: trailing whitespace.
++tests/test_proof_key.py:575: 
+reports/T0012/review-r4-guards/lowercase_actual_symbols.xml:17: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r4-guards/lowercase_constants_only.diff:9: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/lowercase_constants_only.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/lowercase_constants_only.diff:14: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/lowercase_constants_only.diff:20: trailing whitespace.
++ 
+reports/T0012/review-r4-guards/lowercase_constants_only.diff:20: new blank line at EOF.
+reports/T0012/review-r5-freeze/input-snapshot/tests/test_proof_key.py:1461: new blank line at EOF.
+reports/T0012/review-r5-guards/always_sort_children.diff:6: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/always_sort_children.stdout:36: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/always_sort_children.stdout:38: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/always_sort_children.stdout:79: trailing whitespace.
++tests/test_proof_key.py:615: 
+reports/T0012/review-r5-guards/always_sort_children.stdout:80: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/always_sort_children.stdout:168: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/always_sort_children.stdout:181: trailing whitespace.
++    
+reports/T0012/review-r5-guards/always_sort_children.stdout:298: trailing whitespace.
++E             
+reports/T0012/review-r5-guards/always_sort_children.xml:32: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/always_sort_children.xml:34: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/always_sort_children.xml:72: trailing whitespace.
++tests/test_proof_key.py:615: 
+reports/T0012/review-r5-guards/always_sort_children.xml:73: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/always_sort_children.xml:155: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/always_sort_children.xml:165: trailing whitespace.
++    
+reports/T0012/review-r5-guards/always_sort_children.xml:282: trailing whitespace.
++E             
+reports/T0012/review-r5-guards/coerce_clauses.stdout:27: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/coerce_clauses.xml:20: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/consume_generator_before_verify.stdout:28: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/consume_generator_before_verify.xml:24: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.diff:19: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/diagnostic_suffix.diff:26: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/diagnostic_suffix.diff:40: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/diagnostic_suffix.stdout:14: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.stdout:33: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.stdout:52: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.stdout:74: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.stdout:96: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.stdout:119: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.stdout:147: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.xml:10: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.xml:26: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.xml:42: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.xml:61: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.xml:80: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.xml:100: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/diagnostic_suffix.xml:125: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/float_variable_number.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/float_variable_number.diff:11: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/float_variable_number.diff:10: new blank line at EOF.
+reports/T0012/review-r5-guards/float_variable_number.stdout:41: trailing whitespace.
++tests/test_proof_key.py:477: 
+reports/T0012/review-r5-guards/float_variable_number.stdout:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/float_variable_number.stdout:46: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/float_variable_number.stdout:95: trailing whitespace.
++tests/test_proof_key.py:1456: 
+reports/T0012/review-r5-guards/float_variable_number.stdout:96: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/float_variable_number.stdout:100: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/float_variable_number.xml:37: trailing whitespace.
++tests/test_proof_key.py:477: 
+reports/T0012/review-r5-guards/float_variable_number.xml:38: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/float_variable_number.xml:42: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/float_variable_number.xml:88: trailing whitespace.
++tests/test_proof_key.py:1456: 
+reports/T0012/review-r5-guards/float_variable_number.xml:89: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/float_variable_number.xml:93: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:28: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:80: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:82: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:133: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:135: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:163: trailing whitespace.
++    
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:181: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:211: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:213: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:250: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:252: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.stdout:302: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:24: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:73: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:75: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:123: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:125: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:150: trailing whitespace.
++    
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:168: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:195: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:197: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:231: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:233: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/ignore_deep_tie.xml:280: trailing whitespace.
++E         
+reports/T0012/review-r5-guards/lazy_dependency_import.stdout:10: trailing whitespace.
++    
+reports/T0012/review-r5-guards/lazy_dependency_import.stdout:130: trailing whitespace.
++E             
+reports/T0012/review-r5-guards/lazy_dependency_import.xml:6: trailing whitespace.
++    
+reports/T0012/review-r5-guards/lazy_dependency_import.xml:126: trailing whitespace.
++E             
+reports/T0012/review-r5-guards/lazy_forbidden_import.stdout:10: trailing whitespace.
++    
+reports/T0012/review-r5-guards/lazy_forbidden_import.stdout:130: trailing whitespace.
++E             
+reports/T0012/review-r5-guards/lazy_forbidden_import.xml:6: trailing whitespace.
++    
+reports/T0012/review-r5-guards/lazy_forbidden_import.xml:126: trailing whitespace.
++E             
+reports/T0012/review-r5-guards/lowercase_actual_symbols.diff:9: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/lowercase_actual_symbols.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/lowercase_actual_symbols.diff:30: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/lowercase_actual_symbols.diff:36: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/lowercase_actual_symbols.diff:36: new blank line at EOF.
+reports/T0012/review-r5-guards/lowercase_actual_symbols.stdout:22: trailing whitespace.
++tests/test_proof_key.py:650: 
+reports/T0012/review-r5-guards/lowercase_actual_symbols.stdout:23: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/lowercase_actual_symbols.xml:18: trailing whitespace.
++tests/test_proof_key.py:650: 
+reports/T0012/review-r5-guards/lowercase_actual_symbols.xml:19: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/lowercase_constants_only.diff:9: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/lowercase_constants_only.diff:10: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/lowercase_constants_only.diff:14: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/lowercase_constants_only.diff:20: trailing whitespace.
++ 
+reports/T0012/review-r5-guards/lowercase_constants_only.diff:20: new blank line at EOF.
+reports/T0012/review-r5-guards/lowercase_constants_only.stdout:32: trailing whitespace.
++tests/test_proof_key.py:660: 
+reports/T0012/review-r5-guards/lowercase_constants_only.stdout:33: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+reports/T0012/review-r5-guards/lowercase_constants_only.xml:28: trailing whitespace.
++tests/test_proof_key.py:660: 
+reports/T0012/review-r5-guards/lowercase_constants_only.xml:29: trailing whitespace.
++_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof_key.py:1461: new blank line at EOF.

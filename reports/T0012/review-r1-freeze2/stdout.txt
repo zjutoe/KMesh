@@ -1,0 +1,7 @@
+PASS: 1708 planning files unchanged; 1735 input files frozen; 6 Pi RUN streams authenticated
+pi-r1-preflight 0 2026-09-21T17:46:46.402173+00:00
+pi-r1-full 0 2026-09-21T19:37:34.543726+00:00
+pi-r1-fused 0 2026-09-21T19:55:32.252752+00:00
+pi-r1-docs 1 2026-09-21T19:58:50.578876+00:00
+pi-r1-docs2 0 2026-09-21T19:59:33.909853+00:00
+pi-r1-docs3 0 2026-09-21T20:01:51.305172+00:00

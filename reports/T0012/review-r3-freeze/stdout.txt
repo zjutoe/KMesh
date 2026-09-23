@@ -1,0 +1,7 @@
+PASS: protected files 2008 unchanged; input files 2076
+A/B/C unchanged: {'TestAHandComputed': False, 'TestBTransformations': False, 'TestCOracleAndEnumeration': False}
+pi-r3-guards2 0 2026-09-22T18:20:13.104342+00:00 11.265
+pi-r3-focused 0 2026-09-22T18:21:18.649495+00:00 0.749
+pi-r3-readme 0 2026-09-22T18:22:37.953846+00:00 0.088
+pi-r3-docs 0 2026-09-22T18:32:13.039661+00:00 0.046
+Without record.json: []

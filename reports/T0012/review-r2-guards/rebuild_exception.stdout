@@ -1,0 +1,39 @@
+....................................F..F............                     [100%]
+=================================== FAILURES ===================================
+____________________ TestDErrors.test_proof_limit_priority _____________________
+
+self = <test_proof_key.TestDErrors object at 0x7f7615ffbd40>
+
+    def test_proof_limit_priority(self):
+        c = (_fact("p", "a", "b"),)
+        p = (_ps(0, (), "p", "a", "b"), _ps(1, (0,), "p", "a", "b"))
+        with pytest.raises(ProofLimitError) as e:
+            key(c, _A("p", "a", "b"), p, max_steps=1)
+        assert str(e.value) == "verify.proof length exceeds verify.max_steps"
+>       assert e.value.__suppress_context__ is False
+E       AssertionError: assert True is False
+E        +  where True = ProofLimitError('verify.proof length exceeds verify.max_steps').__suppress_context__
+E        +    where ProofLimitError('verify.proof length exceeds verify.max_steps') = <ExceptionInfo ProofLimitError('verify.proof length exceeds verify.max_steps') tblen=3>.value
+
+tests/test_proof_key.py:561: AssertionError
+______________ TestDErrors.test_clauses_list_rejected_by_product _______________
+
+self = <test_proof_key.TestDErrors object at 0x7f76157c5570>
+
+    def test_clauses_list_rejected_by_product(self):
+        # the product must not coerce clauses to a tuple; verify.clauses raises
+        c = [_fact("p", "a", "b")]
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("p", "a", "b"), (_ps(0, (), "p", "a", "b"),))
+        assert str(e.value) == "verify.clauses must be a tuple of Clause, got list"
+>       assert e.value.__suppress_context__ is False
+E       AssertionError: assert True is False
+E        +  where True = LogicValidationError('verify.clauses must be a tuple of Clause, got list').__suppress_context__
+E        +    where LogicValidationError('verify.clauses must be a tuple of Clause, got list') = <ExceptionInfo LogicValidationError('verify.clauses must be a tuple of Clause, got list') tblen=3>.value
+
+tests/test_proof_key.py:592: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/review-r2-guards/rebuild_exception.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestDErrors::test_proof_limit_priority - Asse...
+FAILED tests/test_proof_key.py::TestDErrors::test_clauses_list_rejected_by_product
+2 failed, 50 passed in 0.35s

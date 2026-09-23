@@ -1,0 +1,10 @@
+--- submitted
++++ coerce_clauses
+@@ -117,6 +117,7 @@
+     once and the final step zero times; any other count raises
+     ``LogicValidationError("proof_key.proof must be a single occurrence tree")``.
+     """
++    clauses = tuple(clauses)
+     if not verify_proof(clauses, query, proof, max_steps=max_steps):
+         raise LogicValidationError(
+             "proof_key.proof must be a valid proof of query"

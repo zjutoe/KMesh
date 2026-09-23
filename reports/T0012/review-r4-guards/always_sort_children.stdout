@@ -1,0 +1,259 @@
+.....F............................F...F..........................F...    [100%]
+=================================== FAILURES ===================================
+______________ TestAHandComputed.test_k5_nonsymmetric_degenerate _______________
+
+self = <test_proof_key.TestAHandComputed object at 0x7f5bf5261bf0>
+
+    def test_k5_nonsymmetric_degenerate(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?z", "?x"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?x")))
+        ck_pfact = ("clause_key_v1", ("p", ("c", "a"), ("c", "a")), ())
+        ck_sfact = ("clause_key_v1", ("s", ("c", "a"), ("c", "a")), ())
+        ck_psr = ("clause_key_v1", ("p", ("v", 0), ("v", 1)),
+                  (("s", ("v", 0), ("v", 1)),))
+        ck_qr = ("clause_key_v1", ("q", ("v", 0), ("v", 0)),
+                 (("p", ("v", 0), ("v", 1)), ("p", ("v", 2), ("v", 0))))
+        kAB = ("proof_key_v1", (
+            (("q", "a", "a"), ck_qr),
+            (("p", "a", "a"), ck_psr),
+            (("s", "a", "a"), ck_sfact),
+            (("p", "a", "a"), ck_pfact),
+        ))
+        kBA = ("proof_key_v1", (
+            (("q", "a", "a"), ck_qr),
+            (("p", "a", "a"), ck_pfact),
+            (("p", "a", "a"), ck_psr),
+            (("s", "a", "a"), ck_sfact),
+        ))
+        AB = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (0, 2), "q", "a", "a"))
+        BA = (_ps(1, (), "s", "a", "a"), _ps(2, (0,), "p", "a", "a"),
+              _ps(0, (), "p", "a", "a"), _ps(3, (1, 2), "q", "a", "a"))
+>       assert key(c, _A("q", "a", "a"), AB) == kAB
+E       AssertionError: assert ('proof_key_v... 'a')), ())))) == ('proof_key_v... 'a')), ()))))
+E         
+E         At index 1 diff: ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', ('v', 0), ('v', 1)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ()))) != ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', (...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_proof_key.py:169: AssertionError
+____________ TestCOracleAndEnumeration.test_k5_two_supports_oracle _____________
+
+self = <test_proof_key.TestCOracleAndEnumeration object at 0x7f5bf5b1a060>
+
+    def test_k5_two_supports_oracle(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?z", "?x"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?x")))
+        AB = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (0, 2), "q", "a", "a"))
+        BA = (_ps(1, (), "s", "a", "a"), _ps(2, (0,), "p", "a", "a"),
+              _ps(0, (), "p", "a", "a"), _ps(3, (1, 2), "q", "a", "a"))
+        assert verify_proof(c, _A("q", "a", "a"), AB) is True
+        assert verify_proof(c, _A("q", "a", "a"), BA) is True
+        assert not oracle_equiv(_build_nodes(c, AB)[-1], _build_nodes(c, BA)[-1])
+>       assert key(c, _A("q", "a", "a"), AB) != key(c, _A("q", "a", "a"), BA)
+E       AssertionError: assert ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) != ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ()))))
+E        +  where ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) = key((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))), Atom(pred='q', args=('a', 'a')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'a'))), ProofStep(clause_index=1, pr...ed='p', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(0, 2), conclusion=Atom(pred='q', args=('a', 'a')))))
+E        +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')
+E        +  and   ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) = key((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))), Atom(pred='q', args=('a', 'a')), (ProofStep(clause_index=1, premise_steps=(), conclusion=Atom(pred='s', args=('a', 'a'))), ProofStep(clause_index=2, pr...ed='p', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(1, 2), conclusion=Atom(pred='q', args=('a', 'a')))))
+E        +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')
+
+tests/test_proof_key.py:727: AssertionError
+_________ TestCOracleAndEnumeration.test_t0009_k5_per_tree_full_keyset _________
+
+self = <test_proof_key.TestCOracleAndEnumeration object at 0x7f5bf4ec4f50>
+
+    def test_t0009_k5_per_tree_full_keyset(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?z", "?x"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?x")))
+        q = _A("q", "a", "a")
+        ck_q = ("clause_key_v1", ("q", ("v", 0), ("v", 0)),
+                (("p", ("v", 0), ("v", 1)), ("p", ("v", 2), ("v", 0))))
+        ck_pf = ("clause_key_v1", ("p", ("c", "a"), ("c", "a")), ())
+        ck_ps = ("clause_key_v1", ("p", ("v", 0), ("v", 1)),
+                 (("s", ("v", 0), ("v", 1)),))
+        ck_sf = ("clause_key_v1", ("s", ("c", "a"), ("c", "a")), ())
+        expected = {
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_pf),
+                (("p", "a", "a"), ck_pf),
+            )),
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+                (("p", "a", "a"), ck_pf),
+            )),
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_pf),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+            )),
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+            )),
+        }
+        trees = enumerate_proofs(c, q,
+                                 max_fact_checks=3, max_derivations=4,
+                                 max_proof_steps=20)
+        assert len(trees) == 4
+        got = set()
+        for t in trees:
+            assert verify_proof(c, q, t) is True
+            got.add(key(c, q, t))
+>       assert got == expected
+E       AssertionError: assert {('proof_key_......)), ()))))} == {('proof_key_......)), ()))))}
+E         
+E         Extra items in the right set:
+E         ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....key_v1', ('s', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ()))))
+E         Use -v to get more diff
+
+tests/test_proof_key.py:842: AssertionError
+____________ TestELongAndIsolation.test_import_isolation_hard_block ____________
+
+self = <test_proof_key.TestELongAndIsolation object at 0x7f5bf4e9d590>
+
+    def test_import_isolation_hard_block(self):
+        """Hard import isolation via a sys.meta_path finder (not try/except or
+        direct ``find_spec`` impersonation).
+    
+        For each of the eight original forbidden roots (``torch``, ``yaml`` and
+        the six ``kmesh.logic`` submodules ``engine``, ``reference_engine``,
+        ``dependency``, ``derivations``, ``proof_enumeration``, ``depth``) a
+        fresh subprocess installs the finder and:
+        - imports the whitelisted product, asserts the submitted ``src`` file
+          path exactly, and runs the K0 / K3 / real-K5(AB,BA) exercises with
+          the real verifier;
+        - scans ``sys.modules`` for any forbidden root or root-prefixed entry;
+        - imports the root itself, asserting the full ``isolated-blocked:
+          <name>`` message; and
+        - imports a probe ``<root>._t0012_probe`` through a placeholder package
+          (with ``__path__``), asserting the full message, then cleans up.
+        The block is checked by the real import machinery, never by hand-calling
+        ``find_spec``.
+        """
+        import subprocess, sys, os
+        from pathlib import Path as _Path
+        repo_root = _Path(__file__).resolve().parents[1]
+        src = (repo_root / "src").resolve()
+        product_file = (src / "kmesh" / "logic" / "proof_key.py").resolve()
+        roots = (
+            "torch",
+            "yaml",
+            "kmesh.logic.engine",
+            "kmesh.logic.reference_engine",
+            "kmesh.logic.dependency",
+            "kmesh.logic.derivations",
+            "kmesh.logic.proof_enumeration",
+            "kmesh.logic.depth",
+        )
+        exercise = [
+            'from kmesh.logic.proof_key import canonical_proof_key',
+            'from kmesh.logic.types import Atom, Clause',
+            'from kmesh.logic.proof import ProofStep, verify_proof',
+            'assert os.path.realpath(sys.modules["kmesh.logic.proof_key"].__file__) == os.path.realpath(os.environ["KMESH_SRC"] + "/kmesh/logic/proof_key.py"), sys.modules["kmesh.logic.proof_key"].__file__'  ,
+            'def fact(p, a, b):',
+            '    return Clause((), Atom(p, (a, b)))',
+            'def atom(p, x, y):',
+            '    return Atom(p, (x, y))',
+            'k0 = canonical_proof_key((fact("p","a","b"),), atom("p","a","b"), (ProofStep(0, (), atom("p","a","b")),))',
+            'assert type(k0) is tuple and k0[0] == "proof_key_v1" and k0[1][0][0] == ("p","a","b"), k0',
+            'c3a = (fact("p","a","b"), fact("q","b","c"), Clause((atom("p","?x","?y"), atom("q","?y","?z")), atom("r","?x","?z")))',
+            'p3a = (ProofStep(0, (), atom("p","a","b")), ProofStep(1, (), atom("q","b","c")), ProofStep(2, (0, 1), atom("r","a","c")))',
+            'assert verify_proof(c3a, atom("r","a","c"), p3a) is True',
+            'k3a = canonical_proof_key(c3a, atom("r","a","c"), p3a)',
+            'c3b = (fact("q","b","c"), fact("p","a","b"), Clause((atom("p","?x","?y"), atom("q","?y","?z")), atom("r","?x","?z")))',
+            'p3b = (ProofStep(0, (), atom("q","b","c")), ProofStep(1, (), atom("p","a","b")), ProofStep(2, (1, 0), atom("r","a","c")))',
+            'assert verify_proof(c3b, atom("r","a","c"), p3b) is True',
+            'k3b = canonical_proof_key(c3b, atom("r","a","c"), p3b)',
+            'assert k3a == k3b',
+            'c5 = (fact("p","a","a"), fact("s","a","a"), Clause((atom("s","?x","?y"),), atom("p","?x","?y")), Clause((atom("p","?z","?x"), atom("p","?x","?y")), atom("q","?x","?x")))',
+            'p5ab = (ProofStep(0, (), atom("p","a","a")), ProofStep(1, (), atom("s","a","a")), ProofStep(2, (1,), atom("p","a","a")), ProofStep(3, (0, 2), atom("q","a","a")))',
+            'p5ba = (ProofStep(1, (), atom("s","a","a")), ProofStep(2, (0,), atom("p","a","a")), ProofStep(0, (), atom("p","a","a")), ProofStep(3, (1, 2), atom("q","a","a")))',
+            'assert verify_proof(c5, atom("q","a","a"), p5ab) is True',
+            'assert verify_proof(c5, atom("q","a","a"), p5ba) is True',
+            'k5a = canonical_proof_key(c5, atom("q","a","a"), p5ab)',
+            'k5b = canonical_proof_key(c5, atom("q","a","a"), p5ba)',
+            'assert k5a != k5b',
+            'for _fr in %r:' % list(roots),
+            '    assert _fr not in sys.modules, "forbidden already loaded: " + repr(_fr)',
+            '    for _k in list(sys.modules):',
+            '        if _k == _fr or _k.startswith(_fr + "."):',
+            '            raise SystemExit("forbidden prefix in sys.modules: " + repr(_k))',
+        ]
+        for root in roots:
+            code_lines = [
+                'import sys, os, importlib, types',
+                'WHITELIST = {"kmesh", "kmesh.logic", "kmesh.logic.types",',
+                '              "kmesh.logic.proof", "kmesh.logic.proof_key"}',
+                'FORBIDDEN_TOP = ("torch", "yaml")',
+                'class BlockFinder:',
+                '    def find_spec(self, fullname, path=None, target=None):',
+                '        if fullname in FORBIDDEN_TOP or any(',
+                '            fullname == t or fullname.startswith(t + ".")',
+                '            for t in FORBIDDEN_TOP):',
+                '            raise ImportError("isolated-blocked: " + fullname)',
+                '        if fullname.startswith("kmesh.logic.") and fullname not in WHITELIST:',
+                '            raise ImportError("isolated-blocked: " + fullname)',
+                '        return None',
+                'sys.meta_path.insert(0, BlockFinder())',
+                'os.environ["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"',
+            ]
+            code_lines += exercise
+            code_lines.append('# --- block the root itself; assert the FULL message ---')
+            code_lines.append('try:')
+            code_lines.append('    importlib.import_module(%r)' % root)
+            code_lines.append('except ImportError as _e:')
+            code_lines.append('    assert str(_e) == "isolated-blocked: " + %r, %r' % (root, root))
+            code_lines.append('else:')
+            code_lines.append('    raise SystemExit("importable: " + repr(%r))' % root)
+            code_lines.append('# --- probe a submodule via a placeholder package (has __path__) ---')
+            code_lines.append('_ph = types.ModuleType(%r)' % root)
+            code_lines.append('_ph.__path__ = []')
+            code_lines.append('sys.modules[%r] = _ph' % root)
+            code_lines.append('try:')
+            code_lines.append('    importlib.import_module(%r)' % (root + '._t0012_probe'))
+            code_lines.append('except ImportError as _e:')
+            code_lines.append('    assert str(_e) == "isolated-blocked: " + %r, %r' % (root + '._t0012_probe', root + '._t0012_probe'))
+            code_lines.append('else:')
+            code_lines.append('    raise SystemExit("importable probe: " + repr(%r))' % (root + '._t0012_probe'))
+            code_lines.append('finally:')
+            code_lines.append('    sys.modules.pop(%r, None)' % root)
+            code_lines.append('print("ISOLATION-OK " + repr(%r))' % root)
+            code = "\n".join(code_lines)
+            env = dict(os.environ)
+            env["PYTHONPATH"] = str(src)
+            env["KMESH_SRC"] = str(src)
+            p = subprocess.run([sys.executable, "-c", code],
+                               cwd=repo_root, env=env,
+                               capture_output=True, text=True, timeout=45)
+>           assert p.returncode == 0, "root " + root + ": " + p.stderr
+E           AssertionError: root torch: Traceback (most recent call last):
+E               File "<string>", line 42, in <module>
+E                 assert k5a != k5b
+E                        ^^^^^^^^^^
+E             AssertionError
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', 'import sys, os, importlib, types\nWHITELIST ... call last):\n  File "<string>", line 42, in <module>\n    assert k5a != k5b\n           ^^^^^^^^^^\nAssertionError\n').returncode
+
+tests/test_proof_key.py:1325: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/review-r4-guards/always_sort_children.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestAHandComputed::test_k5_nonsymmetric_degenerate
+FAILED tests/test_proof_key.py::TestCOracleAndEnumeration::test_k5_two_supports_oracle
+FAILED tests/test_proof_key.py::TestCOracleAndEnumeration::test_t0009_k5_per_tree_full_keyset
+FAILED tests/test_proof_key.py::TestELongAndIsolation::test_import_isolation_hard_block
+4 failed, 65 passed in 0.64s

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="69" time="0.628" timestamp="2026-09-23T03:54:32.003699+00:00" hostname="ai86"><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestAHandComputed" name="test_k0_fact" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestAHandComputed" name="test_k1_copy_full_literal" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestAHandComputed" name="test_k2_inv_full_literal" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestAHandComputed" name="test_k3_join_full_literal" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestAHandComputed" name="test_k4_symmetric_two_facts" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestAHandComputed" name="test_k5_nonsymmetric_degenerate" time="0.001"><failure message="AssertionError: assert ('proof_key_v... 'a')), ())))) == ('proof_key_v... 'a')), ()))))&#10;  &#10;  At index 1 diff: ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', ('v', 0), ('v', 1)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ()))) != ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', (...&#10;  &#10;  ...Full output truncated (2 lines hidden), use '-vv' to show">self = &lt;test_proof_key.TestAHandComputed object at 0x7fb4fab95bf0&gt;
+
+    def test_k5_nonsymmetric_degenerate(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?z", "?x"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?x")))
+        ck_pfact = ("clause_key_v1", ("p", ("c", "a"), ("c", "a")), ())
+        ck_sfact = ("clause_key_v1", ("s", ("c", "a"), ("c", "a")), ())
+        ck_psr = ("clause_key_v1", ("p", ("v", 0), ("v", 1)),
+                  (("s", ("v", 0), ("v", 1)),))
+        ck_qr = ("clause_key_v1", ("q", ("v", 0), ("v", 0)),
+                 (("p", ("v", 0), ("v", 1)), ("p", ("v", 2), ("v", 0))))
+        kAB = ("proof_key_v1", (
+            (("q", "a", "a"), ck_qr),
+            (("p", "a", "a"), ck_psr),
+            (("s", "a", "a"), ck_sfact),
+            (("p", "a", "a"), ck_pfact),
+        ))
+        kBA = ("proof_key_v1", (
+            (("q", "a", "a"), ck_qr),
+            (("p", "a", "a"), ck_pfact),
+            (("p", "a", "a"), ck_psr),
+            (("s", "a", "a"), ck_sfact),
+        ))
+        AB = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (0, 2), "q", "a", "a"))
+        BA = (_ps(1, (), "s", "a", "a"), _ps(2, (0,), "p", "a", "a"),
+              _ps(0, (), "p", "a", "a"), _ps(3, (1, 2), "q", "a", "a"))
+&gt;       assert key(c, _A("q", "a", "a"), AB) == kAB
+E       AssertionError: assert ('proof_key_v... 'a')), ())))) == ('proof_key_v... 'a')), ()))))
+E         
+E         At index 1 diff: ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', ('v', 0), ('v', 1)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ()))) != ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 2), ('v', 0))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', (...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_proof_key.py:169: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestAHandComputed" name="test_k6_duplicate_premises" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestAHandComputed" name="test_k7_valid_self_rule_differs_from_fact" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestAHandComputed" name="test_k8_deep_same_header" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_var_bijection_same" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_world_reorder_remapped_same" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_joint_swap_two_slot_clause" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_non_contiguous_topology" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_k1_insert_equivalent_duplicate_same" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_add_unused_clauses_same" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_constant_change_differs" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_two_bridge_supports_differ" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_copy_inv_schema_differs" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_input_purity_and_stability" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_type_soundness" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_k3_var_bijection_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_k5_var_bijection_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_k6_var_bijection_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_k4_world_reorder_remapped_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_k5_world_reorder_remapped_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_k6_world_reorder_remapped_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_k5_ab_ba_two_orderings" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_duplicate_copy_source_k1_new_index" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_actual_case_differ" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_asymmetric_rename_differ" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestBTransformations" name="test_cross_fixture_stability_purity" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k1_oracle_matches" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k3_world_reorder_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k4_var_rename_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k5_two_supports_oracle" time="0.001"><failure message="AssertionError: assert ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) != ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ()))))&#10; +  where ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) = key((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))), Atom(pred='q', args=('a', 'a')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'a'))), ProofStep(clause_index=1, pr...ed='p', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(0, 2), conclusion=Atom(pred='q', args=('a', 'a')))))&#10; +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')&#10; +  and   ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) = key((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))), Atom(pred='q', args=('a', 'a')), (ProofStep(clause_index=1, premise_steps=(), conclusion=Atom(pred='s', args=('a', 'a'))), ProofStep(clause_index=2, pr...ed='p', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(1, 2), conclusion=Atom(pred='q', args=('a', 'a')))))&#10; +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')">self = &lt;test_proof_key.TestCOracleAndEnumeration object at 0x7fb4fb47a060&gt;
+
+    def test_k5_two_supports_oracle(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?z", "?x"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?x")))
+        AB = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (0, 2), "q", "a", "a"))
+        BA = (_ps(1, (), "s", "a", "a"), _ps(2, (0,), "p", "a", "a"),
+              _ps(0, (), "p", "a", "a"), _ps(3, (1, 2), "q", "a", "a"))
+        assert verify_proof(c, _A("q", "a", "a"), AB) is True
+        assert verify_proof(c, _A("q", "a", "a"), BA) is True
+        assert not oracle_equiv(_build_nodes(c, AB)[-1], _build_nodes(c, BA)[-1])
+&gt;       assert key(c, _A("q", "a", "a"), AB) != key(c, _A("q", "a", "a"), BA)
+E       AssertionError: assert ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) != ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ()))))
+E        +  where ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) = key((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))), Atom(pred='q', args=('a', 'a')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'a'))), ProofStep(clause_index=1, pr...ed='p', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(0, 2), conclusion=Atom(pred='q', args=('a', 'a')))))
+E        +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')
+E        +  and   ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....'v', 0), ('v', 1)), (('s', (...), (...)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())))) = key((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?z', '?x')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?x')))), Atom(pred='q', args=('a', 'a')), (ProofStep(clause_index=1, premise_steps=(), conclusion=Atom(pred='s', args=('a', 'a'))), ProofStep(clause_index=2, pr...ed='p', args=('a', 'a'))), ProofStep(clause_index=3, premise_steps=(1, 2), conclusion=Atom(pred='q', args=('a', 'a')))))
+E        +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')
+
+tests/test_proof_key.py:727: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k6_ab_vs_aa_and_ba_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k8_successor_and_branch_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestCOracleAndEnumeration" name="test_joint_body_ref_swap_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestCOracleAndEnumeration" name="test_t0009_k5_per_tree_full_keyset" time="0.002"><failure message="AssertionError: assert {('proof_key_......)), ()))))} == {('proof_key_......)), ()))))}&#10;  &#10;  Extra items in the right set:&#10;  ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....key_v1', ('s', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ()))))&#10;  Use -v to get more diff">self = &lt;test_proof_key.TestCOracleAndEnumeration object at 0x7fb4fa7f0f50&gt;
+
+    def test_t0009_k5_per_tree_full_keyset(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?z", "?x"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?x")))
+        q = _A("q", "a", "a")
+        ck_q = ("clause_key_v1", ("q", ("v", 0), ("v", 0)),
+                (("p", ("v", 0), ("v", 1)), ("p", ("v", 2), ("v", 0))))
+        ck_pf = ("clause_key_v1", ("p", ("c", "a"), ("c", "a")), ())
+        ck_ps = ("clause_key_v1", ("p", ("v", 0), ("v", 1)),
+                 (("s", ("v", 0), ("v", 1)),))
+        ck_sf = ("clause_key_v1", ("s", ("c", "a"), ("c", "a")), ())
+        expected = {
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_pf),
+                (("p", "a", "a"), ck_pf),
+            )),
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+                (("p", "a", "a"), ck_pf),
+            )),
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_pf),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+            )),
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+            )),
+        }
+        trees = enumerate_proofs(c, q,
+                                 max_fact_checks=3, max_derivations=4,
+                                 max_proof_steps=20)
+        assert len(trees) == 4
+        got = set()
+        for t in trees:
+            assert verify_proof(c, q, t) is True
+            got.add(key(c, q, t))
+&gt;       assert got == expected
+E       AssertionError: assert {('proof_key_......)), ()))))} == {('proof_key_......)), ()))))}
+E         
+E         Extra items in the right set:
+E         ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', (...), (...)), ('p', (...), (....key_v1', ('s', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ()))))
+E         Use -v to get more diff
+
+tests/test_proof_key.py:842: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestCOracleAndEnumeration" name="test_t0009_k6_per_tree_full_keyset" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_empty_proof_valid_message" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_wrong_query_valid_message" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_invalid_derivation_valid_message" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_shared_tree_verifier_true_then_reject" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_unused_legal_step_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_clauses_list_rejected_by_product" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_clauses_member_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_query_type_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_query_nonground_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_proof_outer_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_proof_member_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_max_steps_rejected_exact" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_huge_int_budget_boundary" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_missing_proof_typeerror" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_extra_positional_typeerror" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_unknown_keyword_typeerror" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_clauses_before_bad_proof_member" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_proof_limit_priority" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_semantic_before_single_occurrence" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_length_before_bad_member" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_prooflimit_sentinel_is" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_verify_logic_sentinel_is" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_false_message" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestDErrors" name="test_module_all" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestELongAndIsolation" name="test_long_chain_1201" time="0.039" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestELongAndIsolation" name="test_import_isolation_hard_block" time="0.054"><failure message="AssertionError: root torch: Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 42, in &lt;module&gt;&#10;      assert k5a != k5b&#10;             ^^^^^^^^^^&#10;  AssertionError&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', 'import sys, os, importlib, types\nWHITELIST ... call last):\n  File &quot;&lt;string&gt;&quot;, line 42, in &lt;module&gt;\n    assert k5a != k5b\n           ^^^^^^^^^^\nAssertionError\n').returncode">self = &lt;test_proof_key.TestELongAndIsolation object at 0x7fb4fa7c5590&gt;
+
+    def test_import_isolation_hard_block(self):
+        """Hard import isolation via a sys.meta_path finder (not try/except or
+        direct ``find_spec`` impersonation).
+    
+        For each of the eight original forbidden roots (``torch``, ``yaml`` and
+        the six ``kmesh.logic`` submodules ``engine``, ``reference_engine``,
+        ``dependency``, ``derivations``, ``proof_enumeration``, ``depth``) a
+        fresh subprocess installs the finder and:
+        - imports the whitelisted product, asserts the submitted ``src`` file
+          path exactly, and runs the K0 / K3 / real-K5(AB,BA) exercises with
+          the real verifier;
+        - scans ``sys.modules`` for any forbidden root or root-prefixed entry;
+        - imports the root itself, asserting the full ``isolated-blocked:
+          &lt;name&gt;`` message; and
+        - imports a probe ``&lt;root&gt;._t0012_probe`` through a placeholder package
+          (with ``__path__``), asserting the full message, then cleans up.
+        The block is checked by the real import machinery, never by hand-calling
+        ``find_spec``.
+        """
+        import subprocess, sys, os
+        from pathlib import Path as _Path
+        repo_root = _Path(__file__).resolve().parents[1]
+        src = (repo_root / "src").resolve()
+        product_file = (src / "kmesh" / "logic" / "proof_key.py").resolve()
+        roots = (
+            "torch",
+            "yaml",
+            "kmesh.logic.engine",
+            "kmesh.logic.reference_engine",
+            "kmesh.logic.dependency",
+            "kmesh.logic.derivations",
+            "kmesh.logic.proof_enumeration",
+            "kmesh.logic.depth",
+        )
+        exercise = [
+            'from kmesh.logic.proof_key import canonical_proof_key',
+            'from kmesh.logic.types import Atom, Clause',
+            'from kmesh.logic.proof import ProofStep, verify_proof',
+            'assert os.path.realpath(sys.modules["kmesh.logic.proof_key"].__file__) == os.path.realpath(os.environ["KMESH_SRC"] + "/kmesh/logic/proof_key.py"), sys.modules["kmesh.logic.proof_key"].__file__'  ,
+            'def fact(p, a, b):',
+            '    return Clause((), Atom(p, (a, b)))',
+            'def atom(p, x, y):',
+            '    return Atom(p, (x, y))',
+            'k0 = canonical_proof_key((fact("p","a","b"),), atom("p","a","b"), (ProofStep(0, (), atom("p","a","b")),))',
+            'assert type(k0) is tuple and k0[0] == "proof_key_v1" and k0[1][0][0] == ("p","a","b"), k0',
+            'c3a = (fact("p","a","b"), fact("q","b","c"), Clause((atom("p","?x","?y"), atom("q","?y","?z")), atom("r","?x","?z")))',
+            'p3a = (ProofStep(0, (), atom("p","a","b")), ProofStep(1, (), atom("q","b","c")), ProofStep(2, (0, 1), atom("r","a","c")))',
+            'assert verify_proof(c3a, atom("r","a","c"), p3a) is True',
+            'k3a = canonical_proof_key(c3a, atom("r","a","c"), p3a)',
+            'c3b = (fact("q","b","c"), fact("p","a","b"), Clause((atom("p","?x","?y"), atom("q","?y","?z")), atom("r","?x","?z")))',
+            'p3b = (ProofStep(0, (), atom("q","b","c")), ProofStep(1, (), atom("p","a","b")), ProofStep(2, (1, 0), atom("r","a","c")))',
+            'assert verify_proof(c3b, atom("r","a","c"), p3b) is True',
+            'k3b = canonical_proof_key(c3b, atom("r","a","c"), p3b)',
+            'assert k3a == k3b',
+            'c5 = (fact("p","a","a"), fact("s","a","a"), Clause((atom("s","?x","?y"),), atom("p","?x","?y")), Clause((atom("p","?z","?x"), atom("p","?x","?y")), atom("q","?x","?x")))',
+            'p5ab = (ProofStep(0, (), atom("p","a","a")), ProofStep(1, (), atom("s","a","a")), ProofStep(2, (1,), atom("p","a","a")), ProofStep(3, (0, 2), atom("q","a","a")))',
+            'p5ba = (ProofStep(1, (), atom("s","a","a")), ProofStep(2, (0,), atom("p","a","a")), ProofStep(0, (), atom("p","a","a")), ProofStep(3, (1, 2), atom("q","a","a")))',
+            'assert verify_proof(c5, atom("q","a","a"), p5ab) is True',
+            'assert verify_proof(c5, atom("q","a","a"), p5ba) is True',
+            'k5a = canonical_proof_key(c5, atom("q","a","a"), p5ab)',
+            'k5b = canonical_proof_key(c5, atom("q","a","a"), p5ba)',
+            'assert k5a != k5b',
+            'for _fr in %r:' % list(roots),
+            '    assert _fr not in sys.modules, "forbidden already loaded: " + repr(_fr)',
+            '    for _k in list(sys.modules):',
+            '        if _k == _fr or _k.startswith(_fr + "."):',
+            '            raise SystemExit("forbidden prefix in sys.modules: " + repr(_k))',
+        ]
+        for root in roots:
+            code_lines = [
+                'import sys, os, importlib, types',
+                'WHITELIST = {"kmesh", "kmesh.logic", "kmesh.logic.types",',
+                '              "kmesh.logic.proof", "kmesh.logic.proof_key"}',
+                'FORBIDDEN_TOP = ("torch", "yaml")',
+                'class BlockFinder:',
+                '    def find_spec(self, fullname, path=None, target=None):',
+                '        if fullname in FORBIDDEN_TOP or any(',
+                '            fullname == t or fullname.startswith(t + ".")',
+                '            for t in FORBIDDEN_TOP):',
+                '            raise ImportError("isolated-blocked: " + fullname)',
+                '        if fullname.startswith("kmesh.logic.") and fullname not in WHITELIST:',
+                '            raise ImportError("isolated-blocked: " + fullname)',
+                '        return None',
+                'sys.meta_path.insert(0, BlockFinder())',
+                'os.environ["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"',
+            ]
+            code_lines += exercise
+            code_lines.append('# --- block the root itself; assert the FULL message ---')
+            code_lines.append('try:')
+            code_lines.append('    importlib.import_module(%r)' % root)
+            code_lines.append('except ImportError as _e:')
+            code_lines.append('    assert str(_e) == "isolated-blocked: " + %r, %r' % (root, root))
+            code_lines.append('else:')
+            code_lines.append('    raise SystemExit("importable: " + repr(%r))' % root)
+            code_lines.append('# --- probe a submodule via a placeholder package (has __path__) ---')
+            code_lines.append('_ph = types.ModuleType(%r)' % root)
+            code_lines.append('_ph.__path__ = []')
+            code_lines.append('sys.modules[%r] = _ph' % root)
+            code_lines.append('try:')
+            code_lines.append('    importlib.import_module(%r)' % (root + '._t0012_probe'))
+            code_lines.append('except ImportError as _e:')
+            code_lines.append('    assert str(_e) == "isolated-blocked: " + %r, %r' % (root + '._t0012_probe', root + '._t0012_probe'))
+            code_lines.append('else:')
+            code_lines.append('    raise SystemExit("importable probe: " + repr(%r))' % (root + '._t0012_probe'))
+            code_lines.append('finally:')
+            code_lines.append('    sys.modules.pop(%r, None)' % root)
+            code_lines.append('print("ISOLATION-OK " + repr(%r))' % root)
+            code = "\n".join(code_lines)
+            env = dict(os.environ)
+            env["PYTHONPATH"] = str(src)
+            env["KMESH_SRC"] = str(src)
+            p = subprocess.run([sys.executable, "-c", code],
+                               cwd=repo_root, env=env,
+                               capture_output=True, text=True, timeout=45)
+&gt;           assert p.returncode == 0, "root " + root + ": " + p.stderr
+E           AssertionError: root torch: Traceback (most recent call last):
+E               File "&lt;string&gt;", line 42, in &lt;module&gt;
+E                 assert k5a != k5b
+E                        ^^^^^^^^^^
+E             AssertionError
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', 'import sys, os, importlib, types\nWHITELIST ... call last):\n  File "&lt;string&gt;", line 42, in &lt;module&gt;\n    assert k5a != k5b\n           ^^^^^^^^^^\nAssertionError\n').returncode
+
+tests/test_proof_key.py:1325: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestFGuardQuality" name="test_guard_rejects_index_in_key" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestFGuardQuality" name="test_variable_numbers_are_ints" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.always_sort_children.tests.test_proof_key.TestFGuardQuality" name="test_module_all" time="0.000" /></testsuite></testsuites>

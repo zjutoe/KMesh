@@ -1,0 +1,68 @@
+................................................F...                     [100%]
+=================================== FAILURES ===================================
+____________ TestELongAndIsolation.test_import_isolation_hard_block ____________
+
+self = <test_proof_key.TestELongAndIsolation object at 0x7f0274db5450>
+
+    def test_import_isolation_hard_block(self):
+        from pathlib import Path as _Path
+        repo_root = _Path(__file__).resolve().parents[3]
+        src = repo_root / "src"
+        forbidden = ("engine", "reference_engine", "solver", "enumerate",
+                     "depth", "model", "data", "training")
+        code_lines = [
+            "import importlib.util, sys, os",
+            "sys.path.insert(0, os.environ['KMESH_SRC'])",
+            "forbidden = (%s)" % ', '.join(repr(n) for n in forbidden),
+            "for name in forbidden:",
+            "    try:",
+            "        s = importlib.util.find_spec('kmesh.logic.' + name)",
+            "        assert s is None or s.submodule_search_locations is None, name",
+            "    except Exception:",
+            "        pass",
+            "",
+            "from kmesh.logic.proof_key import canonical_proof_key",
+            "from kmesh.logic.types import Atom, Clause",
+            "from kmesh.logic.proof import ProofStep",
+            "def fact(p, a, b):",
+            "    return Clause((), Atom(p, (a, b)))",
+            "def atom(p, x, y):",
+            "    return Atom(p, (x, y))",
+            "",
+            "k0 = canonical_proof_key((fact('p', 'a', 'b'),), atom('p', 'a', 'b'), (ProofStep(0, (), atom('p', 'a', 'b')),))",
+            "assert isinstance(k0, tuple) and k0[0] == 'proof_key_v1'",
+            "",
+            "c3 = (fact('p', 'a', 'b'), fact('q', 'b', 'c'), Clause((atom('p', '?x', '?y'), atom('q', '?y', '?z')), atom('r', '?x', '?z')))" ,
+            "p3 = (ProofStep(0, (), atom('p', 'a', 'b')), ProofStep(1, (), atom('q', 'b', 'c')), ProofStep(2, (0, 1), atom('r', 'a', 'c'))) ",
+            "k3 = canonical_proof_key(c3, atom('r', 'a', 'c'), p3)",
+            "assert k3[1][0][0] == ('r', 'a', 'c')",
+            "",
+            "bad = []",
+            "for n in forbidden:",
+            "    for cand in (n, 'kmesh.' + n, 'kmesh.logic.' + n):",
+            "        if cand in sys.modules:",
+            "            bad.append(cand)",
+            "assert not bad, bad",
+            "print('has_ck: True')",
+        ]
+        body = '\n'.join(code_lines) + '\n'
+        env = dict(os.environ)
+        env['PYTEST_DISABLE_PLUGIN_AUTOLOAD'] = '1'
+        env['KMESH_SRC'] = str(src)
+        p = subprocess.run([sys.executable, '-c', body], cwd=repo_root,
+                           env=env, capture_output=True, text=True, timeout=30)
+>       assert p.returncode == 0, p.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 32, in <module>
+E             assert not bad, bad
+E                    ^^^^^^^
+E         AssertionError: ['kmesh.logic.engine']
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', "import importlib.util, sys, os\nsys.path.ins...ring>", line 32, in <module>\n    assert not bad, bad\n           ^^^^^^^\nAssertionError: [\'kmesh.logic.engine\']\n').returncode
+
+tests/test_proof_key.py:743: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/review-r2-guards/lazy_forbidden_import.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestELongAndIsolation::test_import_isolation_hard_block
+1 failed, 51 passed in 0.34s

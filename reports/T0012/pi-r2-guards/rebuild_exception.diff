@@ -1,0 +1,15 @@
+--- submitted
++++ rebuild_exception
+@@ -117,7 +117,11 @@
+     once and the final step zero times; any other count raises
+     ``LogicValidationError("proof_key.proof must be a single occurrence tree")``.
+     """
+-    if not verify_proof(clauses, query, proof, max_steps=max_steps):
++    try:
++        valid = verify_proof(clauses, query, proof, max_steps=max_steps)
++    except (LogicValidationError, RuntimeError) as exc:
++        raise type(exc)(str(exc)) from None
++    if not valid:
+         raise LogicValidationError(
+             "proof_key.proof must be a valid proof of query"
+         )

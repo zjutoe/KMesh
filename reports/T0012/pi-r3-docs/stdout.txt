@@ -1,0 +1,1 @@
+PASS: R3 docs consistency (T0012=awaiting_review x3; pi-r3-guards2 x3; provenance; links; HEAD frozen)

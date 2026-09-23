@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 12, in <module>
+    subprocess.run(["git","-c","core.whitespace=blank-at-eol,space-before-tab","diff","--cached","--check","--",*sorted(scope)],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', '-c', 'core.whitespace=blank-at-eol,space-before-tab', 'diff', '--cached', '--check', '--', 'README.md', 'docs/handoffs/T0012-proof-key.md', 'docs/implementation_status.md', 'src/kmesh/logic/proof_key.py', 'tests/test_proof_key.py']' returned non-zero exit status 2.

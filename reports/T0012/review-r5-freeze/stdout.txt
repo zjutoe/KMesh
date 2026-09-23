@@ -1,0 +1,7 @@
+PASS: protected files 2301 unchanged; input files 2376
+Class AST unchanged: {'TestAHandComputed': True, 'TestBTransformations': False, 'TestCOracleAndEnumeration': True, 'TestDErrors': True, 'TestELongAndIsolation': True, 'TestFGuardQuality': True}
+Everything outside B group unchanged: True
+pi-r5-focused 0 2026-09-23T05:25:18.346817+00:00 0.777 33e3b3e2b1eb4c2b66a11939e34c82aa0879227241b185195814f40ec05fa0d2 33e3b3e2b1eb4c2b66a11939e34c82aa0879227241b185195814f40ec05fa0d2
+pi-r5-guards 0 2026-09-23T05:25:24.728307+00:00 16.009 33e3b3e2b1eb4c2b66a11939e34c82aa0879227241b185195814f40ec05fa0d2 33e3b3e2b1eb4c2b66a11939e34c82aa0879227241b185195814f40ec05fa0d2
+pi-r5-docs 0 2026-09-23T05:32:19.518045+00:00 0.265 33e3b3e2b1eb4c2b66a11939e34c82aa0879227241b185195814f40ec05fa0d2 33e3b3e2b1eb4c2b66a11939e34c82aa0879227241b185195814f40ec05fa0d2
+Without record.json: []

@@ -1,0 +1,43 @@
+..................................F...........F.......                   [100%]
+=================================== FAILURES ===================================
+______________ TestDErrors.test_clauses_list_rejected_by_product _______________
+
+self = <test_proof_key.TestDErrors object at 0x7f7361f34f30>
+
+    def test_clauses_list_rejected_by_product(self):
+        # the product must not coerce clauses to a tuple
+        c = [_fact("p", "a", "b")]
+>       with pytest.raises(LogicValidationError) as e:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'kmesh.logic.types.LogicValidationError'>
+
+tests/test_proof_key.py:759: Failed
+__________________ TestDErrors.test_verify_logic_sentinel_is ___________________
+
+self = <test_proof_key.TestDErrors object at 0x7f7362dab280>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f736287f490>
+
+    def test_verify_logic_sentinel_is(self, monkeypatch):
+        import kmesh.logic.proof_key as pk_mod
+        c = [_fact("p", "a", "b")]
+        sentinel = LogicValidationError("verify.clauses must be a tuple of Clause, got list")
+        calls = []
+        def spy(*args, **kw):
+            calls.append((args, kw))
+            raise sentinel
+        monkeypatch.setattr(pk_mod, "verify_proof", spy)
+        with pytest.raises(LogicValidationError) as e:
+            canonical_proof_key(c, _A("p", "a", "b"),
+                                (_ps(0, (), "p", "a", "b"),), max_steps=7)
+        assert e.value is sentinel
+        assert str(e.value) == "verify.clauses must be a tuple of Clause, got list"
+        assert len(calls) == 1
+>       assert calls[0][0][0] is c
+E       AssertionError: assert (Clause(body=(), head=Atom(pred='p', args=('a', 'b'))),) is [Clause(body=(), head=Atom(pred='p', args=('a', 'b')))]
+
+tests/test_proof_key.py:893: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/pi-r3-guards2/coerce_clauses.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestDErrors::test_clauses_list_rejected_by_product
+FAILED tests/test_proof_key.py::TestDErrors::test_verify_logic_sentinel_is - ...
+2 failed, 52 passed in 0.80s

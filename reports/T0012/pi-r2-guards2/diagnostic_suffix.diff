@@ -1,0 +1,41 @@
+--- submitted
++++ diagnostic_suffix
+@@ -112,20 +112,20 @@
+     and ``ProofLimitError`` propagate unchanged (one call, no wrapping, no
+     early scan of this layer's inputs).  If the verifier returns ``False``
+     (empty proof, wrong query, illegal derivation), raise
+-    ``LogicValidationError("proof_key.proof must be a valid proof of query")``.
++    ``LogicValidationError("proof_key.proof must be a valid proof of query EXTRA")``.
+     After verification, require each non-final step to be referenced exactly
+     once and the final step zero times; any other count raises
+-    ``LogicValidationError("proof_key.proof must be a single occurrence tree")``.
++    ``LogicValidationError("proof_key.proof must be a single occurrence tree EXTRA")``.
+     """
+     if not verify_proof(clauses, query, proof, max_steps=max_steps):
+         raise LogicValidationError(
+-            "proof_key.proof must be a valid proof of query"
++            "proof_key.proof must be a valid proof of query EXTRA"
+         )
+ 
+     n = len(proof)
+     if n == 0:
+         raise LogicValidationError(
+-            "proof_key.proof must be a valid proof of query"
++            "proof_key.proof must be a valid proof of query EXTRA"
+         )
+ 
+     ref_count = [0] * n
+@@ -135,11 +135,11 @@
+     for i in range(n - 1):
+         if ref_count[i] != 1:
+             raise LogicValidationError(
+-                "proof_key.proof must be a single occurrence tree"
++                "proof_key.proof must be a single occurrence tree EXTRA"
+             )
+     if ref_count[n - 1] != 0:
+         raise LogicValidationError(
+-            "proof_key.proof must be a single occurrence tree"
++            "proof_key.proof must be a single occurrence tree EXTRA"
+         )
+ 
+     headers: list = [None] * n

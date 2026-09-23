@@ -1,0 +1,38 @@
+............................F........................................    [100%]
+=================================== FAILURES ===================================
+_________________ TestBTransformations.test_actual_case_differ _________________
+
+self = <test_proof_key.TestBTransformations object at 0x7f825e0e9b30>
+
+    def test_actual_case_differ(self):
+        # actual symbols (predicate AND constants) are case-sensitive: same
+        # shape, different actual case -> different keys (guards both the
+        # lowercase_actual_symbols and lowercase_constants_only mutations).
+        # (a) predicate case, same constants
+        c1 = (_fact("Foo", "a", "b"),
+               Clause((_A("Foo", "?x", "?y"),), _A("Bar", "?x", "?y")))
+        p1 = (_ps(0, (), "Foo", "a", "b"), _ps(1, (0,), "Bar", "a", "b"))
+        c2 = (_fact("foo", "a", "b"),
+               Clause((_A("foo", "?x", "?y"),), _A("Bar", "?x", "?y")))
+        p2 = (_ps(0, (), "foo", "a", "b"), _ps(1, (0,), "Bar", "a", "b"))
+        assert verify_proof(c1, _A("Bar", "a", "b"), p1) is True
+        assert verify_proof(c2, _A("Bar", "a", "b"), p2) is True
+>       _ne(key(c1, _A("Bar", "a", "b"), p1), key(c2, _A("Bar", "a", "b"), p2), "pred case")
+
+tests/test_proof_key.py:650: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = ('proof_key_v1', ((('bar', 'a', 'b'), ('clause_key_v1', ('bar', ('v', 0), ('v', 1)), (('foo', (...), (...)),))), (('foo', 'a', 'b'), ('clause_key_v1', ('foo', ('c', 'a'), ('c', 'b')), ()))))
+b = ('proof_key_v1', ((('bar', 'a', 'b'), ('clause_key_v1', ('bar', ('v', 0), ('v', 1)), (('foo', (...), (...)),))), (('foo', 'a', 'b'), ('clause_key_v1', ('foo', ('c', 'a'), ('c', 'b')), ()))))
+label = 'pred case'
+
+    def _ne(a, b, label=None):
+>       assert a != b, (f"{label}: unexpectedly equal" if label else "unexpectedly equal")
+E       AssertionError: pred case: unexpectedly equal
+E       assert ('proof_key_v1', ((('bar', 'a', 'b'), ('clause_key_v1', ('bar', ('v', 0), ('v', 1)), (('foo', (...), (...)),))), (('foo', 'a', 'b'), ('clause_key_v1', ('foo', ('c', 'a'), ('c', 'b')), ())))) != ('proof_key_v1', ((('bar', 'a', 'b'), ('clause_key_v1', ('bar', ('v', 0), ('v', 1)), (('foo', (...), (...)),))), (('foo', 'a', 'b'), ('clause_key_v1', ('foo', ('c', 'a'), ('c', 'b')), ()))))
+
+tests/test_proof_key.py:63: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/review-r5-guards/lowercase_actual_symbols.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestBTransformations::test_actual_case_differ
+1 failed, 68 passed in 0.91s

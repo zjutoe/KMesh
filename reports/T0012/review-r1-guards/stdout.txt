@@ -1,0 +1,9 @@
+submitted 0 0
+allow_unused_steps 0 0
+float_variable_number 0 0
+coerce_clauses 0 0
+rebuild_exception 0 0
+lazy_forbidden_import 0 0
+diagnostic_suffix 0 0
+ignore_deep_tie 1 4
+always_sort_children 1 3

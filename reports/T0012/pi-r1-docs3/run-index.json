@@ -1,0 +1,91 @@
+{
+  "scope": "finished Pi RUNs before this docs run",
+  "runs": [
+    {
+      "run": "pi-r1-preflight",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0012/check_delivery.py",
+        "preflight",
+        "reports/T0012/pi-r1-preflight"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-21T17:46:46.402173+00:00",
+      "finished_at_utc": "2026-09-21T17:46:46.646157+00:00",
+      "elapsed_s": 0.226
+    },
+    {
+      "run": "pi-r1-full",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_key.py",
+        "tests/test_clause_key.py",
+        "tests/test_depth.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0012/pi-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-21T19:37:34.543726+00:00",
+      "finished_at_utc": "2026-09-21T19:37:50.447276+00:00",
+      "elapsed_s": 15.885
+    },
+    {
+      "run": "pi-r1-fused",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_key.py",
+        "--basetemp",
+        "reports/T0012/pi-r1-fused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-21T19:55:32.252752+00:00",
+      "finished_at_utc": "2026-09-21T19:55:32.660103+00:00",
+      "elapsed_s": 0.389
+    },
+    {
+      "run": "pi-r1-docs",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0012/check_delivery.py",
+        "docs",
+        "reports/T0012/pi-r1-docs"
+      ],
+      "exit_code": 1,
+      "started_at_utc": "2026-09-21T19:58:50.578876+00:00",
+      "finished_at_utc": "2026-09-21T19:58:50.804588+00:00",
+      "elapsed_s": 0.208
+    },
+    {
+      "run": "pi-r1-docs2",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0012/check_delivery.py",
+        "docs",
+        "reports/T0012/pi-r1-docs2"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-21T19:59:33.909853+00:00",
+      "finished_at_utc": "2026-09-21T19:59:34.140774+00:00",
+      "elapsed_s": 0.213
+    }
+  ],
+  "current_source_sha256": {
+    "src/kmesh/logic/proof_key.py": "92dce0d424a60ae3f1f0d46a49da989eb8367258c287107a68ac541b637e03c1",
+    "tests/test_proof_key.py": "79e102c3a54d5b3e32fdc10ce93bb01bd417bece4f9a6bdb0d3cb612e62977d6"
+  }
+}

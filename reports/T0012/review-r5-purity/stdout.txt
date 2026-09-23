@@ -1,0 +1,1 @@
+PASS: K0/K3/K5 complete pre-call snapshots unchanged after all four calls

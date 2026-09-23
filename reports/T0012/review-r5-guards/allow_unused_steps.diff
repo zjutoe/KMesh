@@ -1,0 +1,11 @@
+--- submitted
++++ allow_unused_steps
+@@ -133,7 +133,7 @@
+         for ref in step.premise_steps:
+             ref_count[ref] += 1
+     for i in range(n - 1):
+-        if ref_count[i] != 1:
++        if ref_count[i] > 1:
+             raise LogicValidationError(
+                 "proof_key.proof must be a single occurrence tree"
+             )

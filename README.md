@@ -263,13 +263,54 @@ assert canonical_clause_key(a) == (
 
 **状态：`accepted`（2026-09-21，Codex 第 2 轮复验）**，R1–R4 关闭。独立定向 **63 项通过**，五种违约副本均被对应断言拒绝；补齐了实际改名／逆序、纯度与类型、完整诊断、根及子模块隔离守卫。产品保持冻结，本轮未重跑全量，沿用 Codex 第 1 轮 **771 项回归**与 **3571 次有限 oracle 检查**。记录更正与历史限制见 [T0011 交接文档](docs/handoffs/T0011-clause-key.md)及 [第 2 轮验收报告](reports/T0011/review-r2/review.md)。
 
+> T0012 已由 Codex 第 5 轮验收通过（2026-09-23）；核验范围及保留限制见 [R5 报告](reports/T0012/review-r5/review.md)。
+
+单棵证明的规范键（T0012，落实 D29/D30）：`kmesh.logic.proof_key` 提供单一公开函数 `canonical_proof_key(clauses, query, proof, *, max_steps=10000) -> tuple`，返回一个平坦前序键 `("proof_key_v1", (header, ...))`，每个 `header = (GroundKey, ClauseKey)`。`GroundKey` 是结论原子的三件 `(pred, const0, const1)`（常量字面，非 `("c", s)` 包装）；`ClauseKey` 的格式与 T0011 `canonical_clause_key` 一致（形式为 `("clause_key_v1", ...)`），由本产品内部编码、不调用 T0011。该键只针对一棵已提交、验证器通过、且每个非末节点被恰好引用一次（末节点 0 次）的“发生树”；不搜索、不判定唯一性、不是 motif 或世界级摘要。算法（仅调用 T0006 `verify_proof`）：
+
+1. 一次调用 T0006 `verify_proof(clauses, query, proof, max_steps=max_steps)`；其 `LogicValidationError`／`ProofLimitError` 原样透传（本层不做预扫描、不改包装）；验证器返回 `False` 时抛 `LogicValidationError("proof_key.proof must be a valid proof of query")`。
+2. 判单发生树：每个非末步骤 ref 次数恰为 1、末步骤 0；否则抛 `LogicValidationError("proof_key.proof must be a single occurrence tree")`，不静默去重。
+3. 自底向上为每节点算 `ClauseKey`：0/1 前提取原序候选；2 前提比较 `fwd_key` 与 `rev_key`（head 后按 body 左到右编号），不同则取较小者并同步交换对应子树引用，相等时再用 `_compare_subtrees` 对两子树前序流做深比较打破平局；据此定 `children_order`（即“自底向上决定局部 joint 顺序，仅当两 slot 候选相等时比较子树顺序”）。
+4. 自末节点（根）以显式栈前序遍历，把各 `(GroundKey, ClauseKey)` 依次入流；返回 `("proof_key_v1", 流)`。
+
+仅消除结构同构子树置换、两前提 joint 顺序、ref 列表顺序与步编号差异；保留全部真实支持与重复发生，拒绝未引用步骤与共享 DAG；包零第三方导入（仅相对导入 `proof` 的验证器与异常类型；ClauseKey 内部编码，不依赖 T0011 包）。导入隔离检查（测试中用 `sys.meta_path` 禁止 `torch`、`yaml` 及所有非白名单 `kmesh.logic.*`）是测试护栏，用于保证本包运行时只依赖 `kmesh.logic.proof`，并非 `canonical_proof_key` 的运行时功能或自检。最小使用例（与 `tests/test_proof_key.py` 的 K1 相同输入）：
+
+```python
+from kmesh.logic.proof_key import canonical_proof_key
+from kmesh.logic.types import Atom, Clause
+from kmesh.logic.proof import ProofStep
+
+# K1：一个事实 + 一条 COPY 规则推出第二个事实（两步发生树）
+clauses = (
+    Clause((), Atom("p", ("a", "b"))),
+    Clause((Atom("p", ("?x", "?y")),), Atom("q", ("?x", "?y"))),
+)
+query = Atom("q", ("a", "b"))
+proof = (
+    ProofStep(0, (), Atom("p", ("a", "b"))),    # p(a,b)：事实
+    ProofStep(1, (0,), Atom("q", ("a", "b"))),  # q(a,b)：由 p(a,b) 推出
+)
+k = canonical_proof_key(clauses, query, proof)
+assert k == (
+    "proof_key_v1",
+    (
+        (("q", "a", "b"),
+         ("clause_key_v1", ("q", ("v", 0), ("v", 1)),
+          (("p", ("v", 0), ("v", 1)),))),
+        (("p", "a", "b"),
+         ("clause_key_v1", ("p", ("c", "a"), ("c", "b")), ())),
+    ),
+)
+```
+
+**状态：`accepted`（2026-09-23，Codex 第 5 轮独立复验）。** 独立定向 **69 项通过**，13 个违约副本被相应断言拒绝；联合交换、重复 COPY 规则和谓词／常量大小写对照已核验。三组完整输入快照由 Codex 保留探针补证通过。产品保持冻结，本轮未重跑 full，沿用 Codex R1 的 840 项回归。缺失 preflight 等执行偏差、测试覆盖差异与历史证据限制保留，见 [R5 验收报告](reports/T0012/review-r5/review.md)及 [交接文档](docs/handoffs/T0012-proof-key.md)。
+
 运行测试：
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_clause_key.py tests/test_depth.py tests/test_proof_enumeration.py tests/test_derivations.py tests/test_dependency.py tests/test_proof.py tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_proof_key.py tests/test_clause_key.py tests/test_depth.py tests/test_proof_enumeration.py tests/test_derivations.py tests/test_dependency.py tests/test_proof.py tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
 ```
 
-当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 的单查询原始有序证明树枚举已验收（`accepted`，第 2 轮关闭 R1–R3，执行限制保留）；T0010 的单查询最短证明深度已验收（`accepted`，第 3 轮关闭 R1–R4，历史留证限制保留）；T0011 的单条 clause 规范内容键已验收（`accepted`，第 2 轮关闭 R1–R4，独立 63 项及五个违约守卫通过）；规范唯一性、motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 的单查询原始有序证明树枚举已验收（`accepted`，第 2 轮关闭 R1–R3，执行限制保留）；T0010 的单查询最短证明深度已验收（`accepted`，第 3 轮关闭 R1–R4，历史留证限制保留）；T0011 的单条 clause 规范内容键已验收（`accepted`，第 2 轮关闭 R1–R4，独立 63 项及五个违约守卫通过）；T0012 的单棵证明规范键已验收（`accepted`，Codex R5 独立 69 项及 13 个违约守卫通过，三组输入纯度以独立探针补证，流程偏差与历史限制保留）；规范唯一性、motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
 截至 2026-09-16，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
