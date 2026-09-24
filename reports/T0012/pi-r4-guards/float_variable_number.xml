@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="69" time="0.946" timestamp="2026-09-23T03:54:25.068321+00:00" hostname="ai86"><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestAHandComputed" name="test_k0_fact" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestAHandComputed" name="test_k1_copy_full_literal" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestAHandComputed" name="test_k2_inv_full_literal" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestAHandComputed" name="test_k3_join_full_literal" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestAHandComputed" name="test_k4_symmetric_two_facts" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestAHandComputed" name="test_k5_nonsymmetric_degenerate" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestAHandComputed" name="test_k6_duplicate_premises" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestAHandComputed" name="test_k7_valid_self_rule_differs_from_fact" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestAHandComputed" name="test_k8_deep_same_header" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_var_bijection_same" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_world_reorder_remapped_same" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_joint_swap_two_slot_clause" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_non_contiguous_topology" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_k1_insert_equivalent_duplicate_same" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_add_unused_clauses_same" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_constant_change_differs" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_two_bridge_supports_differ" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_copy_inv_schema_differs" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_input_purity_and_stability" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_type_soundness" time="0.001"><failure message="AssertionError: assert (&lt;class 'float'&gt; is int)&#10; +  where &lt;class 'float'&gt; = type(0.0)">self = &lt;test_proof_key.TestBTransformations object at 0x7f31dcb67110&gt;
+
+    def test_type_soundness(self):
+        # K3 join: exercises top, header, ground-key, clause-key, pred,
+        # arg-key, and body (two distinct premises) layers.
+        c = (_fact("p", "a", "b"), _fact("q", "b", "c"),
+             Clause((_A("p", "?x", "?y"), _A("q", "?y", "?z")),
+                   _A("r", "?x", "?z")))
+        p = (_ps(0, (), "p", "a", "b"), _ps(1, (), "q", "b", "c"),
+             _ps(2, (0, 1), "r", "a", "c"))
+        k = key(c, _A("r", "a", "c"), p)
+        assert type(k) is tuple and len(k) == 2
+        assert type(k[0]) is str and k[0] == "proof_key_v1"
+        assert type(k[1]) is tuple
+        def _argkey(a):
+            assert type(a) is tuple and len(a) == 2
+            assert type(a[0]) is str and a[0] in ("c", "v")
+            if a[0] == "c":
+                assert type(a[1]) is str
+            else:
+                assert type(a[1]) is int and not isinstance(a[1], bool)
+                assert a[1] &gt;= 0
+        def _predkey(pkey):
+            assert type(pkey) is tuple and len(pkey) == 3
+            assert type(pkey[0]) is str and not pkey[0].startswith("?")
+            _argkey(pkey[1]); _argkey(pkey[2])
+        for h in k[1]:
+            assert type(h) is tuple and len(h) == 2
+            g, ck = h
+            assert type(g) is tuple and len(g) == 3
+            for x in g:
+                assert type(x) is str and not x.startswith("?")
+            assert type(ck) is tuple and len(ck) == 3
+            assert type(ck[0]) is str and ck[0] == "clause_key_v1"
+&gt;           _predkey(ck[1])
+
+tests/test_proof_key.py:444: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof_key.py:435: in _predkey
+    _argkey(pkey[1]); _argkey(pkey[2])
+    ^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = ('v', 0.0)
+
+    def _argkey(a):
+        assert type(a) is tuple and len(a) == 2
+        assert type(a[0]) is str and a[0] in ("c", "v")
+        if a[0] == "c":
+            assert type(a[1]) is str
+        else:
+&gt;           assert type(a[1]) is int and not isinstance(a[1], bool)
+E           AssertionError: assert (&lt;class 'float'&gt; is int)
+E            +  where &lt;class 'float'&gt; = type(0.0)
+
+tests/test_proof_key.py:430: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_k3_var_bijection_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_k5_var_bijection_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_k6_var_bijection_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_k4_world_reorder_remapped_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_k5_world_reorder_remapped_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_k6_world_reorder_remapped_same" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_k5_ab_ba_two_orderings" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_duplicate_copy_source_k1_new_index" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_actual_case_differ" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_asymmetric_rename_differ" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestBTransformations" name="test_cross_fixture_stability_purity" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k1_oracle_matches" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k3_world_reorder_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k4_var_rename_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k5_two_supports_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k6_ab_vs_aa_and_ba_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestCOracleAndEnumeration" name="test_k8_successor_and_branch_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestCOracleAndEnumeration" name="test_joint_body_ref_swap_oracle" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestCOracleAndEnumeration" name="test_t0009_k5_per_tree_full_keyset" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestCOracleAndEnumeration" name="test_t0009_k6_per_tree_full_keyset" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_empty_proof_valid_message" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_wrong_query_valid_message" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_invalid_derivation_valid_message" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_shared_tree_verifier_true_then_reject" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_unused_legal_step_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_clauses_list_rejected_by_product" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_clauses_member_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_query_type_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_query_nonground_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_proof_outer_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_proof_member_rejected" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_max_steps_rejected_exact" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_huge_int_budget_boundary" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_missing_proof_typeerror" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_extra_positional_typeerror" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_unknown_keyword_typeerror" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_clauses_before_bad_proof_member" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_proof_limit_priority" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_semantic_before_single_occurrence" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_length_before_bad_member" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_prooflimit_sentinel_is" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_verify_logic_sentinel_is" time="0.001" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_false_message" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestDErrors" name="test_module_all" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestELongAndIsolation" name="test_long_chain_1201" time="0.039" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestELongAndIsolation" name="test_import_isolation_hard_block" time="0.392" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestFGuardQuality" name="test_guard_rejects_index_in_key" time="0.000" /><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestFGuardQuality" name="test_variable_numbers_are_ints" time="0.001"><failure message="AssertionError: ('v', 0.0)&#10;assert (&lt;class 'float'&gt; is int)&#10; +  where &lt;class 'float'&gt; = type(0.0)">self = &lt;test_proof_key.TestFGuardQuality object at 0x7f31dbb056d0&gt;
+
+    def test_variable_numbers_are_ints(self):
+        # float_variable_number guard: every variable number must be a
+        # non-bool int (rebuilding to float would change the key type).
+        c = (_fact("p", "a", "a"),
+             Clause((_A("p", "?x", "?y"),), _A("q", "?x", "?y")))
+        p = (_ps(0, (), "p", "a", "a"), _ps(1, (0,), "q", "a", "a"))
+        k = key(c, _A("q", "a", "a"), p)
+        def _check_term(term):
+            assert isinstance(term, tuple) and len(term) == 2
+            if term[0] == "v":
+                assert type(term[1]) is int and not isinstance(term[1], bool), term
+                assert term[1] &gt;= 0
+            else:
+                assert isinstance(term[1], str), term
+        def _check_clause_key(ck):
+            assert isinstance(ck, tuple) and len(ck) == 3 and ck[0] == "clause_key_v1", ck
+            head = ck[1]
+            assert isinstance(head, tuple) and len(head) == 3, head
+            assert isinstance(head[0], str), head
+            _check_term(head[1]); _check_term(head[2])
+            body = ck[2]
+            assert isinstance(body, tuple), body
+            for atom in body:
+                assert isinstance(atom, tuple) and len(atom) == 3, atom
+                assert isinstance(atom[0], str), atom
+                _check_term(atom[1]); _check_term(atom[2])
+        for h in k[1]:
+            assert isinstance(h, tuple) and len(h) == 2
+&gt;           _check_clause_key(h[1])
+
+tests/test_proof_key.py:1364: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof_key.py:1355: in _check_clause_key
+    _check_term(head[1]); _check_term(head[2])
+    ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+term = ('v', 0.0)
+
+    def _check_term(term):
+        assert isinstance(term, tuple) and len(term) == 2
+        if term[0] == "v":
+&gt;           assert type(term[1]) is int and not isinstance(term[1], bool), term
+E           AssertionError: ('v', 0.0)
+E           assert (&lt;class 'float'&gt; is int)
+E            +  where &lt;class 'float'&gt; = type(0.0)
+
+tests/test_proof_key.py:1346: AssertionError</failure></testcase><testcase classname="reports.T0012.pi-r4-guards.pytest-tmp.float_variable_number.tests.test_proof_key.TestFGuardQuality" name="test_module_all" time="0.000" /></testsuite></testsuites>

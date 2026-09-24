@@ -1,6 +1,6 @@
 # KMesh 实现状态
 
-- 截至 2026-09-20，M0（最小可运行环境）`in_progress`；M1 的逻辑与数据审计基础按小任务推进，尚未完成可信数据验收。
+- 截至 2026-09-24，M0（最小可运行环境）`in_progress`；M1 的逻辑与数据审计基础按小任务推进，尚未完成可信数据验收。
 - T0001（最小 Python 包与环境诊断命令）：Codex 第 2 轮复验通过，状态 `accepted`，接受实现提交 `39dabc73e035c8c2627a1e5db4deab31055a9c6d`。R1–R3 已关闭；独立复跑 25 个测试和关键回归检查通过。记录见 [交接文档](handoffs/T0001-bootstrap-doctor.md)，[Pi 第 2 轮证据](../reports/T0001/pi-r2/)与 [Codex 第 2 轮证据](../reports/T0001/review-r2/)分别保留。
 - T0002（模型结构配置的读取与校验）：Codex 第 3 轮复验通过（2026-09-15），状态 **`accepted`**，R1–R5 全部关闭。独立复跑 **99 个测试、规定驱动和四个原始 YAML 反例均通过**；接受实现提交 **`35572f2f8426ab7a8f36cf0961a0f4ec0c68c897`**，已核对其文件哈希与第 3 轮冻结工作树一致。该提交说明中的 `awaiting_review` 已过时，文档和验收证据均为 `accepted`。当前 Pi 第 3 轮 43 项哈希全部匹配，旧证据完整核对未变；丢失历史和开发 stderr 留存限制仍明确保留。**仅涉及 model 的九个字段，不代表完整实验配置已校验。** 见 [T0002 交接文档](handoffs/T0002-model-config.md)、[Pi 第 3 轮证据](../reports/T0002/pi-r3/)与 [Codex 第 3 轮证据](../reports/T0002/review-r3/)。
 - T0003（逻辑原子与 clause 的不可变表示及静态校验）：Codex 第 2 轮复验通过（2026-09-15），状态 **`accepted`**，R1 已关闭。独立完整回归 **167 项**及首轮 **18 项边界探测全通过**；八条新回归已核验失败先保存、修复后通过，原测试断言/历史证据保留。接受实现提交为 `6a81224eead0df659a4ba0e83cc391d7307550f5`，已核对三个逻辑源码/测试文件与 [最终验收记录](../reports/T0003/review-r2/final-audit.json)哈希一致；[第 2 轮冻结清单](../reports/T0003/review-r2/frozen-inputs.json)保留当时未提交的验收时点。范围仅为 `Atom`/`Clause` 的不可变表示与静态检查，world、解析器、推理及数据审计未实现。详见 [T0003 交接文档](handoffs/T0003-logic-types.md)、[独立回归](../reports/T0003/review-r2-full/)、[边界复验](../reports/T0003/review-r2-boundaries/)及 [D18](decisions.md#d18逻辑类型的实现约定)。
@@ -20,7 +20,9 @@
 
 - T0011（单条 clause 的规范内容键）：**`accepted`**（2026-09-21，Codex 第 2 轮复验），R1–R4 关闭。依据 [proof_identity_v1](proof_identity_v1.md) 与 D29，由 Pi + 用户已授权的 `bonsai2-27b` 实施。独立定向 **63 项通过**，五个违约副本均被目标断言拒绝；产品 `cd5a737a…59084` 持续冻结，接受测试 `a6aa6057…e8d14f2`。沿用 Codex 第 1 轮 **771 项完整回归**与 **3571 次有限 oracle 检查**，本轮未重跑 full；159 项本任务既有材料哈希未变，前置源码／测试和规划件保持冻结。命令／哈希文字误差由 Codex 追加说明，历史证据限制保留。接受工作树基于 `4c457e2`，未 commit/push。只消除单 clause 内变量改名和双前提顺序差异，不改变 Clause 结构性相等，不代表证明唯一性／motif／world 审计。见 [交接文档](handoffs/T0011-clause-key.md)与 [第 2 轮验收报告](../reports/T0011/review-r2/review.md)。
 
-- T0012（单棵出现树的同世界证明规范键）：`ready`（2026-09-21，Codex 设计审阅及手算 fixture 核验通过，Pi 尚未实施）。承接 T0006/T0009/T0011，以平坦前序结构键保留全部实际支持并联合规范化 schema／子树；拒绝共享 DAG 与无关步骤。仅一个新产品模块与测试，不包含证明枚举／唯一性计数／motif。15 个手算键、K8 同头后继反例和固定世界 4→4／4→3 规划核验通过，不能视为新产品已通过测试。见 [交接文档](handoffs/T0012-proof-key.md)与 [规划审阅](../reports/T0012/planning-review.md)。当前基线含已验收但未提交的 T0011 改动，按哈希保留。
+- T0012（单棵出现树的同世界证明规范键）：**`accepted`**（2026-09-23，Codex 第 5 轮复验）。独立定向 69 项通过，13 个违约副本被对应断言拒绝，三组完整输入快照由 Codex 保留探针补证。接受产品 `92dce0d4…03c1`、测试 `33e3b3e2…fa0d2`；产品及非 B 组冻结，沿用 Codex R1 full 840 项，本轮未重跑。缺失 preflight、Pi 纯度测试覆盖差异及历史限制保留。已提交 `e576c77` 并推送至 `origin/T0012-proof-key`，规划 T0013 时接受哈希已核对；不代表规范唯一性、motif 或 world 审计。见 [交接文档](handoffs/T0012-proof-key.md)与 [R5 验收报告](../reports/T0012/review-r5/review.md)。
+
+- T0013（单查询规范证明计数）：**`accepted`**（2026-09-24，Codex 第 3 轮复验，R1–R3 关闭）。产品 `ac710fd1…70eec6d` 持续冻结，接受测试 `52780855…869fff`；独立定向 21 项通过，前缀错误副本被拒，运行期观察确认 finder 在产品导入／U2／U6／最终扫描后均保留。2625 项旧冻结材料与 E 前全文不变。沿用 Codex R1 独立 884 项 full；Pi R2 额外 885 项单列自检，本轮未重跑 full。历史文字更正、模型自述来源及 unknown 保留；未 commit/push。不代表 world／motif 或训练验收。见 [最终报告](../reports/T0013/review-r3/review.md)及 [交接文档](handoffs/T0013-proof-count.md)。
 
 ## M0 已完成 / 未完成
 
@@ -39,7 +41,8 @@
 | 单查询完整原始证明树展开 | T0009 `accepted`（第 2 轮 R1–R3 关闭，独立679项回归通过，执行限制保留）；规范证明身份／唯一性与 motif 后续另拆 |
 | 单查询最短证明深度 | T0010 `accepted`（第 3 轮，R1–R4 关闭）；独立 53 项及四个违约副本守卫通过，历史留证限制保留 |
 | 单条 clause 规范内容键 | T0011 `accepted`（第 2 轮 R1–R4 关闭）；独立 63 项及五个违约守卫通过，保留历史证据限制 |
-| 单棵出现树规范证明键 | T0012 `ready`；规划审阅通过，尚未实施，不代表唯一性审计 |
+| 单棵出现树规范证明键 | T0012 `accepted`（Codex R5 独立 69 项、13 个违约守卫及三组纯度补证通过；沿用 R1 full 840 项，执行限制保留）；不代表规范唯一性审计 |
+| 单查询规范证明数／唯一性判据 | T0013 `accepted`（Codex 第 3 轮，R1–R3 关闭）；独立 21 项、前缀守卫及运行期硬隔离通过，沿用独立 884 full；不代表 world／motif 审计 |
 | 数据/求解器与 CPU forward/backward 验证 | `not_run`，尚未实现 |
 | 20-step smoke | `not_run`，尚未实现 |
 | GPU 训练 | `not_run`，尚未实现，也未经本任务授权 |

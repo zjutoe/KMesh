@@ -1,0 +1,52 @@
+............................................................FF.......    [100%]
+=================================== FAILURES ===================================
+___________________ TestDErrors.test_prooflimit_sentinel_is ____________________
+
+self = <test_proof_key.TestDErrors object at 0x7eff78357380>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7eff7837b6f0>
+
+    def test_prooflimit_sentinel_is(self, monkeypatch):
+        import kmesh.logic.proof_key as pk_mod
+        c = (_fact("p", "a", "b"),)
+        q = _A("p", "a", "b")
+        p = (_ps(0, (), "p", "a", "b"),)
+        sentinel = ProofLimitError("verify.proof length exceeds verify.max_steps")
+        calls = []
+        def spy(*args, **kw):
+            calls.append((args, kw))
+            raise sentinel
+        monkeypatch.setattr(pk_mod, "verify_proof", spy)
+        with pytest.raises(ProofLimitError) as e:
+            canonical_proof_key(c, q, p, max_steps=7)
+>       assert e.value is sentinel
+E       AssertionError: assert ProofLimitError('verify.proof length exceeds verify.max_steps') is ProofLimitError('verify.proof length exceeds verify.max_steps')
+E        +  where ProofLimitError('verify.proof length exceeds verify.max_steps') = <ExceptionInfo ProofLimitError('verify.proof length exceeds verify.max_steps') tblen=2>.value
+
+tests/test_proof_key.py:1206: AssertionError
+__________________ TestDErrors.test_verify_logic_sentinel_is ___________________
+
+self = <test_proof_key.TestDErrors object at 0x7eff7741f9d0>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7eff7837b5c0>
+
+    def test_verify_logic_sentinel_is(self, monkeypatch):
+        import kmesh.logic.proof_key as pk_mod
+        c = [_fact("p", "a", "b")]
+        sentinel = LogicValidationError("verify.clauses must be a tuple of Clause, got list")
+        calls = []
+        def spy(*args, **kw):
+            calls.append((args, kw))
+            raise sentinel
+        monkeypatch.setattr(pk_mod, "verify_proof", spy)
+        with pytest.raises(LogicValidationError) as e:
+            canonical_proof_key(c, _A("p", "a", "b"),
+                                (_ps(0, (), "p", "a", "b"),), max_steps=7)
+>       assert e.value is sentinel
+E       AssertionError: assert LogicValidationError('verify.clauses must be a tuple of Clause, got list') is LogicValidationError('verify.clauses must be a tuple of Clause, got list')
+E        +  where LogicValidationError('verify.clauses must be a tuple of Clause, got list') = <ExceptionInfo LogicValidationError('verify.clauses must be a tuple of Clause, got list') tblen=2>.value
+
+tests/test_proof_key.py:1225: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/pi-r5-guards/rebuild_exception_with_context.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestDErrors::test_prooflimit_sentinel_is - As...
+FAILED tests/test_proof_key.py::TestDErrors::test_verify_logic_sentinel_is - ...
+2 failed, 67 passed in 0.93s

@@ -1,0 +1,4 @@
+Corrected check2: explicitly disable blank-at-eof for the accepted terminal empty line; all prior evidence remains unchanged.
+PASS: 755 staged files in task scope; all accepted/review hashes match; no scratch files
+Whitespace exception: retained raw evidence contains literal trailing whitespace/diff context; accepted test has a final empty line.
+Previous commit-staged-check failure preserved. Source and maintained docs pass blank-at-eol/space-before-tab checks.

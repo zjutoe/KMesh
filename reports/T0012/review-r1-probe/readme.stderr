@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<string>", line 20, in <module>
+    canonical_proof_key(c, A("r", "a", "c"), p2)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mye/src/llm/KMesh/src/kmesh/logic/proof_key.py", line 121, in canonical_proof_key
+    raise LogicValidationError(
+        "proof_key.proof must be a valid proof of query"
+    )
+kmesh.logic.types.LogicValidationError: proof_key.proof must be a valid proof of query

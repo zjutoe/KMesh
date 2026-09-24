@@ -1,0 +1,106 @@
+{
+  "result": "COMPLETED",
+  "submitted_passed": true,
+  "rejected_product_mutants": 4,
+  "surviving_guard_mutants": [
+    "root_only_import_guard"
+  ],
+  "runs": [
+    {
+      "name": "submitted",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/submitted/tmp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/submitted",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "summary": "20 passed in 0.19s"
+    },
+    {
+      "name": "raw_count",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/raw_count/tmp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/raw_count",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "summary": "5 failed, 15 passed in 0.25s"
+    },
+    {
+      "name": "cap_two",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/cap_two/tmp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/cap_two",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "summary": "3 failed, 17 passed in 0.23s"
+    },
+    {
+      "name": "omit_key_budget",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/omit_key_budget/tmp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/omit_key_budget",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "summary": "2 failed, 18 passed in 0.22s"
+    },
+    {
+      "name": "swallow_late_key_error",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/swallow_late_key_error/tmp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/swallow_late_key_error",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "summary": "2 failed, 18 passed in 0.22s"
+    },
+    {
+      "name": "root_only_import_guard",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/root_only_import_guard/tmp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0013/review-r1-guards/pytest-tmp/cases/root_only_import_guard",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "summary": "20 passed in 0.19s"
+    }
+  ]
+}

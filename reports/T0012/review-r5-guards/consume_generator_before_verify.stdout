@@ -1,0 +1,36 @@
+.................................................F...................    [100%]
+=================================== FAILURES ===================================
+____________________ TestDErrors.test_proof_outer_rejected _____________________
+
+self = <test_proof_key.TestDErrors object at 0x7feaf6f9be30>
+
+    def test_proof_outer_rejected(self):
+        # proof outer must be a tuple; a single ProofStep and a generator both
+        # fail.  The generator carries a marker set only inside its body, so a
+        # pre-scan (nexting it before the type check) would flip it; after a
+        # rejected call the marker must still be empty.
+        c = (_fact("p", "a", "b"),)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("p", "a", "b"), _ps(0, (), "p", "a", "b"))
+        assert type(e.value) is LogicValidationError
+        assert str(e.value) == "verify.proof must be a tuple of ProofStep, got ProofStep"
+        consumed = []
+        def gen():
+            consumed.append(True)
+            yield _ps(0, (), "p", "a", "b")
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("p", "a", "b"), gen())
+        assert type(e.value) is LogicValidationError
+        assert str(e.value) == "verify.proof must be a tuple of ProofStep, got generator"
+>       assert consumed == [], "generator was nexted before rejection (pre-scan)"
+E       AssertionError: generator was nexted before rejection (pre-scan)
+E       assert [True] == []
+E         
+E         Left contains one more item: True
+E         Use -v to get more diff
+
+tests/test_proof_key.py:1081: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/review-r5-guards/consume_generator_before_verify.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestDErrors::test_proof_outer_rejected - Asse...
+1 failed, 68 passed in 0.89s

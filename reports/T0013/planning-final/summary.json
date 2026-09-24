@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "task_status": "ready",
+  "product_implemented": false,
+  "unchanged_tracked_files": 2470,
+  "hand_fixtures": 9,
+  "exact_budget_failures": 3,
+  "unrelated_cycle_cases": 2,
+  "old_tests_collected": 864,
+  "old_tests_executed": false,
+  "document_links_checked": 68,
+  "planning_documents": {
+    "docs/handoffs/T0013-proof-count.md": "a2967e3fe564a46f41e581391c6d9046195d647cb94e68129d57ceb833cefbab",
+    "docs/implementation_status.md": "d9da07fc325a984ebf1bce620120b805b7ea8acad0d6347ecfe98bbd188cf1b0",
+    "docs/proof_identity_v1.md": "f6a200f49939af4f411fd6d529523da3334f6b2d8220bd81fe79cf880f368988",
+    "docs/decisions.md": "f4c09535cb6962b07a55dc8dc8c6539fe68604af345beef2d841669dbb02b88e",
+    "reports/T0013/planning-review.md": "ba290e2bc3098ae5d3bdd88372c9d266cb5d1936735c49b05f2e31f4f1b07c21"
+  }
+}

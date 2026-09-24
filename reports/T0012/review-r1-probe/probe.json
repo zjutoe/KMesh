@@ -1,0 +1,44 @@
+{
+  "product_probes": "PASS",
+  "readme": "FAIL_REPRODUCED",
+  "checks": [
+    {
+      "case": "K5",
+      "raw": 4,
+      "keys": 4,
+      "joint_swap": true,
+      "exhaustive_definition": true
+    },
+    {
+      "case": "K6",
+      "raw": 4,
+      "keys": 3,
+      "joint_swap": true,
+      "exhaustive_definition": true
+    },
+    {
+      "case": "K8",
+      "exhaustive_definition": true,
+      "comparisons": 4
+    },
+    {
+      "case": "unused_step",
+      "result": "correctly rejected after verifier True"
+    },
+    {
+      "case": "delegation",
+      "identity_and_budget": true
+    },
+    {
+      "case": "distinct_predicate_chain",
+      "steps": 1201,
+      "full_headers": true,
+      "native_sort": true
+    },
+    {
+      "case": "submitted_README",
+      "exit_code": 1,
+      "result": "reproduced invalid example"
+    }
+  ]
+}

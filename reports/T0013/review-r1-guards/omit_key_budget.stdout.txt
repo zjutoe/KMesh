@@ -1,0 +1,91 @@
+.............F....F.                                                     [100%]
+=================================== FAILURES ===================================
+_ TestCCallContract.test_c1_single_enum_then_per_proof_key_original_objects_and_budgets _
+
+self = <test_proof_count.TestCCallContract object at 0x7f9e8c4a9090>
+
+    def test_c1_single_enum_then_per_proof_key_original_objects_and_budgets(self):
+        clauses = (_fact("p", "a", "b"),)
+        query = _A("p", "a", "b")
+        p0 = (ProofStep(0, (), _A("p", "a", "b")),)
+        p1 = (ProofStep(0, (), _A("p", "a", "b")),)  # same content, distinct object
+        A, B = ("k", "a"), ("k", "b")
+        def make_spies():
+            calls = []
+    
+            def fake_enum(clauses_, query_, *, max_fact_checks=None,
+                          max_derivations=None, max_proof_steps=None):
+                calls.append(("enum", clauses_, query_,
+                              max_fact_checks, max_derivations, max_proof_steps))
+                return (p0, p1, p0)
+    
+            def fake_key(clauses_, query_, proof, *, max_steps=None):
+                calls.append(("key", clauses_, query_, proof, max_steps))
+                return A if proof is p0 else B
+    
+            return fake_enum, fake_key, calls
+    
+        def run(*args, **kwargs):
+            fake_enum, fake_key, calls = make_spies()
+            with _patch(pc, fake_enum, fake_key):
+                res = pc.count_canonical_proofs(*args, **kwargs)
+            return res, calls
+    
+        res, calls = run(
+            clauses, query,
+            max_fact_checks=11, max_derivations=13, max_proof_steps=20001)
+        assert res == 2
+        assert len(calls) == 4
+        (kind, cl, q, mfc, md, mps) = calls[0]
+        assert kind == "enum"
+        assert cl is clauses and q is query
+        assert (mfc, md, mps) == (11, 13, 20001)
+        for i, (kind, cl, q, proof, ms) in enumerate(calls[1:], start=1):
+            assert kind == "key"
+            assert cl is clauses and q is query          # originals passed through
+            assert proof is (p0, p1, p0)[i - 1]         # original order, no rebuild
+>           assert ms == 20001                          # S passed to T0012, no default
+            ^^^^^^^^^^^^^^^^^^
+E           assert None == 20001
+
+tests/test_proof_count.py:316: AssertionError
+_ TestDOriginalExceptions.test_d3_bad_third_proof_propagates_real_t0012_error __
+
+self = <test_proof_count.TestDOriginalExceptions object at 0x7f9e8c5d6190>
+
+    def test_d3_bad_third_proof_propagates_real_t0012_error(self):
+        clauses = (_fact("p", "a", "b"),)
+        query = _A("p", "a", "b")
+        valid = (ProofStep(0, (), query),)
+        bad = (ProofStep(0, (), _A("q", "x", "y")),)  # conclusion does not match query
+        calls = []
+    
+        def fake_enum(clauses_, query_, *, max_fact_checks=None,
+                      max_derivations=None, max_proof_steps=None):
+            return (valid, valid, bad)
+    
+        real_key = pc.canonical_proof_key
+    
+        def spy_key(clauses_, query_, proof, *, max_steps=None):
+            calls.append(proof)
+            return real_key(clauses_, query_, proof, max_steps=max_steps)
+    
+        with _patch(pc, fake_enum, spy_key):
+            with pytest.raises(LogicValidationError) as excinfo:
+                pc.count_canonical_proofs(clauses, query,
+                                          max_fact_checks=1,
+                                          max_derivations=1,
+                                          max_proof_steps=3)
+>       assert str(excinfo.value) == (
+            "proof_key.proof must be a valid proof of query"), excinfo.value
+E       AssertionError: LogicValidationError('verify.max_steps must be a non-bool positive integer, got NoneType')
+E       assert 'verify.max_s... got NoneType' == 'proof_key.pr...roof of query'
+E         
+E         - proof_key.proof must be a valid proof of query
+E         + verify.max_steps must be a non-bool positive integer, got NoneType
+
+tests/test_proof_count.py:466: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_count.py::TestCCallContract::test_c1_single_enum_then_per_proof_key_original_objects_and_budgets
+FAILED tests/test_proof_count.py::TestDOriginalExceptions::test_d3_bad_third_proof_propagates_real_t0012_error
+2 failed, 18 passed in 0.22s

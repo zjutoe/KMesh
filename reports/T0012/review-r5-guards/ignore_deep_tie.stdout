@@ -1,0 +1,317 @@
+....F.F.F..F.......................FF..F.............................    [100%]
+=================================== FAILURES ===================================
+________________ TestAHandComputed.test_k4_symmetric_two_facts _________________
+
+self = <test_proof_key.TestAHandComputed object at 0x7f9391e03bf0>
+
+    def test_k4_symmetric_two_facts(self):
+        c = (_fact("p", "a", "b"), _fact("p", "a", "c"),
+             Clause((_A("p", "?x", "?z"), _A("p", "?x", "?w")),
+                   _A("q", "?x", "?x")))
+        ck_fa = ("clause_key_v1", ("p", ("c", "a"), ("c", "b")), ())
+        ck_fc = ("clause_key_v1", ("p", ("c", "a"), ("c", "c")), ())
+        ck_q = ("clause_key_v1", ("q", ("v", 0), ("v", 0)),
+                (("p", ("v", 0), ("v", 1)),
+                 ("p", ("v", 0), ("v", 2))))
+        exp = ("proof_key_v1", (
+            (("q", "a", "a"), ck_q),
+            (("p", "a", "b"), ck_fa),
+            (("p", "a", "c"), ck_fc),
+        ))
+        p = (_ps(0, (), "p", "a", "b"), _ps(1, (), "p", "a", "c"),
+             _ps(2, (0, 1), "q", "a", "a"))
+        assert key(c, _A("q", "a", "a"), p) == exp
+        p_swap = (_ps(0, (), "p", "a", "b"), _ps(1, (), "p", "a", "c"),
+                  _ps(2, (1, 0), "q", "a", "a"))
+>       assert key(c, _A("q", "a", "a"), p_swap) == exp
+E       AssertionError: assert ('proof_key_v... 'b')), ())))) == ('proof_key_v... 'c')), ()))))
+E         
+E         At index 1 diff: ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 2))))), (('p', 'a', 'c'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'c')), ())), (('p', 'a', 'b'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'b')), ()))) != ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 2))))), (('p', 'a', 'b'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'b')), ())), (('p', 'a', 'c'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'c')), ())))
+E         Use -v to get more diff
+
+tests/test_proof_key.py:140: AssertionError
+_________________ TestAHandComputed.test_k6_duplicate_premises _________________
+
+self = <test_proof_key.TestAHandComputed object at 0x7f9391384c00>
+
+    def test_k6_duplicate_premises(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?x", "?y"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?y")))
+        ck_pfact = ("clause_key_v1", ("p", ("c", "a"), ("c", "a")), ())
+        ck_sfact = ("clause_key_v1", ("s", ("c", "a"), ("c", "a")), ())
+        ck_psr = ("clause_key_v1", ("p", ("v", 0), ("v", 1)),
+                  (("s", ("v", 0), ("v", 1)),))
+        ck_qd = ("clause_key_v1", ("q", ("v", 0), ("v", 1)),
+                 (("p", ("v", 0), ("v", 1)),
+                  ("p", ("v", 0), ("v", 1))))
+        kAA = ("proof_key_v1", (
+            (("q", "a", "a"), ck_qd),
+            (("p", "a", "a"), ck_pfact),
+            (("p", "a", "a"), ck_pfact),
+        ))
+        kAB = ("proof_key_v1", (
+            (("q", "a", "a"), ck_qd),
+            (("p", "a", "a"), ck_pfact),
+            (("p", "a", "a"), ck_psr),
+            (("s", "a", "a"), ck_sfact),
+        ))
+        kBB = ("proof_key_v1", (
+            (("q", "a", "a"), ck_qd),
+            (("p", "a", "a"), ck_psr),
+            (("s", "a", "a"), ck_sfact),
+            (("p", "a", "a"), ck_psr),
+            (("s", "a", "a"), ck_sfact),
+        ))
+        AA = (_ps(0, (), "p", "a", "a"), _ps(0, (), "p", "a", "a"),
+              _ps(3, (0, 1), "q", "a", "a"))
+        AB = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (0, 2), "q", "a", "a"))
+        BA = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (2, 0), "q", "a", "a"))
+        BB = (_ps(1, (), "s", "a", "a"), _ps(2, (0,), "p", "a", "a"),
+              _ps(1, (), "s", "a", "a"), _ps(2, (2,), "p", "a", "a"),
+              _ps(3, (1, 3), "q", "a", "a"))
+        assert key(c, _A("q", "a", "a"), AA) == kAA
+        assert key(c, _A("q", "a", "a"), AB) == kAB
+>       assert key(c, _A("q", "a", "a"), BA) == kAB
+E       AssertionError: assert ('proof_key_v... 'a')), ())))) == ('proof_key_v... 'a')), ()))))
+E         
+E         At index 1 diff: ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 1))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', ('v', 0), ('v', 1)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ()))) != ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 1))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ()))...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_proof_key.py:219: AssertionError
+__________________ TestAHandComputed.test_k8_deep_same_header __________________
+
+self = <test_proof_key.TestAHandComputed object at 0x7f9390d2ca50>
+
+    def test_k8_deep_same_header(self):
+        c = (_fact("q", "a", "b"), _fact("r", "b", "a"),
+             _fact("q", "a", "c"), _fact("r", "c", "a"),
+             Clause((_A("q", "?x", "?y"), _A("r", "?y", "?z")),
+                   _A("p", "?x", "?z")),
+             Clause((_A("p", "?x", "?y"), _A("p", "?x", "?y")),
+                   _A("t", "?x", "?y")))
+        AB = (_ps(0, (), "q", "a", "b"), _ps(1, (), "r", "b", "a"),
+              _ps(4, (0, 1), "p", "a", "a"),
+              _ps(2, (), "q", "a", "c"), _ps(3, (), "r", "c", "a"),
+              _ps(4, (3, 4), "p", "a", "a"),
+              _ps(5, (2, 5), "t", "a", "a"))
+        BA = (_ps(2, (), "q", "a", "c"), _ps(3, (), "r", "c", "a"),
+              _ps(4, (0, 1), "p", "a", "a"),
+              _ps(0, (), "q", "a", "b"), _ps(1, (), "r", "b", "a"),
+              _ps(4, (3, 4), "p", "a", "a"),
+              _ps(5, (2, 5), "t", "a", "a"))
+        AA = (_ps(0, (), "q", "a", "b"), _ps(1, (), "r", "b", "a"),
+              _ps(4, (0, 1), "p", "a", "a"),
+              _ps(0, (), "q", "a", "b"), _ps(1, (), "r", "b", "a"),
+              _ps(4, (3, 4), "p", "a", "a"),
+              _ps(5, (2, 5), "t", "a", "a"))
+        ck_qab = ("clause_key_v1", ("q", ("c", "a"), ("c", "b")), ())
+        ck_rba = ("clause_key_v1", ("r", ("c", "b"), ("c", "a")), ())
+        ck_qac = ("clause_key_v1", ("q", ("c", "a"), ("c", "c")), ())
+        ck_rca = ("clause_key_v1", ("r", ("c", "c"), ("c", "a")), ())
+        ck_pjoin = ("clause_key_v1", ("p", ("v", 0), ("v", 1)),
+                    (("q", ("v", 0), ("v", 2)), ("r", ("v", 2), ("v", 1))))
+        ck_tdd = ("clause_key_v1", ("t", ("v", 0), ("v", 1)),
+                  (("p", ("v", 0), ("v", 1)),
+                   ("p", ("v", 0), ("v", 1))))
+        kAB = ("proof_key_v1", (
+            (("t", "a", "a"), ck_tdd),
+            (("p", "a", "a"), ck_pjoin),
+            (("q", "a", "b"), ck_qab),
+            (("r", "b", "a"), ck_rba),
+            (("p", "a", "a"), ck_pjoin),
+            (("q", "a", "c"), ck_qac),
+            (("r", "c", "a"), ck_rca),
+        ))
+        assert key(c, _A("t", "a", "a"), AB) == kAB
+>       assert key(c, _A("t", "a", "a"), BA) == kAB
+E       AssertionError: assert ('proof_key_v...), ())), ...)) == ('proof_key_v...), ())), ...))
+E         
+E         At index 1 diff: ((('t', 'a', 'a'), ('clause_key_v1', ('t', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 1))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('q', ('v', 0), ('v', 2)), ('r', ('v', 2), ('v', 1))))), (('q', 'a', 'c'), ('clause_key_v1', ('q', ('c', 'a'), ('c', 'c')), ())), (('r', 'c', 'a'), ('clause_key_v1', ('r', ('c', 'c'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('q', ('v', 0), ('v', 2)), ('r', ('v', 2), ('v', 1))))), (('q', 'a', 'b'), ('clause_key_v1', ('q', ('c', '...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_proof_key.py:289: AssertionError
+_____________ TestBTransformations.test_joint_swap_two_slot_clause _____________
+
+self = <test_proof_key.TestBTransformations object at 0x7f9391c95ba0>
+
+    def test_joint_swap_two_slot_clause(self):
+        # K3 JOIN and K4 bridge: only the final rule's body and the final step's
+        # premise_steps are reversed (facts, head, and other steps untouched); the
+        # verifier accepts both and the full key is unchanged.
+        cA = (_fact("p", "a", "b"), _fact("q", "b", "c"),
+               Clause((_A("p", "?x", "?y"), _A("q", "?y", "?z")),
+                      _A("r", "?x", "?z")))
+        pA = (_ps(0, (), "p", "a", "b"), _ps(1, (), "q", "b", "c"),
+               _ps(2, (0, 1), "r", "a", "c"))
+        # same world, final rule body + refs reversed only
+        cB = (cA[0], cA[1],
+               Clause((cA[2].body[1], cA[2].body[0]), cA[2].head))
+        pB = (_ps(0, (), "p", "a", "b"), _ps(1, (), "q", "b", "c"),
+               _ps(2, (1, 0), "r", "a", "c"))
+        assert cA[2].body != cB[2].body
+        assert cA[2].head == cB[2].head
+        assert pA[-1].premise_steps != pB[-1].premise_steps
+        assert verify_proof(cA, _A("r", "a", "c"), pA) is True
+        assert verify_proof(cB, _A("r", "a", "c"), pB) is True
+        assert key(cA, _A("r", "a", "c"), pA) == key(cB, _A("r", "a", "c"), pB)
+    
+        # K4 bridge (non-identical body atoms p(x,z)/p(x,w)); same swap, same key
+        cC = (_fact("p", "a", "a"), _fact("p", "a", "c"),
+               Clause((_A("p", "?x", "?z"), _A("p", "?x", "?w")),
+                      _A("q", "?x", "?x")))
+        pC = (_ps(0, (), "p", "a", "a"), _ps(1, (), "p", "a", "c"),
+               _ps(2, (0, 1), "q", "a", "a"))
+        cD = (cC[0], cC[1],
+               Clause((cC[2].body[1], cC[2].body[0]), cC[2].head))
+        pD = (_ps(0, (), "p", "a", "a"), _ps(1, (), "p", "a", "c"),
+               _ps(2, (1, 0), "q", "a", "a"))
+        assert cC[2].body != cD[2].body
+        assert cC[2].head == cD[2].head
+        assert pC[-1].premise_steps != pD[-1].premise_steps
+        assert verify_proof(cC, _A("q", "a", "a"), pC) is True
+        assert verify_proof(cD, _A("q", "a", "a"), pD) is True
+>       assert key(cC, _A("q", "a", "a"), pC) == key(cD, _A("q", "a", "a"), pD)
+E       AssertionError: assert ('proof_key_v... 'c')), ())))) == ('proof_key_v... 'a')), ()))))
+E         
+E         At index 1 diff: ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 2))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'c'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'c')), ()))) != ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 0)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 2))))), (('p', 'a', 'c'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'c')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ())))
+E         Use -v to get more diff
+
+tests/test_proof_key.py:365: AssertionError
+___________ TestCOracleAndEnumeration.test_k6_ab_vs_aa_and_ba_oracle ___________
+
+self = <test_proof_key.TestCOracleAndEnumeration object at 0x7f9390ef8710>
+
+    def test_k6_ab_vs_aa_and_ba_oracle(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?x", "?y"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?y")))
+        AA = (_ps(0, (), "p", "a", "a"), _ps(0, (), "p", "a", "a"),
+              _ps(3, (0, 1), "q", "a", "a"))
+        AB = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (0, 2), "q", "a", "a"))
+        BA = (_ps(0, (), "p", "a", "a"), _ps(1, (), "s", "a", "a"),
+              _ps(2, (1,), "p", "a", "a"), _ps(3, (2, 0), "q", "a", "a"))
+        assert verify_proof(c, _A("q", "a", "a"), AA) is True
+        assert verify_proof(c, _A("q", "a", "a"), AB) is True
+        assert verify_proof(c, _A("q", "a", "a"), BA) is True
+        # AB vs AA: different support -> not equivalent.
+        assert not oracle_equiv(_build_nodes(c, AA)[-1], _build_nodes(c, AB)[-1])
+        assert key(c, _A("q", "a", "a"), AA) != key(c, _A("q", "a", "a"), AB)
+        # AB vs BA: duplicate premises -> equivalent (joint swap).
+        assert oracle_equiv(_build_nodes(c, AB)[-1], _build_nodes(c, BA)[-1])
+>       assert key(c, _A("q", "a", "a"), AB) == key(c, _A("q", "a", "a"), BA)
+E       AssertionError: assert ('proof_key_v... 'a')), ())))) == ('proof_key_v... 'a')), ()))))
+E         
+E         At index 1 diff: ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 1))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', ('v', 0), ('v', 1)),))), (('s', 'a', 'a'), ('clause_key_v1', ('s', ('c', 'a'), ('c', 'a')), ()))) != ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 1))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('s', (...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_proof_key.py:840: AssertionError
+________ TestCOracleAndEnumeration.test_k8_successor_and_branch_oracle _________
+
+self = <test_proof_key.TestCOracleAndEnumeration object at 0x7f93913848d0>
+
+    def test_k8_successor_and_branch_oracle(self):
+        c = (_fact("q", "a", "b"), _fact("r", "b", "a"),
+             _fact("q", "a", "c"), _fact("r", "c", "a"),
+             Clause((_A("q", "?x", "?y"), _A("r", "?y", "?z")),
+                   _A("p", "?x", "?z")),
+             Clause((_A("p", "?x", "?y"), _A("p", "?x", "?y")),
+                   _A("t", "?x", "?y")))
+        AB = (_ps(0, (), "q", "a", "b"), _ps(1, (), "r", "b", "a"),
+              _ps(4, (0, 1), "p", "a", "a"),
+              _ps(2, (), "q", "a", "c"), _ps(3, (), "r", "c", "a"),
+              _ps(4, (3, 4), "p", "a", "a"),
+              _ps(5, (2, 5), "t", "a", "a"))
+        AA = (_ps(0, (), "q", "a", "b"), _ps(1, (), "r", "b", "a"),
+              _ps(4, (0, 1), "p", "a", "a"),
+              _ps(0, (), "q", "a", "b"), _ps(1, (), "r", "b", "a"),
+              _ps(4, (3, 4), "p", "a", "a"),
+              _ps(5, (2, 5), "t", "a", "a"))
+        BA = (_ps(2, (), "q", "a", "c"), _ps(3, (), "r", "c", "a"),
+              _ps(4, (0, 1), "p", "a", "a"),
+              _ps(0, (), "q", "a", "b"), _ps(1, (), "r", "b", "a"),
+              _ps(4, (3, 4), "p", "a", "a"),
+              _ps(5, (2, 5), "t", "a", "a"))
+        # same header, different successors -> not equivalent (oracle called).
+        assert not oracle_equiv(_build_nodes(c, AB)[-1], _build_nodes(c, AA)[-1])
+        assert key(c, _A("t", "a", "a"), AB) != key(c, _A("t", "a", "a"), AA)
+        # branch reorder -> equivalent.
+        assert oracle_equiv(_build_nodes(c, AB)[-1], _build_nodes(c, BA)[-1])
+>       assert key(c, _A("t", "a", "a"), AB) == key(c, _A("t", "a", "a"), BA)
+E       AssertionError: assert ('proof_key_v...), ())), ...)) == ('proof_key_v...), ())), ...))
+E         
+E         At index 1 diff: ((('t', 'a', 'a'), ('clause_key_v1', ('t', ('v', 0), ('v', 1)), (('p', ('v', 0), ('v', 1)), ('p', ('v', 0), ('v', 1))))), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('q', ('v', 0), ('v', 2)), ('r', ('v', 2), ('v', 1))))), (('q', 'a', 'b'), ('clause_key_v1', ('q', ('c', 'a'), ('c', 'b')), ())), (('r', 'b', 'a'), ('clause_key_v1', ('r', ('c', 'b'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('v', 0), ('v', 1)), (('q', ('v', 0), ('v', 2)), ('r', ('v', 2), ('v', 1))))), (('q', 'a', 'c'), ('clause_key_v1', ('q', ('c', '...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_proof_key.py:869: AssertionError
+_________ TestCOracleAndEnumeration.test_t0009_k6_per_tree_full_keyset _________
+
+self = <test_proof_key.TestCOracleAndEnumeration object at 0x7f9390d2d950>
+
+    def test_t0009_k6_per_tree_full_keyset(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?x", "?y"), _A("p", "?x", "?y")),
+                   _A("q", "?x", "?y")))
+        q = _A("q", "a", "a")
+        ck_q = ("clause_key_v1", ("q", ("v", 0), ("v", 1)),
+                 (("p", ("v", 0), ("v", 1)), ("p", ("v", 0), ("v", 1))))
+        ck_pf = ("clause_key_v1", ("p", ("c", "a"), ("c", "a")), ())
+        ck_ps = ("clause_key_v1", ("p", ("v", 0), ("v", 1)),
+                 (("s", ("v", 0), ("v", 1)),))
+        ck_sf = ("clause_key_v1", ("s", ("c", "a"), ("c", "a")), ())
+        expected = {
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_pf),
+                (("p", "a", "a"), ck_pf),
+            )),
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_pf),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+            )),
+            ("proof_key_v1", (
+                (("q", "a", "a"), ck_q),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+                (("p", "a", "a"), ck_ps),
+                (("s", "a", "a"), ck_sf),
+            )),
+        }
+        trees = enumerate_proofs(c, q,
+                                 max_fact_checks=3, max_derivations=4,
+                                 max_proof_steps=20)
+        assert len(trees) == 4
+        got = set()
+        for t in trees:
+            assert verify_proof(c, q, t) is True
+            got.add(key(c, q, t))
+>       assert got == expected
+E       AssertionError: assert {('proof_key_......)), ()))))} == {('proof_key_......)), ()))))}
+E         
+E         Extra items in the left set:
+E         ('proof_key_v1', ((('q', 'a', 'a'), ('clause_key_v1', ('q', ('v', 0), ('v', 1)), (('p', (...), (...)), ('p', (...), (....key_v1', ('s', ('c', 'a'), ('c', 'a')), ())), (('p', 'a', 'a'), ('clause_key_v1', ('p', ('c', 'a'), ('c', 'a')), ()))))
+E         Use -v to get more diff
+
+tests/test_proof_key.py:977: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/review-r5-guards/ignore_deep_tie.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestAHandComputed::test_k4_symmetric_two_facts
+FAILED tests/test_proof_key.py::TestAHandComputed::test_k6_duplicate_premises
+FAILED tests/test_proof_key.py::TestAHandComputed::test_k8_deep_same_header
+FAILED tests/test_proof_key.py::TestBTransformations::test_joint_swap_two_slot_clause
+FAILED tests/test_proof_key.py::TestCOracleAndEnumeration::test_k6_ab_vs_aa_and_ba_oracle
+FAILED tests/test_proof_key.py::TestCOracleAndEnumeration::test_k8_successor_and_branch_oracle
+FAILED tests/test_proof_key.py::TestCOracleAndEnumeration::test_t0009_k6_per_tree_full_keyset
+7 failed, 62 passed in 1.15s

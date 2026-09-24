@@ -1,0 +1,20 @@
+--- submitted
++++ lowercase_constants_only
+@@ -39,7 +39,7 @@
+     if term.startswith("?"):
+         number = numbering.setdefault(term, len(numbering))
+         return ("v", number)
+-    return ("c", term)
++    return ("c", term.lower())
+ 
+ 
+ def _atom_key(atom: object, numbering: dict[str, int]) -> tuple:
+@@ -179,7 +179,7 @@
+                     chosen_refs = (ref0, ref1)
+ 
+         conclusion = step.conclusion
+-        ground_key = (conclusion.pred, conclusion.args[0], conclusion.args[1])
++        ground_key = (conclusion.pred, conclusion.args[0].lower(), conclusion.args[1].lower())
+         headers[i] = (ground_key, clause_key)
+         children_order[i] = chosen_refs
+ 

@@ -1,0 +1,205 @@
+..FF..F......F.....F                                                     [100%]
+=================================== FAILURES ===================================
+____________ TestAHandCounted.test_u2_duplicate_facts_one_canonical ____________
+
+self = <test_proof_count.TestAHandCounted object at 0x7fc067cf1ba0>
+
+    def test_u2_duplicate_facts_one_canonical(self):
+        world = (_fact("p", "a", "b"), _fact("p", "a", "b"))
+>       assert cnt(world, _A("p", "a", "b"), 1, 2, 2) == 1
+E       AssertionError: assert 2 == 1
+E        +  where 2 = cnt((Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), Clause(body=(), head=Atom(pred='p', args=('a', 'b')))), Atom(pred='p', args=('a', 'b')), 1, 2, 2)
+E        +    where Atom(pred='p', args=('a', 'b')) = _A('p', 'a', 'b')
+
+tests/test_proof_count.py:110: AssertionError
+______________ TestAHandCounted.test_u3_four_trees_one_canonical _______________
+
+self = <test_proof_count.TestAHandCounted object at 0x7fc067cf1e00>
+
+    def test_u3_four_trees_one_canonical(self):
+        world = (_fact("p", "a", "b"), _fact("p", "a", "b"), COPY, ALPHA_COPY)
+        got = cnt(world, _A("q", "a", "b"), 2, 4, 10)
+        assert type(got) is int
+>       assert got == 1  # duplicate source + alpha-equivalent copy merge
+        ^^^^^^^^^^^^^^^
+E       assert 4 == 1
+
+tests/test_proof_count.py:120: AssertionError
+________ TestAHandCounted.test_u6_symmetric_two_premise_three_canonical ________
+
+self = <test_proof_count.TestAHandCounted object at 0x7fc067c19040>
+
+    def test_u6_symmetric_two_premise_three_canonical(self):
+        world = (*SHARED, SYMM)
+        # same world, symmetric slots: (fact, s) and (s, fact) merge.
+>       assert cnt(world, _A("q", "a", "a"), 3, 4, 20) == 3
+E       AssertionError: assert 4 == 3
+E        +  where 4 = cnt((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?y')))), Atom(pred='q', args=('a', 'a')), 3, 4, 20)
+E        +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')
+
+tests/test_proof_count.py:139: AssertionError
+_ TestCCallContract.test_c1_single_enum_then_per_proof_key_original_objects_and_budgets _
+
+self = <test_proof_count.TestCCallContract object at 0x7fc067be1090>
+
+    def test_c1_single_enum_then_per_proof_key_original_objects_and_budgets(self):
+        clauses = (_fact("p", "a", "b"),)
+        query = _A("p", "a", "b")
+        p0 = (ProofStep(0, (), _A("p", "a", "b")),)
+        p1 = (ProofStep(0, (), _A("p", "a", "b")),)  # same content, distinct object
+        A, B = ("k", "a"), ("k", "b")
+        def make_spies():
+            calls = []
+    
+            def fake_enum(clauses_, query_, *, max_fact_checks=None,
+                          max_derivations=None, max_proof_steps=None):
+                calls.append(("enum", clauses_, query_,
+                              max_fact_checks, max_derivations, max_proof_steps))
+                return (p0, p1, p0)
+    
+            def fake_key(clauses_, query_, proof, *, max_steps=None):
+                calls.append(("key", clauses_, query_, proof, max_steps))
+                return A if proof is p0 else B
+    
+            return fake_enum, fake_key, calls
+    
+        def run(*args, **kwargs):
+            fake_enum, fake_key, calls = make_spies()
+            with _patch(pc, fake_enum, fake_key):
+                res = pc.count_canonical_proofs(*args, **kwargs)
+            return res, calls
+    
+        res, calls = run(
+            clauses, query,
+            max_fact_checks=11, max_derivations=13, max_proof_steps=20001)
+>       assert res == 2
+E       assert 3 == 2
+
+tests/test_proof_count.py:306: AssertionError
+__ TestEIsolation.test_e1_fresh_subprocess_blocks_engine_and_reference_engine __
+
+self = <test_proof_count.TestEIsolation object at 0x7fc067be1590>
+
+    def test_e1_fresh_subprocess_blocks_engine_and_reference_engine(self):
+        repo = Path(__file__).resolve().parents[1]
+        src_root = repo / "src"
+        expected_pc_file = str(src_root / "kmesh" / "logic" / "proof_count.py")
+        code = textwrap.dedent("""
+        import importlib, shutil, sys, tempfile
+        from pathlib import Path
+    
+        BLOCK_MSG = "t0013-import-isolation: import blocked"
+        BLOCKED = ("torch", "yaml", "kmesh.logic.engine",
+                   "kmesh.logic.reference_engine")
+    
+        class _BlockFinder:
+            def find_spec(self, name, path=None, target=None):
+                for root in BLOCKED:
+                    if name == root or name.startswith(root + "."):
+                        raise ImportError(BLOCK_MSG)
+                return None
+    
+        sys.meta_path.insert(0, _BlockFinder())
+    
+        # src path is explicit; torch / yaml are not installed: placeholder
+        # packages make the probe really attempt an import that would succeed
+        # without the blocker; both placeholders are cleaned up below.
+        tmp = Path(tempfile.mkdtemp(prefix="t0013_isolation_"))
+        (tmp / "torch").mkdir()
+        (tmp / "torch" / "__init__.py").write_text("")
+        (tmp / "torch" / "nn.py").write_text("PASS")
+        (tmp / "yaml").mkdir()
+        (tmp / "yaml" / "__init__.py").write_text("")
+        (tmp / "yaml" / "safe_load.py").write_text("PASS")
+        sys.path.insert(0, str(__SRC__))
+        sys.path.insert(1, str(tmp))
+        try:
+            for name in ("torch", "yaml", "torch.nn", "yaml.safe_load"):
+                try:
+                    importlib.import_module(name)
+                    raise SystemExit(f"root {name!r} imported; isolation failed")
+                except ImportError as exc:
+                    assert str(exc) == BLOCK_MSG, (name, exc)
+        finally:
+            sys.path.remove(str(tmp))
+            shutil.rmtree(tmp)
+    
+        # kmesh subpackage probes: kmesh.logic is already importable, so the
+        # blocker must live on the package path (submodule lookup never
+        # re-checks the meta path).
+        import kmesh.logic
+    
+        class _SubBlockFinder:
+            def find_spec(self, name, path=None, target=None):
+                if name in ("engine", "reference_engine"):
+                    raise ImportError(BLOCK_MSG)
+                return None
+    
+        kmesh.logic.__path__.insert(0, _SubBlockFinder())
+    
+        def _submodule_blocked(name):
+            try:
+                importlib.import_module("kmesh.logic." + name)
+                raise SystemExit(
+                    f"submodule {name!r} imported; isolation failed")
+            except ImportError as exc:
+                assert str(exc) == BLOCK_MSG, (name, exc)
+    
+        _submodule_blocked("engine")
+        _submodule_blocked("reference_engine")
+    
+        from kmesh.logic import proof_count as pc
+        from kmesh.logic.types import Atom, Clause
+    
+        def fact(pred, a, b):
+            return Clause((), Atom(pred, (a, b)))
+    
+        u2 = (fact("p", "a", "b"), fact("p", "a", "b"))
+        u6 = (fact("p", "a", "a"), fact("s", "a", "a"),
+              Clause((Atom("s", ("?x", "?y")),), Atom("p", ("?x", "?y"))),
+              Clause((Atom("p", ("?x", "?y")), Atom("p", ("?x", "?y"))),
+                     Atom("q", ("?x", "?y"))))
+    
+        assert pc.__file__ == __EXPECTED__, pc.__file__
+    
+        assert pc.count_canonical_proofs(u2, Atom("p", ("a", "b")),
+                                        max_fact_checks=1,
+                                        max_derivations=2,
+                                        max_proof_steps=2) == 1
+        assert pc.count_canonical_proofs(u6, Atom("q", ("a", "a")),
+                                        max_fact_checks=3,
+                                        max_derivations=4,
+                                        max_proof_steps=20) == 3
+    
+        leaked = [n for n in list(sys.modules)
+                  if n in BLOCKED or any(
+                      n == b or n.startswith(b + ".") for b in BLOCKED)]
+        assert not leaked, f"blocked modules in sys.modules: {leaked}"
+        print("ISOLATION-OK")
+        """).replace("__SRC__", json.dumps(str(src_root))) \
+            .replace("__EXPECTED__", json.dumps(expected_pc_file))
+    
+        proc = subprocess.run(
+            [sys.executable, "-c", code],
+            capture_output=True, text=True, timeout=60)
+>       assert proc.returncode == 0, proc.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 79, in <module>
+E             assert pc.count_canonical_proofs(u2, Atom("p", ("a", "b")),
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E             ...<2 lines>...
+E                                             max_proof_steps=2) == 1
+E                                             ^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', '\nimport importlib, shutil, sys, tempfile\nf...               max_proof_steps=2) == 1\n                                    ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+tests/test_proof_count.py:580: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_count.py::TestAHandCounted::test_u2_duplicate_facts_one_canonical
+FAILED tests/test_proof_count.py::TestAHandCounted::test_u3_four_trees_one_canonical
+FAILED tests/test_proof_count.py::TestAHandCounted::test_u6_symmetric_two_premise_three_canonical
+FAILED tests/test_proof_count.py::TestCCallContract::test_c1_single_enum_then_per_proof_key_original_objects_and_budgets
+FAILED tests/test_proof_count.py::TestEIsolation::test_e1_fresh_subprocess_blocks_engine_and_reference_engine
+5 failed, 15 passed in 0.25s

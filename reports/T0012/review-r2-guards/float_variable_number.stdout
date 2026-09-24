@@ -1,0 +1,58 @@
+..................................................F.                     [100%]
+=================================== FAILURES ===================================
+_______________ TestFGuardQuality.test_variable_numbers_are_ints _______________
+
+self = <test_proof_key.TestFGuardQuality object at 0x7fde94785590>
+
+    def test_variable_numbers_are_ints(self):
+        # float_variable_number guard: every variable number must be a
+        # non-bool int (rebuilding to float would change the key type).
+        c = (_fact("p", "a", "a"),
+             Clause((_A("p", "?x", "?y"),), _A("q", "?x", "?y")))
+        p = (_ps(0, (), "p", "a", "a"), _ps(1, (0,), "q", "a", "a"))
+        k = key(c, _A("q", "a", "a"), p)
+        def _check_term(term):
+            assert isinstance(term, tuple) and len(term) == 2
+            if term[0] == "v":
+                assert type(term[1]) is int and not isinstance(term[1], bool), term
+                assert term[1] >= 0
+            else:
+                assert isinstance(term[1], str), term
+        def _check_clause_key(ck):
+            assert isinstance(ck, tuple) and len(ck) == 3 and ck[0] == "clause_key_v1", ck
+            head = ck[1]
+            assert isinstance(head, tuple) and len(head) == 3, head
+            assert isinstance(head[0], str), head
+            _check_term(head[1]); _check_term(head[2])
+            body = ck[2]
+            assert isinstance(body, tuple), body
+            for atom in body:
+                assert isinstance(atom, tuple) and len(atom) == 3, atom
+                assert isinstance(atom[0], str), atom
+                _check_term(atom[1]); _check_term(atom[2])
+        for h in k[1]:
+            assert isinstance(h, tuple) and len(h) == 2
+>           _check_clause_key(h[1])
+
+tests/test_proof_key.py:781: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof_key.py:772: in _check_clause_key
+    _check_term(head[1]); _check_term(head[2])
+    ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+term = ('v', 0.0)
+
+    def _check_term(term):
+        assert isinstance(term, tuple) and len(term) == 2
+        if term[0] == "v":
+>           assert type(term[1]) is int and not isinstance(term[1], bool), term
+E           AssertionError: ('v', 0.0)
+E           assert (<class 'float'> is int)
+E            +  where <class 'float'> = type(0.0)
+
+tests/test_proof_key.py:763: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/review-r2-guards/float_variable_number.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestFGuardQuality::test_variable_numbers_are_ints
+1 failed, 51 passed in 0.35s

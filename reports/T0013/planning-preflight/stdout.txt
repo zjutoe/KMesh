@@ -1,0 +1,2 @@
+PASS: accepted T0012 matches commit; clean tracked baseline; new files absent
+e576c7793a91f8508ed5c57333f81eb0188a5745 tracked files: 2473 packages: {'kmesh': '0.1.0', 'pytest': '8.4.2', 'PyYAML': '6.0.3'}

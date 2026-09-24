@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "sequence": [
+    "K3",
+    "K0",
+    "K5",
+    "K3"
+  ],
+  "snapshotted_inputs": [
+    "K0",
+    "K3",
+    "K5"
+  ],
+  "all_structures_equal_after_each_call": true,
+  "all_hashes_equal_after_each_call": true,
+  "first_last_key_equal": true,
+  "scope": "finite independent supplement; not a Pi test-suite result"
+}

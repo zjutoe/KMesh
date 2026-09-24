@@ -1,0 +1,2 @@
+1
+PASS: frozen base, scope, 4 docs/84 links, hygiene, awaiting_review; run-index.json records 8 earlier finished RUNs

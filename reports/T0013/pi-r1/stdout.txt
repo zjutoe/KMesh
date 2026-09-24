@@ -1,0 +1,1 @@
+PASS: frozen accepted base and planning files, environment, branch, scope; new files absent

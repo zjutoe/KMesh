@@ -1,0 +1,36 @@
+--- submitted
++++ lowercase_actual_symbols
+@@ -39,13 +39,13 @@
+     if term.startswith("?"):
+         number = numbering.setdefault(term, len(numbering))
+         return ("v", number)
+-    return ("c", term)
++    return ("c", term.lower())
+ 
+ 
+ def _atom_key(atom: object, numbering: dict[str, int]) -> tuple:
+     """Encode a binary atom under a shared numbering table."""
+     return (
+-        atom.pred,
++        atom.pred.lower(),
+         _term_key(atom.args[0], numbering),
+         _term_key(atom.args[1], numbering),
+     )
+@@ -62,7 +62,7 @@
+     """
+     numbering: dict[str, int] = {}
+     head_key = (
+-        head.pred,
++        head.pred.lower(),
+         _term_key(head.args[0], numbering),
+         _term_key(head.args[1], numbering),
+     )
+@@ -179,7 +179,7 @@
+                     chosen_refs = (ref0, ref1)
+ 
+         conclusion = step.conclusion
+-        ground_key = (conclusion.pred, conclusion.args[0], conclusion.args[1])
++        ground_key = (conclusion.pred.lower(), conclusion.args[0].lower(), conclusion.args[1].lower())
+         headers[i] = (ground_key, clause_key)
+         children_order[i] = chosen_refs
+ 

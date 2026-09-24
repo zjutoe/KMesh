@@ -1,0 +1,163 @@
+.............................FFFFF.........F...F......                   [100%]
+=================================== FAILURES ===================================
+__________________ TestDErrors.test_empty_proof_valid_message __________________
+
+self = <test_proof_key.TestDErrors object at 0x7f82ca250e10>
+
+    def test_empty_proof_valid_message(self):
+        c = (_fact("p", "a", "b"),)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("p", "a", "b"), ())
+        assert type(e.value) is LogicValidationError
+>       assert str(e.value) == "proof_key.proof must be a valid proof of query"
+E       AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'
+E         
+E         Skipping 35 identical leading characters in diff, use -v to show
+E         - of of query
+E         + of of query EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:714: AssertionError
+__________________ TestDErrors.test_wrong_query_valid_message __________________
+
+self = <test_proof_key.TestDErrors object at 0x7f82ca250f50>
+
+    def test_wrong_query_valid_message(self):
+        c = (_fact("q", "a", "b"),)
+        p = (_ps(0, (), "p", "a", "b"),)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("q", "a", "b"), p)
+        assert type(e.value) is LogicValidationError
+>       assert str(e.value) == "proof_key.proof must be a valid proof of query"
+E       AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'
+E         
+E         Skipping 35 identical leading characters in diff, use -v to show
+E         - of of query
+E         + of of query EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:722: AssertionError
+______________ TestDErrors.test_invalid_derivation_valid_message _______________
+
+self = <test_proof_key.TestDErrors object at 0x7f82cad96190>
+
+    def test_invalid_derivation_valid_message(self):
+        c = (_fact("p", "a", "b"), _fact("q", "a", "b"))
+        p = (_ps(0, (), "p", "a", "b"),)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("q", "a", "b"), p)
+        assert type(e.value) is LogicValidationError
+>       assert str(e.value) == "proof_key.proof must be a valid proof of query"
+E       AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'
+E         
+E         Skipping 35 identical leading characters in diff, use -v to show
+E         - of of query
+E         + of of query EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:730: AssertionError
+____________ TestDErrors.test_shared_tree_verifier_true_then_reject ____________
+
+self = <test_proof_key.TestDErrors object at 0x7f82cad962c0>
+
+    def test_shared_tree_verifier_true_then_reject(self):
+        c = (_fact("p", "a", "a"), _fact("s", "a", "a"),
+             Clause((_A("s", "?x", "?y"),), _A("p", "?x", "?y")),
+             Clause((_A("p", "?x", "?y"), _A("p", "?x", "?y")), _A("q", "?x", "?y")))
+        shared = (_ps(0, (), "p", "a", "a"), _ps(3, (0, 0), "q", "a", "a"))
+        assert verify_proof(c, _A("q", "a", "a"), shared) is True
+        with pytest.raises(LogicValidationError) as e:
+            key(c, _A("q", "a", "a"), shared)
+        assert type(e.value) is LogicValidationError
+>       assert str(e.value) == "proof_key.proof must be a single occurrence tree"
+E       AssertionError: assert 'proof_key.pr...ce tree EXTRA' == 'proof_key.pr...currence tree'
+E         
+E         Skipping 37 identical leading characters in diff, use -v to show
+E         - rrence tree
+E         + rrence tree EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:742: AssertionError
+_________________ TestDErrors.test_unused_legal_step_rejected __________________
+
+self = <test_proof_key.TestDErrors object at 0x7f82ca3b9490>
+
+    def test_unused_legal_step_rejected(self):
+        # legal but unreferenced (ref 0) and non-final must be rejected
+        c = (_fact("p", "a", "b"), _fact("p", "a", "b"))
+        query = _A("p", "a", "b")
+        proof = (_ps(0, (), "p", "a", "b"), _ps(1, (), "p", "a", "b"))
+        assert verify_proof(c, query, proof) is True
+        with pytest.raises(LogicValidationError) as e:
+            key(c, query, proof)
+        assert type(e.value) is LogicValidationError
+>       assert str(e.value) == "proof_key.proof must be a single occurrence tree"
+E       AssertionError: assert 'proof_key.pr...ce tree EXTRA' == 'proof_key.pr...currence tree'
+E         
+E         Skipping 37 identical leading characters in diff, use -v to show
+E         - rrence tree
+E         + rrence tree EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:753: AssertionError
+______________ TestDErrors.test_semantic_before_single_occurrence ______________
+
+self = <test_proof_key.TestDErrors object at 0x7f82cad5bd10>
+
+    def test_semantic_before_single_occurrence(self):
+        # semantic-invalid (final != query) raises before the single-occurrence check;
+        # a bad ref_count must not mask the invalid-proof message.
+        c = (_fact("p", "a", "b"), _fact("p", "a", "b"))
+        query = _A("q", "a", "b")
+        proof = (_ps(0, (), "p", "a", "b"), _ps(1, (), "p", "a", "b"))
+        assert not verify_proof(c, query, proof)
+        with pytest.raises(LogicValidationError) as e:
+            key(c, query, proof)
+        assert type(e.value) is LogicValidationError
+>       assert str(e.value) == "proof_key.proof must be a valid proof of query"
+E       AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'
+E         
+E         Skipping 35 identical leading characters in diff, use -v to show
+E         - of of query
+E         + of of query EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:844: AssertionError
+________________________ TestDErrors.test_false_message ________________________
+
+self = <test_proof_key.TestDErrors object at 0x7f82ca3b44b0>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f82ca2671d0>
+
+    def test_false_message(self, monkeypatch):
+        # verify_proof returns False (no raise): the product raises its own
+        # LogicValidationError; check class + exact message, checked separately.
+        import kmesh.logic.proof_key as pk_mod
+        c = (_fact("p", "a", "b"),)
+        p = (_ps(0, (), "p", "a", "b"),)
+        calls = []
+        def spy(*args, **kw):
+            calls.append((args, kw))
+            return False
+        monkeypatch.setattr(pk_mod, "verify_proof", spy)
+        with pytest.raises(LogicValidationError) as e:
+            canonical_proof_key(c, _A("p", "a", "b"), p, max_steps=7)
+        assert type(e.value) is LogicValidationError
+>       assert str(e.value) == "proof_key.proof must be a valid proof of query"
+E       AssertionError: assert 'proof_key.pr...f query EXTRA' == 'proof_key.pr...roof of query'
+E         
+E         Skipping 35 identical leading characters in diff, use -v to show
+E         - of of query
+E         + of of query EXTRA
+E         ?            ++++++
+
+tests/test_proof_key.py:910: AssertionError
+- generated xml file: /home/mye/src/llm/KMesh/reports/T0012/pi-r3-guards2/diagnostic_suffix.xml -
+=========================== short test summary info ============================
+FAILED tests/test_proof_key.py::TestDErrors::test_empty_proof_valid_message
+FAILED tests/test_proof_key.py::TestDErrors::test_wrong_query_valid_message
+FAILED tests/test_proof_key.py::TestDErrors::test_invalid_derivation_valid_message
+FAILED tests/test_proof_key.py::TestDErrors::test_shared_tree_verifier_true_then_reject
+FAILED tests/test_proof_key.py::TestDErrors::test_unused_legal_step_rejected
+FAILED tests/test_proof_key.py::TestDErrors::test_semantic_before_single_occurrence
+FAILED tests/test_proof_key.py::TestDErrors::test_false_message - AssertionEr...
+7 failed, 47 passed in 0.96s

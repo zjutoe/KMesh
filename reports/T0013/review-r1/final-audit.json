@@ -1,0 +1,27 @@
+{
+  "result": "NEEDS_CHANGES",
+  "task_status": "needs_changes",
+  "product_defect_found": false,
+  "product_sha256": "ac710fd17731bde66e90e8d7737a5eac59486b65454f6bd0fbe9d1ca270eec6d",
+  "tests_sha256": "b3af8851606836b27689f1ffba6b5061542496d5b6cfba4eceb0d22a6ad55a13",
+  "full_passed": 884,
+  "new_submitted_tests_passed": 20,
+  "rejected_product_mutants": 4,
+  "surviving_guard_mutants": [
+    "root_only_import_guard"
+  ],
+  "required_rework": [
+    "R1: A group completeness and actual variable rename",
+    "R2: prefix isolation self-check",
+    "R3: evidence/document corrections"
+  ],
+  "unchanged_submitted_files": 2535,
+  "document_links_checked": 87,
+  "scope": "product frozen; tests A/E and documentation only; no commit/push",
+  "review_documents": {
+    "README.md": "658c41b47d96dd9d49b53c5cd22f2450ce48ccd5a6ed5dbd363590bbb0410554",
+    "docs/implementation_status.md": "f383c02d640b71e616c5c9970192ddb617355563085136e0bf72fe5373a63cbc",
+    "docs/handoffs/T0013-proof-count.md": "e0fd2dd62870db83028525b24aa24168fb9681d64dac678b299b3683dcd74031",
+    "reports/T0013/review-r1/review.md": "3f8489ac026ca94a25db8360dc6b036a2756f2016629e2a78316e597617e98a8"
+  }
+}

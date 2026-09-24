@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/mye/src/llm/KMesh/reports/T0012/review-r1/freeze.py", line 55, in <module>
+    main()
+    ~~~~^^
+  File "/home/mye/src/llm/KMesh/reports/T0012/review-r1/freeze.py", line 49, in main
+    assert not differences and ancestor == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

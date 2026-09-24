@@ -1,0 +1,27 @@
+{
+  "result": "NEEDS_CHANGES",
+  "task_status": "needs_changes",
+  "product_defect_found": false,
+  "product_sha256": "ac710fd17731bde66e90e8d7737a5eac59486b65454f6bd0fbe9d1ca270eec6d",
+  "tests_sha256": "31b11335cf57940a7bb3850ee7fa505c601a33cc8191573499d6959f0f31d38d",
+  "independent_focused_passed": 21,
+  "independent_full_carried_over": 884,
+  "Pi_additional_full_passed": 885,
+  "closed": [
+    "R1: A group",
+    "R2: root/prefix self-check",
+    "R3: Codex appended corrections with permanent unknowns"
+  ],
+  "open": [
+    "R2: keep import finder installed during real product imports and U2/U6 calls"
+  ],
+  "unchanged_submitted_files": 2597,
+  "document_links_checked": 93,
+  "scope": "E group only; product/A-D frozen; no commit/push",
+  "review_documents": {
+    "README.md": "5d5c9656af5f95c5a994d883436c60fa9de8d36690b4666f07de35c3c3f0d590",
+    "docs/implementation_status.md": "264ee6a4c764b097750f2e3b39ffdd9220e0c030c95e3b9c76daf03a2180db8b",
+    "docs/handoffs/T0013-proof-count.md": "900b8d2fd06a8fb407f307ede54497b0cfab37d7a8dfdf1f3025b42555c3ea35",
+    "reports/T0013/review-r2/review.md": "96c113844a6c7deab61aa330cba1c1a297cd0fe9352398df7d2dad44eddc3ea8"
+  }
+}
