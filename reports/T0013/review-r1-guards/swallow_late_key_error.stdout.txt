@@ -1,0 +1,65 @@
+.................FF.                                                     [100%]
+=================================== FAILURES ===================================
+_ TestDOriginalExceptions.test_d2_key_spot_sentinels_propagate_and_reach_later_calls _
+
+self = <test_proof_count.TestDOriginalExceptions object at 0x7fdaf0711450>
+
+    def test_d2_key_spot_sentinels_propagate_and_reach_later_calls(self):
+        clauses = (_fact("p", "a", "b"),)
+        query = _A("p", "a", "b")
+        valid = (ProofStep(0, (), query),)  # a real 1-step valid proof
+        sentinels = (
+            LogicValidationError("sentinel-key-late"),
+            ProofLimitError("sentinel-proof-limit"),
+        )
+        for sentinel in sentinels:
+            calls = []
+    
+            def fake_enum(clauses_, query_, *, max_fact_checks=None,
+                          max_derivations=None, max_proof_steps=None):
+                # three raw proofs, the first two already merge-equivalent on purpose
+                return (valid, valid, valid)
+    
+            def fake_key(clauses_, query_, proof, *, max_steps=None):
+                calls.append(len(calls) + 1)
+                if len(calls) == 3:
+                    raise sentinel
+                return ("k", len(calls))  # distinct keys: a skip would not be detected
+    
+            with _patch(pc, fake_enum, fake_key):
+>               with pytest.raises(type(sentinel)) as excinfo:
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: DID NOT RAISE <class 'kmesh.logic.types.LogicValidationError'>
+
+tests/test_proof_count.py:434: Failed
+_ TestDOriginalExceptions.test_d3_bad_third_proof_propagates_real_t0012_error __
+
+self = <test_proof_count.TestDOriginalExceptions object at 0x7fdaf082e190>
+
+    def test_d3_bad_third_proof_propagates_real_t0012_error(self):
+        clauses = (_fact("p", "a", "b"),)
+        query = _A("p", "a", "b")
+        valid = (ProofStep(0, (), query),)
+        bad = (ProofStep(0, (), _A("q", "x", "y")),)  # conclusion does not match query
+        calls = []
+    
+        def fake_enum(clauses_, query_, *, max_fact_checks=None,
+                      max_derivations=None, max_proof_steps=None):
+            return (valid, valid, bad)
+    
+        real_key = pc.canonical_proof_key
+    
+        def spy_key(clauses_, query_, proof, *, max_steps=None):
+            calls.append(proof)
+            return real_key(clauses_, query_, proof, max_steps=max_steps)
+    
+        with _patch(pc, fake_enum, spy_key):
+>           with pytest.raises(LogicValidationError) as excinfo:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE <class 'kmesh.logic.types.LogicValidationError'>
+
+tests/test_proof_count.py:461: Failed
+=========================== short test summary info ============================
+FAILED tests/test_proof_count.py::TestDOriginalExceptions::test_d2_key_spot_sentinels_propagate_and_reach_later_calls
+FAILED tests/test_proof_count.py::TestDOriginalExceptions::test_d3_bad_third_proof_propagates_real_t0012_error
+2 failed, 18 passed in 0.22s

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py", line 92, in <module>
+    main()
+    ~~~~^^
+  File "/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py", line 65, in main
+    assert (path.parent / unquote(u.path)).exists(), (path, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+AssertionError: (PosixPath('/home/mye/src/llm/KMesh/reports/T0013/pi-r1/provenance.md'), 'pi-r1/record.json')

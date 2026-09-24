@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "U8": 0,
+  "U7_rename_and_repeat": [
+    2,
+    0,
+    2,
+    2
+  ],
+  "input_pair_unchanged": true,
+  "readme_stdout": "1\n"
+}

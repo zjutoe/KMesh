@@ -1,0 +1,2 @@
+PASS: planning ready; frozen baseline, scope, helpers, links and text verified
+864 old tests collected only; T0013 product/test not implemented

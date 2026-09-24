@@ -1,0 +1,149 @@
+{
+  "result": "PASS",
+  "fixtures": [
+    {
+      "name": "U0",
+      "budgets": {
+        "C": 1,
+        "D": 1,
+        "S": 1
+      },
+      "raw": 0,
+      "canonical": 0,
+      "returned_lengths": []
+    },
+    {
+      "name": "U1",
+      "budgets": {
+        "C": 1,
+        "D": 1,
+        "S": 1
+      },
+      "raw": 1,
+      "canonical": 1,
+      "returned_lengths": [
+        1
+      ]
+    },
+    {
+      "name": "U2",
+      "budgets": {
+        "C": 1,
+        "D": 2,
+        "S": 2
+      },
+      "raw": 2,
+      "canonical": 1,
+      "returned_lengths": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "U3",
+      "budgets": {
+        "C": 2,
+        "D": 4,
+        "S": 10
+      },
+      "raw": 4,
+      "canonical": 1,
+      "returned_lengths": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "U4",
+      "budgets": {
+        "C": 2,
+        "D": 3,
+        "S": 5
+      },
+      "raw": 2,
+      "canonical": 2,
+      "returned_lengths": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "U5",
+      "budgets": {
+        "C": 3,
+        "D": 4,
+        "S": 20
+      },
+      "raw": 4,
+      "canonical": 4,
+      "returned_lengths": [
+        3,
+        4,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "U6",
+      "budgets": {
+        "C": 3,
+        "D": 4,
+        "S": 20
+      },
+      "raw": 4,
+      "canonical": 3,
+      "returned_lengths": [
+        3,
+        4,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "U7",
+      "budgets": {
+        "C": 6,
+        "D": 6,
+        "S": 10
+      },
+      "raw": 2,
+      "canonical": 2,
+      "returned_lengths": [
+        3,
+        3
+      ]
+    },
+    {
+      "name": "U8",
+      "budgets": {
+        "C": 1,
+        "D": 2,
+        "S": 1
+      },
+      "raw": 0,
+      "canonical": 0,
+      "returned_lengths": []
+    }
+  ],
+  "budget_failures": [
+    {
+      "field": "max_fact_checks",
+      "exception": "DerivationLimitError",
+      "message": "enumerate.max_fact_checks exhausted before enumeration completed"
+    },
+    {
+      "field": "max_derivations",
+      "exception": "DerivationLimitError",
+      "message": "enumerate.max_derivations exhausted before enumeration completed"
+    },
+    {
+      "field": "max_proof_steps",
+      "exception": "ProofEnumerationLimitError",
+      "message": "proofs.max_proof_steps exhausted before enumeration completed"
+    }
+  ],
+  "unrelated_cycle_rejections": 2,
+  "product_implemented": false
+}

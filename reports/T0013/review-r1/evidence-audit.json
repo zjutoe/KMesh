@@ -1,0 +1,238 @@
+{
+  "result": "PASS",
+  "head": "e576c7793a91f8508ed5c57333f81eb0188a5745",
+  "branch": "T0013-proof-count",
+  "frozen_files": 2494,
+  "submitted_files": 2538,
+  "product_sha256": "ac710fd17731bde66e90e8d7737a5eac59486b65454f6bd0fbe9d1ca270eec6d",
+  "tests_sha256": "b3af8851606836b27689f1ffba6b5061542496d5b6cfba4eceb0d22a6ad55a13",
+  "runs": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "preflight",
+        "reports/T0013/pi-r1"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-23T06:59:22.789356+00:00",
+      "finished_at_utc": "2026-09-23T06:59:23.086763+00:00",
+      "elapsed_s": 0.277,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1",
+      "stdout": "PASS: frozen accepted base and planning files, environment, branch, scope; new files absent\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "--basetemp",
+        "reports/T0013/pi-r1-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-23T07:44:09.425438+00:00",
+      "finished_at_utc": "2026-09-23T07:44:09.821065+00:00",
+      "elapsed_s": 0.375,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-focused",
+      "stdout": "....................                                                     [100%]\n20 passed in 0.12s\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "tests/test_proof_key.py",
+        "tests/test_clause_key.py",
+        "tests/test_depth.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0013/pi-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-23T07:44:09.938631+00:00",
+      "finished_at_utc": "2026-09-23T07:44:26.027238+00:00",
+      "elapsed_s": 16.069,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-full",
+      "stdout": "........................................................................ [  8%]\n........................................................................ [ 16%]\n........................................................................ [ 24%]\n........................................................................ [ 32%]\n........................................................................ [ 40%]\n........................................................................ [ 48%]\n........................................................................ [ 57%]\n........................................................................ [ 65%]\n........................................................................ [ 73%]\n........................................................................ [ 81%]\n........................................................................ [ 89%]\n........................................................................ [ 97%]\n....................                                                     [100%]\n884 passed in 15.78s\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "docs",
+        "reports/T0013/pi-r1-docs"
+      ],
+      "exit_code": 1,
+      "started_at_utc": "2026-09-23T08:00:45.106869+00:00",
+      "finished_at_utc": "2026-09-23T08:00:45.409965+00:00",
+      "elapsed_s": 0.283,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-docs",
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 92, in <module>\n    main()\n    ~~~~^^\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 65, in main\n    assert (path.parent / unquote(u.path)).exists(), (path, target)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\nAssertionError: (PosixPath('/home/mye/src/llm/KMesh/reports/T0013/pi-r1/provenance.md'), 'pi-r1/record.json')\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "docs",
+        "reports/T0013/pi-r1-docs2"
+      ],
+      "exit_code": 1,
+      "started_at_utc": "2026-09-23T08:02:50.178449+00:00",
+      "finished_at_utc": "2026-09-23T08:02:50.473137+00:00",
+      "elapsed_s": 0.275,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-docs2",
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 92, in <module>\n    main()\n    ~~~~^^\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 65, in main\n    assert (path.parent / unquote(u.path)).exists(), (path, target)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\nAssertionError: (PosixPath('/home/mye/src/llm/KMesh/reports/T0013/pi-r1/provenance.md'), 'pi-r1-docs/record.json')\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "docs",
+        "reports/T0013/pi-r1-docs3"
+      ],
+      "exit_code": 1,
+      "started_at_utc": "2026-09-23T08:03:47.324590+00:00",
+      "finished_at_utc": "2026-09-23T08:03:47.621832+00:00",
+      "elapsed_s": 0.277,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-docs3",
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 92, in <module>\n    main()\n    ~~~~^^\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 65, in main\n    assert (path.parent / unquote(u.path)).exists(), (path, target)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\nAssertionError: (PosixPath('/home/mye/src/llm/KMesh/reports/T0013/pi-r1/provenance.md'), '../pi-r1-docs2/run-index.json')\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "docs",
+        "reports/T0013/pi-r1-docs4"
+      ],
+      "exit_code": 1,
+      "started_at_utc": "2026-09-23T08:06:24.358432+00:00",
+      "finished_at_utc": "2026-09-23T08:06:24.657991+00:00",
+      "elapsed_s": 0.279,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-docs4",
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 92, in <module>\n    main()\n    ~~~~^^\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 68, in main\n    assert 'awaiting_review' in next(s for s in (ROOT / DOCS[1]).read_text().splitlines() if s.startswith('- T0013'))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "docs",
+        "reports/T0013/pi-r1-docs5"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-23T08:07:06.065154+00:00",
+      "finished_at_utc": "2026-09-23T08:07:06.420131+00:00",
+      "elapsed_s": 0.335,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-docs5",
+      "stdout": "1\nPASS: frozen base, scope, 4 docs/82 links, hygiene, awaiting_review; run-index.json records 7 earlier finished RUNs\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "docs",
+        "reports/T0013/pi-r1-docs6"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-23T08:12:08.518340+00:00",
+      "finished_at_utc": "2026-09-23T08:12:08.870728+00:00",
+      "elapsed_s": 0.332,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-docs6",
+      "stdout": "1\nPASS: frozen base, scope, 4 docs/84 links, hygiene, awaiting_review; run-index.json records 8 earlier finished RUNs\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "docs",
+        "reports/T0013/pi-r1-docs7"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-23T08:14:52.523963+00:00",
+      "finished_at_utc": "2026-09-23T08:14:52.876235+00:00",
+      "elapsed_s": 0.332,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-docs7",
+      "stdout": "1\nPASS: frozen base, scope, 4 docs/85 links, hygiene, awaiting_review; run-index.json records 9 earlier finished RUNs\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "docs",
+        "reports/T0013/pi-r1-docs8"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-23T08:16:32.934978+00:00",
+      "finished_at_utc": "2026-09-23T08:16:33.290965+00:00",
+      "elapsed_s": 0.336,
+      "env_overrides": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "run": "pi-r1-docs8",
+      "stdout": "1\nPASS: frozen base, scope, 4 docs/87 links, hygiene, awaiting_review; run-index.json records 10 earlier finished RUNs\n",
+      "stderr": ""
+    }
+  ]
+}

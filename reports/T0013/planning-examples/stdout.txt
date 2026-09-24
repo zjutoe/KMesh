@@ -1,0 +1,1 @@
+PASS: 9 hand-counted fixtures, 3 exact budget failures, 2 unrelated-cycle cases

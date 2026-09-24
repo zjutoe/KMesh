@@ -1,0 +1,135 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ TestEIsolation.test_e1_fresh_subprocess_blocks_engine_and_reference_engine __
+
+self = <test_proof_count.TestEIsolation object at 0x7f649b73d950>
+
+    def test_e1_fresh_subprocess_blocks_engine_and_reference_engine(self):
+        repo = Path(__file__).resolve().parents[1]
+        src_root = repo / "src"
+        expected_pc_file = str(src_root / "kmesh" / "logic" / "proof_count.py")
+        code = textwrap.dedent("""
+        import importlib, sys, types
+    
+        BLOCK_MSG = "t0013-import-isolation: import blocked"
+        BLOCKED = ("torch", "yaml", "kmesh.logic.engine",
+                   "kmesh.logic.reference_engine")
+    
+        class _BlockFinder:
+            def find_spec(self, name, path=None, target=None):
+                # exact root and any descendant (submodule) are both blocked;
+                # the reported name is the full dotted name actually attempted.
+                # A copy that only matched the exact root would not block
+                # submodules and the submodule probe below would fail (it would
+                # raise ModuleNotFoundError, not the custom ImportError).
+                for root in BLOCKED:
+                    if name == root:
+                        raise ImportError(BLOCK_MSG + " " + repr(name))
+                return None
+    
+        sys.meta_path.insert(0, _BlockFinder())
+    
+        def _probe_root(root):
+            # target must not be preloaded: the blocker (meta-path, full-name
+            # match) is what must catch the import, not a pre-seeded sys.modules
+            # entry.
+            assert root not in sys.modules, f"root {root!r} unexpectedly preloaded"
+            # step 1 -- actually import the root; the block message must carry the
+            # full attempted root name (distinguishes a root-level block from a
+            # submodule-level block).
+            try:
+                importlib.import_module(root)
+                raise SystemExit(f"root {root!r} imported; isolation failed")
+            except ImportError as exc:
+                assert str(exc) == BLOCK_MSG + " " + repr(root), (root, exc)
+            # step 2 -- 占位包、空 __path__ (placeholder package, empty __path__):
+            # the next import is a *submodule* import; the meta-path finder
+            # must be consulted with the full dotted submodule name and block
+            # with that exact name. This exercises the startswith(root + ".")
+            # branch (a root-only-match copy would fail this step).
+            sys.modules[root] = types.ModuleType(root)
+            sys.modules[root].__path__ = []
+            probe = root + "._t0013_probe"
+            try:
+                importlib.import_module(probe)
+                raise SystemExit(f"submodule {probe!r} imported; isolation failed")
+            except ImportError as exc:
+                assert str(exc) == BLOCK_MSG + " " + repr(probe), (root, exc)
+            finally:
+                # clean up the placeholder root; the parent package (e.g.
+                # kmesh.logic) is never touched and stays intact.
+                sys.modules.pop(root, None)
+    
+        for root in ("torch", "yaml", "kmesh.logic.engine",
+                     "kmesh.logic.reference_engine"):
+            _probe_root(root)
+    
+        # Keep the blocker (finder) active through the real import, the U2/U6
+        # computations and the final scan: the product must run under the same
+        # hard isolation and use the current src.
+        sys.path.insert(0, str(__SRC__))
+        from kmesh.logic import proof_count as pc
+        from kmesh.logic.types import Atom, Clause
+    
+        def fact(pred, a, b):
+            return Clause((), Atom(pred, (a, b)))
+    
+        u2 = (fact("p", "a", "b"), fact("p", "a", "b"))
+        u6 = (fact("p", "a", "a"), fact("s", "a", "a"),
+              Clause((Atom("s", ("?x", "?y")),), Atom("p", ("?x", "?y"))),
+              Clause((Atom("p", ("?x", "?y")), Atom("p", ("?x", "?y"))),
+                     Atom("q", ("?x", "?y"))))
+    
+        assert pc.__file__ == __EXPECTED__, pc.__file__
+    
+        assert pc.count_canonical_proofs(u2, Atom("p", ("a", "b")),
+                                        max_fact_checks=1,
+                                        max_derivations=2,
+                                        max_proof_steps=2) == 1
+        assert pc.count_canonical_proofs(u6, Atom("q", ("a", "a")),
+                                        max_fact_checks=3,
+                                        max_derivations=4,
+                                        max_proof_steps=20) == 3
+    
+        # No blocked module (root or descendant) may remain in sys.modules.
+        leaked = [n for n in list(sys.modules)
+                  if any(n == b or n.startswith(b + ".") for b in BLOCKED)]
+        assert not leaked, f"blocked modules in sys.modules: {leaked}"
+        print("ISOLATION-OK")
+        """).replace("__SRC__", json.dumps(str(src_root))) \
+            .replace("__EXPECTED__", json.dumps(expected_pc_file))
+    
+        proc = subprocess.run(
+            [sys.executable, "-c", code],
+            capture_output=True, text=True, timeout=60)
+>       assert proc.returncode == 0, proc.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 44, in _probe_root
+E             importlib.import_module(probe)
+E             ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+E           File "/opt/anaconda3/lib/python3.13/importlib/__init__.py", line 88, in import_module
+E             return _bootstrap._gcd_import(name[level:], package, level)
+E                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+E           File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+E           File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+E         ModuleNotFoundError: No module named 'torch._t0013_probe'
+E         
+E         During handling of the above exception, another exception occurred:
+E         
+E         Traceback (most recent call last):
+E           File "<string>", line 55, in <module>
+E             _probe_root(root)
+E             ~~~~~~~~~~~^^^^^^
+E           File "<string>", line 47, in _probe_root
+E             assert str(exc) == BLOCK_MSG + " " + repr(probe), (root, exc)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError: ('torch', ModuleNotFoundError("No module named 'torch._t0013_probe'"))
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', '\nimport importlib, sys, types\n\nBLOCK_MSG ...^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: (\'torch\', ModuleNotFoundError("No module named \'torch._t0013_probe\'"))\n').returncode
+
+tests/test_proof_count.py:606: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_count.py::TestEIsolation::test_e1_fresh_subprocess_blocks_engine_and_reference_engine
+1 failed, 20 deselected in 0.18s

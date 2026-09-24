@@ -1,0 +1,154 @@
+.....FF............F                                                     [100%]
+=================================== FAILURES ===================================
+______ TestAHandCounted.test_u5_non_symmetric_two_premise_four_canonical _______
+
+self = <test_proof_count.TestAHandCounted object at 0x7ff5f2cbce20>
+
+    def test_u5_non_symmetric_two_premise_four_canonical(self):
+        world = (*SHARED, NONSYMM)
+        # q(a,a): p-proofs {fact, s-derived}; the two slots are asymmetric
+        # (z,x) vs (x,y), so (fact, s) != (s, fact): 4 distinct proofs.
+        got = cnt(world, _A("q", "a", "a"), 3, 4, 20)
+        assert type(got) is int
+>       assert got == 4
+E       assert 2 == 4
+
+tests/test_proof_count.py:134: AssertionError
+________ TestAHandCounted.test_u6_symmetric_two_premise_three_canonical ________
+
+self = <test_proof_count.TestAHandCounted object at 0x7ff5f2cbd040>
+
+    def test_u6_symmetric_two_premise_three_canonical(self):
+        world = (*SHARED, SYMM)
+        # same world, symmetric slots: (fact, s) and (s, fact) merge.
+>       assert cnt(world, _A("q", "a", "a"), 3, 4, 20) == 3
+E       AssertionError: assert 2 == 3
+E        +  where 2 = cnt((Clause(body=(), head=Atom(pred='p', args=('a', 'a'))), Clause(body=(), head=Atom(pred='s', args=('a', 'a'))), Clause(...e(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='p', args=('?x', '?y'))), head=Atom(pred='q', args=('?x', '?y')))), Atom(pred='q', args=('a', 'a')), 3, 4, 20)
+E        +    where Atom(pred='q', args=('a', 'a')) = _A('q', 'a', 'a')
+
+tests/test_proof_count.py:139: AssertionError
+__ TestEIsolation.test_e1_fresh_subprocess_blocks_engine_and_reference_engine __
+
+self = <test_proof_count.TestEIsolation object at 0x7ff5f2ca9590>
+
+    def test_e1_fresh_subprocess_blocks_engine_and_reference_engine(self):
+        repo = Path(__file__).resolve().parents[1]
+        src_root = repo / "src"
+        expected_pc_file = str(src_root / "kmesh" / "logic" / "proof_count.py")
+        code = textwrap.dedent("""
+        import importlib, shutil, sys, tempfile
+        from pathlib import Path
+    
+        BLOCK_MSG = "t0013-import-isolation: import blocked"
+        BLOCKED = ("torch", "yaml", "kmesh.logic.engine",
+                   "kmesh.logic.reference_engine")
+    
+        class _BlockFinder:
+            def find_spec(self, name, path=None, target=None):
+                for root in BLOCKED:
+                    if name == root or name.startswith(root + "."):
+                        raise ImportError(BLOCK_MSG)
+                return None
+    
+        sys.meta_path.insert(0, _BlockFinder())
+    
+        # src path is explicit; torch / yaml are not installed: placeholder
+        # packages make the probe really attempt an import that would succeed
+        # without the blocker; both placeholders are cleaned up below.
+        tmp = Path(tempfile.mkdtemp(prefix="t0013_isolation_"))
+        (tmp / "torch").mkdir()
+        (tmp / "torch" / "__init__.py").write_text("")
+        (tmp / "torch" / "nn.py").write_text("PASS")
+        (tmp / "yaml").mkdir()
+        (tmp / "yaml" / "__init__.py").write_text("")
+        (tmp / "yaml" / "safe_load.py").write_text("PASS")
+        sys.path.insert(0, str(__SRC__))
+        sys.path.insert(1, str(tmp))
+        try:
+            for name in ("torch", "yaml", "torch.nn", "yaml.safe_load"):
+                try:
+                    importlib.import_module(name)
+                    raise SystemExit(f"root {name!r} imported; isolation failed")
+                except ImportError as exc:
+                    assert str(exc) == BLOCK_MSG, (name, exc)
+        finally:
+            sys.path.remove(str(tmp))
+            shutil.rmtree(tmp)
+    
+        # kmesh subpackage probes: kmesh.logic is already importable, so the
+        # blocker must live on the package path (submodule lookup never
+        # re-checks the meta path).
+        import kmesh.logic
+    
+        class _SubBlockFinder:
+            def find_spec(self, name, path=None, target=None):
+                if name in ("engine", "reference_engine"):
+                    raise ImportError(BLOCK_MSG)
+                return None
+    
+        kmesh.logic.__path__.insert(0, _SubBlockFinder())
+    
+        def _submodule_blocked(name):
+            try:
+                importlib.import_module("kmesh.logic." + name)
+                raise SystemExit(
+                    f"submodule {name!r} imported; isolation failed")
+            except ImportError as exc:
+                assert str(exc) == BLOCK_MSG, (name, exc)
+    
+        _submodule_blocked("engine")
+        _submodule_blocked("reference_engine")
+    
+        from kmesh.logic import proof_count as pc
+        from kmesh.logic.types import Atom, Clause
+    
+        def fact(pred, a, b):
+            return Clause((), Atom(pred, (a, b)))
+    
+        u2 = (fact("p", "a", "b"), fact("p", "a", "b"))
+        u6 = (fact("p", "a", "a"), fact("s", "a", "a"),
+              Clause((Atom("s", ("?x", "?y")),), Atom("p", ("?x", "?y"))),
+              Clause((Atom("p", ("?x", "?y")), Atom("p", ("?x", "?y"))),
+                     Atom("q", ("?x", "?y"))))
+    
+        assert pc.__file__ == __EXPECTED__, pc.__file__
+    
+        assert pc.count_canonical_proofs(u2, Atom("p", ("a", "b")),
+                                        max_fact_checks=1,
+                                        max_derivations=2,
+                                        max_proof_steps=2) == 1
+        assert pc.count_canonical_proofs(u6, Atom("q", ("a", "a")),
+                                        max_fact_checks=3,
+                                        max_derivations=4,
+                                        max_proof_steps=20) == 3
+    
+        leaked = [n for n in list(sys.modules)
+                  if n in BLOCKED or any(
+                      n == b or n.startswith(b + ".") for b in BLOCKED)]
+        assert not leaked, f"blocked modules in sys.modules: {leaked}"
+        print("ISOLATION-OK")
+        """).replace("__SRC__", json.dumps(str(src_root))) \
+            .replace("__EXPECTED__", json.dumps(expected_pc_file))
+    
+        proc = subprocess.run(
+            [sys.executable, "-c", code],
+            capture_output=True, text=True, timeout=60)
+>       assert proc.returncode == 0, proc.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 83, in <module>
+E             assert pc.count_canonical_proofs(u6, Atom("q", ("a", "a")),
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E             ...<2 lines>...
+E                                             max_proof_steps=20) == 3
+E                                             ^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', '\nimport importlib, shutil, sys, tempfile\nf...             max_proof_steps=20) == 3\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+tests/test_proof_count.py:580: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_count.py::TestAHandCounted::test_u5_non_symmetric_two_premise_four_canonical
+FAILED tests/test_proof_count.py::TestAHandCounted::test_u6_symmetric_two_premise_three_canonical
+FAILED tests/test_proof_count.py::TestEIsolation::test_e1_fresh_subprocess_blocks_engine_and_reference_engine
+3 failed, 17 passed in 0.23s

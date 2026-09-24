@@ -1,0 +1,3 @@
+PASS: accepted source/tests and review docs match; historical input hashes unchanged
+Scope: 201 files, 3181824 bytes; scratch files excluded; no test rerun
+Branch: T0013-proof-count; base: e576c7793a91f8508ed5c57333f81eb0188a5745

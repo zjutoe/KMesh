@@ -1,0 +1,97 @@
+{
+  "result": "PASS",
+  "frozen_files": 2578,
+  "product_sha256": "ac710fd17731bde66e90e8d7737a5eac59486b65454f6bd0fbe9d1ca270eec6d",
+  "tests_sha256": "31b11335cf57940a7bb3850ee7fa505c601a33cc8191573499d6959f0f31d38d",
+  "BCD_unchanged": true,
+  "runs": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/check_delivery.py",
+        "preflight",
+        "reports/T0013/pi-r2-preflight"
+      ],
+      "exit_code": 1,
+      "started_at_utc": "2026-09-24T07:11:28.833065+00:00",
+      "elapsed_s": 0.228,
+      "run": "pi-r2-preflight",
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 92, in <module>\n    main()\n    ~~~~^^\n  File \"/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py\", line 41, in main\n    assert path in frozen or path in MUTABLE or path == 'reports/T0013/planning-files.json' or path.startswith('reports/T0013/pi-'), f'outside scope: {path}'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: outside scope: reports/T0013/review-r1/rework-files.json\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/review-r1/check_rework.py",
+        "preflight",
+        "reports/T0013/pi-r2-preflight2"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-24T07:13:39.024742+00:00",
+      "elapsed_s": 0.213,
+      "run": "pi-r2-preflight2",
+      "stdout": "PASS: R2 baseline, product/history frozen, original test hash, scope\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "--basetemp",
+        "reports/T0013/pi-r2-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-24T08:02:46.743650+00:00",
+      "elapsed_s": 0.357,
+      "run": "pi-r2-focused",
+      "stdout": ".....................                                                    [100%]\n21 passed in 0.11s\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_count.py",
+        "tests/test_proof_key.py",
+        "tests/test_clause_key.py",
+        "tests/test_depth.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0013/pi-r2-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-24T08:02:50.886743+00:00",
+      "elapsed_s": 16.141,
+      "run": "pi-r2-full",
+      "stdout": "........................................................................ [  8%]\n........................................................................ [ 16%]\n........................................................................ [ 24%]\n........................................................................ [ 32%]\n........................................................................ [ 40%]\n........................................................................ [ 48%]\n........................................................................ [ 56%]\n........................................................................ [ 65%]\n........................................................................ [ 73%]\n........................................................................ [ 81%]\n........................................................................ [ 89%]\n........................................................................ [ 97%]\n.....................                                                    [100%]\n885 passed in 15.86s\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0013/review-r1/check_rework.py",
+        "docs",
+        "reports/T0013/pi-r2-docs"
+      ],
+      "exit_code": 0,
+      "started_at_utc": "2026-09-24T08:14:05.469078+00:00",
+      "elapsed_s": 0.262,
+      "run": "pi-r2-docs",
+      "stdout": "PASS: frozen product/history, scope, 4 docs/89 links, text, README, awaiting_review\n",
+      "stderr": ""
+    }
+  ]
+}

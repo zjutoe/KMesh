@@ -1,0 +1,1 @@
+PASS: real U8=0, local variable rename=2, pair purity, README U3=1

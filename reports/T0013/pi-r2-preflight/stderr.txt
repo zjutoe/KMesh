@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py", line 92, in <module>
+    main()
+    ~~~~^^
+  File "/home/mye/src/llm/KMesh/reports/T0013/check_delivery.py", line 41, in main
+    assert path in frozen or path in MUTABLE or path == 'reports/T0013/planning-files.json' or path.startswith('reports/T0013/pi-'), f'outside scope: {path}'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: outside scope: reports/T0013/review-r1/rework-files.json
