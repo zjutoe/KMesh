@@ -1,0 +1,13 @@
+PASS: clean merged baseline; accepted T0012/T0013 hashes; 2672 tracked files; new files absent
+{
+  "head": "0e407ed9b3f270143f8587a301fa34fabf465b6b",
+  "branch": "master",
+  "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:16:10) [GCC 11.2.0]",
+  "executable": "/home/mye/src/llm/KMesh/.venv/bin/python",
+  "kmesh_path": "/home/mye/src/llm/KMesh/src/kmesh/__init__.py",
+  "packages": {
+    "kmesh": "0.1.0",
+    "pytest": "8.4.2",
+    "PyYAML": "6.0.3"
+  }
+}

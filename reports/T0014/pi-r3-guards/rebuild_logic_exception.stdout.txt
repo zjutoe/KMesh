@@ -1,0 +1,24 @@
+......................F.........                                         [100%]
+=================================== FAILURES ===================================
+____________________________ test_sentinel_identity ____________________________
+
+    def test_sentinel_identity():
+        w, q, p = fact_proof("p", "a", "b")
+        calls = []
+        orig = motif.canonical_proof_key
+        sentinel = LogicValidationError("t0012-logic-sentinel")
+        def raiser(*a, **kw):
+            calls.append((a, kw))
+            raise sentinel
+        motif.canonical_proof_key = raiser
+        try:
+            with pytest.raises(LogicValidationError) as exc:
+                motif.canonical_motif_key(w, q, p, max_steps=100, max_orientations=10)
+>           assert exc.value is sentinel
+E           AssertionError: assert LogicValidationError('t0012-logic-sentinel') is LogicValidationError('t0012-logic-sentinel')
+E            +  where LogicValidationError('t0012-logic-sentinel') = <ExceptionInfo LogicValidationError('t0012-logic-sentinel') tblen=2>.value
+
+tests/test_motif.py:585: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_sentinel_identity - AssertionError: assert L...
+1 failed, 31 passed in 0.36s

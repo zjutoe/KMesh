@@ -1,0 +1,23 @@
+.............................F.                                          [100%]
+=================================== FAILURES ===================================
+_______________________________ test_long_chain ________________________________
+
+    def test_long_chain():
+        w, q, p = long_chain()
+        verify_proof(tuple(w), q, p)
+        stream = tolist(motif.canonical_motif_key(w, q, p, max_steps=1201, max_orientations=1))[1]
+        assert len(stream) == 1201
+        for i in range(1200):
+            node = stream[i]
+            assert node[0] == (i, 0, 1)
+            assert node[1] == (i, ("v", 0), ("v", 1))
+>           assert node[2] == ((i + 1, ("v", 0), ("v", 1)),)
+E           AssertionError: assert ((9999, ('v', 0), ('v', 1)),) == ((1, ('v', 0), ('v', 1)),)
+E             
+E             At index 0 diff: (9999, ('v', 0), ('v', 1)) != (1, ('v', 0), ('v', 1))
+E             Use -v to get more diff
+
+tests/test_motif.py:598: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_long_chain - AssertionError: assert ((9999, ...
+1 failed, 30 passed in 0.28s

@@ -1,0 +1,33 @@
+.........................F......                                         [100%]
+=================================== FAILURES ===================================
+____________________________ test_all_budget_errors ____________________________
+
+    def test_all_budget_errors():
+        import sys
+        w, q, p = fact_proof("p", "a", "b")
+        g = getattr(sys, "get_int_max_str_digits", None)
+        s = getattr(sys, "set_int_max_str_digits", None)
+        if g is not None and s is not None:
+            old = g()
+            s(0)
+        else:
+            old = None
+        try:
+            for bad, tname in ((None, "NoneType"), (True, "bool"), (False, "bool"),
+                                (0, "int"), (-1, "int"), (1.5, "float"),
+                                ("10", "str"), (10.0, "float")):
+                with pytest.raises(LogicValidationError) as exc:
+                    motif.canonical_motif_key(w, q, p, max_steps=10, max_orientations=bad)
+                assert type(exc.value) is LogicValidationError
+>               assert str(exc.value) == "motif.max_orientations must be a non-bool positive integer; got " + tname
+E               AssertionError: assert 'motif.max_or...oneType WRONG' == 'motif.max_or... got NoneType'
+E                 
+E                 Skipping 61 identical leading characters in diff, use -v to show
+E                 - ot NoneType
+E                 + ot NoneType WRONG
+E                 ?            ++++++
+
+tests/test_motif.py:638: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_all_budget_errors - AssertionError: assert '...
+1 failed, 31 passed in 0.36s

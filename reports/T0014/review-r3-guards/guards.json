@@ -1,0 +1,81 @@
+{
+  "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+  "runs": [
+    {
+      "name": "submitted",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/submitted/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/submitted/temp"
+      ],
+      "exit_code": 0,
+      "source_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "guard_valid": true
+    },
+    {
+      "name": "format_unvalidated_integer",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/format_unvalidated_integer/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/format_unvalidated_integer/temp"
+      ],
+      "exit_code": 0,
+      "source_sha256": "18bf150b1294ec481f501a41be935e723f7f2f1d66dd88119da5ff324eef0b6e",
+      "guard_valid": false
+    },
+    {
+      "name": "logic_error_loses_to_invalid_O",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/logic_error_loses_to_invalid_O/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/logic_error_loses_to_invalid_O/temp"
+      ],
+      "exit_code": 0,
+      "source_sha256": "1bba4d2163ed187b548de8e822c9041811902b7516c97bb5effd2ee62b229c41",
+      "guard_valid": false
+    },
+    {
+      "name": "underbudget_distinct_twins",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/underbudget_distinct_twins/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/underbudget_distinct_twins/temp"
+      ],
+      "exit_code": 1,
+      "source_sha256": "4fb01e00fe9850634c1a1ffcdbff83b3815b0f5e6a37d9ef29546d2602bbd239",
+      "guard_valid": true
+    },
+    {
+      "name": "header_tuple_subclass",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/header_tuple_subclass/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r3-guards/pytest-tmp/header_tuple_subclass/temp"
+      ],
+      "exit_code": 0,
+      "source_sha256": "f1c3487b4700db8d956a1bbecf6ab0ab29ffdf69eee155669834519bcb808c38",
+      "guard_valid": false
+    }
+  ],
+  "all_guards_valid": false
+}

@@ -22,7 +22,9 @@
 
 - T0012（单棵出现树的同世界证明规范键）：**`accepted`**（2026-09-23，Codex 第 5 轮复验）。独立定向 69 项通过，13 个违约副本被对应断言拒绝，三组完整输入快照由 Codex 保留探针补证。接受产品 `92dce0d4…03c1`、测试 `33e3b3e2…fa0d2`；产品及非 B 组冻结，沿用 Codex R1 full 840 项，本轮未重跑。缺失 preflight、Pi 纯度测试覆盖差异及历史限制保留。已提交 `e576c77` 并推送至 `origin/T0012-proof-key`，规划 T0013 时接受哈希已核对；不代表规范唯一性、motif 或 world 审计。见 [交接文档](handoffs/T0012-proof-key.md)与 [R5 验收报告](../reports/T0012/review-r5/review.md)。
 
-- T0013（单查询规范证明计数）：**`accepted`**（2026-09-24，Codex 第 3 轮复验，R1–R3 关闭）。产品 `ac710fd1…70eec6d` 持续冻结，接受测试 `52780855…869fff`；独立定向 21 项通过，前缀错误副本被拒，运行期观察确认 finder 在产品导入／U2／U6／最终扫描后均保留。2625 项旧冻结材料与 E 前全文不变。沿用 Codex R1 独立 884 项 full；Pi R2 额外 885 项单列自检，本轮未重跑 full。历史文字更正、模型自述来源及 unknown 保留；未 commit/push。不代表 world／motif 或训练验收。见 [最终报告](../reports/T0013/review-r3/review.md)及 [交接文档](handoffs/T0013-proof-count.md)。
+- T0013（单查询规范证明计数）：**`accepted`**（2026-09-24，Codex 第 3 轮复验，R1–R3 关闭）。产品 `ac710fd1…70eec6d` 持续冻结，接受测试 `52780855…869fff`；独立定向 21 项通过，前缀错误副本被拒，运行期观察确认 finder 在产品导入／U2／U6／最终扫描后均保留。2625 项旧冻结材料与 E 前全文不变。沿用 Codex R1 独立 884 项 full；Pi R2 额外 885 项单列自检，本轮未重跑 full。历史文字更正、模型自述来源及 unknown 保留；已提交 `bce572c` 并推送，随后以 `0e407ed` 合并／推送 master（含 T0012）。规划 T0014 时接受源码／测试哈希再次核对一致。不代表 world／motif 或训练验收。见 [最终报告](../reports/T0013/review-r3/review.md)及 [交接文档](handoffs/T0013-proof-count.md)。
+
+- T0014（单棵证明的有界参考 motif 键）：**`accepted`**（2026-09-25，Codex 第4轮复验）。独立定向32项通过，四个违约副本均被目标行为断言拒绝；产品23d175e8…冻结，接受测试3c448a39…bb7f722。仅四个授权函数变化，2981项旧冻结件未变，六个Pi R4 RUN含失败docs原件完整。沿用已核对的Pi917项回归与R1独立产品核验，本轮未重跑full；历史记录、模型自述来源与交接执行段遗漏的限制由Codex追加说明，不补造原件。接受工作树基线0e407ed，未commit/push。仅完成单树结构签名，不代表world审计／split／训练。见 [最终报告](../reports/T0014/review-r4/review.md)与 [交接文档](handoffs/T0014-proof-motif.md)。
 
 ## M0 已完成 / 未完成
 
@@ -43,6 +45,7 @@
 | 单条 clause 规范内容键 | T0011 `accepted`（第 2 轮 R1–R4 关闭）；独立 63 项及五个违约守卫通过，保留历史证据限制 |
 | 单棵出现树规范证明键 | T0012 `accepted`（Codex R5 独立 69 项、13 个违约守卫及三组纯度补证通过；沿用 R1 full 840 项，执行限制保留）；不代表规范唯一性审计 |
 | 单查询规范证明数／唯一性判据 | T0013 `accepted`（Codex 第 3 轮，R1–R3 关闭）；独立 21 项、前缀守卫及运行期硬隔离通过，沿用独立 884 full；不代表 world／motif 审计 |
+| 单棵证明跨世界 motif 键 | T0014 `accepted`（Codex 第4轮）；独立32项、四个违约守卫通过，Pi917项回归原件沿用；有界参考实现，历史执行限制保留 |
 | 数据/求解器与 CPU forward/backward 验证 | `not_run`，尚未实现 |
 | 20-step smoke | `not_run`，尚未实现 |
 | GPU 训练 | `not_run`，尚未实现，也未经本任务授权 |

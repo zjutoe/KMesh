@@ -1,0 +1,132 @@
+{
+  "head": "0e407ed9b3f270143f8587a301fa34fabf465b6b",
+  "frozen_planning_files_unchanged": 2693,
+  "scope": "PASS",
+  "runs": [
+    {
+      "run": "pi-r1-docs",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_delivery.py",
+        "docs",
+        "reports/T0014/pi-r1-docs"
+      ],
+      "exit_code": 1,
+      "started_at": "2026-09-24T14:38:21.716633+00:00",
+      "finished_at": "2026-09-24T14:38:21.980285+00:00",
+      "elapsed_s": 0.243,
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "c61001cb492cfb84c06fc608c64d950510df671920b85e1014fe6e72829b81f0",
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0014/check_delivery.py\", line 96, in <module>\n    main()\n    ~~~~^^\n  File \"/home/mye/src/llm/KMesh/reports/T0014/check_delivery.py\", line 41, in main\n    assert path in frozen or path in MUTABLE or path == 'reports/T0014/planning-files.json' or path.startswith('reports/T0014/pi-'), f'outside scope: {path}'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: outside scope: .tmp_trim.py\n"
+    },
+    {
+      "run": "pi-r1-docs2",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_delivery.py",
+        "docs",
+        "reports/T0014/pi-r1-docs2"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:53:23.792414+00:00",
+      "finished_at": "2026-09-24T14:53:24.160744+00:00",
+      "elapsed_s": 0.347,
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "c61001cb492cfb84c06fc608c64d950510df671920b85e1014fe6e72829b81f0",
+      "stdout": "('proof_motif_v1', (((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 1)),)), ((1, 0, 1), (1, ('c', 0), ('c', 1)), ())))\nCOPY motif key matches contract literal\nPASS: frozen base, scope, 4 docs/75 links, hygiene, awaiting_review; run-index.json records 4 earlier finished RUNs\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-docs3",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_delivery.py",
+        "docs",
+        "reports/T0014/pi-r1-docs3"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:54:36.615364+00:00",
+      "finished_at": "2026-09-24T14:54:36.990327+00:00",
+      "elapsed_s": 0.355,
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "c61001cb492cfb84c06fc608c64d950510df671920b85e1014fe6e72829b81f0",
+      "stdout": "('proof_motif_v1', (((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 1)),)), ((1, 0, 1), (1, ('c', 0), ('c', 1)), ())))\nCOPY motif key matches contract literal\nPASS: frozen base, scope, 4 docs/75 links, hygiene, awaiting_review; run-index.json records 5 earlier finished RUNs\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-focused",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "--basetemp",
+        "reports/T0014/pi-r1-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:37:59.057129+00:00",
+      "finished_at": "2026-09-24T14:37:59.506491+00:00",
+      "elapsed_s": 0.428,
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "c61001cb492cfb84c06fc608c64d950510df671920b85e1014fe6e72829b81f0",
+      "stdout": "........................................                                 [100%]\n40 passed in 0.18s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-full",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "tests/test_proof_count.py",
+        "tests/test_proof_key.py",
+        "tests/test_clause_key.py",
+        "tests/test_depth.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0014/pi-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:38:02.340662+00:00",
+      "finished_at": "2026-09-24T14:38:18.960550+00:00",
+      "elapsed_s": 16.599,
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "c61001cb492cfb84c06fc608c64d950510df671920b85e1014fe6e72829b81f0",
+      "stdout": "........................................................................ [  7%]\n........................................................................ [ 15%]\n........................................................................ [ 23%]\n........................................................................ [ 31%]\n........................................................................ [ 38%]\n........................................................................ [ 46%]\n........................................................................ [ 54%]\n........................................................................ [ 62%]\n........................................................................ [ 70%]\n........................................................................ [ 77%]\n........................................................................ [ 85%]\n........................................................................ [ 93%]\n.............................................................            [100%]\n925 passed in 16.31s\n",
+      "stderr": ""
+    },
+    {
+      "run": "pi-r1-preflight",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_delivery.py",
+        "preflight",
+        "reports/T0014/pi-r1-preflight"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T12:00:24.262901+00:00",
+      "finished_at": "2026-09-24T12:00:24.588918+00:00",
+      "elapsed_s": 0.305,
+      "product_sha256": null,
+      "test_sha256": null,
+      "stdout": "PASS: frozen accepted base and planning files, environment, branch, scope; new files absent\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "src/kmesh/logic/motif.py": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+    "tests/test_motif.py": "c61001cb492cfb84c06fc608c64d950510df671920b85e1014fe6e72829b81f0"
+  }
+}

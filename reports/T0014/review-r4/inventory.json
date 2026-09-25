@@ -1,0 +1,136 @@
+{
+  "head": "0e407ed9b3f270143f8587a301fa34fabf465b6b",
+  "frozen_files": 2981,
+  "changed_frozen": [],
+  "outside_scope": [],
+  "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+  "test_sha256": "3c448a396203c3ff32a7febaeb494cec6e565b1ec600e5c70732a61adbb7f722",
+  "runs": [
+    {
+      "run": "pi-r4-preflight",
+      "exit_code": 0,
+      "started_at": "2026-09-25T04:42:52.045661+00:00",
+      "finished_at": "2026-09-25T04:42:52.375240+00:00",
+      "elapsed_s": 0.308,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r4.py",
+        "preflight",
+        "reports/T0014/pi-r4-preflight"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+      "stdout_tail": [
+        "PASS: R3 test baseline, frozen product/planning/history/review, HEAD/branch/scope, in_progress"
+      ],
+      "stderr": ""
+    },
+    {
+      "run": "pi-r4-dev1",
+      "exit_code": 0,
+      "started_at": "2026-09-25T04:57:17.605604+00:00",
+      "finished_at": "2026-09-25T04:57:18.199594+00:00",
+      "elapsed_s": 0.572,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "--basetemp",
+        "reports/T0014/pi-r4-dev1/pytest-tmp"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "3c448a396203c3ff32a7febaeb494cec6e565b1ec600e5c70732a61adbb7f722",
+      "stdout_tail": [
+        "................................                                         [100%]",
+        "32 passed in 0.32s"
+      ],
+      "stderr": ""
+    },
+    {
+      "run": "pi-r4-focused",
+      "exit_code": 0,
+      "started_at": "2026-09-25T04:57:22.663427+00:00",
+      "finished_at": "2026-09-25T04:57:23.102954+00:00",
+      "elapsed_s": 0.418,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "--basetemp",
+        "reports/T0014/pi-r4-focused/pytest-tmp"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "3c448a396203c3ff32a7febaeb494cec6e565b1ec600e5c70732a61adbb7f722",
+      "stdout_tail": [
+        "................................                                         [100%]",
+        "32 passed in 0.17s"
+      ],
+      "stderr": ""
+    },
+    {
+      "run": "pi-r4-guards",
+      "exit_code": 0,
+      "started_at": "2026-09-25T04:57:26.561057+00:00",
+      "finished_at": "2026-09-25T04:57:29.789430+00:00",
+      "elapsed_s": 3.207,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/review_r3_guards.py",
+        "reports/T0014/pi-r4-guards",
+        "--enforce"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "3c448a396203c3ff32a7febaeb494cec6e565b1ec600e5c70732a61adbb7f722",
+      "stdout_tail": [
+        "submitted: exit=0, guard_valid=True",
+        "format_unvalidated_integer: exit=1, guard_valid=True",
+        "logic_error_loses_to_invalid_O: exit=1, guard_valid=True",
+        "underbudget_distinct_twins: exit=1, guard_valid=True",
+        "header_tuple_subclass: exit=1, guard_valid=True"
+      ],
+      "stderr": ""
+    },
+    {
+      "run": "pi-r4-docs",
+      "exit_code": 1,
+      "started_at": "2026-09-25T05:00:40.226926+00:00",
+      "finished_at": "2026-09-25T05:00:40.556605+00:00",
+      "elapsed_s": 0.308,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r4.py",
+        "docs",
+        "reports/T0014/pi-r4-docs"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "3c448a396203c3ff32a7febaeb494cec6e565b1ec600e5c70732a61adbb7f722",
+      "stdout_tail": [],
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0014/check_rework_r4.py\", line 50, in <module>\n    assert 'awaiting_review' in next(s for s in status.splitlines() if s.startswith('| \u5355\u68f5\u8bc1\u660e\u8de8\u4e16\u754c motif \u952e |'))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "run": "pi-r4-docs2",
+      "exit_code": 0,
+      "started_at": "2026-09-25T05:01:28.945635+00:00",
+      "finished_at": "2026-09-25T05:01:29.390632+00:00",
+      "elapsed_s": 0.424,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r4.py",
+        "docs",
+        "reports/T0014/pi-r4-docs2"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "3c448a396203c3ff32a7febaeb494cec6e565b1ec600e5c70732a61adbb7f722",
+      "stdout_tail": [
+        "('proof_motif_v1', (((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 1)),)), ((1, 0, 1), (1, ('c', 0), ('c', 1)), ())))",
+        "COPY motif key matches contract literal",
+        "PASS: frozen product/history/scope; 4 docs/87 links; hygiene, awaiting_review; README COPY and fourteen-file list; 20 prior RUNs indexed"
+      ],
+      "stderr": ""
+    }
+  ]
+}

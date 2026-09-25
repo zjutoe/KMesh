@@ -1,0 +1,41 @@
+....................FF.........                                          [100%]
+=================================== FAILURES ===================================
+____________________________ test_sentinel_identity ____________________________
+
+    def test_sentinel_identity():
+        w, q, p = fact_proof("p", "a", "b")
+        orig = motif.canonical_proof_key
+        for msg in ("s0", "s1"):
+            sentinel = LogicValidationError(msg + "-sentinel")
+            def raiser(*a, _sentinel=sentinel, **kw):
+                raise _sentinel
+            motif.canonical_proof_key = raiser
+            try:
+                with pytest.raises(LogicValidationError) as exc:
+                    motif.canonical_motif_key(w, q, p, max_steps=100, max_orientations=10)
+>               assert exc.value is sentinel
+E               AssertionError: assert LogicValidationError('s0-sentinel') is LogicValidationError('s0-sentinel')
+E                +  where LogicValidationError('s0-sentinel') = <ExceptionInfo LogicValidationError('s0-sentinel') tblen=2>.value
+
+tests/test_motif.py:509: AssertionError
+____________________________ test_delegate_before_O ____________________________
+
+    def test_delegate_before_O():
+        w, q, p = fact_proof("p", "a", "b")
+        orig = motif.canonical_proof_key
+        sentinel = LogicValidationError("t0012-fail")
+        def raiser(*a, _sentinel=sentinel, **kw):
+            raise _sentinel
+        motif.canonical_proof_key = raiser
+        try:
+            with pytest.raises(LogicValidationError) as exc:
+                motif.canonical_motif_key(w, q, p, max_steps=100, max_orientations=-1)
+>           assert exc.value is sentinel
+E           AssertionError: assert LogicValidationError('t0012-fail') is LogicValidationError('t0012-fail')
+E            +  where LogicValidationError('t0012-fail') = <ExceptionInfo LogicValidationError('t0012-fail') tblen=2>.value
+
+tests/test_motif.py:524: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_sentinel_identity - AssertionError: assert L...
+FAILED tests/test_motif.py::test_delegate_before_O - AssertionError: assert L...
+2 failed, 29 passed in 0.30s

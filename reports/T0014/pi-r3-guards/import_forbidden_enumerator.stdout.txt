@@ -1,0 +1,45 @@
+...............................F                                         [100%]
+=================================== FAILURES ===================================
+_____________________________ test_hard_isolation ______________________________
+
+    def test_hard_isolation():
+        root = Path(__file__).resolve().parents[1]
+        src_dir = str(root / "src")
+        script = _ISOLATION_SCRIPT.replace("@SRC_DIR@", json.dumps(src_dir))
+        env = dict(os.environ)
+        env["PYTHONPATH"] = src_dir
+        env["PYTHONHASHSEED"] = "0"
+        env["CUDA_VISIBLE_DEVICES"] = ""
+        r = subprocess.run([sys.executable, "-c", script],
+                           capture_output=True, text=True, timeout=120, env=env)
+>       assert r.returncode == 0, "exit=%d\n%s\n%s" % (r.returncode, r.stdout, r.stderr)
+E       AssertionError: exit=1
+E         BLOCKED-R:torch
+E         BLOCKED-R:yaml
+E         BLOCKED-R:kmesh.logic.engine
+E         BLOCKED-R:kmesh.logic.reference_engine
+E         BLOCKED-R:kmesh.logic.proof_enumeration
+E         BLOCKED-S:torch.t0014_probe
+E         BLOCKED-S:yaml.t0014_probe
+E         BLOCKED-S:kmesh.logic.engine.t0014_probe
+E         BLOCKED-S:kmesh.logic.reference_engine.t0014_probe
+E         BLOCKED-S:kmesh.logic.proof_enumeration.t0014_probe
+E         
+E         Traceback (most recent call last):
+E           File "<string>", line 58, in <module>
+E             motif.canonical_motif_key(tuple(w1), q1, p1, max_steps=20, max_orientations=100)
+E             ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-guards/pytest-tmp/import_forbidden_enumerator/src/kmesh/logic/motif.py", line 78, in canonical_motif_key
+E             __import__("kmesh.logic.proof_enumeration")
+E             ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "<string>", line 15, in find_spec
+E             raise ModuleNotFoundError(MSG + fullname)
+E         ModuleNotFoundError: t0014-blocked: kmesh.logic.proof_enumeration
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', '\nimport sys, importlib, types, os\nsys.path...c\n    raise ModuleNotFoundError(MSG + fullname)\nModuleNotFoundError: t0014-blocked: kmesh.logic.proof_enumeration\n').returncode
+
+tests/test_motif.py:828: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_hard_isolation - AssertionError: exit=1
+1 failed, 31 passed in 0.37s

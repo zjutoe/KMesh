@@ -1,0 +1,23 @@
+Frozen files unchanged: 2863; scope clean; 9 recorded R3 RUNs
+Product: 23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f
+Tests: cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64
+pi-r3-preflight 0 2026-09-25T02:56:28.592963+00:00 0e1b16f1d617 ['PASS: R2 test baseline, frozen product/planning/history/review, HEAD/branch/scope, in_progress'] 
+pi-r3-guards 0 2026-09-25T03:53:11.983342+00:00 cef7960a676f ['corrupt_long_chain_body: exit=1, guard_valid=True'] 
+pi-r3-extra-guards 0 2026-09-25T03:53:23.949136+00:00 cef7960a676f ['root_only_finder: exit=1, guard_valid=True'] 
+pi-r3-focused 0 2026-09-25T03:54:05.341824+00:00 cef7960a676f ['32 passed in 0.17s'] 
+pi-r3-full 0 2026-09-25T03:54:15.283821+00:00 cef7960a676f ['917 passed in 16.13s'] 
+pi-r3-docs 1 2026-09-25T04:04:48.432311+00:00 cef7960a676f [] <module>
+    assert (path.parent / unquote(u.path)).exists(), (path, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+AssertionError: (PosixPath('/home/mye/src/llm/KMesh/docs/implementation_status.md'), '../handoffs/T0014-proof-motif.md')
+
+pi-r3-docs2 1 2026-09-25T04:06:08.656446+00:00 cef7960a676f [] \n') and all(s == s.rstrip() for s in text.splitlines()), path
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: /home/mye/src/llm/KMesh/reports/T0014/pi-r3/provenance.md
+
+pi-r3-docs3 1 2026-09-25T04:08:31.476119+00:00 cef7960a676f [] le>
+    assert (path.parent / unquote(u.path)).exists(), (path, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+AssertionError: (PosixPath('/home/mye/src/llm/KMesh/reports/T0014/pi-r3/provenance.md'), 'reports/T0014/review-r2/review.md')
+
+pi-r3-docs4 0 2026-09-25T04:09:32.211147+00:00 cef7960a676f ['PASS: frozen product/history/scope; 4 docs/82 links; hygiene, awaiting_review; README COPY and fourteen-file list; 14 prior RUNs indexed'] 

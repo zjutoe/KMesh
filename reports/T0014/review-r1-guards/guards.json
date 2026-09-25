@@ -1,0 +1,125 @@
+{
+  "test_sha256": "c61001cb492cfb84c06fc608c64d950510df671920b85e1014fe6e72829b81f0",
+  "runs": [
+    {
+      "name": "submitted",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/submitted/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/submitted/temp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/submitted",
+      "pythonpath": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/submitted/src",
+      "exit_code": 0,
+      "source_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "guard_valid": true
+    },
+    {
+      "name": "sparse_direction_bits",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/sparse_direction_bits/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/sparse_direction_bits/temp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/sparse_direction_bits",
+      "pythonpath": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/sparse_direction_bits/src",
+      "exit_code": 0,
+      "source_sha256": "15525b65ac38b179c10784e3642a98c22f9fffebaeedd38005fe829634b42a9c",
+      "guard_valid": false
+    },
+    {
+      "name": "rebuild_logic_exception",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/rebuild_logic_exception/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/rebuild_logic_exception/temp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/rebuild_logic_exception",
+      "pythonpath": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/rebuild_logic_exception/src",
+      "exit_code": 0,
+      "source_sha256": "747c90084fc5e083d2db7c28ff7515143cc74173bbe9e6521acae0856171c431",
+      "guard_valid": false
+    },
+    {
+      "name": "consume_generator",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/consume_generator/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/consume_generator/temp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/consume_generator",
+      "pythonpath": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/consume_generator/src",
+      "exit_code": 0,
+      "source_sha256": "3cbed1dc21e2b0a723da08d9cadb5e0c0f1e9ca08054fbb21da296e0c85c80a9",
+      "guard_valid": false
+    },
+    {
+      "name": "mix_symbol_namespaces",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/mix_symbol_namespaces/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/mix_symbol_namespaces/temp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/mix_symbol_namespaces",
+      "pythonpath": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/mix_symbol_namespaces/src",
+      "exit_code": 1,
+      "source_sha256": "b878544af2623ede390f4f438a05eacc8cb9685f059afaf1ff9f0bbdec27af79",
+      "guard_valid": true
+    },
+    {
+      "name": "import_forbidden_enumerator",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/import_forbidden_enumerator/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/import_forbidden_enumerator/temp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/import_forbidden_enumerator",
+      "pythonpath": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/import_forbidden_enumerator/src",
+      "exit_code": 0,
+      "source_sha256": "08f5859bdc1cf4638e0378b0558ab46923d26bec7b98bb9f1b3c08a5022d375d",
+      "guard_valid": false
+    },
+    {
+      "name": "corrupt_long_chain_body",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/corrupt_long_chain_body/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/corrupt_long_chain_body/temp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/corrupt_long_chain_body",
+      "pythonpath": "/home/mye/src/llm/KMesh/reports/T0014/review-r1-guards/pytest-tmp/corrupt_long_chain_body/src",
+      "exit_code": 0,
+      "source_sha256": "8ecfdd4ad74bca6a2dadb141a0a2766f89ff05206fe1488cc7c759546719b6c6",
+      "guard_valid": false
+    }
+  ],
+  "all_guards_valid": false
+}

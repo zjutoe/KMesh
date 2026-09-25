@@ -1,0 +1,49 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________________________ test_hard_isolation ______________________________
+
+    def test_hard_isolation():
+        root = Path(__file__).resolve().parents[1]
+        src_dir = str(root / "src")
+        script = _ISOLATION_SCRIPT.replace("@SRC_DIR@", json.dumps(src_dir))
+        env = dict(os.environ)
+        env["PYTHONPATH"] = src_dir
+        env["PYTHONHASHSEED"] = "0"
+        env["CUDA_VISIBLE_DEVICES"] = ""
+        r = subprocess.run([sys.executable, "-c", script],
+                           capture_output=True, text=True, timeout=120, env=env)
+>       assert r.returncode == 0, "exit=%d\n%s\n%s" % (r.returncode, r.stdout, r.stderr)
+E       AssertionError: exit=1
+E         BLOCKED-R:torch
+E         BLOCKED-R:yaml
+E         BLOCKED-R:kmesh.logic.engine
+E         BLOCKED-R:kmesh.logic.reference_engine
+E         BLOCKED-R:kmesh.logic.proof_enumeration
+E         
+E         Traceback (most recent call last):
+E           File "<string>", line 34, in <module>
+E             importlib.import_module(r + ".t0014_probe")
+E             ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+E           File "/opt/anaconda3/lib/python3.13/importlib/__init__.py", line 88, in import_module
+E             return _bootstrap._gcd_import(name[level:], package, level)
+E                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+E           File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+E           File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+E         ModuleNotFoundError: No module named 'torch.t0014_probe'
+E         
+E         During handling of the above exception, another exception occurred:
+E         
+E         Traceback (most recent call last):
+E           File "<string>", line 38, in <module>
+E             assert str(e) == MSG + r + ".t0014_probe", "sub wrong: " + repr(e)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError: sub wrong: ModuleNotFoundError("No module named 'torch.t0014_probe'")
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', '\nimport sys, importlib, types, os\nsys.path...^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: sub wrong: ModuleNotFoundError("No module named \'torch.t0014_probe\'")\n').returncode
+
+tests/test_motif.py:828: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_hard_isolation - AssertionError: exit=1
+1 failed, 31 deselected in 0.27s

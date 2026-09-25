@@ -1,0 +1,19 @@
+..........F.............................                                 [100%]
+=================================== FAILURES ===================================
+______________________ TestBPurity.test_rename_relations _______________________
+
+self = <test_motif.TestBPurity object at 0x7fd81d020a50>
+
+    def test_rename_relations(self):
+        base = self._join_key()
+        ren = self._join_key(rp="z", rq="a", rr="m")
+>       assert base == ren
+E       AssertionError: assert ('proof_motif...c', 1)), ()))) == ('proof_motif...c', 1)), ())))
+E         
+E         At index 1 diff: (((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 2)), (2, ('v', 2), ('v', 1)))), ((1, 0, 2), (1, ('c', 0), ('c', 2)), ()), ((2, 2, 1), (2, ('c', 2), ('c', 1)), ())) != (((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 2)), (2, ('v', 2), ('v', 1)))), ((1, 2, 2), (1, ('c', 2), ('c', 2)), ()), ((2, 2, 1), (2, ('c', 2), ('c', 1)), ()))
+E         Use -v to get more diff
+
+tests/test_motif.py:285: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::TestBPurity::test_rename_relations - AssertionErr...
+1 failed, 39 passed in 0.29s

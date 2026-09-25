@@ -1,0 +1,61 @@
+...............F.............F..                                         [100%]
+=================================== FAILURES ===================================
+__________________________________ test_m6_ab __________________________________
+
+    def test_m6_ab():
+        w1, q1, p1 = m6_aa()
+        w2, q2, p2 = m6_ab()
+        assert verify_proof(tuple(w1), q1, p1) is True
+        assert verify_proof(tuple(w2), q2, p2) is True
+        k1 = _key(w1, q1, p1)
+        k2 = _key(w2, q2, p2)
+        assert k1 != k2
+        w3 = (fact("z", "a", "b"), fact("a", "b", "c"), fact("z", "a", "d"),
+              fact("a", "d", "c"),
+              rule("m", "?x", "?z", ("z", "?x", "?y"), ("a", "?y", "?z")),
+              rule("n", "?x", "?z", ("m", "?x", "?z"), ("m", "?x", "?z")))
+        q3 = atom("n", "a", "c")
+        p3 = (step(0, (), "z", "a", "b"), step(1, (), "a", "b", "c"),
+              step(4, (0, 1), "m", "a", "c"), step(2, (), "z", "a", "d"),
+              step(3, (), "a", "d", "c"), step(4, (3, 4), "m", "a", "c"),
+              step(5, (2, 5), "n", "a", "c"))
+        assert verify_proof(tuple(w3), q3, p3) is True
+>       assert _key(w3, q3, p3) == k2
+E       AssertionError: assert ('proof_motif...)), ()), ...)) == ('proof_motif...)), ()), ...))
+E         
+E         At index 1 diff: (((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 1)), (1, ('v', 0), ('v', 1)))), ((1, 0, 1), (1, ('v', 0), ('v', 1)), ((2, ('v', 0), ('v', 2)), (3, ('v', 2), ('v', 1)))), ((2, 0, 2), (2, ('c', 0), ('c', 2)), ()), ((3, 2, 1), (3, ('c', 2), ('c', 1)), ()), ((1, 0, 1), (1, ('v', 0), ('v', 1)), ((3, ('v', 2), ('v', 1)), (2, ('v', 0), ('v', 2)))), ((3, 3, 1), (3, ('c', 3), ('c', 1)), ()), ((2, 0, 3), (2, ('c', 0), ('c', 3)), ())) != (((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 1)), (1, ('v', 0), ('v', 1)))), ((1, 0, 1), (1, ('v', 0), ...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_motif.py:497: AssertionError
+____________________________ test_budget_boundaries ____________________________
+
+    def test_budget_boundaries():
+        wj, qj, pj = join_proof()
+        wf, qf, pf = fact_proof("p", "a", "b")
+        wn, qn, pn = m9()
+        m6s = (m6_aa(), m6_ab())
+        assert _key(wf, qf, pf, max_steps=10, max_orientations=1) == _key(wf, qf, pf)
+        assert _key(wj, qj, pj, max_steps=10, max_orientations=2) == _key(wj, qj, pj)
+        # M9 (B=1, 2^1=2): 2 succeeds, 1 fails
+        assert _key(wn, qn, pn, max_steps=10, max_orientations=2) == _key(wn, qn, pn)
+        with pytest.raises(motif.MotifLimitError) as exc:
+            motif.canonical_motif_key(wn, qn, pn, max_steps=10, max_orientations=1)
+        assert type(exc.value) is motif.MotifLimitError
+        assert str(exc.value) == "motif.max_orientations insufficient for complete canonicalization"
+        with pytest.raises(motif.MotifLimitError) as exc:
+            motif.canonical_motif_key(wj, qj, pj, max_steps=10, max_orientations=1)
+        assert type(exc.value) is motif.MotifLimitError
+        assert str(exc.value) == "motif.max_orientations insufficient for complete canonicalization"
+        # M6 AA/AB (B=3, 2^3=8): 8 succeeds, 7 fails, both variants
+        for wm, qm, pm in m6s:
+            assert _key(wm, qm, pm, max_steps=10, max_orientations=8) == _key(wm, qm, pm)
+>           with pytest.raises(motif.MotifLimitError) as exc:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE <class 'kmesh.logic.motif.MotifLimitError'>
+
+tests/test_motif.py:705: Failed
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_m6_ab - AssertionError: assert ('proof_motif...
+FAILED tests/test_motif.py::test_budget_boundaries - Failed: DID NOT RAISE <c...
+2 failed, 30 passed in 0.39s

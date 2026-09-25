@@ -1,0 +1,1 @@
+PASS: five actual root + submodule ImportError guards; guard stayed active through exact-source import, fact, JOIN and final sys.modules scan

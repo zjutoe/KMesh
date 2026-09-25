@@ -1,0 +1,17 @@
+...................F............                                         [100%]
+=================================== FAILURES ===================================
+_________________________ test_m9_shared_refs_rejected _________________________
+
+    def test_m9_shared_refs_rejected():
+        w = (fact("p", "a", "b"), rule("q", "?x", "?y", ("p", "?x", "?y"), ("p", "?x", "?y")))
+        p = (step(0, (), "p", "a", "b"), step(1, (0, 0), "q", "a", "b"))
+        q = atom("q", "a", "b")
+        assert verify_proof(tuple(w), q, p) is True
+>       with pytest.raises(LogicValidationError) as exc:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'kmesh.logic.types.LogicValidationError'>
+
+tests/test_motif.py:529: Failed
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_m9_shared_refs_rejected - Failed: DID NOT RA...
+1 failed, 31 passed in 0.36s

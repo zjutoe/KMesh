@@ -1,0 +1,24 @@
+.......................F........                                         [100%]
+=================================== FAILURES ===================================
+____________________________ test_delegate_before_O ____________________________
+
+    def test_delegate_before_O():
+        w, q, p = fact_proof("p", "a", "b")
+        calls = []
+        orig = motif.canonical_proof_key
+        sentinel = ProofLimitError("t0012-limit-sentinel")
+        def raiser(*a, **kw):
+            calls.append((a, kw))
+            raise sentinel
+        motif.canonical_proof_key = raiser
+        try:
+            with pytest.raises(ProofLimitError) as exc:
+                motif.canonical_motif_key(w, q, p, max_steps=100, max_orientations=-1)
+>           assert exc.value is sentinel
+E           AssertionError: assert ProofLimitError('t0012-limit-sentinel') is ProofLimitError('t0012-limit-sentinel')
+E            +  where ProofLimitError('t0012-limit-sentinel') = <ExceptionInfo ProofLimitError('t0012-limit-sentinel') tblen=2>.value
+
+tests/test_motif.py:605: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_delegate_before_O - AssertionError: assert P...
+1 failed, 31 passed in 0.36s

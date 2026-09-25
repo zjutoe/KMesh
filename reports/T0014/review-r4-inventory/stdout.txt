@@ -1,0 +1,14 @@
+Frozen files unchanged: 2981; scope clean; 6 recorded R4 RUNs
+Product: 23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f
+Tests: 3c448a396203c3ff32a7febaeb494cec6e565b1ec600e5c70732a61adbb7f722
+pi-r4-preflight 0 2026-09-25T04:42:52.045661+00:00 cef7960a676f ['PASS: R3 test baseline, frozen product/planning/history/review, HEAD/branch/scope, in_progress'] 
+pi-r4-dev1 0 2026-09-25T04:57:17.605604+00:00 3c448a396203 ['32 passed in 0.32s'] 
+pi-r4-focused 0 2026-09-25T04:57:22.663427+00:00 3c448a396203 ['32 passed in 0.17s'] 
+pi-r4-guards 0 2026-09-25T04:57:26.561057+00:00 3c448a396203 ['header_tuple_subclass: exit=1, guard_valid=True'] 
+pi-r4-docs 1 2026-09-25T05:00:40.226926+00:00 3c448a396203 [] n <module>
+    assert 'awaiting_review' in next(s for s in status.splitlines() if s.startswith('| 单棵证明跨世界 motif 键 |'))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+pi-r4-docs2 0 2026-09-25T05:01:28.945635+00:00 3c448a396203 ['PASS: frozen product/history/scope; 4 docs/87 links; hygiene, awaiting_review; README COPY and fourteen-file list; 20 prior RUNs indexed'] 
+Only four authorized test functions changed; all other top-level AST unchanged.

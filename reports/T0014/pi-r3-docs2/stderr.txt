@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/mye/src/llm/KMesh/reports/T0014/check_rework_r3.py", line 69, in <module>
+    assert text.endswith('\n') and not text.endswith('\n\n') and all(s == s.rstrip() for s in text.splitlines()), path
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: /home/mye/src/llm/KMesh/reports/T0014/pi-r3/provenance.md

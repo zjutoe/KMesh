@@ -1,0 +1,71 @@
+.........................F......                                         [100%]
+=================================== FAILURES ===================================
+____________________________ test_all_budget_errors ____________________________
+
+    def test_all_budget_errors():
+        import sys
+        w, q, p = fact_proof("p", "a", "b")
+        g = getattr(sys, "get_int_max_str_digits", None)
+        s = getattr(sys, "set_int_max_str_digits", None)
+        assert g is not None and s is not None, "int str digits control required"
+        old = g()
+        s(4300)
+        try:
+            assert g() == 4300
+            # illegal O: precise class and full text
+            for bad, tname in ((None, "NoneType"), (True, "bool"), (False, "bool"),
+                                (0, "int"), (-1, "int"), (1.5, "float"),
+                                ("10", "str"), (10.0, "float")):
+                with pytest.raises(LogicValidationError) as exc:
+                    motif.canonical_motif_key(w, q, p, max_steps=10, max_orientations=bad)
+                assert type(exc.value) is LogicValidationError
+                assert str(exc.value) == "motif.max_orientations must be a non-bool positive integer; got " + tname
+            # +ve giant budgets (fact, B=0): full key equals fact literal; tests int str-digits path
+>           assert motif.canonical_motif_key(w, q, p, max_steps=10, max_orientations=10**4300) == FACT_KEY
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_motif.py:646: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clauses = (Clause(body=(), head=Atom(pred='p', args=('a', 'b'))),)
+query = Atom(pred='p', args=('a', 'b'))
+proof = (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'b'))),)
+
+    def canonical_motif_key(
+        clauses: tuple,
+        query: object,
+        proof: tuple,
+        *,
+        max_steps: int = 10_000,
+        max_orientations: int = 100_000,
+    ) -> tuple:
+        """Return the complete bounded reference motif key of ``proof``.
+    
+        First business operation: exactly one call to T0012 ``canonical_proof_key``
+        with the original ``clauses`` / ``query`` / ``proof`` and the original
+        ``max_steps``.  Its ``LogicValidationError`` / ``ProofLimitError``
+        instances propagate unchanged (no re-verification, no pre-scan, no
+        copy/conversion of this layer's inputs).  After a successful key, validate
+        ``max_orientations``; an invalid value raises a ``LogicValidationError``.
+        Then enumerate every orientation candidate (2**B for B two-slot nodes),
+        re-encode each with whole-tree relation/entity tables and per-node local
+        variable tables, and return the lexicographically minimum full key.
+        """
+        key, stream = canonical_proof_key(
+            clauses, query, proof, max_steps=max_steps
+        )
+        n = len(stream)
+        if n == 0:
+            raise LogicValidationError("motif.proof must be a non-empty proof")
+        if key != "proof_key_v1":
+            raise LogicValidationError("motif.internal_key_mismatch")
+    
+        orientations = max_orientations
+        if type(orientations) is int:
+>           str(orientations)
+E           ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+src/kmesh/logic/motif.py:86: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_all_budget_errors - ValueError: Exceeds the ...
+1 failed, 31 passed in 0.37s

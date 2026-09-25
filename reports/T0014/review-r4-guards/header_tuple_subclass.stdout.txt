@@ -1,0 +1,21 @@
+...F............................                                         [100%]
+=================================== FAILURES ===================================
+___________________________ test_key_container_types ___________________________
+
+    def test_key_container_types():
+        anchors = (fact_proof("p", "a", "b"), copy_proof("p", "q", "a", "b"), join_proof())
+        keys = [motif.canonical_motif_key(*a) for a in anchors]
+        assert all(type(k) is tuple and len(k) == 2 for k in keys)
+        assert all(type(k[0]) is str and k[0] == "proof_motif_v1" for k in keys)
+        for k in keys:
+            stream = k[1]
+            assert type(stream) is tuple
+            for node in stream:
+>               assert type(node) is tuple and len(node) == 3
+E               AssertionError: assert (<class 'kmesh.logic.motif.canonical_motif_key.<locals>.candidate.<locals>.Header'> is tuple)
+E                +  where <class 'kmesh.logic.motif.canonical_motif_key.<locals>.candidate.<locals>.Header'> = type(((0, 0, 1), (0, ('c', 0), ('c', 1)), ()))
+
+tests/test_motif.py:276: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_key_container_types - AssertionError: assert...
+1 failed, 31 passed in 0.39s

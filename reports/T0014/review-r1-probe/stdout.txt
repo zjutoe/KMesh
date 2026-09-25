@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "scope": "bounded independent contract probes; no claim of exhaustive correctness",
+  "checks": [
+    "three frozen spec literals exactly match; no claimed spec typo",
+    "actual p(p,a) namespace collision",
+    "M6 full shared entities and dense bits after lexical reversal",
+    "JOIN and both M5 trees true joint flips",
+    "M7 actual p-q-p versus p-q-r",
+    "three complete before/after input snapshots and interleaved calls",
+    "original exception identity and delegate-before-O priority",
+    "true outer generator never consumed",
+    "exact orientation boundaries and pinned giant integer diagnostics",
+    "all 1201 long-chain headers including full body atoms, hash and ordering",
+    "README COPY runs unchanged"
+  ]
+}

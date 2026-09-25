@@ -1,0 +1,5 @@
+submitted: exit=0, guard_valid=True
+format_unvalidated_integer: exit=1, guard_valid=True
+logic_error_loses_to_invalid_O: exit=1, guard_valid=True
+underbudget_distinct_twins: exit=1, guard_valid=True
+header_tuple_subclass: exit=1, guard_valid=True

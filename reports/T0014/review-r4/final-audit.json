@@ -1,0 +1,57 @@
+{
+  "task_status": "accepted",
+  "result": "PASS",
+  "head": "0e407ed9b3f270143f8587a301fa34fabf465b6b",
+  "accepted_files_sha256": {
+    "src/kmesh/logic/motif.py": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+    "tests/test_motif.py": "3c448a396203c3ff32a7febaeb494cec6e565b1ec600e5c70732a61adbb7f722",
+    "README.md": "f487272abdc23a3412647496cb981a5be838ebb82de6f9cf5224654a10e34508",
+    "docs/implementation_status.md": "6689d9670aa64585dbdf5cf070a69a24483f81b68dd732dcc168a63887d4d9e4",
+    "docs/handoffs/T0014-proof-motif.md": "50293e19b8f18c3bcb289bf61acb9c11474c7cf45c90c139ca860568e846fd5e",
+    "reports/T0014/review-r4/review.md": "82652e45c4d0a9784b35c79383be292b32f43ac101df0004543ff37ab9309fba"
+  },
+  "independent_focused": 32,
+  "independent_mutants_rejected": 4,
+  "prior_mutants_rejected_carried_forward": 10,
+  "independent_full_this_round": "not_run",
+  "verified_prior_pi_full": 917,
+  "prior_independent_full": 925,
+  "full_version_note": "Full results belong to their recorded earlier test versions; current product unchanged, four functions reverified.",
+  "frozen_files_unchanged": 2981,
+  "recorded_pi_r4_runs": 6,
+  "criteria": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A5": "PASS",
+    "A6": "PASS",
+    "A7": "PASS"
+  },
+  "remaining_substantive_findings": [],
+  "limitations": [
+    "Historical evidence gaps retained; R4 wording and handoff omission corrected by Codex with links to originals.",
+    "Model/provider identity is self-report, not independently verified.",
+    "Bounded exponential single-tree motif reference; no substructure, world audit, split or LLM experiment conclusion."
+  ],
+  "checks": {
+    "review-r4-inventory": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T05:06:52.243532+00:00",
+      "elapsed_s": 0.502
+    },
+    "review-r4-focused": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T05:07:03.508632+00:00",
+      "elapsed_s": 0.417
+    },
+    "review-r4-guards": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T05:07:03.528027+00:00",
+      "elapsed_s": 3.213
+    }
+  },
+  "code_and_tests_unchanged_by_reviewer": true,
+  "committed": false,
+  "pushed": false
+}

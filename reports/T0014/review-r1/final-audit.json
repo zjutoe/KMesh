@@ -1,0 +1,50 @@
+{
+  "task_status": "needs_changes",
+  "result": "NEEDS_CHANGES",
+  "reviewed_source_sha256": {
+    "src/kmesh/logic/motif.py": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+    "tests/test_motif.py": "c61001cb492cfb84c06fc608c64d950510df671920b85e1014fe6e72829b81f0"
+  },
+  "independent_full": 925,
+  "submitted_focused": 40,
+  "mutants_rejected": 1,
+  "mutants_survived": 5,
+  "product_findings": "No functional defect observed in bounded independent probes; not exhaustive correctness",
+  "rework": [
+    "R1 hard isolation",
+    "R2 identity and purity",
+    "R3 delegation diagnostics and complete long chain",
+    "R4 record/README corrections"
+  ],
+  "historical_inputs_unchanged": 2717,
+  "checks": {
+    "review-r1-inventory": {
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:59:30.721107+00:00",
+      "elapsed_s": 0.392
+    },
+    "review-r1-full": {
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:59:31.455089+00:00",
+      "elapsed_s": 16.45
+    },
+    "review-r1-guards": {
+      "exit_code": 0,
+      "started_at": "2026-09-24T15:01:07.366977+00:00",
+      "elapsed_s": 3.741
+    },
+    "review-r1-probe": {
+      "exit_code": 0,
+      "started_at": "2026-09-24T15:03:22.495325+00:00",
+      "elapsed_s": 0.167
+    },
+    "review-r1-isolation": {
+      "exit_code": 0,
+      "started_at": "2026-09-24T15:04:32.109295+00:00",
+      "elapsed_s": 0.066
+    }
+  },
+  "unchanged_product_and_tests": true,
+  "committed": false,
+  "pushed": false
+}

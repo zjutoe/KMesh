@@ -1,0 +1,231 @@
+{
+  "head": "0e407ed9b3f270143f8587a301fa34fabf465b6b",
+  "frozen_file_count": 2776,
+  "changed_frozen": [],
+  "out_of_R2_scope": [
+    "reports/T0014/guard-r2/consume_generator.source.py",
+    "reports/T0014/guard-r2/consume_generator.stderr.txt",
+    "reports/T0014/guard-r2/consume_generator.stdout.txt",
+    "reports/T0014/guard-r2/corrupt_long_chain_body.source.py",
+    "reports/T0014/guard-r2/corrupt_long_chain_body.stderr.txt",
+    "reports/T0014/guard-r2/corrupt_long_chain_body.stdout.txt",
+    "reports/T0014/guard-r2/guards.json",
+    "reports/T0014/guard-r2/import_forbidden_enumerator.source.py",
+    "reports/T0014/guard-r2/import_forbidden_enumerator.stderr.txt",
+    "reports/T0014/guard-r2/import_forbidden_enumerator.stdout.txt",
+    "reports/T0014/guard-r2/mix_symbol_namespaces.source.py",
+    "reports/T0014/guard-r2/mix_symbol_namespaces.stderr.txt",
+    "reports/T0014/guard-r2/mix_symbol_namespaces.stdout.txt",
+    "reports/T0014/guard-r2/rebuild_logic_exception.source.py",
+    "reports/T0014/guard-r2/rebuild_logic_exception.stderr.txt",
+    "reports/T0014/guard-r2/rebuild_logic_exception.stdout.txt",
+    "reports/T0014/guard-r2/sparse_direction_bits.source.py",
+    "reports/T0014/guard-r2/sparse_direction_bits.stderr.txt",
+    "reports/T0014/guard-r2/sparse_direction_bits.stdout.txt",
+    "reports/T0014/guard-r2/submitted.source.py",
+    "reports/T0014/guard-r2/submitted.stderr.txt",
+    "reports/T0014/guard-r2/submitted.stdout.txt",
+    "reports/T0014/guard-r3/consume_generator.source.py",
+    "reports/T0014/guard-r3/consume_generator.stderr.txt",
+    "reports/T0014/guard-r3/consume_generator.stdout.txt",
+    "reports/T0014/guard-r3/corrupt_long_chain_body.source.py",
+    "reports/T0014/guard-r3/corrupt_long_chain_body.stderr.txt",
+    "reports/T0014/guard-r3/corrupt_long_chain_body.stdout.txt",
+    "reports/T0014/guard-r3/guards.json",
+    "reports/T0014/guard-r3/import_forbidden_enumerator.source.py",
+    "reports/T0014/guard-r3/import_forbidden_enumerator.stderr.txt",
+    "reports/T0014/guard-r3/import_forbidden_enumerator.stdout.txt",
+    "reports/T0014/guard-r3/mix_symbol_namespaces.source.py",
+    "reports/T0014/guard-r3/mix_symbol_namespaces.stderr.txt",
+    "reports/T0014/guard-r3/mix_symbol_namespaces.stdout.txt",
+    "reports/T0014/guard-r3/rebuild_logic_exception.source.py",
+    "reports/T0014/guard-r3/rebuild_logic_exception.stderr.txt",
+    "reports/T0014/guard-r3/rebuild_logic_exception.stdout.txt",
+    "reports/T0014/guard-r3/sparse_direction_bits.source.py",
+    "reports/T0014/guard-r3/sparse_direction_bits.stderr.txt",
+    "reports/T0014/guard-r3/sparse_direction_bits.stdout.txt",
+    "reports/T0014/guard-r3/submitted.source.py",
+    "reports/T0014/guard-r3/submitted.stderr.txt",
+    "reports/T0014/guard-r3/submitted.stdout.txt"
+  ],
+  "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+  "test_sha256": "0e1b16f1d617a77168337be2968d6bb25708c2cf59facd1fb0baa582a32af12a",
+  "pi_r2_recorded_runs": [],
+  "pi_r2_provenance": [],
+  "pi_r2_dirs": [
+    {
+      "name": "pi-r2-docs",
+      "files": []
+    }
+  ],
+  "guard_artifacts": [
+    {
+      "folder": "guard-r2",
+      "recorder_present": false,
+      "test_sha256": "f7308b518bf6f74405dbb13b53c0663acc6ab88842ceab0f8815e0cabb7d4a18",
+      "all_guards_valid": false,
+      "outcomes": [
+        {
+          "name": "submitted",
+          "exit_code": 0,
+          "stdout_tail": [
+            "...............................                                          [100%]",
+            "31 passed in 0.25s"
+          ]
+        },
+        {
+          "name": "sparse_direction_bits",
+          "exit_code": 1,
+          "stdout_tail": [
+            "E         ...Full output truncated (2 lines hidden), use '-vv' to show",
+            "",
+            "tests/test_motif.py:426: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_m6_ab - AssertionError: assert ('proof_motif...",
+            "1 failed, 30 passed in 0.28s"
+          ]
+        },
+        {
+          "name": "rebuild_logic_exception",
+          "exit_code": 1,
+          "stdout_tail": [
+            "",
+            "tests/test_motif.py:524: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_sentinel_identity - AssertionError: assert L...",
+            "FAILED tests/test_motif.py::test_delegate_before_O - AssertionError: assert L...",
+            "2 failed, 29 passed in 0.29s"
+          ]
+        },
+        {
+          "name": "consume_generator",
+          "exit_code": 0,
+          "stdout_tail": [
+            "...............................                                          [100%]",
+            "31 passed in 0.26s"
+          ]
+        },
+        {
+          "name": "mix_symbol_namespaces",
+          "exit_code": 1,
+          "stdout_tail": [
+            "",
+            "tests/test_motif.py:426: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_namespace_collide - AssertionError: assert (...",
+            "FAILED tests/test_motif.py::test_m6_ab - AssertionError: assert ('proof_motif...",
+            "2 failed, 29 passed in 0.30s"
+          ]
+        },
+        {
+          "name": "import_forbidden_enumerator",
+          "exit_code": 0,
+          "stdout_tail": [
+            "...............................                                          [100%]",
+            "31 passed in 0.26s"
+          ]
+        },
+        {
+          "name": "corrupt_long_chain_body",
+          "exit_code": 1,
+          "stdout_tail": [
+            "E             Use -v to get more diff",
+            "",
+            "tests/test_motif.py:598: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_long_chain - AssertionError: assert ((9999, ...",
+            "1 failed, 30 passed in 0.28s"
+          ]
+        }
+      ]
+    },
+    {
+      "folder": "guard-r3",
+      "recorder_present": false,
+      "test_sha256": "0e1b16f1d617a77168337be2968d6bb25708c2cf59facd1fb0baa582a32af12a",
+      "all_guards_valid": true,
+      "outcomes": [
+        {
+          "name": "submitted",
+          "exit_code": 0,
+          "stdout_tail": [
+            "...............................                                          [100%]",
+            "31 passed in 0.26s"
+          ]
+        },
+        {
+          "name": "sparse_direction_bits",
+          "exit_code": 1,
+          "stdout_tail": [
+            "E         ...Full output truncated (2 lines hidden), use '-vv' to show",
+            "",
+            "tests/test_motif.py:426: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_m6_ab - AssertionError: assert ('proof_motif...",
+            "1 failed, 30 passed in 0.29s"
+          ]
+        },
+        {
+          "name": "rebuild_logic_exception",
+          "exit_code": 1,
+          "stdout_tail": [
+            "",
+            "tests/test_motif.py:524: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_sentinel_identity - AssertionError: assert L...",
+            "FAILED tests/test_motif.py::test_delegate_before_O - AssertionError: assert L...",
+            "2 failed, 29 passed in 0.30s"
+          ]
+        },
+        {
+          "name": "consume_generator",
+          "exit_code": 1,
+          "stdout_tail": [
+            "E        +  where [] = list(<generator object test_generator_consumed.<locals>.gen at 0x7f44ab6f4580>)",
+            "",
+            "tests/test_motif.py:559: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_generator_consumed - assert [] != []",
+            "1 failed, 30 passed in 0.29s"
+          ]
+        },
+        {
+          "name": "mix_symbol_namespaces",
+          "exit_code": 1,
+          "stdout_tail": [
+            "",
+            "tests/test_motif.py:426: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_namespace_collide - AssertionError: assert (...",
+            "FAILED tests/test_motif.py::test_m6_ab - AssertionError: assert ('proof_motif...",
+            "2 failed, 29 passed in 0.30s"
+          ]
+        },
+        {
+          "name": "import_forbidden_enumerator",
+          "exit_code": 1,
+          "stdout_tail": [
+            "E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-c', '\\nimport sys, importlib, json\\nsys.path.inse...llname)\\nModuleNotFoundError: (\\'t0014-blocked: kmesh.logic.proof_enumeration\\', \\'kmesh.logic.proof_enumeration\\')\\n').returncode",
+            "",
+            "tests/test_motif.py:688: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_hard_isolation - AssertionError: exit=1",
+            "1 failed, 30 passed in 0.30s"
+          ]
+        },
+        {
+          "name": "corrupt_long_chain_body",
+          "exit_code": 1,
+          "stdout_tail": [
+            "E             Use -v to get more diff",
+            "",
+            "tests/test_motif.py:600: AssertionError",
+            "=========================== short test summary info ============================",
+            "FAILED tests/test_motif.py::test_long_chain - AssertionError: assert ((9999, ...",
+            "1 failed, 30 passed in 0.28s"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -346,10 +346,48 @@ print(count_canonical_proofs(world, query,
 ```bash
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_proof_count.py tests/test_proof_key.py tests/test_clause_key.py tests/test_depth.py tests/test_proof_enumeration.py tests/test_derivations.py tests/test_dependency.py tests/test_proof.py tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
 ```
+## 证明结构签名（T0014）：单棵证明跨世界 motif 键
 
-当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 的单查询原始有序证明树枚举已验收（`accepted`，第 2 轮关闭 R1–R3，执行限制保留）；T0010 的单查询最短证明深度已验收（`accepted`，第 3 轮关闭 R1–R4，历史留证限制保留）；T0011 的单条 clause 规范内容键已验收（`accepted`，第 2 轮关闭 R1–R4，独立 63 项及五个违约守卫通过）；T0012 的单棵证明规范键已验收（`accepted`，Codex R5 独立 69 项及 13 个违约守卫通过，三组输入纯度以独立探针补证，流程偏差与历史限制保留）；T0013 的单查询规范证明计数已验收（`accepted`，Codex 第 3 轮独立 21 项、前缀守卫及运行期硬隔离通过，历史记录限制保留）；正式数据唯一性准入、motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+`kmesh.logic.motif` 提供单棵证明的有界参考 motif 键。对同一棵出现树的多份等价世界（关系／实体／局部变量改名），`canonical_motif_key(clauses, query, proof, *, max_steps=10_000, max_orientations=100_000)` 返回完整平坦 `proof_motif_v1` 前序键，只记录树形、参数位置、schema 常量／变量、重复槽位与跨子树共享，不记录具体关系／实体名。结构等价的不同支持可能具有同一 motif，但**不是**唯一性判据：两条同世界不同支持仍可同 motif（仍依赖 T0013 计数／唯一性审计）；跨世界 motif 仅用于离线审计，不进入模型输入白名单，也不表示 world 无泄漏、内部子结构匹配或 split 完成。
 
-截至 2026-09-16，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
+预算：`max_steps` 原样透传给 T0012（默认 10_000）；`max_orientations` 限制联合方向候选数（默认 100_000）。B 个二槽发生要求恰 2^B 候选（重复也计）；超限在编码前预检并抛 `MotifLimitError`，禁止部分键、剪枝或近似。本阶段为指数有界参考算法，预算不是固定墙钟保证；后续如优化须另验完整性。
+
+当前状态为 **`accepted`**（2026-09-25，Codex 第4轮复验）。独立32项通过，四个违约副本均被对应断言拒绝；产品冻结，四函数修补及2981项旧材料未变已核验。本轮未重跑full，沿用已核对的Pi917项回归；历史留证和模型来源限制保留，记录误述由Codex追加更正。见 [最终验收报告](reports/T0014/review-r4/review.md)与 [交接文档](docs/handoffs/T0014-proof-motif.md)。
+
+最小可运行例（单事实 ＋ COPY 得 `q(a,b)`）：
+
+```python
+from kmesh.logic.motif import canonical_motif_key
+from kmesh.logic.types import Atom, Clause
+from kmesh.logic.proof import ProofStep
+
+clauses = (
+    Clause((), Atom("p", ("a", "b"))),
+    Clause((Atom("p", ("?x", "?y")),), Atom("q", ("?x", "?y"))),
+)
+query = Atom("q", ("a", "b"))
+proof = (
+    ProofStep(0, (), Atom("p", ("a", "b"))),
+    ProofStep(1, (0,), Atom("q", ("a", "b"))),
+)
+k = canonical_motif_key(clauses, query, proof)
+print(k)
+assert k == ("proof_motif_v1", (
+    ((0, 0, 1), (0, ("v", 0), ("v", 1)), ((1, ("v", 0), ("v", 1)),)),
+    ((1, 0, 1), (1, ("c", 0), ("c", 1)), ()),
+))
+print("COPY motif key matches contract literal")
+```
+
+运行测试（T0014 及既有回归，十四文件）：
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_motif.py tests/test_proof_count.py tests/test_proof_key.py tests/test_clause_key.py tests/test_depth.py tests/test_proof_enumeration.py tests/test_derivations.py tests/test_dependency.py tests/test_proof.py tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
+```
+
+当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 的单查询原始有序证明树枚举已验收（`accepted`，第 2 轮关闭 R1–R3，执行限制保留）；T0010 的单查询最短证明深度已验收（`accepted`，第 3 轮关闭 R1–R4，历史留证限制保留）；T0011 的单条 clause 规范内容键已验收（`accepted`，第 2 轮关闭 R1–R4，独立 63 项及五个违约守卫通过）；T0012 的单棵证明规范键已验收（`accepted`，Codex R5 独立 69 项及 13 个违约守卫通过，三组输入纯度以独立探针补证，流程偏差与历史限制保留）；T0013 的单查询规范证明计数已验收（`accepted`，Codex 第 3 轮独立 21 项、前缀守卫及运行期硬隔离通过，历史记录限制保留）；T0014 的单棵证明跨世界 motif 键已通过 Codex 第4轮验收（`accepted`，独立32项及四个违约守卫通过，执行限制保留）；正式数据唯一性准入、world motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+
+截至 2026-09-24，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。T0014 单树 motif 键已通过 Codex 第4轮验收（`accepted`，2026-09-25），具体证据与执行限制见上文。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
 

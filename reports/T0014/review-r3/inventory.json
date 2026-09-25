@@ -1,0 +1,209 @@
+{
+  "head": "0e407ed9b3f270143f8587a301fa34fabf465b6b",
+  "frozen_files": 2863,
+  "changed_frozen": [],
+  "outside_scope": [],
+  "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+  "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+  "runs": [
+    {
+      "run": "pi-r3-preflight",
+      "exit_code": 0,
+      "started_at": "2026-09-25T02:56:28.592963+00:00",
+      "finished_at": "2026-09-25T02:56:28.906331+00:00",
+      "elapsed_s": 0.292,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r3.py",
+        "preflight",
+        "reports/T0014/pi-r3-preflight"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "0e1b16f1d617a77168337be2968d6bb25708c2cf59facd1fb0baa582a32af12a",
+      "stdout_tail": [
+        "PASS: R2 test baseline, frozen product/planning/history/review, HEAD/branch/scope, in_progress"
+      ],
+      "stderr": ""
+    },
+    {
+      "run": "pi-r3-guards",
+      "exit_code": 0,
+      "started_at": "2026-09-25T03:53:11.983342+00:00",
+      "finished_at": "2026-09-25T03:53:16.388575+00:00",
+      "elapsed_s": 4.383,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/review_r1_guards.py",
+        "reports/T0014/pi-r3-guards",
+        "--enforce"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+      "stdout_tail": [
+        "rebuild_logic_exception: exit=1, guard_valid=True",
+        "consume_generator: exit=1, guard_valid=True",
+        "mix_symbol_namespaces: exit=1, guard_valid=True",
+        "import_forbidden_enumerator: exit=1, guard_valid=True",
+        "corrupt_long_chain_body: exit=1, guard_valid=True"
+      ],
+      "stderr": ""
+    },
+    {
+      "run": "pi-r3-extra-guards",
+      "exit_code": 0,
+      "started_at": "2026-09-25T03:53:23.949136+00:00",
+      "finished_at": "2026-09-25T03:53:27.016903+00:00",
+      "elapsed_s": 3.046,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/review_r2_guards.py",
+        "reports/T0014/pi-r3-extra-guards",
+        "--enforce"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+      "stdout_tail": [
+        "submitted: exit=0, guard_valid=True",
+        "diagnostic_suffix: exit=1, guard_valid=True",
+        "rebuild_limit_exception: exit=1, guard_valid=True",
+        "accept_shared_tree: exit=1, guard_valid=True",
+        "root_only_finder: exit=1, guard_valid=True"
+      ],
+      "stderr": ""
+    },
+    {
+      "run": "pi-r3-focused",
+      "exit_code": 0,
+      "started_at": "2026-09-25T03:54:05.341824+00:00",
+      "finished_at": "2026-09-25T03:54:05.780892+00:00",
+      "elapsed_s": 0.418,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "--basetemp",
+        "reports/T0014/pi-r3-focused/pytest-tmp"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+      "stdout_tail": [
+        "................................                                         [100%]",
+        "32 passed in 0.17s"
+      ],
+      "stderr": ""
+    },
+    {
+      "run": "pi-r3-full",
+      "exit_code": 0,
+      "started_at": "2026-09-25T03:54:15.283821+00:00",
+      "finished_at": "2026-09-25T03:54:31.729000+00:00",
+      "elapsed_s": 16.424,
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "tests/test_proof_count.py",
+        "tests/test_proof_key.py",
+        "tests/test_clause_key.py",
+        "tests/test_depth.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0014/pi-r3-full/pytest-tmp"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+      "stdout_tail": [
+        "........................................................................ [ 78%]",
+        "........................................................................ [ 86%]",
+        "........................................................................ [ 94%]",
+        ".....................................................                    [100%]",
+        "917 passed in 16.13s"
+      ],
+      "stderr": ""
+    },
+    {
+      "run": "pi-r3-docs",
+      "exit_code": 1,
+      "started_at": "2026-09-25T04:04:48.432311+00:00",
+      "finished_at": "2026-09-25T04:04:48.754740+00:00",
+      "elapsed_s": 0.301,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r3.py",
+        "docs",
+        "reports/T0014/pi-r3-docs"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+      "stdout_tail": [],
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0014/check_rework_r3.py\", line 74, in <module>\n    assert (path.parent / unquote(u.path)).exists(), (path, target)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\nAssertionError: (PosixPath('/home/mye/src/llm/KMesh/docs/implementation_status.md'), '../handoffs/T0014-proof-motif.md')\n"
+    },
+    {
+      "run": "pi-r3-docs2",
+      "exit_code": 1,
+      "started_at": "2026-09-25T04:06:08.656446+00:00",
+      "finished_at": "2026-09-25T04:06:08.980276+00:00",
+      "elapsed_s": 0.303,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r3.py",
+        "docs",
+        "reports/T0014/pi-r3-docs2"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+      "stdout_tail": [],
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0014/check_rework_r3.py\", line 69, in <module>\n    assert text.endswith('\\n') and not text.endswith('\\n\\n') and all(s == s.rstrip() for s in text.splitlines()), path\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: /home/mye/src/llm/KMesh/reports/T0014/pi-r3/provenance.md\n"
+    },
+    {
+      "run": "pi-r3-docs3",
+      "exit_code": 1,
+      "started_at": "2026-09-25T04:08:31.476119+00:00",
+      "finished_at": "2026-09-25T04:08:31.809073+00:00",
+      "elapsed_s": 0.311,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r3.py",
+        "docs",
+        "reports/T0014/pi-r3-docs3"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+      "stdout_tail": [],
+      "stderr": "Traceback (most recent call last):\n  File \"/home/mye/src/llm/KMesh/reports/T0014/check_rework_r3.py\", line 74, in <module>\n    assert (path.parent / unquote(u.path)).exists(), (path, target)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\nAssertionError: (PosixPath('/home/mye/src/llm/KMesh/reports/T0014/pi-r3/provenance.md'), 'reports/T0014/review-r2/review.md')\n"
+    },
+    {
+      "run": "pi-r3-docs4",
+      "exit_code": 0,
+      "started_at": "2026-09-25T04:09:32.211147+00:00",
+      "finished_at": "2026-09-25T04:09:32.605053+00:00",
+      "elapsed_s": 0.373,
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r3.py",
+        "docs",
+        "reports/T0014/pi-r3-docs4"
+      ],
+      "product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+      "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+      "stdout_tail": [
+        "('proof_motif_v1', (((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 1)),)), ((1, 0, 1), (1, ('c', 0), ('c', 1)), ())))",
+        "COPY motif key matches contract literal",
+        "PASS: frozen product/history/scope; 4 docs/82 links; hygiene, awaiting_review; README COPY and fourteen-file list; 14 prior RUNs indexed"
+      ],
+      "stderr": ""
+    }
+  ]
+}

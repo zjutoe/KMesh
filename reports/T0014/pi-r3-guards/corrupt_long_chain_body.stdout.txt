@@ -1,0 +1,32 @@
+..............................F.                                         [100%]
+=================================== FAILURES ===================================
+_______________________________ test_long_chain ________________________________
+
+    def test_long_chain():
+        w, q, p = long_chain()
+        assert verify_proof(tuple(w), q, p) is True
+        key = motif.canonical_motif_key(w, q, p, max_steps=1201, max_orientations=1)
+        assert isinstance(key, tuple) and len(key) == 2 and key[0] == "proof_motif_v1"
+        stream = key[1]
+        assert isinstance(stream, tuple) and len(stream) == 1201
+        # hashable & stable
+        h = hash(key)
+        assert isinstance(h, int)
+        assert hash(key) == h
+        # independent formula expectation
+        expected = []
+        for i in range(1200):
+            expected.append(((i, 0, 1), (i, ("v", 0), ("v", 1)),
+                             ((i + 1, ("v", 0), ("v", 1)),)))
+        expected.append(((1200, 0, 1), (1200, ("c", 0), ("c", 1)), ()))
+        expected = tuple(expected)
+>       assert stream == expected
+E       AssertionError: assert (((0, 0, 1), ..., 1)),)), ...) == (((0, 0, 1), ..., 1)),)), ...)
+E         
+E         At index 0 diff: ((0, 0, 1), (0, ('v', 0), ('v', 1)), ((9999, ('v', 0), ('v', 1)),)) != ((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 1)),))
+E         Use -v to get more diff
+
+tests/test_motif.py:727: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_motif.py::test_long_chain - AssertionError: assert (((0, 0,...
+1 failed, 31 passed in 0.36s

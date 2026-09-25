@@ -1,0 +1,2 @@
+('proof_motif_v1', (((0, 0, 1), (0, ('v', 0), ('v', 1)), ((1, ('v', 0), ('v', 1)),)), ((1, 0, 1), (1, ('c', 0), ('c', 1)), ())))
+COPY motif key matches contract literal

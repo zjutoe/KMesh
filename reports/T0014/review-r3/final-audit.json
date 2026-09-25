@@ -1,0 +1,57 @@
+{
+  "task_status": "needs_changes",
+  "result": "NEEDS_CHANGES",
+  "reviewed_product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+  "reviewed_test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+  "independent_focused": 32,
+  "independent_full_this_round": "not_run",
+  "prior_independent_full": 925,
+  "verified_pi_full": 917,
+  "pi_full_evidence": "argv, output hashes and before/after source hashes verified",
+  "original_mutants_rejected": 10,
+  "additional_mutants_survived": [
+    "format_unvalidated_integer",
+    "logic_error_loses_to_invalid_O",
+    "header_tuple_subclass"
+  ],
+  "additional_mutant_already_rejected": "underbudget_distinct_twins",
+  "product_probe": {
+    "giant_integer_4300": "PASS",
+    "logic_error_before_invalid_O": "PASS",
+    "m6_aa_8_7": "PASS",
+    "m6_ab_8_7": "PASS",
+    "raw_types_hashes_dict_and_long_key_comparison": "PASS"
+  },
+  "frozen_files_unchanged": 2863,
+  "recorded_pi_r3_runs": 9,
+  "code_and_tests_unchanged_by_reviewer": true,
+  "remaining": [
+    "R1 integer conversion limit test",
+    "R2 exception priority, native tuple types and M6 AB budget test",
+    "R3 execution/provenance corrections"
+  ],
+  "checks": {
+    "review-r3-inventory": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T04:23:41.806831+00:00",
+      "elapsed_s": 0.413
+    },
+    "review-r3-focused": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T04:23:50.702178+00:00",
+      "elapsed_s": 0.427
+    },
+    "review-r3-guards": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T04:24:46.848796+00:00",
+      "elapsed_s": 3.054
+    },
+    "review-r3-probe": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T04:26:12.644267+00:00",
+      "elapsed_s": 0.233
+    }
+  },
+  "committed": false,
+  "pushed": false
+}

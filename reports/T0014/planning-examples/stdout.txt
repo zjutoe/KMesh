@@ -1,0 +1,1 @@
+PASS: 15 valid proof fixtures, real T0012 JOIN orientation change, M6 indices 0/1/4, shared-reference rejection

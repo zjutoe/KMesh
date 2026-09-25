@@ -1,0 +1,5 @@
+submitted: exit=0, guard_valid=True
+diagnostic_suffix: exit=1, guard_valid=True
+rebuild_limit_exception: exit=1, guard_valid=True
+accept_shared_tree: exit=1, guard_valid=True
+root_only_finder: exit=1, guard_valid=True

@@ -1,0 +1,1 @@
+PASS: accepted A1-A7; product/tests/history unchanged; 4 docs/100 links; no commit/push

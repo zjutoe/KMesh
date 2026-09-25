@@ -1,0 +1,203 @@
+{
+  "runs": [
+    {
+      "run": "pi-r1-preflight",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_delivery.py",
+        "preflight",
+        "reports/T0014/pi-r1-preflight"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T12:00:24.262901+00:00",
+      "finished_at": "2026-09-24T12:00:24.588918+00:00",
+      "elapsed_s": 0.305
+    },
+    {
+      "run": "pi-r1-focused",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "--basetemp",
+        "reports/T0014/pi-r1-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:37:59.057129+00:00",
+      "finished_at": "2026-09-24T14:37:59.506491+00:00",
+      "elapsed_s": 0.428
+    },
+    {
+      "run": "pi-r1-full",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "tests/test_proof_count.py",
+        "tests/test_proof_key.py",
+        "tests/test_clause_key.py",
+        "tests/test_depth.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0014/pi-r1-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:38:02.340662+00:00",
+      "finished_at": "2026-09-24T14:38:18.960550+00:00",
+      "elapsed_s": 16.599
+    },
+    {
+      "run": "pi-r1-docs",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_delivery.py",
+        "docs",
+        "reports/T0014/pi-r1-docs"
+      ],
+      "exit_code": 1,
+      "started_at": "2026-09-24T14:38:21.716633+00:00",
+      "finished_at": "2026-09-24T14:38:21.980285+00:00",
+      "elapsed_s": 0.243
+    },
+    {
+      "run": "pi-r1-docs2",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_delivery.py",
+        "docs",
+        "reports/T0014/pi-r1-docs2"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:53:23.792414+00:00",
+      "finished_at": "2026-09-24T14:53:24.160744+00:00",
+      "elapsed_s": 0.347
+    },
+    {
+      "run": "pi-r1-docs3",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_delivery.py",
+        "docs",
+        "reports/T0014/pi-r1-docs3"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-24T14:54:36.615364+00:00",
+      "finished_at": "2026-09-24T14:54:36.990327+00:00",
+      "elapsed_s": 0.355
+    },
+    {
+      "run": "pi-r3-preflight",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r3.py",
+        "preflight",
+        "reports/T0014/pi-r3-preflight"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-25T02:56:28.592963+00:00",
+      "finished_at": "2026-09-25T02:56:28.906331+00:00",
+      "elapsed_s": 0.292
+    },
+    {
+      "run": "pi-r3-guards",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/review_r1_guards.py",
+        "reports/T0014/pi-r3-guards",
+        "--enforce"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-25T03:53:11.983342+00:00",
+      "finished_at": "2026-09-25T03:53:16.388575+00:00",
+      "elapsed_s": 4.383
+    },
+    {
+      "run": "pi-r3-extra-guards",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/review_r2_guards.py",
+        "reports/T0014/pi-r3-extra-guards",
+        "--enforce"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-25T03:53:23.949136+00:00",
+      "finished_at": "2026-09-25T03:53:27.016903+00:00",
+      "elapsed_s": 3.046
+    },
+    {
+      "run": "pi-r3-focused",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "--basetemp",
+        "reports/T0014/pi-r3-focused/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-25T03:54:05.341824+00:00",
+      "finished_at": "2026-09-25T03:54:05.780892+00:00",
+      "elapsed_s": 0.418
+    },
+    {
+      "run": "pi-r3-full",
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_motif.py",
+        "tests/test_proof_count.py",
+        "tests/test_proof_key.py",
+        "tests/test_clause_key.py",
+        "tests/test_depth.py",
+        "tests/test_proof_enumeration.py",
+        "tests/test_derivations.py",
+        "tests/test_dependency.py",
+        "tests/test_proof.py",
+        "tests/test_engine.py",
+        "tests/test_reference_engine.py",
+        "tests/test_logic_types.py",
+        "tests/test_config.py",
+        "tests/test_doctor.py",
+        "--basetemp",
+        "reports/T0014/pi-r3-full/pytest-tmp"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-09-25T03:54:15.283821+00:00",
+      "finished_at": "2026-09-25T03:54:31.729000+00:00",
+      "elapsed_s": 16.424
+    },
+    {
+      "run": "pi-r3-docs",
+      "argv": [
+        ".venv/bin/python",
+        "reports/T0014/check_rework_r3.py",
+        "docs",
+        "reports/T0014/pi-r3-docs"
+      ],
+      "exit_code": 1,
+      "started_at": "2026-09-25T04:04:48.432311+00:00",
+      "finished_at": "2026-09-25T04:04:48.754740+00:00",
+      "elapsed_s": 0.301
+    }
+  ],
+  "current_run_excluded": true,
+  "source_sha256": {
+    "src/kmesh/logic/motif.py": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+    "tests/test_motif.py": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64"
+  }
+}

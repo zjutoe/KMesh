@@ -1,0 +1,7 @@
+{
+  "giant_integer_4300": "PASS",
+  "logic_error_before_invalid_O": "PASS",
+  "m6_aa_8_7": "PASS",
+  "m6_ab_8_7": "PASS",
+  "raw_types_hashes_dict_and_long_key_comparison": "PASS"
+}

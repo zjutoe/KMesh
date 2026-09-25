@@ -1,0 +1,40 @@
+{
+  "task_status": "needs_changes",
+  "result": "NEEDS_CHANGES",
+  "reviewed_product_sha256": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+  "reviewed_test_sha256": "0e1b16f1d617a77168337be2968d6bb25708c2cf59facd1fb0baa582a32af12a",
+  "independent_focused": 31,
+  "full_this_round": "not_run",
+  "prior_independent_full": 925,
+  "pi_claimed_full": 916,
+  "pi_claimed_full_evidence": "no original RUN found in submitted evidence; self-report only",
+  "prior_six_guards": "raw artifacts reviewed; all six rejected, no recorder state/time chain",
+  "additional_mutants_survived": 4,
+  "frozen_files_unchanged": 2776,
+  "out_of_scope_artifacts_preserved": 44,
+  "remaining": [
+    "R1 exact-source/submodule isolation self-check",
+    "R2 existing contract coverage",
+    "R3 execution/provenance/doc corrections"
+  ],
+  "code_unchanged": true,
+  "checks": {
+    "review-r2-inventory": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T02:33:15.139526+00:00",
+      "elapsed_s": 0.409
+    },
+    "review-r2-focused": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T02:33:15.891209+00:00",
+      "elapsed_s": 0.426
+    },
+    "review-r2-guards": {
+      "exit_code": 0,
+      "started_at": "2026-09-25T02:34:15.215816+00:00",
+      "elapsed_s": 2.58
+    }
+  },
+  "committed": false,
+  "pushed": false
+}

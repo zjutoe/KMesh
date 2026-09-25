@@ -1,0 +1,7 @@
+submitted: exit=0, guard_valid=True
+sparse_direction_bits: exit=1, guard_valid=True
+rebuild_logic_exception: exit=1, guard_valid=True
+consume_generator: exit=1, guard_valid=True
+mix_symbol_namespaces: exit=1, guard_valid=True
+import_forbidden_enumerator: exit=1, guard_valid=True
+corrupt_long_chain_body: exit=1, guard_valid=True

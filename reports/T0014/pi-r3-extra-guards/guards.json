@@ -1,0 +1,78 @@
+{
+  "test_sha256": "cef7960a676ffb52c335b0476c3adbca6cb75f6b6d403fed27a153c873946c64",
+  "runs": [
+    {
+      "name": "submitted",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/submitted/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/submitted/temp"
+      ],
+      "exit_code": 0,
+      "guard_valid": true
+    },
+    {
+      "name": "diagnostic_suffix",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/diagnostic_suffix/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/diagnostic_suffix/temp"
+      ],
+      "exit_code": 1,
+      "guard_valid": true
+    },
+    {
+      "name": "rebuild_limit_exception",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/rebuild_limit_exception/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/rebuild_limit_exception/temp"
+      ],
+      "exit_code": 1,
+      "guard_valid": true
+    },
+    {
+      "name": "accept_shared_tree",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/accept_shared_tree/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/accept_shared_tree/temp"
+      ],
+      "exit_code": 1,
+      "guard_valid": true
+    },
+    {
+      "name": "root_only_finder",
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/root_only_finder/tests/test_motif.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0014/pi-r3-extra-guards/pytest-tmp/root_only_finder/temp",
+        "-k",
+        "hard_isolation"
+      ],
+      "exit_code": 1,
+      "guard_valid": true
+    }
+  ],
+  "all_guards_valid": true
+}
