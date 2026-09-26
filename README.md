@@ -389,7 +389,7 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_motif.
 
 截至 2026-09-24，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。T0014 单树 motif 键已通过 Codex 第4轮验收（`accepted`，2026-09-25），具体证据与执行限制见上文；T0015 单树内部结论的全部支持已通过第3轮验收（`accepted`，2026-09-26，见下文）。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
-实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
+实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + 用户指定的 `bonsai2-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
 
 进一步阅读：
 
@@ -445,3 +445,13 @@ print("matches contract literal")
 ```bash
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_proof_subtree.py tests/test_motif.py tests/test_proof_count.py tests/test_proof_key.py tests/test_clause_key.py tests/test_depth.py tests/test_proof_enumeration.py tests/test_derivations.py tests/test_dependency.py tests/test_proof.py tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
 ```
+
+## 完整子树的结构目录（T0016）
+
+`kmesh.logic.subtree_motifs.proof_subtree_motif_keys` 给一棵证明中的每个步骤列出其完整支持子树的 motif，保留原位置和重复发生。
+它复用已验收的 T0014/T0015，用于后续离线审计准备；不判断世界级泄漏，也不匹配任意裁剪片段。
+输出规模可能随证明长度平方增长，本版只作小规模参考。
+
+当前为 **`accepted`**（2026-09-26，round 2 / attempt 3）：通过 Codinator 完成实施、独立审计、一次测试返工和再审。
+最终控制器26项定向／960项回归通过，独立Codex复跑26项并确认异常路径守卫有效；产品在返工中未改。
+首次审计因额度中断，用户授权仅审计恢复后自动闭环。原件与限制见 [验收报告](reports/T0016/acceptance/review.md)、[交接文档](docs/handoffs/T0016-subtree-motifs.md)和 [执行清单](reports/T0016/task.json)。

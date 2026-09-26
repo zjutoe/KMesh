@@ -1,0 +1,16 @@
+{
+  "task_id": "T0016-subtree-motifs",
+  "submission_digest": "5f4b4c19ebc7308f63daffe5c4d115ed5357fa75aac7b49b1d8f579739f1d4f7",
+  "verdict": "needs_changes",
+  "summary": "Snapshot and scope verified. Controller checks passed: 26 focused and 960 total; independent focused rerun passed using in-memory capture. No product defect found, but one required exception-path test guard is ineffective.",
+  "issues": [
+    {
+      "id": "T0016-R1",
+      "priority": "P2",
+      "path": "tests/test_subtree_motifs.py:479",
+      "description": "test_sentinel_first_whole_tree leaves extract_proof_subtree uninstrumented, so its call-log assertions cannot detect extraction after the initial T0014 failure. An independent in-memory mutation performed that extra extraction and rethrew the original exception; this test still passed. This misses the explicit Group C/A5 requirement to verify that no subsequent dependency calls occur.",
+      "required_change": "Install a recording extraction spy in this test, restore both dependency bindings in finally, and assert that the combined call log contains only the initial canonical_motif_key call.",
+      "validation": "The original implementation must pass the revised test; an injected extraction after the first T0014 failure must fail it. Rerun both published focused and full checks without skips or xfails."
+    }
+  ]
+}

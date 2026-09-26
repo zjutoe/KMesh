@@ -1,0 +1,80 @@
+{
+  "event_id": "T0016-subtree-motifs:3:accepted",
+  "task_id": "T0016-subtree-motifs",
+  "status": "accepted",
+  "round": 2,
+  "attempt": 3,
+  "accepted_at_utc": "2026-09-26T14:26:15.025285+00:00",
+  "source_evidence_dir": "/home/mye/.local/state/codidator/tasks/T0016-subtree-motifs/attempt-0003",
+  "workspace": "/home/mye/data/kmesh-worktrees/T0016-subtree-motifs",
+  "branch": "T0016-subtree-motifs",
+  "head": "011fc81cd6c6396a1de8cd0179ef7f658aae0fa0",
+  "submission_digest": "9233146eebdd82a3a76286269a4182b568876a8d615ec39c93cc7239443f7fda",
+  "published_handoff_sha256": "9b034a48bb457a78d3bc6c5701ddadba39b66226cb374f58bf79bcf74a47fb05",
+  "accepted_files": {
+    "src/kmesh/logic/subtree_motifs.py": "2898ef24c55d9a00768192ecf907563accee2d49842d3fe6462b2ab7df32fbde",
+    "tests/test_subtree_motifs.py": "d1034e59e3046b5d00157509a5e31411cf9872aa12f5fd9ed5aafa99f96fe851"
+  },
+  "checks": {
+    "focused": 26,
+    "full": 960,
+    "source": "controller attempt 3 stdout; exits and stream hashes independently checked"
+  },
+  "independent_review": {
+    "source": "Codex attempt 3 accepted verdict and matching successful terminal event",
+    "cli_model": "gpt-6-astra",
+    "cli_reasoning": "xhigh",
+    "focused_tests": 26,
+    "closed_issues": [
+      "T0016-R1"
+    ],
+    "unresolved_issues": []
+  },
+  "pi_runtime": {
+    "provider": "bonsai",
+    "model": "bonsai2-27b",
+    "thinking": "xhigh",
+    "session_id": "01a0de12-0050-7351-96df-09b7eebbc46d",
+    "source": "Pi RPC get_state; client runtime identity, not server-weight attestation"
+  },
+  "processes": {
+    "pi": {
+      "exit_code": 0,
+      "elapsed_seconds": 313.31427526474,
+      "result_sha256": "d6a105779468f72c803c8b4058af590463ffcb355aa2f0fd0831ecc3d5262761"
+    },
+    "codex": {
+      "exit_code": 0,
+      "elapsed_seconds": 325.29728984832764,
+      "result_sha256": "7d6c439c8924070299114d88d3c0654d175b49bedff8c76091bf4524c1823cb7"
+    },
+    "checks/focused": {
+      "exit_code": 0,
+      "elapsed_seconds": 0.449124813079834,
+      "result_sha256": "d4d6ff9002afe95bc14f7f94db1af2b04b279eb66ad07c6cc19486268be850db"
+    },
+    "checks/full": {
+      "exit_code": 0,
+      "elapsed_seconds": 18.112678289413452,
+      "result_sha256": "7fdc1f4b4576326cd8448701946fb5cae86cad4417b8b98af9cf473825742d63"
+    }
+  },
+  "recovery": {
+    "attempt1": "Pi/checks complete; Codex usage-limit failure",
+    "attempt2": "explicit review-only resume; source attempt 1 reused; no Pi or controller checks rerun; needs_changes",
+    "attempt3": "automatic Pi rework changed one test; controller checks and independent Codex review passed"
+  },
+  "root_closure_checks": [
+    "current complete workspace matched accepted submission before documentation update",
+    "accepted source/test hashes matched submission",
+    "product unchanged since attempt 1",
+    "process exits, stream hashes and turn.completed verified",
+    "no model/test rerun during closure"
+  ],
+  "limits": [
+    "offline complete-rooted-subtree motifs only; no general clipped-fragment matching or world leakage proof",
+    "raw private state and model transcripts retained outside Git",
+    "documentation updated after acceptance; accepted product/test unchanged"
+  ],
+  "commit_push_merge": "not performed"
+}

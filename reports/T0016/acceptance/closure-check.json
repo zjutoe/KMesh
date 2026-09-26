@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "time_utc": "2026-09-26T14:30:40.262876+00:00",
+  "states": "accepted in handoff/README/implementation_status",
+  "accepted_product_tests_unchanged": true,
+  "published_handoff_bytes_preserved": true,
+  "post_acceptance_changes": "three documentation files plus redacted reports/T0016/acceptance only",
+  "local_links_checked": 16,
+  "tests_or_models_invoked": false,
+  "git_diff_check_exit": 0
+}

@@ -1,0 +1,7 @@
+{
+  "task_id": "T0016-subtree-motifs",
+  "submission_digest": "9233146eebdd82a3a76286269a4182b568876a8d615ec39c93cc7239443f7fda",
+  "verdict": "accepted",
+  "summary": "Verified submission digest, scope, implementation, fixtures, isolation and controller evidence. T0016-R1 is resolved: the revised test rejects an independently injected post-failure extraction and passes the original implementation. Controller checks passed: 26 focused and 960 total, without skips or xfails. Independent focused rerun passed all 26 tests using in-memory capture. No unresolved issues.",
+  "issues": []
+}

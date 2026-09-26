@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "id": "T0016-subtree-motifs",
+  "workspace": "/home/mye/data/kmesh-worktrees/T0016-subtree-motifs",
+  "handoff": "docs/handoffs/T0016-subtree-motifs.md",
+  "allowed_paths": [
+    "src/kmesh/logic/subtree_motifs.py",
+    "tests/test_subtree_motifs.py"
+  ],
+  "checks": [
+    {
+      "name": "focused",
+      "argv": [
+        "env",
+        "CUDA_VISIBLE_DEVICES=",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1",
+        "/home/mye/data/kmesh-worktrees/T0016-subtree-motifs/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp",
+        "/tmp/kmesh-T0016-focused",
+        "tests/test_subtree_motifs.py"
+      ],
+      "timeout_seconds": 180
+    },
+    {
+      "name": "full",
+      "argv": [
+        "env",
+        "CUDA_VISIBLE_DEVICES=",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1",
+        "/home/mye/data/kmesh-worktrees/T0016-subtree-motifs/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp",
+        "/tmp/kmesh-T0016-full",
+        "tests"
+      ],
+      "timeout_seconds": 180
+    }
+  ],
+  "excludes": [
+    ".venv/",
+    ".pytest_cache/"
+  ],
+  "max_rounds": 4,
+  "max_seconds": 14400,
+  "attempt_seconds": 3600,
+  "notify_thread": "01a0999f-55f4-7441-9f7c-d123db50ec7d"
+}

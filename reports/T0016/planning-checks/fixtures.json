@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "/home/mye/data/kmesh-worktrees/T0016-subtree-motifs/.venv/bin/python",
+    "reports/T0016/planning_probe.py"
+  ],
+  "cwd": "/home/mye/data/kmesh-worktrees/T0016-subtree-motifs",
+  "start": "2026-09-26T07:19:46.635917+00:00",
+  "elapsed_s": 0.08457216527312994,
+  "exit_code": 0
+}

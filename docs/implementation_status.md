@@ -28,6 +28,8 @@
 
 - T0015（完整有根证明子树抽取）：**`accepted`**（2026-09-26，Codex第3轮验收）。E1证据可见性与E2记录更正关闭；26项恢复可见，24项原件不变、2份忽略规则按约定追加，3369项其他冻结文件未变。产品8c6c4392…、测试955ca72a…沿用第2轮接受版本；独立17项、四错误副本及15个输出探针、已核验Pi934项回归沿用，本轮未重跑测试。R2 preflight和guards外层记录缺失、regression实际时序、历史模型unknown保留；少量汇总措辞由Codex追加澄清，原件不回写。见 [最终报告](../reports/T0015/review-r3/review.md)与 [交接文档](handoffs/T0015-proof-subtree.md)。本任务手工闭环，后续可按用户授权使用Codinator；不代表world审计。
 
+- T0016（逐发生位置的完整有根子树 motif 目录）：**`accepted`**（2026-09-26，round 2 / attempt 3）。额度中断后经用户授权仅恢复审计；独立Codex指出一处测试守卫缺口，Pi自动返工只改测试，再审关闭T0016-R1。控制器26项定向／960项全量及独立26项通过，产品未改。接受产品 `2898ef24…fbde`、测试 `d1034e59…e851`；终态由Codex同步。见 [验收报告](../reports/T0016/acceptance/review.md)与 [交接](handoffs/T0016-subtree-motifs.md)。结果在T0016独立工作树，未commit/push/merge；不表示world泄漏审计完成。
+
 ## M0 已完成 / 未完成
 
 | 项目 | 状态 |
@@ -49,6 +51,7 @@
 | 单查询规范证明数／唯一性判据 | T0013 `accepted`（Codex 第 3 轮，R1–R3 关闭）；独立 21 项、前缀守卫及运行期硬隔离通过，沿用独立 884 full；不代表 world／motif 审计 |
 | 单棵证明跨世界 motif 键 | T0014 `accepted`（Codex 第4轮）；独立32项、四个违约守卫通过，Pi917项回归原件沿用；有界参考实现，历史执行限制保留 |
 | 完整有根证明子树抽取 | T0015 `accepted`（Codex第3轮）；E1/E2证据收尾关闭，沿用独立17项／四守卫／15输出探针及Pi934项回归，历史限制保留；不代表world审计 |
+| 完整有根子树的逐发生 motif 目录 | T0016 `accepted`；自动返工后26项定向／960项回归通过，独立26项及异常路径守卫复验通过；仍为离线审计前置原语 |
 | 数据/求解器与 CPU forward/backward 验证 | `not_run`，尚未实现 |
 | 20-step smoke | `not_run`，尚未实现 |
 | GPU 训练 | `not_run`，尚未实现，也未经本任务授权 |
