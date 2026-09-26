@@ -1,0 +1,106 @@
+{
+  "reports/T0015/pi-r1-r2full/.gitignore": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2full/.gitignore.txt",
+    "sha256": "bb1208674e7a8285ef97fa32f2afbc926587d3751d0c7c4f8052858145f0228f"
+  },
+  "reports/T0015/pi-r1-r2full/record.json": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2full/record.json",
+    "sha256": "d40f6343efd0940671ad2c8730e97bdb33125e5f301530b9d6cce8424b71f600"
+  },
+  "reports/T0015/pi-r1-r2full/stderr.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2full/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reports/T0015/pi-r1-r2full/stdout.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2full/stdout.txt",
+    "sha256": "be676fd0452524901bc1dedf218bd46e0dccf716a1f97c2f7546d4748a5f3ab2"
+  },
+  "reports/T0015/pi-r1-r2guards/.gitignore": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/.gitignore.txt",
+    "sha256": "d7763e66b6c4b3da21d1453cc9f715316c0dfb51266a255206c4601528598c6a"
+  },
+  "reports/T0015/pi-r1-r2guards/consume_generator/product.py.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/consume_generator/product.py.txt",
+    "sha256": "8b68cc667bfd4118d45fb1c24c0470439d53fc793f089c4c347e6013f0b79ddd"
+  },
+  "reports/T0015/pi-r1-r2guards/consume_generator/result.json": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/consume_generator/result.json",
+    "sha256": "48819ee2530cb4a01dde4a0ed46f605eddf3d82cdcd2575830bc078589bf3308"
+  },
+  "reports/T0015/pi-r1-r2guards/consume_generator/stderr.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/consume_generator/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reports/T0015/pi-r1-r2guards/consume_generator/stdout.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/consume_generator/stdout.txt",
+    "sha256": "4818fa359eda6644b8f1535810fa900c66cd660edb9fd83715b652452a4c3319"
+  },
+  "reports/T0015/pi-r1-r2guards/corrupt_chain_refs/product.py.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/corrupt_chain_refs/product.py.txt",
+    "sha256": "cddf60a1dafe97bba315ce0072cc2623caae4512e611e71e40fe06a4b9acdf8a"
+  },
+  "reports/T0015/pi-r1-r2guards/corrupt_chain_refs/result.json": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/corrupt_chain_refs/result.json",
+    "sha256": "ce2a418067e014dc606bad817099ebf428599d14d39161843a04c4a49971468e"
+  },
+  "reports/T0015/pi-r1-r2guards/corrupt_chain_refs/stderr.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/corrupt_chain_refs/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reports/T0015/pi-r1-r2guards/corrupt_chain_refs/stdout.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/corrupt_chain_refs/stdout.txt",
+    "sha256": "0537be5bba82606cff47568716afdeb009a091c938c85c45dd23666c57c9a714"
+  },
+  "reports/T0015/pi-r1-r2guards/guards.json": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/guards.json",
+    "sha256": "5a0591b24acea5f307aae5c7b067bc16625d84e33be9a941944c72c61879f08a"
+  },
+  "reports/T0015/pi-r1-r2guards/lazy_forbidden_import/product.py.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/lazy_forbidden_import/product.py.txt",
+    "sha256": "a3840e089e2a239593339a4443fa8993e0a687b9e022ccdd35a1252715baeeae"
+  },
+  "reports/T0015/pi-r1-r2guards/lazy_forbidden_import/result.json": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/lazy_forbidden_import/result.json",
+    "sha256": "7ea4144e3c60eb4133293f503e9dbfab74de8bfaea035396e92c5e8e33fad736"
+  },
+  "reports/T0015/pi-r1-r2guards/lazy_forbidden_import/stderr.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/lazy_forbidden_import/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reports/T0015/pi-r1-r2guards/lazy_forbidden_import/stdout.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/lazy_forbidden_import/stdout.txt",
+    "sha256": "476111492572f2a981d929abeb3a8a3b8562b53b93fd4f3d24919e2ef0b0bef0"
+  },
+  "reports/T0015/pi-r1-r2guards/retry_logic_error/product.py.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/retry_logic_error/product.py.txt",
+    "sha256": "f540ab7af81410c68b177395e0431f7b35231f90072d678a2ae4de7982e0ddd6"
+  },
+  "reports/T0015/pi-r1-r2guards/retry_logic_error/result.json": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/retry_logic_error/result.json",
+    "sha256": "9ca144a13ecfaa4d8000505452551380014987de7a4707ee72dc871cdbfe53c1"
+  },
+  "reports/T0015/pi-r1-r2guards/retry_logic_error/stderr.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/retry_logic_error/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reports/T0015/pi-r1-r2guards/retry_logic_error/stdout.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/retry_logic_error/stdout.txt",
+    "sha256": "6cc15dd5b3eefe4eaa5546a113dbab0de1a483acb986c92fcbb1e97faca3a687"
+  },
+  "reports/T0015/pi-r1-r2guards/submitted/product.py.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/submitted/product.py.txt",
+    "sha256": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c"
+  },
+  "reports/T0015/pi-r1-r2guards/submitted/result.json": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/submitted/result.json",
+    "sha256": "b3cf9132f0952b8a11582e14abf9473607debe87cd127c63d66950b2f59574d2"
+  },
+  "reports/T0015/pi-r1-r2guards/submitted/stderr.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/submitted/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reports/T0015/pi-r1-r2guards/submitted/stdout.txt": {
+    "copy": "reports/T0015/review-r2/hidden-evidence-snapshot/pi-r1-r2guards/submitted/stdout.txt",
+    "sha256": "2b2d767105fcadd6caca0788dc8b5865e63271d079fdf44070bda78649e483f5"
+  }
+}

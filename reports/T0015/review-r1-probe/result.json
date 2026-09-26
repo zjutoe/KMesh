@@ -1,0 +1,10 @@
+{
+  "ordinary_roots": "5/5 PASS",
+  "world_reversal": "PASS",
+  "accepted_ProofStep_subclass_T0006": true,
+  "accepted_ProofStep_subclass_T0012": true,
+  "extraction_subclass_error": {
+    "type": "TypeError",
+    "message": "AnnotatedStep.__init__() missing 1 required positional argument: 'note'"
+  }
+}

@@ -1,0 +1,1 @@
+PASS: accepted source/document hashes unchanged; 26 restored artifacts visible; no scratch files; diff clean

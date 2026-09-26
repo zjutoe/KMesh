@@ -1,0 +1,34 @@
+{
+  "result": "PASS",
+  "task_status": "accepted",
+  "review_date": "2026-09-26",
+  "head": "f5ef96f7d6d261beb2dba6fc8c47300f24c9ff41",
+  "source_sha256": {
+    "src/kmesh/logic/proof_subtree.py": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c",
+    "tests/test_proof_subtree.py": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce"
+  },
+  "E1": "closed",
+  "E2": "closed with explicit historical limits and Codex editorial clarification",
+  "evidence_audit": "../review-r3-evidence/result.json",
+  "reused_verification": {
+    "codex_r2_tests": 17,
+    "codex_r2_mutants": 4,
+    "codex_r2_outputs": 15,
+    "pi_full_verified": 934
+  },
+  "tests_run_this_round": false,
+  "codinator_run_this_round": false,
+  "historical_limits": [
+    "R2 preflight unrecorded",
+    "omitted guards outer record absent",
+    "R2 regression followed a passing fixed-source full",
+    "historical model attribution unknown"
+  ],
+  "document_sha256": {
+    "README.md": "5ce9b30d5f4b377b3dd1607a5dc71ed296257a03143d045fae73d381b54730a8",
+    "docs/implementation_status.md": "24b0e6f68a721cc0c78454e422f2b7a7213d2d32f104b2fc2683c41a16bb9c57",
+    "docs/handoffs/T0015-proof-subtree.md": "e5cf5e894d51cd224068c2b8c86c4f2e5c3caeb56375541575c4a75ef22822d2",
+    "reports/T0015/review-r3/review.md": "36092986c89009b3fb1e5980900ae307a0c938fe7028b1a369baba86a9d806fa"
+  },
+  "links_checked": 96
+}

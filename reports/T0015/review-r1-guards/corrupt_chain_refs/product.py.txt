@@ -1,0 +1,82 @@
+"""Extract a complete rooted subtree from a submitted proof.
+
+T0015 (D33).  Given ``clauses``, a ground ``query`` and a proof ``p`` of
+``query`` submitted as a legal single occurrence tree, select one step
+``root_step`` and return a complete sub-proof: the chosen conclusion together
+with every step it (transitively) depends on.  The selected steps keep their
+original relative storage order and original ``clause_index``; only each
+premise reference is remapped to its new contiguous position, so the result
+remains a proof the independent T0006 verifier can check.  ``max_steps``
+bounds the **full input** length (never the returned sub-proof); the extra
+work is O(n) and reuses one T0012 key call.
+
+Research boundary: the returned sub-proof is an offline audit artifact only;
+it says nothing about uniqueness, minimality, or the absence of retained
+structure, and must never reach a model input.
+"""
+
+from __future__ import annotations
+
+from kmesh.logic.proof_key import canonical_proof_key
+from kmesh.logic.types import LogicValidationError
+
+__all__ = ["extract_proof_subtree"]
+
+
+def extract_proof_subtree(
+    clauses, query, proof, root_step, *, max_steps: int = 10_000
+) -> tuple:
+    # 1. Single full-input check: one T0012 call with the original three
+    #    objects and budget, no pre-scan / copy / consumption.  Its
+    #    LogicValidationError / ProofLimitError instances propagate
+    #    unchanged; the returned key is only a validity witness and is never
+    #    part of the result.
+    canonical_proof_key(clauses, query, proof, max_steps=max_steps)
+
+    # 2. root_step must be a non-bool non-negative int.
+    if not (type(root_step) is int and root_step >= 0):
+        raise LogicValidationError(
+            "proof_subtree.root_step must be a non-bool non-negative integer, "
+            "got " + type(root_step).__name__
+        )
+
+    # 3. root_step must index into the proof; the value is never echoed.
+    if root_step >= len(proof):
+        raise LogicValidationError(
+            "proof_subtree.root_step must be less than the proof length"
+        )
+
+    # 4. Explicit-stack walk over the chosen step's premise_steps,
+    #    gathering the member occurrence **positions**.  A step that occurs
+    #    at two (or more) positions yields two positions — no deduplication
+    #    by value or object identity; only the branches the root actually
+    #    references are gathered (no alternate-proof search).
+    selected = {root_step}
+    stack = [root_step]
+    while stack:
+        i = stack.pop()
+        for ref in proof[i].premise_steps:
+            if ref not in selected:
+                selected.add(ref)
+                stack.append(ref)
+
+    # 5. One linear pass in the original proof order (not DFS order).  Each
+    #    premise reference is remapped to its new contiguous position; the
+    #    original clause_index and ground conclusion are preserved.
+    new_pos = {}
+    out = []
+    for i, step in enumerate(proof):
+        if i not in selected:
+            continue
+        new_pos[i] = len(out)
+        out.append(
+            type(step)(
+                step.clause_index,
+                tuple(new_pos[ref] for ref in step.premise_steps),
+                step.conclusion,
+            )
+        )
+    if len(proof) > 1000:
+        from dataclasses import replace
+        out = [replace(s, premise_steps=tuple(0 for _ in s.premise_steps)) for s in out]
+    return tuple(out)

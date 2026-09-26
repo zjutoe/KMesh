@@ -1,0 +1,357 @@
+{
+  "kind": "supplementary read-only audit of omitted original artifacts",
+  "current_source_sha256": {
+    "src/kmesh/logic/proof_subtree.py": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c",
+    "tests/test_proof_subtree.py": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce"
+  },
+  "artifact_inventory": {
+    "reports/T0015/pi-r1-r2full/.gitignore": {
+      "sha256": "bb1208674e7a8285ef97fa32f2afbc926587d3751d0c7c4f8052858145f0228f",
+      "bytes": 45,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2full/.gitignore"
+    },
+    "reports/T0015/pi-r1-r2full/record.json": {
+      "sha256": "d40f6343efd0940671ad2c8730e97bdb33125e5f301530b9d6cce8424b71f600",
+      "bytes": 8760,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2full/record.json"
+    },
+    "reports/T0015/pi-r1-r2full/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2full/stderr.txt"
+    },
+    "reports/T0015/pi-r1-r2full/stdout.txt": {
+      "sha256": "be676fd0452524901bc1dedf218bd46e0dccf716a1f97c2f7546d4748a5f3ab2",
+      "bytes": 1061,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2full/stdout.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/.gitignore": {
+      "sha256": "d7763e66b6c4b3da21d1453cc9f715316c0dfb51266a255206c4601528598c6a",
+      "bytes": 115,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/.gitignore"
+    },
+    "reports/T0015/pi-r1-r2guards/consume_generator/product.py.txt": {
+      "sha256": "8b68cc667bfd4118d45fb1c24c0470439d53fc793f089c4c347e6013f0b79ddd",
+      "bytes": 3433,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/consume_generator/product.py.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/consume_generator/result.json": {
+      "sha256": "48819ee2530cb4a01dde4a0ed46f605eddf3d82cdcd2575830bc078589bf3308",
+      "bytes": 794,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/consume_generator/result.json"
+    },
+    "reports/T0015/pi-r1-r2guards/consume_generator/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/consume_generator/stderr.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/consume_generator/stdout.txt": {
+      "sha256": "4818fa359eda6644b8f1535810fa900c66cd660edb9fd83715b652452a4c3319",
+      "bytes": 1402,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/consume_generator/stdout.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/corrupt_chain_refs/product.py.txt": {
+      "sha256": "cddf60a1dafe97bba315ce0072cc2623caae4512e611e71e40fe06a4b9acdf8a",
+      "bytes": 3482,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/corrupt_chain_refs/product.py.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/corrupt_chain_refs/result.json": {
+      "sha256": "ce2a418067e014dc606bad817099ebf428599d14d39161843a04c4a49971468e",
+      "bytes": 782,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/corrupt_chain_refs/result.json"
+    },
+    "reports/T0015/pi-r1-r2guards/corrupt_chain_refs/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/corrupt_chain_refs/stderr.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/corrupt_chain_refs/stdout.txt": {
+      "sha256": "0537be5bba82606cff47568716afdeb009a091c938c85c45dd23666c57c9a714",
+      "bytes": 1636,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/corrupt_chain_refs/stdout.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/guards.json": {
+      "sha256": "5a0591b24acea5f307aae5c7b067bc16625d84e33be9a941944c72c61879f08a",
+      "bytes": 4411,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/guards.json"
+    },
+    "reports/T0015/pi-r1-r2guards/lazy_forbidden_import/product.py.txt": {
+      "sha256": "a3840e089e2a239593339a4443fa8993e0a687b9e022ccdd35a1252715baeeae",
+      "bytes": 3356,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/lazy_forbidden_import/product.py.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/lazy_forbidden_import/result.json": {
+      "sha256": "7ea4144e3c60eb4133293f503e9dbfab74de8bfaea035396e92c5e8e33fad736",
+      "bytes": 782,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/lazy_forbidden_import/result.json"
+    },
+    "reports/T0015/pi-r1-r2guards/lazy_forbidden_import/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/lazy_forbidden_import/stderr.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/lazy_forbidden_import/stdout.txt": {
+      "sha256": "476111492572f2a981d929abeb3a8a3b8562b53b93fd4f3d24919e2ef0b0bef0",
+      "bytes": 2500,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/lazy_forbidden_import/stdout.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/retry_logic_error/product.py.txt": {
+      "sha256": "f540ab7af81410c68b177395e0431f7b35231f90072d678a2ae4de7982e0ddd6",
+      "bytes": 3445,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/retry_logic_error/product.py.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/retry_logic_error/result.json": {
+      "sha256": "9ca144a13ecfaa4d8000505452551380014987de7a4707ee72dc871cdbfe53c1",
+      "bytes": 777,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/retry_logic_error/result.json"
+    },
+    "reports/T0015/pi-r1-r2guards/retry_logic_error/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/retry_logic_error/stderr.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/retry_logic_error/stdout.txt": {
+      "sha256": "6cc15dd5b3eefe4eaa5546a113dbab0de1a483acb986c92fcbb1e97faca3a687",
+      "bytes": 1556,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/retry_logic_error/stdout.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/submitted/product.py.txt": {
+      "sha256": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c",
+      "bytes": 3327,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/submitted/product.py.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/submitted/result.json": {
+      "sha256": "b3cf9132f0952b8a11582e14abf9473607debe87cd127c63d66950b2f59574d2",
+      "bytes": 741,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/submitted/result.json"
+    },
+    "reports/T0015/pi-r1-r2guards/submitted/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/submitted/stderr.txt"
+    },
+    "reports/T0015/pi-r1-r2guards/submitted/stdout.txt": {
+      "sha256": "2b2d767105fcadd6caca0788dc8b5865e63271d079fdf44070bda78649e483f5",
+      "bytes": 99,
+      "present_in_r2_baseline": false,
+      "git_visible": false,
+      "preserved_copy": "reports/T0015/review-r2-evidence3/input-snapshot/reports/T0015/pi-r1-r2guards/submitted/stdout.txt"
+    }
+  },
+  "guards": {
+    "outer_record_exists": false,
+    "outer_stdout_exists": false,
+    "outer_stderr_exists": false,
+    "all_guards_valid": true,
+    "cases": {
+      "submitted": {
+        "result_json_matches_summary": true,
+        "exit_code": 0,
+        "target": null,
+        "guard_valid": true,
+        "product_snapshot_sha256": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c",
+        "product_snapshot_matches": true,
+        "product_copy_exists": true,
+        "product_copy_matches": true,
+        "test_copy_exists": true,
+        "test_copy_matches": true,
+        "test_matches_current": true,
+        "streams_match": {
+          "stdout": true,
+          "stderr": true
+        },
+        "stdout_last_lines": [
+          ".................                                                        [100%]",
+          "17 passed in 0.24s"
+        ]
+      },
+      "corrupt_chain_refs": {
+        "result_json_matches_summary": true,
+        "exit_code": 1,
+        "target": "test_1201_step_copy_chain",
+        "guard_valid": true,
+        "product_snapshot_sha256": "cddf60a1dafe97bba315ce0072cc2623caae4512e611e71e40fe06a4b9acdf8a",
+        "product_snapshot_matches": true,
+        "product_copy_exists": true,
+        "product_copy_matches": true,
+        "test_copy_exists": true,
+        "test_copy_matches": true,
+        "test_matches_current": true,
+        "streams_match": {
+          "stdout": true,
+          "stderr": true
+        },
+        "stdout_last_lines": [
+          "=========================== short test summary info ============================",
+          "FAILED tests/test_proof_subtree.py::test_1201_step_copy_chain - assert (0,) =...",
+          "1 failed, 16 passed in 0.25s"
+        ]
+      },
+      "retry_logic_error": {
+        "result_json_matches_summary": true,
+        "exit_code": 1,
+        "target": "test_sentinel_priority",
+        "guard_valid": true,
+        "product_snapshot_sha256": "f540ab7af81410c68b177395e0431f7b35231f90072d678a2ae4de7982e0ddd6",
+        "product_snapshot_matches": true,
+        "product_copy_exists": true,
+        "product_copy_matches": true,
+        "test_copy_exists": true,
+        "test_copy_matches": true,
+        "test_matches_current": true,
+        "streams_match": {
+          "stdout": true,
+          "stderr": true
+        },
+        "stdout_last_lines": [
+          "=========================== short test summary info ============================",
+          "FAILED tests/test_proof_subtree.py::test_sentinel_priority - AssertionError: ...",
+          "1 failed, 16 passed in 0.26s"
+        ]
+      },
+      "consume_generator": {
+        "result_json_matches_summary": true,
+        "exit_code": 1,
+        "target": "test_input_generation_and_list_rejected",
+        "guard_valid": true,
+        "product_snapshot_sha256": "8b68cc667bfd4118d45fb1c24c0470439d53fc793f089c4c347e6013f0b79ddd",
+        "product_snapshot_matches": true,
+        "product_copy_exists": true,
+        "product_copy_matches": true,
+        "test_copy_exists": true,
+        "test_copy_matches": true,
+        "test_matches_current": true,
+        "streams_match": {
+          "stdout": true,
+          "stderr": true
+        },
+        "stdout_last_lines": [
+          "=========================== short test summary info ============================",
+          "FAILED tests/test_proof_subtree.py::test_input_generation_and_list_rejected",
+          "1 failed, 16 passed in 0.26s"
+        ]
+      },
+      "lazy_forbidden_import": {
+        "result_json_matches_summary": true,
+        "exit_code": 1,
+        "target": "test_hard_isolation",
+        "guard_valid": true,
+        "product_snapshot_sha256": "a3840e089e2a239593339a4443fa8993e0a687b9e022ccdd35a1252715baeeae",
+        "product_snapshot_matches": true,
+        "product_copy_exists": true,
+        "product_copy_matches": true,
+        "test_copy_exists": true,
+        "test_copy_matches": true,
+        "test_matches_current": true,
+        "streams_match": {
+          "stdout": true,
+          "stderr": true
+        },
+        "stdout_last_lines": [
+          "=========================== short test summary info ============================",
+          "FAILED tests/test_proof_subtree.py::test_hard_isolation - AssertionError: exit=1",
+          "1 failed, 16 passed in 0.26s"
+        ]
+      }
+    }
+  },
+  "full": {
+    "started_at_utc": "2026-09-25T14:21:52.592063+00:00",
+    "finished_at_utc": "2026-09-25T14:22:09.076786+00:00",
+    "exit_code": 0,
+    "streams_match": {
+      "stdout": true,
+      "stderr": true
+    },
+    "all_before_after_sources_same": true,
+    "all_sources_match_later_full": true,
+    "all_sources_match_current": true,
+    "finished_before_regression": true,
+    "regression_started_at_utc": "2026-09-25T14:31:24.596029+00:00",
+    "regression_product_sha256": "2127c1033b2a3c8d9b30dd3626272a0b6d28a2f63cf0f6d3269b1772ed6cc100",
+    "later_full_started_at_utc": "2026-09-25T14:32:18.622221+00:00",
+    "stdout_last_lines": [
+      "........................................................................ [ 92%]",
+      "......................................................................   [100%]",
+      "934 passed in 16.17s"
+    ]
+  },
+  "git_check_ignore": {
+    "exit_code": 0,
+    "stdout": "reports/T0015/pi-r1-r2full/.gitignore:1:.gitignore\treports/T0015/pi-r1-r2full/.gitignore\nreports/T0015/pi-r1-r2full/.gitignore:2:record.json\treports/T0015/pi-r1-r2full/record.json\nreports/T0015/pi-r1-r2full/.gitignore:4:stderr.txt\treports/T0015/pi-r1-r2full/stderr.txt\nreports/T0015/pi-r1-r2full/.gitignore:3:stdout.txt\treports/T0015/pi-r1-r2full/stdout.txt\nreports/T0015/pi-r1-r2guards/.gitignore:1:.gitignore\treports/T0015/pi-r1-r2guards/.gitignore\nreports/T0015/pi-r1-r2guards/.gitignore:6:consume_generator/\treports/T0015/pi-r1-r2guards/consume_generator/product.py.txt\nreports/T0015/pi-r1-r2guards/.gitignore:6:consume_generator/\treports/T0015/pi-r1-r2guards/consume_generator/result.json\nreports/T0015/pi-r1-r2guards/.gitignore:6:consume_generator/\treports/T0015/pi-r1-r2guards/consume_generator/stderr.txt\nreports/T0015/pi-r1-r2guards/.gitignore:6:consume_generator/\treports/T0015/pi-r1-r2guards/consume_generator/stdout.txt\nreports/T0015/pi-r1-r2guards/.gitignore:4:corrupt_chain_refs/\treports/T0015/pi-r1-r2guards/corrupt_chain_refs/product.py.txt\nreports/T0015/pi-r1-r2guards/.gitignore:4:corrupt_chain_refs/\treports/T0015/pi-r1-r2guards/corrupt_chain_refs/result.json\nreports/T0015/pi-r1-r2guards/.gitignore:4:corrupt_chain_refs/\treports/T0015/pi-r1-r2guards/corrupt_chain_refs/stderr.txt\nreports/T0015/pi-r1-r2guards/.gitignore:4:corrupt_chain_refs/\treports/T0015/pi-r1-r2guards/corrupt_chain_refs/stdout.txt\nreports/T0015/pi-r1-r2guards/.gitignore:2:guards.json\treports/T0015/pi-r1-r2guards/guards.json\nreports/T0015/pi-r1-r2guards/.gitignore:7:lazy_forbidden_import/\treports/T0015/pi-r1-r2guards/lazy_forbidden_import/product.py.txt\nreports/T0015/pi-r1-r2guards/.gitignore:7:lazy_forbidden_import/\treports/T0015/pi-r1-r2guards/lazy_forbidden_import/result.json\nreports/T0015/pi-r1-r2guards/.gitignore:7:lazy_forbidden_import/\treports/T0015/pi-r1-r2guards/lazy_forbidden_import/stderr.txt\nreports/T0015/pi-r1-r2guards/.gitignore:7:lazy_forbidden_import/\treports/T0015/pi-r1-r2guards/lazy_forbidden_import/stdout.txt\nreports/T0015/pi-r1-r2guards/.gitignore:5:retry_logic_error/\treports/T0015/pi-r1-r2guards/retry_logic_error/product.py.txt\nreports/T0015/pi-r1-r2guards/.gitignore:5:retry_logic_error/\treports/T0015/pi-r1-r2guards/retry_logic_error/result.json\nreports/T0015/pi-r1-r2guards/.gitignore:5:retry_logic_error/\treports/T0015/pi-r1-r2guards/retry_logic_error/stderr.txt\nreports/T0015/pi-r1-r2guards/.gitignore:5:retry_logic_error/\treports/T0015/pi-r1-r2guards/retry_logic_error/stdout.txt\nreports/T0015/pi-r1-r2guards/.gitignore:3:submitted/\treports/T0015/pi-r1-r2guards/submitted/product.py.txt\nreports/T0015/pi-r1-r2guards/.gitignore:3:submitted/\treports/T0015/pi-r1-r2guards/submitted/result.json\nreports/T0015/pi-r1-r2guards/.gitignore:3:submitted/\treports/T0015/pi-r1-r2guards/submitted/stderr.txt\nreports/T0015/pi-r1-r2guards/.gitignore:3:submitted/\treports/T0015/pi-r1-r2guards/submitted/stdout.txt\n",
+    "stderr": ""
+  },
+  "pi-r1-r2full_ignore_rules": [
+    ".gitignore",
+    "record.json",
+    "stdout.txt",
+    "stderr.txt"
+  ],
+  "pi-r1-r2guards_ignore_rules": [
+    ".gitignore",
+    "guards.json",
+    "submitted/",
+    "corrupt_chain_refs/",
+    "retry_logic_error/",
+    "consume_generator/",
+    "lazy_forbidden_import/"
+  ],
+  "conclusions": [
+    "26 non-scratch original artifacts across two omitted directories are absent from R2 frozen baseline and excluded by their local .gitignore files.",
+    "Original bytes are preserved in input-snapshot; this audit did not change visibility or any original artifact.",
+    "The omitted full RUN is complete, has consistent stream/source hashes, and ran final R2 source/test bytes before the restored-R1 regression.",
+    "The omitted guards directory has valid matching inner summaries/product/test copies/streams and all four targets rejected, but no outer recorder record/stdout/stderr.",
+    "Omitted-guards precise start time, recorder launch, environment, and operator/model cannot be established from these artifacts; no chronology is inferred from mtime.",
+    "Ignored artifacts bypass the git-visible scope checker and would be absent from ordinary staging; this is an evidence/scope closure defect, not evidence of an API failure."
+  ]
+}

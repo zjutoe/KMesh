@@ -1,0 +1,28 @@
+{
+  "result": "PASS",
+  "product_edits": "exactly the three prescribed replacements",
+  "ordinary_and_subclass_roots": "10/10 PASS",
+  "reversed_world_roots": "5/5 PASS",
+  "actual_input_hash_and_structure_unchanged": true,
+  "changed_test_functions": [
+    "test_1201_step_copy_chain",
+    "test_input_generation_and_list_rejected",
+    "test_input_pure_and_output_shape",
+    "test_reorder_premise_remap",
+    "test_root_giant_integer_not_echoed",
+    "test_root_type_boundaries",
+    "test_sentinel_priority",
+    "test_signature_type_errors",
+    "test_single_occurrence_rejection_propagates"
+  ],
+  "added_test_functions": [
+    "test_accepted_proofstep_subclass"
+  ],
+  "frozen_sha256": {
+    "src/kmesh/logic/proof_subtree.py": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c",
+    "tests/test_proof_subtree.py": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce",
+    "README.md": "ef8e90d0ee79794346b6d4a03ab0c40bd2e4c54e096085b40831366144e0fcbb",
+    "docs/implementation_status.md": "bb9df36665fd85980cba8ac49544b4c86af3989fdca652ef7df47958a37bf473",
+    "docs/handoffs/T0015-proof-subtree.md": "08fbac5a6fbdd13e68c0e28dd643dd29b15dfcbad1dc2ea9acd68c809ad0a49d"
+  }
+}

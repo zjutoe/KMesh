@@ -1,0 +1,8 @@
+.gitignore
+record.json
+stdout.txt
+stderr.txt
+!.gitignore
+!record.json
+!stdout.txt
+!stderr.txt

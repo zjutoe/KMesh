@@ -1,0 +1,240 @@
+F..F.FF.F...F.FF                                                         [100%]
+=================================== FAILURES ===================================
+___________________ test_main_example_anchors_and_occurrence ___________________
+
+    def test_main_example_anchors_and_occurrence():
+        assert verify_proof(W, Q, P) is True
+        # root=0 / root=1 : single original facts
+        s0 = _check_sub(W, P, 0)
+>       assert s0 == _sub([(3, (), "p", "a", "b")])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof_subtree.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof_subtree.py:73: in _sub
+    return tuple(ProofStep(ci, tuple(refs), con) for ci, refs, con in steps)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x7f40e56a5840>
+
+>   return tuple(ProofStep(ci, tuple(refs), con) for ci, refs, con in steps)
+                                                     ^^^^^^^^^^^^^
+E   ValueError: too many values to unpack (expected 3)
+
+tests/test_proof_subtree.py:73: ValueError
+______________________________ test_bounded_cycle ______________________________
+
+    def test_bounded_cycle():
+        # p fact, p->q, q->p ; valid 3-step proof, middle root=1 -> first two
+        w = (fact("p", "a", "b"),
+             rule("q", "?x", "?y", ("p", "?x", "?y"),),
+             rule("p", "?x", "?y", ("q", "?x", "?y"),))
+        q = a("q", "a", "b")
+        p = (
+            ProofStep(0, (), a("p", "a", "b")),
+            ProofStep(1, (0,), a("q", "a", "b")),
+            ProofStep(2, (1,), a("p", "a", "b")),
+        )
+>       assert verify_proof(w, q, p) is True
+E       AssertionError: assert False is True
+E        +  where False = verify_proof((Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), Clause(body=(Atom(pred='p', args=('?x', '?y')),), head=Atom(pred='q', args=('?x', '?y'))), Clause(body=(Atom(pred='q', args=('?x', '?y')),), head=Atom(pred='p', args=('?x', '?y')))), Atom(pred='q', args=('a', 'b')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'b'))), ProofStep(clause_index=1, pr...pred='q', args=('a', 'b'))), ProofStep(clause_index=2, premise_steps=(1,), conclusion=Atom(pred='p', args=('a', 'b')))))
+
+tests/test_proof_subtree.py:160: AssertionError
+_________________ test_single_occurrence_rejection_propagates __________________
+
+    def test_single_occurrence_rejection_propagates():
+        # two steps share refs (0,0) -> not a single occurrence tree; root=0 can't bypass
+        s = ProofStep(0, (), a("p", "a", "b"))
+        w = (fact("p", "a", "b"),
+             rule("q", "?x", "?y", ("p", "?x", "?y"), ("p", "?y", "?z")))
+        q = a("q", "a", "b")
+        bad = (s, s, ProofStep(1, (0, 0), a("q", "a", "b")))
+>       assert verify_proof(w, q, bad) is True
+E       AssertionError: assert False is True
+E        +  where False = verify_proof((Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), Clause(body=(Atom(pred='p', args=('?x', '?y')), Atom(pred='p', args=('?y', '?z'))), head=Atom(pred='q', args=('?x', '?y')))), Atom(pred='q', args=('a', 'b')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'b'))), ProofStep(clause_index=0, pr...ed='p', args=('a', 'b'))), ProofStep(clause_index=1, premise_steps=(0, 0), conclusion=Atom(pred='q', args=('a', 'b')))))
+
+tests/test_proof_subtree.py:190: AssertionError
+_________________ test_delegation_single_call_original_objects _________________
+
+    def test_delegation_single_call_original_objects():
+        import kmesh.logic.proof_subtree as m
+        calls = []
+        orig = m.canonical_proof_key
+    
+        def spy(clauses, query, proof, *, max_steps=10_000):
+            calls.append((clauses, query, proof, max_steps))
+            return orig(clauses, query, proof, max_steps=max_steps)
+        m.canonical_proof_key = spy
+        try:
+            extract_proof_subtree(W, Q, P, 0)
+            calls2 = []
+            def spy2(*a, **kw):
+                calls2.append((a, kw))
+                return orig(*a, **kw)
+            m.canonical_proof_key = spy2
+            extract_proof_subtree(W, Q, P, 0, max_steps=5)
+        finally:
+            m.canonical_proof_key = orig
+        assert len(calls2) == 1
+>       (clauses, query, proof, kw), = calls2
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: not enough values to unpack (expected 4, got 2)
+
+tests/test_proof_subtree.py:222: ValueError
+___________________ test_input_generation_and_list_rejected ____________________
+
+    def test_input_generation_and_list_rejected():
+        # proof as a generator: rejected by T0012 and NOT consumed
+        def gen():
+            yield ProofStep(3, (), a("p", "a", "b"))
+            yield ProofStep(1, (), a("q", "b", "c"))
+        g = gen()
+>       consumed = [iter(g).throw(RuntimeError("marker")) is not None]
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof_subtree.py:271: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   def gen():
+E   RuntimeError: marker
+
+tests/test_proof_subtree.py:267: RuntimeError
+__________________________ test_reorder_premise_remap __________________________
+
+    def test_reorder_premise_remap():
+        # swap the two facts 0 and 1, remap dependent refs
+        w = (
+            rule("w", "?x", "?z", ("u", "?x", "?y"), ("v", "?y", "?z")),
+            fact("q", "b", "c"),
+            rule("u", "?x", "?y", ("p", "?x", "?y"),),
+            fact("p", "a", "b"),
+            rule("v", "?x", "?y", ("q", "?x", "?y"),),
+        )
+        p = (
+            ProofStep(1, (), a("q", "b", "c")),   # swapped: fact q now at 0
+            ProofStep(3, (), a("p", "a", "b")),   # swapped: fact p now at 1
+            ProofStep(2, (1,), a("u", "a", "b")), # u now references p at 1
+            ProofStep(4, (0,), a("v", "b", "c")), # v now references q at 0
+            ProofStep(0, (2, 3), a("w", "a", "c")),
+        )
+        assert verify_proof(w, Q, p) is True
+        sub = extract_proof_subtree(w, Q, p, root_step=2)
+>       assert sub == _sub([(3, (), "p", "a", "b"), (2, (0,), "u", "a", "b")])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof_subtree.py:357: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof_subtree.py:73: in _sub
+    return tuple(ProofStep(ci, tuple(refs), con) for ci, refs, con in steps)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x7f40e567eb30>
+
+>   return tuple(ProofStep(ci, tuple(refs), con) for ci, refs, con in steps)
+                                                     ^^^^^^^^^^^^^
+E   ValueError: too many values to unpack (expected 3)
+
+tests/test_proof_subtree.py:73: ValueError
+__________________________ test_1201_step_copy_chain ___________________________
+
+    def test_1201_step_copy_chain():
+        # chain p0 -> ... -> p1200 ; root=600 -> 601 steps; max_steps=600 -> ProofLimitError
+>       clauses = [rule("c", "?x", "?y", ("c", "?y", "?z")) for _ in range(1200)]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof_subtree.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_proof_subtree.py:35: in rule
+    return Clause(
+<string>:5: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Clause(body=(Atom(pred='c', args=('?y', '?z')),), head=Atom(pred='c', args=('?x', '?y')))
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.head, Atom):
+            raise LogicValidationError(
+                f"clause.head must be an Atom, "
+                f"got {type(self.head).__name__}")
+        if not isinstance(self.body, tuple):
+            raise LogicValidationError(
+                f"clause.body must be a tuple of Atoms, "
+                f"got {type(self.body).__name__}")
+        if not 0 <= len(self.body) <= 2:
+            raise LogicValidationError(
+                f"clause.body must have 0, 1, or 2 premises, "
+                f"got {len(self.body)}")
+        for index, atom in enumerate(self.body):
+            if not isinstance(atom, Atom):
+                raise LogicValidationError(
+                    f"clause.body[{index}] must be an Atom, "
+                    f"got {type(atom).__name__}")
+        bound = set()
+        for atom in self.body:
+            bound |= atom.variables
+        unbound = self.head.variables - bound
+        if unbound:
+            names = ", ".join(f"'{name}'" for name in sorted(unbound))
+>           raise LogicValidationError(
+                f"clause.head contains variables not bound in clause.body: "
+                f"{names}")
+E           kmesh.logic.types.LogicValidationError: clause.head contains variables not bound in clause.body: '?x'
+
+src/kmesh/logic/types.py:144: LogicValidationError
+_____________________________ test_hard_isolation ______________________________
+
+    def test_hard_isolation():
+        root = Path(__file__).resolve().parents[1]
+        src_dir = str(root / "src")
+        script = _ISOLATION_SCRIPT.replace("@SRC_DIR@", json.dumps(src_dir))
+        env = dict(os.environ)
+        env["PYTHONPATH"] = src_dir
+        env["PYTHONHASHSEED"] = "0"
+        env["CUDA_VISIBLE_DEVICES"] = ""
+        r = subprocess.run([sys.executable, "-I", "-c", script],
+                           capture_output=True, text=True, timeout=120, env=env)
+>       assert r.returncode == 0, "exit=%d\n%s\n%s" % (r.returncode, r.stdout, r.stderr)
+E       AssertionError: exit=1
+E         BLOCKED-R:torch
+E         BLOCKED-R:yaml
+E         BLOCKED-R:kmesh.logic.engine
+E         BLOCKED-R:kmesh.logic.reference_engine
+E         BLOCKED-R:kmesh.logic.proof_enumeration
+E         BLOCKED-R:kmesh.logic.motif
+E         BLOCKED-S:torch.t0015_probe
+E         BLOCKED-S:yaml.t0015_probe
+E         BLOCKED-S:kmesh.logic.engine.t0015_probe
+E         BLOCKED-S:kmesh.logic.reference_engine.t0015_probe
+E         BLOCKED-S:kmesh.logic.proof_enumeration.t0015_probe
+E         BLOCKED-S:kmesh.logic.motif.t0015_probe
+E         
+E         Traceback (most recent call last):
+E           File "<string>", line 56, in <module>
+E             fact("q", "b", "c"),
+E             ~~~~^^^^^^^^^^^^^^^
+E           File "<string>", line 49, in fact
+E             return Clause((), (atom(pred, x, y),))
+E           File "<string>", line 5, in __init__
+E           File "/home/mye/src/llm/KMesh/src/kmesh/logic/types.py", line 122, in __post_init__
+E             raise LogicValidationError(
+E                 f"clause.head must be an Atom, "
+E                 f"got {type(self.head).__name__}")
+E         kmesh.logic.types.LogicValidationError: clause.head must be an Atom, got tuple
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-I', '-c', '\nimport sys, importlib, types\nsys.pa... f"got {type(self.head).__name__}")\nkmesh.logic.types.LogicValidationError: clause.head must be an Atom, got tuple\n').returncode
+
+tests/test_proof_subtree.py:522: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_subtree.py::test_main_example_anchors_and_occurrence
+FAILED tests/test_proof_subtree.py::test_bounded_cycle - AssertionError: asse...
+FAILED tests/test_proof_subtree.py::test_single_occurrence_rejection_propagates
+FAILED tests/test_proof_subtree.py::test_delegation_single_call_original_objects
+FAILED tests/test_proof_subtree.py::test_input_generation_and_list_rejected
+FAILED tests/test_proof_subtree.py::test_reorder_premise_remap - ValueError: ...
+FAILED tests/test_proof_subtree.py::test_1201_step_copy_chain - kmesh.logic.t...
+FAILED tests/test_proof_subtree.py::test_hard_isolation - AssertionError: exit=1
+8 failed, 8 passed in 0.27s

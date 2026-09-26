@@ -1,0 +1,15 @@
+{
+  "main_roots": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "main_budget": "5 accepted / 4 ProofLimitError",
+  "repeated_same_object": "two occurrences accepted",
+  "shared_refs": "T0006 True / T0012 rejected",
+  "finite_cycle": "accepted",
+  "result": "PASS",
+  "extraction_implementation": "not_run / not_created"
+}

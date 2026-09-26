@@ -1,0 +1,1 @@
+PASS: frozen baseline/planning, environment, branch, scope, in_progress; new product/tests absent

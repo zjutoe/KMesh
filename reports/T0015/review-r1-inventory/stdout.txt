@@ -1,0 +1,11 @@
+Frozen 3088 files unchanged; scope clean; 7 recorded Pi RUNs
+Product: 2127c1033b2a3c8d9b30dd3626272a0b6d28a2f63cf0f6d3269b1772ed6cc100
+Tests: 5877db68ecd470c97571871a0e8df78bd6dba62fdb88bc0fe27d1d69e9174494
+pi-r1-preflight 0 2026-09-25T11:37:42.194905+00:00 None ['PASS: frozen baseline/planning, environment, branch, scope, in_progress; new product/tests absent']
+pi-dev1 1 2026-09-25T11:59:13.396473+00:00 2127c1033b2a ['FAILED tests/test_proof_subtree.py::test_hard_isolation - AssertionError: exit=1', '8 failed, 8 passed in 0.27s']
+pi-dev2 1 2026-09-25T12:02:54.707842+00:00 2127c1033b2a ['FAILED tests/test_proof_subtree.py::test_hard_isolation - AssertionError: exit=1', '6 failed, 10 passed in 0.24s']
+pi-r1-full 0 2026-09-25T12:21:29.340772+00:00 2127c1033b2a ['.....................................................................    [100%]', '933 passed in 16.29s']
+pi-r1-focused 0 2026-09-25T12:21:56.174503+00:00 2127c1033b2a ['................                                                         [100%]', '16 passed in 0.14s']
+pi-r1-docs2 0 2026-09-25T12:56:40.669689+00:00 2127c1033b2a ['matches contract literal', 'PASS: scope/frozen, 4 docs/75 links, provenance link, states, hygiene, README example/test list; 5 previous T0015 RUNs']
+pi-r1-docs3 0 2026-09-25T12:58:50.048454+00:00 2127c1033b2a ['matches contract literal', 'PASS: scope/frozen, 4 docs/75 links, provenance link, states, hygiene, README example/test list; 6 previous T0015 RUNs']
+Directories without record: [{'path': 'reports/T0015/pi-r1', 'files': ['provenance.md']}, {'path': 'reports/T0015/pi-r1-docs', 'files': ['.gitignore', 'run-index.json']}]

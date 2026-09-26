@@ -1,0 +1,27 @@
+.........F.......                                                        [100%]
+=================================== FAILURES ===================================
+___________________ test_input_generation_and_list_rejected ____________________
+
+    def test_input_generation_and_list_rejected():
+        # proof as a REAL generator: T0012 rejects it on the
+        # isinstance(proof, tuple) check, *before* any iteration/consumption.
+        consumed = []
+        def gen_proof():
+            for s in (ProofStep(3, (), a("p", "a", "b")),
+                      ProofStep(1, (), a("q", "b", "c"))):
+                consumed.append(s)
+                yield s
+        gp = gen_proof()
+        with pytest.raises(LogicValidationError) as exc:
+            extract_proof_subtree(W, Q, gp, 0)
+        assert type(exc.value) is LogicValidationError
+>       assert str(exc.value) == "verify.proof must be a tuple of ProofStep, got generator"
+E       AssertionError: assert 'proof_key.pr...roof of query' == 'verify.proof...got generator'
+E         
+E         - verify.proof must be a tuple of ProofStep, got generator
+E         + proof_key.proof must be a valid proof of query
+
+tests/test_proof_subtree.py:314: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_subtree.py::test_input_generation_and_list_rejected
+1 failed, 16 passed in 0.26s

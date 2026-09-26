@@ -1,6 +1,6 @@
 # proof_motif_v1：单棵证明的跨世界结构签名
 
-- 日期／责任方：2026-09-24，Codex；对应 [D32](decisions.md#d32单棵证明的有界参考-motif-键)与 [T0014](handoffs/T0014-proof-motif.md)。这是审计表示契约，产品尚未实施。
+- 日期／责任方：2026-09-24，Codex；对应 [D32](decisions.md#d32单棵证明的有界参考-motif-键)与 [T0014](handoffs/T0014-proof-motif.md)。2026-09-25实现已通过第4轮验收并提交`f5ef96f`；本表示契约不变。
 - 依据：[proof_identity_v1 §4](proof_identity_v1.md#4-motif-的后续约束)、研究计划 §5.2。E0 `e0_v2`、E1 `e1_v3`、同世界证明身份和模型输入白名单不变。
 
 ## 1. 等价关系与边界

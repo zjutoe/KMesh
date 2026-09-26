@@ -1,0 +1,5 @@
+PASS: 26 ignored non-scratch artifacts inventoried and preserved; all absent from baseline/git-visible scope.
+PASS: omitted full record and all 5 inner guard cases have consistent source/test/stream hashes.
+LIMIT: omitted guards has no outer record/stdout/stderr; exact chronology and actor/model remain unknown.
+Recorded versions: final R2 full 14:21:52 -> restored R1 regression 14:31:24 -> final R2 full 14:32:18 UTC.
+Evidence visibility/reporting is incomplete; audit exit=0 does not mean task acceptance.

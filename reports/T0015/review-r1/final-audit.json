@@ -1,0 +1,21 @@
+{
+  "result": "needs_changes",
+  "task_status": "needs_changes",
+  "independent_focused": "16 passed",
+  "independent_full": "not_run; checked Pi 933 raw evidence",
+  "product_defects": [
+    "accepted ProofStep subclass reconstruction TypeError"
+  ],
+  "surviving_faults": [
+    "corrupt_chain_refs",
+    "retry_logic_error",
+    "consume_generator"
+  ],
+  "source_sha256": {
+    "src/kmesh/logic/proof_subtree.py": "2127c1033b2a3c8d9b30dd3626272a0b6d28a2f63cf0f6d3269b1772ed6cc100",
+    "tests/test_proof_subtree.py": "5877db68ecd470c97571871a0e8df78bd6dba62fdb88bc0fe27d1d69e9174494"
+  },
+  "frozen_planning_files": 3088,
+  "historical_inputs_unchanged": true,
+  "docs_links": 88
+}

@@ -1,0 +1,92 @@
+....F............                                                        [100%]
+=================================== FAILURES ===================================
+_______________________ test_accepted_proofstep_subclass _______________________
+
+    def test_accepted_proofstep_subclass():
+        from dataclasses import dataclass
+    
+        @dataclass(frozen=True)
+        class AnnotatedStep(ProofStep):
+            note: str
+    
+        # same main example, but every step is a subclass with a required `note`;
+        # the new layer must rebuild plain ProofStep (no subclass re-instantiation).
+        ann = (
+            AnnotatedStep(3, (), a("p", "a", "b"), "fact p"),
+            AnnotatedStep(1, (), a("q", "b", "c"), "fact q"),
+            AnnotatedStep(2, (0,), a("u", "a", "b"), "u"),
+            AnnotatedStep(4, (1,), a("v", "b", "c"), "v"),
+            AnnotatedStep(0, (2, 3), a("w", "a", "c"), "w"),
+        )
+        assert verify_proof(W, Q, ann) is True
+        assert canonical_proof_key(W, Q, ann) == canonical_proof_key(W, Q, P)
+>       sub = extract_proof_subtree(W, Q, ann, root_step=3)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_proof_subtree.py:191: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+clauses = (Clause(body=(Atom(pred='u', args=('?x', '?y')), Atom(pred='v', args=('?y', '?z'))), head=Atom(pred='w', args=('?x', '...pred='p', args=('a', 'b'))), Clause(body=(Atom(pred='q', args=('?x', '?y')),), head=Atom(pred='v', args=('?x', '?y'))))
+query = Atom(pred='w', args=('a', 'c'))
+proof = (test_accepted_proofstep_subclass.<locals>.AnnotatedStep(clause_index=3, premise_steps=(), conclusion=Atom(pred='p', a...ass.<locals>.AnnotatedStep(clause_index=0, premise_steps=(2, 3), conclusion=Atom(pred='w', args=('a', 'c')), note='w'))
+root_step = 3
+
+    def extract_proof_subtree(
+        clauses, query, proof, root_step, *, max_steps: int = 10_000
+    ) -> tuple:
+        # 1. Single full-input check: one T0012 call with the original three
+        #    objects and budget, no pre-scan / copy / consumption.  Its
+        #    LogicValidationError / ProofLimitError instances propagate
+        #    unchanged; the returned key is only a validity witness and is never
+        #    part of the result.
+        canonical_proof_key(clauses, query, proof, max_steps=max_steps)
+    
+        # 2. root_step must be a non-bool non-negative int.
+        if not (type(root_step) is int and root_step >= 0):
+            raise LogicValidationError(
+                "proof_subtree.root_step must be a non-bool non-negative integer, "
+                "got " + type(root_step).__name__
+            )
+    
+        # 3. root_step must index into the proof; the value is never echoed.
+        if root_step >= len(proof):
+            raise LogicValidationError(
+                "proof_subtree.root_step must be less than the proof length"
+            )
+    
+        # 4. Explicit-stack walk over the chosen step's premise_steps,
+        #    gathering the member occurrence **positions**.  A step that occurs
+        #    at two (or more) positions yields two positions — no deduplication
+        #    by value or object identity; only the branches the root actually
+        #    references are gathered (no alternate-proof search).
+        selected = {root_step}
+        stack = [root_step]
+        while stack:
+            i = stack.pop()
+            for ref in proof[i].premise_steps:
+                if ref not in selected:
+                    selected.add(ref)
+                    stack.append(ref)
+    
+        # 5. One linear pass in the original proof order (not DFS order).  Each
+        #    premise reference is remapped to its new contiguous position; the
+        #    original clause_index and ground conclusion are preserved.
+        new_pos = {}
+        out = []
+        for i, step in enumerate(proof):
+            if i not in selected:
+                continue
+            new_pos[i] = len(out)
+            out.append(
+>               type(step)(
+                    step.clause_index,
+                    tuple(new_pos[ref] for ref in step.premise_steps),
+                    step.conclusion,
+                )
+            )
+E           TypeError: test_accepted_proofstep_subclass.<locals>.AnnotatedStep.__init__() missing 1 required positional argument: 'note'
+
+src/kmesh/logic/proof_subtree.py:73: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_proof_subtree.py::test_accepted_proofstep_subclass - TypeEr...
+1 failed, 16 passed in 0.16s

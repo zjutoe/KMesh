@@ -1,0 +1,5 @@
+submitted exit= 0 guard_valid= True target= None
+corrupt_chain_refs exit= 1 guard_valid= True target= test_1201_step_copy_chain
+retry_logic_error exit= 1 guard_valid= True target= test_sentinel_priority
+consume_generator exit= 1 guard_valid= True target= test_input_generation_and_list_rejected
+lazy_forbidden_import exit= 1 guard_valid= True target= test_hard_isolation

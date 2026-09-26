@@ -1,0 +1,16 @@
+{
+  "head": "f5ef96f7d6d261beb2dba6fc8c47300f24c9ff41",
+  "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:16:10) [GCC 11.2.0]",
+  "executable": "/home/mye/src/llm/KMesh/.venv/bin/python",
+  "kmesh_path": "/home/mye/src/llm/KMesh/src/kmesh/__init__.py",
+  "packages": {
+    "kmesh": "0.1.0",
+    "pytest": "8.4.2"
+  },
+  "tracked_changes_at_capture": [],
+  "new_product_and_test_absent": true,
+  "accepted_T0014_sha256": {
+    "src/kmesh/logic/motif.py": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+    "tests/test_motif.py": "3c448a396203c3ff32a7febaeb494cec6e565b1ec600e5c70732a61adbb7f722"
+  }
+}

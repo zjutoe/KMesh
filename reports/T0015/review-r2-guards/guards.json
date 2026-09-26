@@ -1,0 +1,100 @@
+{
+  "all_guards_valid": true,
+  "cases": {
+    "submitted": {
+      "exit_code": 0,
+      "target": null,
+      "guard_valid": true,
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_subtree.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/submitted/pytest-tmp/basetemp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/submitted/pytest-tmp/work",
+      "product_sha256": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c",
+      "test_sha256": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce",
+      "stdout_sha256": "551fc771815904231a6da298f1c437edf7595fd111a7eb29e1fe070136eeb1ee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "corrupt_chain_refs": {
+      "exit_code": 1,
+      "target": "test_1201_step_copy_chain",
+      "guard_valid": true,
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_subtree.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/corrupt_chain_refs/pytest-tmp/basetemp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/corrupt_chain_refs/pytest-tmp/work",
+      "product_sha256": "cddf60a1dafe97bba315ce0072cc2623caae4512e611e71e40fe06a4b9acdf8a",
+      "test_sha256": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce",
+      "stdout_sha256": "e9f366b992a22bfa655545385aeb0db631d15de791960a20ab3aad65ed22de9e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "retry_logic_error": {
+      "exit_code": 1,
+      "target": "test_sentinel_priority",
+      "guard_valid": true,
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_subtree.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/retry_logic_error/pytest-tmp/basetemp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/retry_logic_error/pytest-tmp/work",
+      "product_sha256": "f540ab7af81410c68b177395e0431f7b35231f90072d678a2ae4de7982e0ddd6",
+      "test_sha256": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce",
+      "stdout_sha256": "6cc15dd5b3eefe4eaa5546a113dbab0de1a483acb986c92fcbb1e97faca3a687",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "consume_generator": {
+      "exit_code": 1,
+      "target": "test_input_generation_and_list_rejected",
+      "guard_valid": true,
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_subtree.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/consume_generator/pytest-tmp/basetemp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/consume_generator/pytest-tmp/work",
+      "product_sha256": "8b68cc667bfd4118d45fb1c24c0470439d53fc793f089c4c347e6013f0b79ddd",
+      "test_sha256": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce",
+      "stdout_sha256": "624cd57edd99fa62cd31d179c5de4d8672cc9a2ce3840d044dba4b5bddab14f4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "lazy_forbidden_import": {
+      "exit_code": 1,
+      "target": "test_hard_isolation",
+      "guard_valid": true,
+      "argv": [
+        "/home/mye/src/llm/KMesh/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_proof_subtree.py",
+        "--basetemp",
+        "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/lazy_forbidden_import/pytest-tmp/basetemp"
+      ],
+      "cwd": "/home/mye/src/llm/KMesh/reports/T0015/review-r2-guards/lazy_forbidden_import/pytest-tmp/work",
+      "product_sha256": "a3840e089e2a239593339a4443fa8993e0a687b9e022ccdd35a1252715baeeae",
+      "test_sha256": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce",
+      "stdout_sha256": "7abb1dc678bea37b5de8c6bde570a64b153315595fd9fd5e84ce75b280fed240",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

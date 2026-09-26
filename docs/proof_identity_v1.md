@@ -2,7 +2,7 @@
 
 - 日期／责任方：2026-09-20，Codex。
 - 依据：研究计划 §4.4–4.5、§5.2；[D29](decisions.md#d29规范条款键与证明身份分层)。
-- 状态：T0011 单 clause 键和 [T0012](handoffs/T0012-proof-key.md)单棵出现树证明键已验收；[T0013](handoffs/T0013-proof-count.md)单查询规范证明计数已验收。下一项 [T0014](handoffs/T0014-proof-motif.md)落实单树 motif 参考键；正式数据生成前，仍须完成 world 准入、motif／子结构匹配和 split manifest 的实施验收。
+- 状态：T0011单clause键、[T0012](handoffs/T0012-proof-key.md)单棵证明键、[T0013](handoffs/T0013-proof-count.md)规范计数及[T0014](handoffs/T0014-proof-motif.md)单树motif参考键均已验收。下一项[T0015](handoffs/T0015-proof-subtree.md)抽取完整有根支持子树；正式数据生成前，仍须完成world准入、motif／一般子结构匹配和split manifest的实施验收。
 - 版本影响：E0 主协议仍为 `e0_v2`；新增审计子协议 `proof_identity_v1`。后续唯一性审计须记录此版本，不得将 T0009 原始树数量直接重标为规范证明数。本次没有生成或重新标记任何研究数据。
 
 ## 1. 两种不同问题
@@ -75,4 +75,4 @@ T0009 的累计生成步数预算 S 大于等于每棵返回树长度，故传�
 
 跨世界抽象需用**全树一致**的关系双射和实体双射；两个命名空间彼此独立，不能逐节点各自改名。保留共享符号关系、局部 schema 变量绑定、参数位置、重复槽位及组合树；COPY/INV 等 schema 差异不能因实例化为相同实体而消失。两次 COPY 与两次 INV 即使端点映射相同，也不因此合并。
 
-单树 motif 的完整编码、全局改名与模板退化约定现由 [proof_motif_v1](motif_identity_v1.md)和 T0014 交接冻结，待实施验收。内部子结构匹配、保留清单和 split 数量仍须单独交接与审阅，当前不能生成正式 motif 划分或声称无泄漏。Clause 键、证明、支持集、signature 均为审计材料，不自动成为模型可见信息。
+单树motif的完整编码、全局改名与模板退化约定由[proof_motif_v1](motif_identity_v1.md)冻结，T0014已验收。T0015只抽取某个发生的全部后继支持，保留原步骤次序并重映射引用；不定义任意剪枝或边界变量匹配，抽取后也不保留外部上下文。内部子结构匹配、保留清单和split数量仍须单独交接与审阅，当前不能生成正式motif划分或声称无泄漏。Clause键、证明、支持集、signature均为审计材料，不自动成为模型可见信息。

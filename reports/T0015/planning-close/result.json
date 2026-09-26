@@ -1,0 +1,29 @@
+{
+  "task_status": "ready",
+  "baseline": "f5ef96f7d6d261beb2dba6fc8c47300f24c9ff41",
+  "checks": {
+    "planning-baseline": {
+      "exit_code": 0,
+      "elapsed_s": 0.102
+    },
+    "planning-examples": {
+      "exit_code": 0,
+      "elapsed_s": 0.059
+    },
+    "planning-edge-examples": {
+      "exit_code": 0,
+      "elapsed_s": 0.088
+    },
+    "planning-collect": {
+      "exit_code": 0,
+      "elapsed_s": 0.515
+    }
+  },
+  "independent_design_review": "read-only /root/design_t0012; no unresolved design findings",
+  "current_baseline_tests_collected": 917,
+  "new_product": "not_created",
+  "new_tests": "not_created",
+  "research_protocol_changed": false,
+  "committed": false,
+  "pushed": false
+}

@@ -1,0 +1,7 @@
+{
+  "internal_join": "valid full/expected five-step subtree",
+  "unused": "T0006 True / T0012 rejected",
+  "chain": "1201 input / 601 expected subtree / full budget600 rejected",
+  "result": "PASS",
+  "new_API": "not_created"
+}

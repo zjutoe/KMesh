@@ -1,0 +1,35 @@
+...............F.                                                        [100%]
+=================================== FAILURES ===================================
+__________________________ test_1201_step_copy_chain ___________________________
+
+    def test_1201_step_copy_chain():
+        # hand-made 1201-step chain c0 -> c1 -> ... -> c1200 (distinct
+        # predicates); root=600 yields the 601-step prefix, max_steps=600
+        # must raise ProofLimitError (full input, not just the local prefix).
+        n = 1201
+        def pred(i):
+            return "c%d" % i
+        w = (fact(pred(0), "a", "b"),) + tuple(
+            rule(pred(i), "?x", "?y", (pred(i - 1), "?x", "?y"),)
+            for i in range(1, n)
+        )
+        p = (ProofStep(0, (), a(pred(0), "a", "b")),) + tuple(
+            ProofStep(i, (i - 1,), a(pred(i), "a", "b")) for i in range(1, n)
+        )
+        q = a(pred(n - 1), "a", "b")
+        assert verify_proof(w, q, p) is True
+        sub = extract_proof_subtree(w, q, p, root_step=600, max_steps=1201)
+        assert len(sub) == 601
+        for i in range(601):
+            assert sub[i].clause_index == i
+            assert sub[i].conclusion == a(pred(i), "a", "b")
+>           assert sub[i].premise_steps == (() if i == 0 else (i - 1,))
+E           assert (0,) == (1,)
+E             
+E             At index 0 diff: 0 != 1
+E             Use -v to get more diff
+
+tests/test_proof_subtree.py:472: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_subtree.py::test_1201_step_copy_chain - assert (0,) =...
+1 failed, 16 passed in 0.25s

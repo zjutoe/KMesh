@@ -1,0 +1,3 @@
+T0015 subtree root=3: (ProofStep(clause_index=1, premise_steps=(), conclusion=Atom(pred='q', args=('b', 'c'))), ProofStep(clause_index=4, premise_steps=(0,), conclusion=Atom(pred='v', args=('b', 'c'))))
+matches contract literal
+PASS: scope/frozen, 4 docs/75 links, provenance link, states, hygiene, README example/test list; 5 previous T0015 RUNs

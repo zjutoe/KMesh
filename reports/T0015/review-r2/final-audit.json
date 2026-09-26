@@ -1,0 +1,30 @@
+{
+  "result": "needs_changes",
+  "task_status": "needs_changes",
+  "product_and_tests": "PASS; frozen",
+  "source_sha256": {
+    "src/kmesh/logic/proof_subtree.py": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c",
+    "tests/test_proof_subtree.py": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce"
+  },
+  "independent_focused": 17,
+  "independent_mutants_rejected": 4,
+  "independent_output_probes": 15,
+  "independent_full": "not_run",
+  "pi_full_verified": {
+    "runs": [
+      "pi-r1-r2full",
+      "pi-r2-full"
+    ],
+    "passed_each": 934
+  },
+  "prior_r2_frozen_files_unchanged": 3167,
+  "verified_completed_pi_outer_records": 13,
+  "visible_archived_artifacts": 26,
+  "local_links_checked": 101,
+  "open_items": [
+    "E1: restore original evidence Git visibility",
+    "E2: append accurate chronology and source attribution"
+  ],
+  "codex_helper_failure": "review-r2-evidence2 miscounted 26 as 27; retained, corrected in new evidence3 RUN",
+  "next_round": "manual Pi + authorized bonsai2-27b, evidence only; no product/tests/full/models/Codinator"
+}

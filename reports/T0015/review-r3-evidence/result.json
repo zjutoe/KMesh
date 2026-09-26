@@ -1,0 +1,55 @@
+{
+  "result": "PASS",
+  "baseline_files": 3374,
+  "unchanged_frozen_files": 3369,
+  "restored_visible_files": 26,
+  "raw_artifacts_unchanged": 24,
+  "ignore_files_append_only": 2,
+  "pi_r3_runs": [
+    {
+      "run": "pi-r3-preflight",
+      "started_at_utc": "2026-09-25T15:58:52.075495+00:00",
+      "exit_code": 0
+    },
+    {
+      "run": "pi-r3-docs",
+      "started_at_utc": "2026-09-25T16:13:56.290672+00:00",
+      "exit_code": 0
+    }
+  ],
+  "indexed_prior_pi_runs": 14,
+  "total_completed_pi_runs": 15,
+  "source_sha256": {
+    "src/kmesh/logic/proof_subtree.py": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c",
+    "tests/test_proof_subtree.py": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce"
+  },
+  "submitted_document_sha256": {
+    "README.md": "e1506c7f10c5cc792252fb239c2b429fac07bc26affd30e869e57bc3e7afaa20",
+    "docs/implementation_status.md": "4cae083c3d37f3e0656b2f58e315c0876ed304451833db20ae6ca84f4e80a168",
+    "docs/handoffs/T0015-proof-subtree.md": "94e87160d48c710f4ad943ab92a40bd0c2e3fba62cbf3aa551321dd46d9a1825",
+    "reports/T0015/pi-r3/provenance.md": "4f74f7db38d498d96f89f48c0e53a5ca5f9d55901b2062bba54d1349fedbd1f5"
+  },
+  "pi_r3_files_sha256": {
+    "reports/T0015/pi-r3-preflight/record.json": "c936b0f06360b447e091348334f437e8c782f390bdadc811aa6f1673fade1b5b",
+    "reports/T0015/pi-r3-preflight/stdout.txt": "6f7527dacd41c40f1d43e491450d090229fed7a6b87e407b7dbaf9b4fccb9ca8",
+    "reports/T0015/pi-r3-preflight/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/T0015/pi-r3/provenance.md": "4f74f7db38d498d96f89f48c0e53a5ca5f9d55901b2062bba54d1349fedbd1f5",
+    "reports/T0015/pi-r3-docs/record.json": "b157fd0b8c2acbe7615451baceba39c4f84b6462958b593ebd518d769bf5ea07",
+    "reports/T0015/pi-r3-docs/run-index.json": "96fa673c4df1e505b8a70fdf6b341a360e5ad37041286c938ef36f1b66ac2e53",
+    "reports/T0015/pi-r3-docs/stdout.txt": "16d9ca73d03d80dadb6c6bd3704f3e3a058e4836a27bd9fc3fcb81b41f2c8d96",
+    "reports/T0015/pi-r3-docs/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "links_checked": 89,
+  "product_tests_executed_this_round": false,
+  "editorial_clarifications": [
+    "14 prior records indexed, 15 including current docs; 13 was the R2 cutoff",
+    "26 visible = 24 unchanged artifacts + 2 append-only ignore files",
+    "17 independent tests belong to Codex R2, not the Pi R3 provenance; prefill means preflight"
+  ],
+  "historical_limits": [
+    "R2 preflight unrecorded",
+    "omitted guards outer record absent",
+    "R2 regression followed a passing fixed-source full",
+    "historical model attribution unknown"
+  ]
+}

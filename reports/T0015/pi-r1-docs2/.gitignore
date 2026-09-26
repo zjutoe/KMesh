@@ -1,0 +1,4 @@
+# Run evidence.
+
+**/__pycache__/
+**/pytest-tmp/

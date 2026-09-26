@@ -1,0 +1,19 @@
+{
+  "exit_code": 1,
+  "target": "test_hard_isolation",
+  "guard_valid": true,
+  "argv": [
+    "/home/mye/src/llm/KMesh/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_proof_subtree.py",
+    "--basetemp",
+    "/home/mye/src/llm/KMesh/reports/T0015/pi-r2-guards/lazy_forbidden_import/pytest-tmp/basetemp"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh/reports/T0015/pi-r2-guards/lazy_forbidden_import/pytest-tmp/work",
+  "product_sha256": "a3840e089e2a239593339a4443fa8993e0a687b9e022ccdd35a1252715baeeae",
+  "test_sha256": "955ca72abf90b0574afcd75b7ccc0bfe3a3c0a114c063534b5cc24d7440c3bce",
+  "stdout_sha256": "e2728969fdd63f6d80dfd42b8dede3ee91cd142bef317787696f792936db8557",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

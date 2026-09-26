@@ -1,0 +1,28 @@
+........F........                                                        [100%]
+=================================== FAILURES ===================================
+____________________________ test_sentinel_priority ____________________________
+
+    def test_sentinel_priority():
+        import kmesh.logic.proof_subtree as m
+        calls = []
+        orig = m.canonical_proof_key
+        # LogicValidationError sentinel + root=-1 : LVE first, then root check
+        sentinel1 = LogicValidationError("t0015-lve-sentinel")
+        def raiser1(*a, **kw):
+            calls.append((a, kw)); raise sentinel1
+        calls.clear()
+        m.canonical_proof_key = raiser1
+        try:
+            with pytest.raises(LogicValidationError) as exc:
+                extract_proof_subtree(W, Q, P, -1, max_steps=10_000)
+            assert exc.value is sentinel1
+            assert type(exc.value) is LogicValidationError
+            assert str(exc.value) == "t0015-lve-sentinel"
+>           assert len(calls) == 1
+E           AssertionError: assert 2 == 1
+E            +  where 2 = len([(((Clause(body=(Atom(pred='u', args=('?x', '?y')), Atom(pred='v', args=('?y', '?z'))), head=Atom(pred='w', args=('?x'..., ProofStep(clause_index=0, premise_steps=(2, 3), conclusion=Atom(pred='w', args=('a', 'c'))))), {'max_steps': 10000})])
+
+tests/test_proof_subtree.py:281: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_subtree.py::test_sentinel_priority - AssertionError: ...
+1 failed, 16 passed in 0.26s

@@ -385,9 +385,9 @@ print("COPY motif key matches contract literal")
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_motif.py tests/test_proof_count.py tests/test_proof_key.py tests/test_clause_key.py tests/test_depth.py tests/test_proof_enumeration.py tests/test_derivations.py tests/test_dependency.py tests/test_proof.py tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
 ```
 
-当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 的单查询原始有序证明树枚举已验收（`accepted`，第 2 轮关闭 R1–R3，执行限制保留）；T0010 的单查询最短证明深度已验收（`accepted`，第 3 轮关闭 R1–R4，历史留证限制保留）；T0011 的单条 clause 规范内容键已验收（`accepted`，第 2 轮关闭 R1–R4，独立 63 项及五个违约守卫通过）；T0012 的单棵证明规范键已验收（`accepted`，Codex R5 独立 69 项及 13 个违约守卫通过，三组输入纯度以独立探针补证，流程偏差与历史限制保留）；T0013 的单查询规范证明计数已验收（`accepted`，Codex 第 3 轮独立 21 项、前缀守卫及运行期硬隔离通过，历史记录限制保留）；T0014 的单棵证明跨世界 motif 键已通过 Codex 第4轮验收（`accepted`，独立32项及四个违约守卫通过，执行限制保留）；正式数据唯一性准入、world motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
+当前限制：T0001、T0002、T0003 覆盖最小包、环境诊断、模型结构配置校验与带静态校验的不可变逻辑类型（均已验收）；T0004 覆盖朴素参考闭包求解器（已验收）；T0005 覆盖索引主闭包求解器与 64 个固定 seed 小世界交叉验证（第 2 轮已验收，`accepted`）；T0006 覆盖独立给定证明验证器（第 3 轮已验收，`accepted`）；T0007 覆盖离线关系依赖无环检查（第 2 轮已验收，`accepted`）；T0008 覆盖无环世界的直接推导枚举（第 2 轮已验收，`accepted`）；T0009 的单查询原始有序证明树枚举已验收（`accepted`，第 2 轮关闭 R1–R3，执行限制保留）；T0010 的单查询最短证明深度已验收（`accepted`，第 3 轮关闭 R1–R4，历史留证限制保留）；T0011 的单条 clause 规范内容键已验收（`accepted`，第 2 轮关闭 R1–R4，独立 63 项及五个违约守卫通过）；T0012 的单棵证明规范键已验收（`accepted`，Codex R5 独立 69 项及 13 个违约守卫通过，三组输入纯度以独立探针补证，流程偏差与历史限制保留）；T0013 的单查询规范证明计数已验收（`accepted`，Codex 第 3 轮独立 21 项、前缀守卫及运行期硬隔离通过，历史记录限制保留）；T0014 的单棵证明跨世界 motif 键已通过 Codex 第4轮验收（`accepted`，独立32项及四个违约守卫通过，执行限制保留）；T0015 的完整有根证明子树抽取已通过第3轮验收（`accepted`，独立17项、四错误副本及15个输出探针沿用第2轮；证据可见性和记录更正已关闭，历史限制保留）；正式数据唯一性准入、world motif 审计、完整运行配置校验、数据、模型、训练与评估均未实现，M0 未完成。实现状态见 [docs/implementation_status.md](docs/implementation_status.md)。
 
-截至 2026-09-24，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。T0014 单树 motif 键已通过 Codex 第4轮验收（`accepted`，2026-09-25），具体证据与执行限制见上文。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
+截至 2026-09-24，项目处于 M0 实施阶段：研究计划和协作协议已建立；**T0001：最小 Python 包与环境诊断命令** 和 **T0002：模型结构配置的读取与校验** 均已通过 Codex 验收（`accepted`）。T0002 第 3 轮独立复跑 99 个测试、规定检查和原始异常反例通过；验收依据及历史证据限制见 [T0002 交接文档](docs/handoffs/T0002-model-config.md)。**T0003：逻辑原子与 clause 的不可变表示及静态校验**第 2 轮验收通过（`accepted`），R1 已关闭；独立完整回归 167 项及首轮 18 项边界探测全通过，见 [T0003 交接文档](docs/handoffs/T0003-logic-types.md)。**T0004：小世界朴素参考闭包求解器**第 2 轮验收通过（`accepted`），R1 关闭：独立原因守卫 7/7 有效、完整回归 218 项通过，见 [T0004 交接文档](docs/handoffs/T0004-reference-closure.md)。**T0005：独立索引闭包与小世界交叉验证**第 2 轮验收通过（`accepted`，2026-09-16）：独立完整回归 337 项与原流式探针通过，R1–R3 关闭，见 [T0005 交接文档](docs/handoffs/T0005-indexed-closure.md)。T0014 单树 motif 键已通过 Codex 第4轮验收（`accepted`，2026-09-25），具体证据与执行限制见上文；T0015 单树内部结论的全部支持已通过第3轮验收（`accepted`，2026-09-26，见下文）。M0 尚未完成，也尚无研究实验结果，以上内容描述的目标与路径仍待验证。
 
 实施采用小任务逐项推进：Codex + `gpt-6-astra`（`xhigh`）负责分解任务、编写交接文档和验收；Pi + `qwen3.8-coding-27b` 负责实现与自检。每项任务都有明确步骤、验证方法和验收标准，交接与执行记录统一保存在 `docs/handoffs/`。
 
@@ -397,3 +397,51 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_motif.
 - [项目工作协议](AGENTS.md)：职责分工、实施边界和验收流程。
 - [任务交接目录](docs/handoffs/)：逐项实施的任务契约与记录。
 - [首项任务 T0001](docs/handoffs/T0001-bootstrap-doctor.md)：建立可安装包和真实环境诊断入口。
+
+## 完整证明子树（T0015）：单棵证明内部结论的全部支持
+
+`kmesh.logic.proof_subtree` 提供单函数 `extract_proof_subtree(clauses, query, proof, root_step, *, max_steps=10_000)`。对已提交且已验证合法的单一发生树（T0012），选定一个步骤 `root_step`（非负整型），抽出该结论及其**实际依赖**的全部步骤，按原存储顺序返回一个紧凑子证明；重编前提引用，保留原 `clause_index`、ground 结论与前提槽序，不重排步骤。`max_steps` 始终约束**整个输入**长度（默认 10_000），不是输出长度；提取过程为 O(n)（不含 T0012 自身成本）。首操作恰一次调用 T0012 `canonical_proof_key`（原对象／预算原样透传），其 `LogicValidationError`／`ProofLimitError` 原实例透传；成功后只查 `root_step` 型与越界。不调用 `verify_proof`、不导入 motif／求解器／枚举器、零 IO／递归／缓存、`logic/__init__.py` 不变。
+
+输出是离线审计原语，不是结构等价／唯一性判据，也不表示 world 无泄漏、内部子结构匹配或 split 完成；重复发生按位置保留（不按值／对象去重）。
+
+当前状态为 **`accepted`**（2026-09-26，Codex第3轮验收）。E1已确认26项证据恢复Git可见，其中24个原始文件不变、2份忽略规则仅追加；E2执行时序和结果来源已更正，历史记录缺失与模型归属unknown保留。产品／测试保持第2轮冻结版本，沿用Codex独立17项、四错误副本、15个输出探针及已核验的Pi934项回归；本轮只检查证据和文档。详见 [最终验收报告](reports/T0015/review-r3/review.md)与 [交接文档](docs/handoffs/T0015-proof-subtree.md)。本任务按原手工流程完成，后续交接可按用户授权使用Codinator；本轮未调度新任务。
+
+最小可运行例（主例 root=3，断言完整两步输出）：
+
+```python
+from kmesh.logic.types import Atom, Clause
+from kmesh.logic.proof import ProofStep
+from kmesh.logic.proof_subtree import extract_proof_subtree
+
+def a(pred, x, y):
+    return Atom(pred, (x, y))
+
+clauses = (
+    Clause((a("u", "?x", "?y"), a("v", "?y", "?z")), a("w", "?x", "?z")),
+    Clause((), a("q", "b", "c")),
+    Clause((a("p", "?x", "?y"),), a("u", "?x", "?y")),
+    Clause((), a("p", "a", "b")),
+    Clause((a("q", "?x", "?y"),), a("v", "?x", "?y")),
+)
+query = a("w", "a", "c")
+proof = (
+    ProofStep(3, (), a("p", "a", "b")),
+    ProofStep(1, (), a("q", "b", "c")),
+    ProofStep(2, (0,), a("u", "a", "b")),
+    ProofStep(4, (1,), a("v", "b", "c")),
+    ProofStep(0, (2, 3), a("w", "a", "c")),
+)
+sub = extract_proof_subtree(clauses, query, proof, root_step=3)
+assert sub == (
+    ProofStep(1, (), a("q", "b", "c")),
+    ProofStep(4, (0,), a("v", "b", "c")),
+)
+print("T0015 subtree root=3:", sub)
+print("matches contract literal")
+```
+
+运行测试（T0015 及既有回归，十五文件）：
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_proof_subtree.py tests/test_motif.py tests/test_proof_count.py tests/test_proof_key.py tests/test_clause_key.py tests/test_depth.py tests/test_proof_enumeration.py tests/test_derivations.py tests/test_dependency.py tests/test_proof.py tests/test_engine.py tests/test_reference_engine.py tests/test_logic_types.py tests/test_config.py tests/test_doctor.py
+```

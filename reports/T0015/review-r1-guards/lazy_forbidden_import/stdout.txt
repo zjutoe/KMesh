@@ -1,0 +1,45 @@
+...............F                                                         [100%]
+=================================== FAILURES ===================================
+_____________________________ test_hard_isolation ______________________________
+
+    def test_hard_isolation():
+        root = Path(__file__).resolve().parents[1]
+        src_dir = str(root / "src")
+        script = _ISOLATION_SCRIPT.replace("@SRC_DIR@", json.dumps(src_dir))
+        env = dict(os.environ)
+        env["PYTHONPATH"] = src_dir
+        env["PYTHONHASHSEED"] = "0"
+        env["CUDA_VISIBLE_DEVICES"] = ""
+        r = subprocess.run([sys.executable, "-I", "-c", script],
+                           capture_output=True, text=True, timeout=120, env=env)
+>       assert r.returncode == 0, "exit=%d\n%s\n%s" % (r.returncode, r.stdout, r.stderr)
+E       AssertionError: exit=1
+E         BLOCKED-R:torch
+E         BLOCKED-R:yaml
+E         BLOCKED-R:kmesh.logic.engine
+E         BLOCKED-R:kmesh.logic.reference_engine
+E         BLOCKED-R:kmesh.logic.proof_enumeration
+E         BLOCKED-R:kmesh.logic.motif
+E         BLOCKED-S:torch.t0015_probe
+E         BLOCKED-S:yaml.t0015_probe
+E         BLOCKED-S:kmesh.logic.engine.t0015_probe
+E         BLOCKED-S:kmesh.logic.reference_engine.t0015_probe
+E         BLOCKED-S:kmesh.logic.proof_enumeration.t0015_probe
+E         BLOCKED-S:kmesh.logic.motif.t0015_probe
+E         
+E         Traceback (most recent call last):
+E           File "<string>", line 70, in <module>
+E             sub = proof_subtree.extract_proof_subtree(wm, qm, pm, 3, max_steps=20)
+E           File "/home/mye/src/llm/KMesh/reports/T0015/review-r1-guards/lazy_forbidden_import/pytest-tmp/work/src/kmesh/logic/proof_subtree.py", line 34, in extract_proof_subtree
+E             import kmesh.logic.motif
+E           File "<string>", line 14, in find_spec
+E             raise ModuleNotFoundError(MSG + fullname)
+E         ModuleNotFoundError: T0015 blocked: kmesh.logic.motif
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mye/src/llm/KMesh/.venv/bin/python', '-I', '-c', '\nimport sys, importlib, types\nsys.pa... in find_spec\n    raise ModuleNotFoundError(MSG + fullname)\nModuleNotFoundError: T0015 blocked: kmesh.logic.motif\n').returncode
+
+tests/test_proof_subtree.py:532: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_proof_subtree.py::test_hard_isolation - AssertionError: exit=1
+1 failed, 15 passed in 0.24s
