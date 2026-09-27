@@ -1,0 +1,21 @@
+{
+  "exit_code": 0,
+  "failure": null,
+  "started": 1790484482.239523,
+  "finished": 1790484500.5249875,
+  "elapsed_seconds": 18.285464763641357,
+  "streams": {
+    "stdout.txt": {
+      "kind": "file",
+      "mode": 384,
+      "sha256": "33f35221f11f9f005885f1132a75fe547a4c457dbc0d8a1eb17314c45dc31ec6",
+      "size": 1222
+    },
+    "stderr.txt": {
+      "kind": "file",
+      "mode": 384,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    }
+  }
+}

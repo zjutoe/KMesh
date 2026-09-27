@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "baseline": "783cdd2dd00643815f084d97fbd1038265a2003c",
+  "manifest": "T0017-query-motifs",
+  "new_product_and_test_absent": true,
+  "existing_source_and_test_hashes_unchanged": true,
+  "hand_fixtures": 11,
+  "baseline_tests": 960,
+  "documents": 5,
+  "local_links": 113,
+  "handoff_sha256": "32bdd08f50149203586b6dfe9196adca8505fff7795edbeec29185726f9f75ff",
+  "task_manifest_sha256": "17c9b5fbada7fa2a50bb47d92b30c3e31e0a5dfae2d98ead66e99bfcc38c7eb0",
+  "not_product_acceptance": true
+}

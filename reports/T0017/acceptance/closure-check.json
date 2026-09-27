@@ -1,0 +1,30 @@
+{
+  "result": "PASS",
+  "checked_at_utc": "2026-09-27T08:50:57.373685+00:00",
+  "accepted_files": {
+    "src/kmesh/logic/query_motifs.py": "3feb1fb5801e5504fd9d79e6087bab06e159ec69f098ed3168aeb950e6e456f9",
+    "tests/test_query_motifs.py": "17c022f05acd7751b2e6677f8a1e698c99479a50c9b64d67baf9dfe6141cc59c"
+  },
+  "post_acceptance_changes": [
+    "README.md",
+    "docs/handoffs/T0017-query-motifs.md",
+    "docs/implementation_status.md",
+    "reports/T0017/acceptance",
+    "reports/T0017/acceptance/attempt-0002.verdict.json",
+    "reports/T0017/acceptance/attempt-0003.verdict.json",
+    "reports/T0017/acceptance/attempt-0004.verdict.json",
+    "reports/T0017/acceptance/focused.result.json",
+    "reports/T0017/acceptance/focused.stdout.txt",
+    "reports/T0017/acceptance/full.result.json",
+    "reports/T0017/acceptance/full.stdout.txt",
+    "reports/T0017/acceptance/published-handoff.txt",
+    "reports/T0017/acceptance/review.md",
+    "reports/T0017/acceptance/summary.json"
+  ],
+  "local_links_checked": 100,
+  "published_handoff_preserved": true,
+  "accepted_implementation_unchanged": true,
+  "master_local_agents_unchanged": true,
+  "git_diff_check_exit": 0,
+  "tests_or_models_invoked": false
+}

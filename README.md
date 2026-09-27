@@ -455,3 +455,11 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q tests/test_proof_
 当前为 **`accepted`**（2026-09-26，round 2 / attempt 3）：通过 Codinator 完成实施、独立审计、一次测试返工和再审。
 最终控制器26项定向／960项回归通过，独立Codex复跑26项并确认异常路径守卫有效；产品在返工中未改。
 首次审计因额度中断，用户授权仅审计恢复后自动闭环。原件与限制见 [验收报告](reports/T0016/acceptance/review.md)、[交接文档](docs/handoffs/T0016-subtree-motifs.md)和 [执行清单](reports/T0016/task.json)。
+
+## 一个问题的全部证明结构（T0017）
+
+`kmesh.logic.query_motifs.query_subtree_motif_keys(clauses, query, *, max_fact_checks=100_000, max_derivations=100_000, max_proof_steps=100_000, max_orientations=100_000)` 把同一查询的所有原始证明都检查一遍，汇总每个发生位置的完整有根子树结构，返回完整 motif 键的 `frozenset`。不同支持可能具有相同结构，因此集合大小不是证明数量。预算耗尽或依赖失败会抛异常，不返回部分结果。
+
+**状态：`accepted`（2026-09-27，round 3 / attempt 4）。** 控制器51项定向／1011项全量通过；独立Codex复跑51项，并确认六个修改异常消息的错误实现均被测试识别，返工问题全部关闭。首轮超时及后续显式恢复保留原件，详见 [验收报告](reports/T0017/acceptance/review.md)和 [交接文档](docs/handoffs/T0017-query-motifs.md)。
+
+这使后续审计能够检查其他推导路径是否包含保留的结构；当前尚未实现正式保留清单、world准入或数据划分，不能据此声称数据无泄漏，也没有验证LLM局部更新假设。

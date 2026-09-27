@@ -1,0 +1,193 @@
+{
+  "result": "PASS",
+  "scope": "accepted dependencies, not T0017",
+  "environment": {
+    "python": "3.13.9",
+    "pytest": "8.4.2",
+    "kmesh": "0.1.0",
+    "kmesh_path": "/home/mye/data/kmesh-worktrees/T0017-query-motifs/src/kmesh/__init__.py"
+  },
+  "fixtures": [
+    {
+      "fixture": "Q0",
+      "raw_proofs": 0,
+      "motif_keys": 0,
+      "budgets": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "boundary_errors": {}
+    },
+    {
+      "fixture": "Q1",
+      "raw_proofs": 1,
+      "motif_keys": 1,
+      "budgets": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "boundary_errors": {}
+    },
+    {
+      "fixture": "Q2",
+      "raw_proofs": 2,
+      "motif_keys": 1,
+      "budgets": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "boundary_errors": {
+        "max_derivations": "enumerate.max_derivations exhausted before enumeration completed",
+        "max_proof_steps": "proofs.max_proof_steps exhausted before enumeration completed"
+      }
+    },
+    {
+      "fixture": "Q3",
+      "raw_proofs": 1,
+      "motif_keys": 2,
+      "budgets": [
+        1,
+        2,
+        3,
+        1
+      ],
+      "boundary_errors": {
+        "max_derivations": "enumerate.max_derivations exhausted before enumeration completed",
+        "max_proof_steps": "proofs.max_proof_steps exhausted before enumeration completed"
+      }
+    },
+    {
+      "fixture": "Q4",
+      "raw_proofs": 2,
+      "motif_keys": 3,
+      "budgets": [
+        2,
+        4,
+        6,
+        1
+      ],
+      "boundary_errors": {
+        "max_fact_checks": "enumerate.max_fact_checks exhausted before enumeration completed",
+        "max_derivations": "enumerate.max_derivations exhausted before enumeration completed",
+        "max_proof_steps": "proofs.max_proof_steps exhausted before enumeration completed"
+      }
+    },
+    {
+      "fixture": "Q5",
+      "raw_proofs": 3,
+      "motif_keys": 2,
+      "budgets": [
+        2,
+        5,
+        7,
+        1
+      ],
+      "boundary_errors": {
+        "max_fact_checks": "enumerate.max_fact_checks exhausted before enumeration completed",
+        "max_derivations": "enumerate.max_derivations exhausted before enumeration completed",
+        "max_proof_steps": "proofs.max_proof_steps exhausted before enumeration completed"
+      }
+    },
+    {
+      "fixture": "Q6",
+      "raw_proofs": 2,
+      "motif_keys": 2,
+      "budgets": [
+        6,
+        6,
+        10,
+        2
+      ],
+      "boundary_errors": {
+        "max_fact_checks": "enumerate.max_fact_checks exhausted before enumeration completed",
+        "max_derivations": "enumerate.max_derivations exhausted before enumeration completed",
+        "max_proof_steps": "proofs.max_proof_steps exhausted before enumeration completed"
+      }
+    },
+    {
+      "fixture": "Q7",
+      "raw_proofs": 2,
+      "motif_keys": 2,
+      "budgets": [
+        2,
+        4,
+        6,
+        2
+      ],
+      "boundary_errors": {
+        "max_fact_checks": "enumerate.max_fact_checks exhausted before enumeration completed",
+        "max_derivations": "enumerate.max_derivations exhausted before enumeration completed",
+        "max_proof_steps": "proofs.max_proof_steps exhausted before enumeration completed"
+      }
+    },
+    {
+      "fixture": "Q8",
+      "raw_proofs": 0,
+      "motif_keys": 0,
+      "budgets": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "boundary_errors": {
+        "max_derivations": "enumerate.max_derivations exhausted before enumeration completed"
+      }
+    },
+    {
+      "fixture": "Q9",
+      "raw_proofs": 1,
+      "motif_keys": 1,
+      "budgets": [
+        1,
+        3,
+        1,
+        1
+      ],
+      "boundary_errors": {
+        "max_derivations": "enumerate.max_derivations exhausted before enumeration completed"
+      }
+    },
+    {
+      "fixture": "Q10",
+      "raw_proofs": 1,
+      "motif_keys": 2,
+      "budgets": [
+        2,
+        2,
+        4,
+        2
+      ],
+      "boundary_errors": {
+        "max_fact_checks": "enumerate.max_fact_checks exhausted before enumeration completed",
+        "max_derivations": "enumerate.max_derivations exhausted before enumeration completed",
+        "max_proof_steps": "proofs.max_proof_steps exhausted before enumeration completed"
+      }
+    }
+  ],
+  "late_orientation_failure": true,
+  "motif_count_is_not_proof_count": true,
+  "dependency_hashes": {
+    "src/kmesh/logic/__init__.py": "649c92a60e8c3477bce80d2ec0beda7ab14d20ed776fdc4e715a11fd5d15fa96",
+    "src/kmesh/logic/clause_key.py": "cd5a737a44afe9f4184606e99c9aa8ac5322e91355739762d5592f9b87359084",
+    "src/kmesh/logic/dependency.py": "4b01df6f08e243c649f0459a23e6e8a68f946fc0eec41814f889e65cd972ca3f",
+    "src/kmesh/logic/depth.py": "0361a37e8fbfcceb69ac55336c8578176ab96f1c94a86fa50a98aaa2a839bf5d",
+    "src/kmesh/logic/derivations.py": "32634248f401865d068b13758e133037a7a9bc3dcfa409526bc7df86a9aaf29b",
+    "src/kmesh/logic/engine.py": "21c4694fb5853fb59c5b11187ae4bfe9bad9f25f902a64009e26eb55324eb7ea",
+    "src/kmesh/logic/motif.py": "23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f",
+    "src/kmesh/logic/proof.py": "008bdd3633a5d2327cd711b7c9de7149df86b588632db659a23bf34207963daa",
+    "src/kmesh/logic/proof_count.py": "ac710fd17731bde66e90e8d7737a5eac59486b65454f6bd0fbe9d1ca270eec6d",
+    "src/kmesh/logic/proof_enumeration.py": "5ef21d5be17d79da2b5f2a91484edd7366e5f861a8b6495aceee058b4836cf4f",
+    "src/kmesh/logic/proof_key.py": "92dce0d424a60ae3f1f0d46a49da989eb8367258c287107a68ac541b637e03c1",
+    "src/kmesh/logic/proof_subtree.py": "8c6c439269961f5de53c760b6d38660effd5dfade5804154b1d2543f6cf9fe6c",
+    "src/kmesh/logic/reference_engine.py": "54ff628abeb37dbe66410d87e5522af727db62e345cfa151281c14b64327a147",
+    "src/kmesh/logic/subtree_motifs.py": "2898ef24c55d9a00768192ecf907563accee2d49842d3fe6462b2ab7df32fbde",
+    "src/kmesh/logic/types.py": "b8468612ef747bf2db23c726b4fba288a306be928cff41538dd7fba6c8da37f8"
+  }
+}

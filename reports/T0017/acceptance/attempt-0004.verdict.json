@@ -1,0 +1,7 @@
+{
+  "task_id": "T0017-query-motifs",
+  "submission_digest": "638f5ded2c0b8ec2e01de33824b7deb13e37a0b6c5d14f9acc012072e41c8456",
+  "verdict": "accepted",
+  "summary": "Verified digest, scope, implementation, fixtures, boundaries and isolation. Controller checks passed: 51 focused and 1011 total tests. Independent focused tests passed; all six message-mutation probes were rejected, resolving T0017-R2. No unresolved issues.",
+  "issues": []
+}

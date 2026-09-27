@@ -1,0 +1,40 @@
+{
+  "task_id": "T0017-query-motifs",
+  "submission_digest": "594ef19467d2d0035d3ec1d68e724dd8509f1727cdf90e30dc20281e31ad4064",
+  "verdict": "needs_changes",
+  "summary": "Verified submission digest, allowed-path scope, and controller results: 48 focused and 1008 total tests passed. Independent focused tests also passed. No implementation defect found, but four original-contract validation requirements remain unmet.",
+  "issues": [
+    {
+      "id": "T0017-R1",
+      "priority": "P2",
+      "path": "tests/test_query_motifs.py:580",
+      "description": "The positive giant-integer test disables the digit limit with set_int_max_str_digits(0), contradicting the required explicit 4300 limit. An in-memory mutation that formats positive O still passed all 48 tests, although it breaks the required giant-integer success case at 4300.",
+      "required_change": "Use the required local fixture for both giant-integer cases: save the limit, set it to 4300, assert it is 4300, and restore it in finally. Keep short parameter IDs and avoid formatting the giant values.",
+      "validation": "Positive 10**5000 succeeds on Q1 and negative -10**5000 raises the exact required error under limit 4300. The formatting mutation must fail."
+    },
+    {
+      "id": "T0017-R2",
+      "priority": "P2",
+      "path": "tests/test_query_motifs.py:428-513",
+      "description": "The dependency-exception guards check identity but omit the required message and context preservation assertions. Wrapping both dependency calls with 'raise exc from None' still passed all 48 tests. The enumeration-failure test also leaves the subtree spy installed if an assertion fails.",
+      "required_change": "For each prescribed exception scenario, assert the original exact class, captured message, instance, context, and unsuppressed context. Use a meaningful sentinel context and restore both patches within each scenario using finally or a scoped patch context.",
+      "validation": "All six exception scenarios pass unchanged propagation and reject context suppression or message mutation; patches are restored even when assertions fail."
+    },
+    {
+      "id": "T0017-R3",
+      "priority": "P2",
+      "path": "tests/test_query_motifs.py:305-351",
+      "description": "The joint log proves dependency-call order but cannot establish that enumeration is the first business operation. An in-memory mutation calling len(clauses) before enumeration for tuple inputs still passed all 48 tests, violating the explicit no-preinspection requirement.",
+      "required_change": "Strengthen the delegation guard with hostile input objects, including a tuple subclass that detects length/iteration access, while fake dependencies accept and verify the original objects without inspecting them.",
+      "validation": "The submitted implementation passes; pre-enumeration length inspection, traversal, or copying is detected. Preserve the existing original-object, budget, and per-tree call assertions."
+    },
+    {
+      "id": "T0017-R4",
+      "priority": "P2",
+      "path": "tests/test_query_motifs.py:745-801",
+      "description": "The contract requires global relation/entity renaming, local-variable renaming, and world reversal for both Q4 and Q6. These checks currently cover only Q4; Q6 covers only body reversal.",
+      "required_change": "Add the three missing Q6 transformations, synchronizing query renaming, asserting actual input changes, and comparing against the complete literal {F,J} frozenset using Q6's specified budgets.",
+      "validation": "All three Q6 transformations pass without mocks or generated expected keys. Independent probes already confirmed these cases pass on the submitted implementation. Rerun both required controller checks after the test fixes."
+    }
+  ]
+}

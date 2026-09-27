@@ -1,0 +1,167 @@
+{
+  "event_id": "T0017-query-motifs:4:accepted",
+  "task_id": "T0017-query-motifs",
+  "status": "accepted",
+  "round": 3,
+  "attempt": 4,
+  "accepted_at_utc": "2026-09-27T04:53:11.611349+00:00",
+  "source_evidence_dir": "/home/mye/.local/state/codidator/tasks/T0017-query-motifs/attempt-0004",
+  "workspace": "/home/mye/data/kmesh-worktrees/T0017-query-motifs",
+  "branch": "T0017-query-motifs",
+  "baseline_head": "783cdd2dd00643815f084d97fbd1038265a2003c",
+  "submission_digest": "638f5ded2c0b8ec2e01de33824b7deb13e37a0b6c5d14f9acc012072e41c8456",
+  "published_handoff_sha256": "32bdd08f50149203586b6dfe9196adca8505fff7795edbeec29185726f9f75ff",
+  "accepted_files": {
+    "src/kmesh/logic/query_motifs.py": "3feb1fb5801e5504fd9d79e6087bab06e159ec69f098ed3168aeb950e6e456f9",
+    "tests/test_query_motifs.py": "17c022f05acd7751b2e6677f8a1e698c99479a50c9b64d67baf9dfe6141cc59c"
+  },
+  "checks": {
+    "focused": 51,
+    "full": 1011,
+    "baseline_tests": 960,
+    "source": "controller final attempt stdout, exits and stream hashes verified"
+  },
+  "independent_review": {
+    "model": "gpt-6-astra",
+    "reasoning": "xhigh",
+    "focused_tests": 51,
+    "message_mutation_guards": 6,
+    "unresolved_issues": [],
+    "closed_issues": [
+      "T0017-R1",
+      "T0017-R2",
+      "T0017-R3",
+      "T0017-R4"
+    ]
+  },
+  "pi_runtime": {
+    "provider": "bonsai",
+    "model": "bonsai2-27b",
+    "thinking": "xhigh",
+    "session_id": "01a0e12d-fe25-7550-81fc-d7b8c32a98ee",
+    "source": "Pi RPC get_state; client runtime identity, not server-weight attestation"
+  },
+  "processes": {
+    "pi": {
+      "exit_code": 0,
+      "elapsed_seconds": 198.6057846546173,
+      "result_sha256": "26b61704425a5529da5894d8847a18d0f6044ba9756e4ca27f03938f06e50b42"
+    },
+    "checks/focused": {
+      "exit_code": 0,
+      "elapsed_seconds": 0.49453067779541016,
+      "result_sha256": "756691a8e479e94ba1893d7a714036f7ca3ab1303852b66c0538ab55791d7e23"
+    },
+    "checks/full": {
+      "exit_code": 0,
+      "elapsed_seconds": 18.285464763641357,
+      "result_sha256": "01c6b231f6aa7430166b7c46a6f1907a4fce1e2a3ad92910a5cfa57875b2794c"
+    },
+    "codex": {
+      "exit_code": 0,
+      "elapsed_seconds": 290.2704236507416,
+      "result_sha256": "2533ec986f1c626a7ca993db2b10837fd6aec60349ad9959cbf5c607edf869d7"
+    }
+  },
+  "history": [
+    {
+      "attempt": 1,
+      "pi": {
+        "exit_code": null,
+        "failure": "Problem: Process exceeded wall-clock budget",
+        "elapsed_seconds": 3602.1273305416107
+      }
+    },
+    {
+      "attempt": 2,
+      "pi": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 882.1530933380127
+      },
+      "codex": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 435.19923520088196
+      },
+      "checks/focused": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 0.4685635566711426
+      },
+      "checks/full": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 18.329219818115234
+      },
+      "verdict": "needs_changes"
+    },
+    {
+      "attempt": 3,
+      "pi": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 5660.4008202552795
+      },
+      "codex": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 432.6626076698303
+      },
+      "checks/focused": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 0.4928123950958252
+      },
+      "checks/full": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 18.326791286468506
+      },
+      "verdict": "needs_changes"
+    },
+    {
+      "attempt": 4,
+      "pi": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 198.6057846546173
+      },
+      "codex": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 290.2704236507416
+      },
+      "checks/focused": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 0.49453067779541016
+      },
+      "checks/full": {
+        "exit_code": 0,
+        "failure": null,
+        "elapsed_seconds": 18.285464763641357
+      },
+      "verdict": "accepted"
+    }
+  ],
+  "budget_recovery": {
+    "original_manifest_attempt_seconds": 3600,
+    "runtime_attempt_seconds_override": 7200,
+    "deadline_utc": "2026-09-27T06:40:30.058742+00:00",
+    "authorization": "user requested 7200-second processes and explicit resume; original manifest preserved"
+  },
+  "closure_checks": [
+    "entire current workspace matched accepted submission before documentation updates",
+    "product unchanged since attempt 2",
+    "successful process results and raw stream hashes verified",
+    "review-delivery verdict matches outcome and accepted digest",
+    "successful Codex terminal event, no failed terminal event"
+  ],
+  "limits": [
+    "raw runtime/authentication/transcripts remain outside Git",
+    "post-acceptance changes restricted to documentation and redacted acceptance export",
+    "all-proof complete rooted subtrees only; no clipped-fragment matching, world heldout audit, data split or training conclusion"
+  ],
+  "commit_push_merge": "not performed at export time"
+}

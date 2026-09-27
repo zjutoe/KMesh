@@ -1,0 +1,16 @@
+{
+  "task_id": "T0017-query-motifs",
+  "submission_digest": "b20483e0113e464497d57835bb9b9519d3181d033e389ec04f1104675bf17a67",
+  "verdict": "needs_changes",
+  "summary": "Verified digest, allowed scope and controller results: 51 focused and 1011 total tests passed. Independent focused tests passed. R1, R3 and R4 are resolved; R2 remains partially unresolved. No implementation defect found.",
+  "issues": [
+    {
+      "id": "T0017-R2",
+      "priority": "P2",
+      "path": "tests/test_query_motifs.py:560",
+      "description": "The message assertions here and at line 615 compare str(exc) with str(sent) after asserting exc is sent, so they cannot detect message mutation. Independent in-memory probes changed all six sentinel exceptions' args; every sentinel assertion still passed. Context preservation and patch restoration are now correctly guarded.",
+      "required_change": "In both exception-scenario loops, capture expected_message = str(sent) before invoking the API, then assert str(exc) == expected_message. Preserve the existing class, identity, context and patch-restoration checks.",
+      "validation": "All six scenarios must pass unchanged propagation and reject mutation of the original exception's message. Rerun both required controller checks after the fix."
+    }
+  ]
+}

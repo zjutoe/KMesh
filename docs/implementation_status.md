@@ -1,6 +1,6 @@
 # KMesh 实现状态
 
-- 截至 2026-09-24，M0（最小可运行环境）`in_progress`；M1 的逻辑与数据审计基础按小任务推进，尚未完成可信数据验收。
+- 截至 2026-09-27，M0（最小可运行环境）`in_progress`；M1 的逻辑与数据审计基础按小任务推进，尚未完成可信数据验收。
 - T0001（最小 Python 包与环境诊断命令）：Codex 第 2 轮复验通过，状态 `accepted`，接受实现提交 `39dabc73e035c8c2627a1e5db4deab31055a9c6d`。R1–R3 已关闭；独立复跑 25 个测试和关键回归检查通过。记录见 [交接文档](handoffs/T0001-bootstrap-doctor.md)，[Pi 第 2 轮证据](../reports/T0001/pi-r2/)与 [Codex 第 2 轮证据](../reports/T0001/review-r2/)分别保留。
 - T0002（模型结构配置的读取与校验）：Codex 第 3 轮复验通过（2026-09-15），状态 **`accepted`**，R1–R5 全部关闭。独立复跑 **99 个测试、规定驱动和四个原始 YAML 反例均通过**；接受实现提交 **`35572f2f8426ab7a8f36cf0961a0f4ec0c68c897`**，已核对其文件哈希与第 3 轮冻结工作树一致。该提交说明中的 `awaiting_review` 已过时，文档和验收证据均为 `accepted`。当前 Pi 第 3 轮 43 项哈希全部匹配，旧证据完整核对未变；丢失历史和开发 stderr 留存限制仍明确保留。**仅涉及 model 的九个字段，不代表完整实验配置已校验。** 见 [T0002 交接文档](handoffs/T0002-model-config.md)、[Pi 第 3 轮证据](../reports/T0002/pi-r3/)与 [Codex 第 3 轮证据](../reports/T0002/review-r3/)。
 - T0003（逻辑原子与 clause 的不可变表示及静态校验）：Codex 第 2 轮复验通过（2026-09-15），状态 **`accepted`**，R1 已关闭。独立完整回归 **167 项**及首轮 **18 项边界探测全通过**；八条新回归已核验失败先保存、修复后通过，原测试断言/历史证据保留。接受实现提交为 `6a81224eead0df659a4ba0e83cc391d7307550f5`，已核对三个逻辑源码/测试文件与 [最终验收记录](../reports/T0003/review-r2/final-audit.json)哈希一致；[第 2 轮冻结清单](../reports/T0003/review-r2/frozen-inputs.json)保留当时未提交的验收时点。范围仅为 `Atom`/`Clause` 的不可变表示与静态检查，world、解析器、推理及数据审计未实现。详见 [T0003 交接文档](handoffs/T0003-logic-types.md)、[独立回归](../reports/T0003/review-r2-full/)、[边界复验](../reports/T0003/review-r2-boundaries/)及 [D18](decisions.md#d18逻辑类型的实现约定)。
@@ -28,7 +28,9 @@
 
 - T0015（完整有根证明子树抽取）：**`accepted`**（2026-09-26，Codex第3轮验收）。E1证据可见性与E2记录更正关闭；26项恢复可见，24项原件不变、2份忽略规则按约定追加，3369项其他冻结文件未变。产品8c6c4392…、测试955ca72a…沿用第2轮接受版本；独立17项、四错误副本及15个输出探针、已核验Pi934项回归沿用，本轮未重跑测试。R2 preflight和guards外层记录缺失、regression实际时序、历史模型unknown保留；少量汇总措辞由Codex追加澄清，原件不回写。见 [最终报告](../reports/T0015/review-r3/review.md)与 [交接文档](handoffs/T0015-proof-subtree.md)。本任务手工闭环，后续可按用户授权使用Codinator；不代表world审计。
 
-- T0016（逐发生位置的完整有根子树 motif 目录）：**`accepted`**（2026-09-26，round 2 / attempt 3）。额度中断后经用户授权仅恢复审计；独立Codex指出一处测试守卫缺口，Pi自动返工只改测试，再审关闭T0016-R1。控制器26项定向／960项全量及独立26项通过，产品未改。接受产品 `2898ef24…fbde`、测试 `d1034e59…e851`；终态由Codex同步。见 [验收报告](../reports/T0016/acceptance/review.md)与 [交接](handoffs/T0016-subtree-motifs.md)。结果在T0016独立工作树，未commit/push/merge；不表示world泄漏审计完成。
+- T0016（逐发生位置的完整有根子树 motif 目录）：**`accepted`**（2026-09-26，round 2 / attempt 3）。额度中断后经用户授权仅恢复审计；独立Codex指出一处测试守卫缺口，Pi自动返工只改测试，再审关闭T0016-R1。控制器26项定向／960项全量及独立26项通过，产品未改。接受产品 `2898ef24…fbde`、测试 `d1034e59…e851`；终态由Codex同步。见 [验收报告](../reports/T0016/acceptance/review.md)与 [交接](handoffs/T0016-subtree-motifs.md)。已提交 `783cdd2` 并随T0014–T0016快进合并／推送master，验收时点原件保留；不表示world泄漏审计完成。
+
+- T0017（单查询全部证明的完整子树 motif 联集）：**`accepted`**（2026-09-27，round 3 / attempt 4）。首轮3600秒超时后，用户授权7200秒并恢复；两轮自动测试返工后R1–R4全部关闭，产品自attempt 2起未改。控制器51项定向／1011项全量、独立51项与六个消息变异守卫通过。产品 `3feb1fb5…56f9`、测试 `17c022f0…c59c`；终态由Codex同步。见 [验收报告](../reports/T0017/acceptance/review.md)、[交接](handoffs/T0017-query-motifs.md)与 [原执行清单](../reports/T0017/task.json)。仍不表示world保留结构审计或数据划分完成。
 
 ## M0 已完成 / 未完成
 
@@ -52,6 +54,7 @@
 | 单棵证明跨世界 motif 键 | T0014 `accepted`（Codex 第4轮）；独立32项、四个违约守卫通过，Pi917项回归原件沿用；有界参考实现，历史执行限制保留 |
 | 完整有根证明子树抽取 | T0015 `accepted`（Codex第3轮）；E1/E2证据收尾关闭，沿用独立17项／四守卫／15输出探针及Pi934项回归，历史限制保留；不代表world审计 |
 | 完整有根子树的逐发生 motif 目录 | T0016 `accepted`；自动返工后26项定向／960项回归通过，独立26项及异常路径守卫复验通过；仍为离线审计前置原语 |
+| 单查询全部证明的完整子树 motif 联集 | T0017 `accepted`；51项定向／1011项回归及独立审查通过，遍历所有原始证明并汇总每个完整子树键；不表示world泄漏审计完成 |
 | 数据/求解器与 CPU forward/backward 验证 | `not_run`，尚未实现 |
 | 20-step smoke | `not_run`，尚未实现 |
 | GPU 训练 | `not_run`，尚未实现，也未经本任务授权 |
