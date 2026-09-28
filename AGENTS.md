@@ -79,7 +79,7 @@
 
 ## 8. Codinator 自动交接（自 T0016 起）
 
-- 用户已授权由 Codex 拆分任务后发布到 Codinator（本机命令名 `codidator`），Pi + `bonsai2-27b` 实施、自检、写汇总，由独立 Codex + `gpt-6-astra`／`xhigh` 验收并安排契约内返工。仅执行明确 submit 的任务，不自动开展下一研究设计。
+- 用户已授权由 Codex 拆分任务后发布到 Codinator（本机命令名 `codinator`），Pi + `bonsai2-27b` 实施、自检、写汇总，由独立 Codex + `gpt-6-astra`／`xhigh` 验收并安排契约内返工。仅执行明确 submit 的任务，不自动开展下一研究设计。
 - 每项自动任务使用独立工作树。Codex 在发布前准备固定交接文档和 manifest，说明 HEAD、未提交规划改动、两个模型、精确允许路径、检查及预算；发布时整体快照。不得因为旧手工协议要求状态回写而修改冻结文件。
 - 自动任务中，本节优先于第3、5、6节有关 Pi 直接编辑交接状态／执行段的操作方式：交接契约及验收标准只读，控制器 SQLite 为运行状态唯一来源；Pi 只写提示词指定的本轮 `delivery/summary.md` 和 `completion.json`。Codex 在终态后把可分享的摘要和验收结论同步回项目文档，并保留原发布契约的引用／hash。
 - 开发检查由 Pi 原始工具事件留证；必需检查由控制器独立录制命令、退出码、stdout/stderr和提交快照，不再要求执行旧任务的 record_check.py。失败attempt不可覆盖、删除或伪装重跑；当前控制器不承诺从任意开发工具文本精确提取测试数。
