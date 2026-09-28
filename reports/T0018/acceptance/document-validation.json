@@ -1,0 +1,14 @@
+{
+  "controller_state": "accepted",
+  "phase": "done",
+  "round": 2,
+  "attempt": 2,
+  "submission_digest": "bcf5afa94762ffba858b4de591d70e43edefdb4da92a2a9dcaafa62c4c6fca4c",
+  "evidence_digest_unchanged": true,
+  "published_worktree_handoff_unchanged": true,
+  "acceptance_criteria_text_unchanged": true,
+  "local_links_checked": 108,
+  "exported_original_bytes_verified": true,
+  "source_test_hashes_verified": true,
+  "product_not_integrated_into_main": true
+}

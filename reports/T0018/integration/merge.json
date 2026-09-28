@@ -1,0 +1,21 @@
+{
+  "task_id": "T0018-heldout-motifs",
+  "authorization": "User explicitly requested commit and merge into the main repository",
+  "previous_main_head": "03bbce2a401097f8ce78a9a13a07457e8753e797",
+  "implementation_commit": "40aacbfe23e7f3e8a1d538ba87104fcfe8fa7795",
+  "merged_into": "master",
+  "merge_mode": "fast-forward",
+  "accepted_submission_digest": "bcf5afa94762ffba858b4de591d70e43edefdb4da92a2a9dcaafa62c4c6fca4c",
+  "accepted_files_sha256": {
+    "src/kmesh/logic/heldout_motifs.py": "5c785ef250b26daecb9b09606cfa67bd5ef71bf60c96ba565b0af85eaa48e91e",
+    "tests/test_heldout_motifs.py": "a0c7ffc33f3090bfdfc920155e32b1fc8f0e63bfba17d4349c972ee520115339"
+  },
+  "committed_blobs_match_acceptance": true,
+  "existing_main_documents_preserved_by_merge": true,
+  "accepted_worktree_file_bytes_unchanged": true,
+  "controller_evidence_unchanged": true,
+  "push": "not_run",
+  "note": "The authorized commit changes HEAD/index metadata. The historical accepted digest remains in controller evidence; file bytes are unchanged.",
+  "historical_acceptance_exports_unchanged": true,
+  "main_focused_check": "39 passed in 0.26s; verified main source import"
+}

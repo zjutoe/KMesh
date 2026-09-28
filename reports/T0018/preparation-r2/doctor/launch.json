@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "codinator",
+    "--state-dir",
+    "/home/mye/data/kmesh-T0018-preparation-s9w7eg0x/doctor-state",
+    "doctor"
+  ],
+  "cwd": "/home/mye/data/kmesh-worktrees/T0018-heldout-motifs",
+  "started": 1790565104.1976948,
+  "timeout_seconds": 180
+}

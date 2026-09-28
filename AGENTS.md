@@ -87,4 +87,5 @@
 - 检查在只读工作树中运行，临时产物写 `/tmp`；使用固定工作树解释器、禁用pytest缓存和bytecode，CPU任务显式隐藏CUDA。验收期间只读原提交，结果须绑定正确快照；检查通过不等于验收通过。
 - Codex经代理，Pi直连本机Bonsai。基础设施错误、超时或越界进入blocked，保留证据，不盲目重复不确定提示。用户已授权的任务范围内，Codex检查原因后可通过显式resume创建新attempt；预算增加、范围或研究语义改变须明确记录并遵循既有授权。
 - 2026-09-27起，新交接／manifest的 `attempt_seconds` 默认7200秒，分别限制单个Pi或Codex进程；总任务预算默认14400秒，包含各阶段和检查，不保证两个完整两小时。已发布任务保留原manifest，用户授权调整时通过 `resume --attempt-seconds 7200` 留存运行时覆盖；总截止时间过期时同时明确追加总窗口，不改写旧证据。
+- T0018 例外（2026-09-28，用户明确选择原生 Pi 界面）：按交接 r3 使用 `codinator pi`。Pi 通过 `codex_submit_review` 的 Markdown 参数提交执行记录，由控制器生成 `submission.md`／`review.md`，无需 Pi 写 `delivery/summary.md`／`completion.json`。最多四轮，每项检查180秒，单次Codex审查7200秒；Pi及任务总时长无控制器上限，manifest 的 `max_seconds=14400` 在交互模式不生效，`attempt_seconds` 只约束Codex。身份以实际Pi客户端元数据留证，不声称原生TUI使用RPC取证或证明后端权重。此项覆盖本节对应的后台交付／时间约定，不改变其他任务默认值；保留原发布快照及全部失败证据，不自动commit/push/merge。详见 [D38](docs/decisions.md#d38t0018-发布环境与交互运行约定准备)。
 - 当前会话可接收任务终态通知，通知失败不改变审计结果。自动化不自动commit/push/merge；这些仍需用户另行授权。本任务只发布一个任务，后续设计仍由Codex决定。

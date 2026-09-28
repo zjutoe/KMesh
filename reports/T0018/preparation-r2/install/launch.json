@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/home/mye/data/kmesh-worktrees/T0018-heldout-motifs/.venv/bin/python",
+    "-m",
+    "pip",
+    "install",
+    "--no-index",
+    "--no-build-isolation",
+    "--no-deps",
+    "--no-cache-dir",
+    "-e",
+    "."
+  ],
+  "cwd": "/home/mye/data/kmesh-worktrees/T0018-heldout-motifs",
+  "started": 1790565101.4936197,
+  "timeout_seconds": 180
+}

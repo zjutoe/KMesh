@@ -1,0 +1,9 @@
+---
+task: T0018-heldout-motifs
+round: 2
+submission_digest: bcf5afa94762ffba858b4de591d70e43edefdb4da92a2a9dcaafa62c4c6fca4c
+verdict: accepted
+author: Codex
+---
+
+T0018-001–004 are resolved. Snapshot, evidence hashes and allowed scope verified. Controller checks passed: 39 focused, 1050 full. Independent focused rerun passed; all 10 targeted incorrect implementations were rejected by the regression tests. Boundary and isolation review found no remaining contract violations. The summary’s malformed source hash and claim of prior acceptance are superseded by verified evidence. Workspace unchanged. Acceptance covers only the specified query/reference complete-subtree audit.

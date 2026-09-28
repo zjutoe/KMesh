@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "/usr/bin/bwrap",
+    "--die-with-parent",
+    "--new-session",
+    "--unshare-pid",
+    "--unshare-ipc",
+    "--unshare-uts",
+    "--ro-bind",
+    "/",
+    "/",
+    "--proc",
+    "/proc",
+    "--dev",
+    "/dev",
+    "--tmpfs",
+    "/tmp",
+    "--chdir",
+    "/home/mye/data/kmesh-worktrees/T0018-heldout-motifs",
+    "--",
+    "/home/mye/data/kmesh-worktrees/T0018-heldout-motifs/.venv/bin/python",
+    "-c",
+    "import importlib.metadata as m, json, pathlib, sys, kmesh\nroot = pathlib.Path.cwd()\nactual = pathlib.Path(kmesh.__file__).resolve()\nassert actual.is_relative_to(root / 'src'), actual\nnames = ('pytest', 'setuptools', 'wheel', 'torch', 'numpy', 'PyYAML')\nprint(json.dumps({'python':sys.version,'executable':sys.executable,'kmesh_realpath':str(actual),'packages':{n:m.version(n) for n in names}}, indent=2))\n"
+  ],
+  "cwd": "/home/mye/data/kmesh-worktrees/T0018-heldout-motifs",
+  "started": 1790565104.0895112,
+  "timeout_seconds": 180
+}

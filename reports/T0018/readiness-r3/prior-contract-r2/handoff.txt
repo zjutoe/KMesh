@@ -2,13 +2,12 @@
 
 ## 任务信息
 
-- 任务编号／修订号：T0018 / r3，2026-09-28。r1 保留于 Git `03bbce2:docs/handoffs/T0018-heldout-motifs.md`；r2 补充环境与预检，原文按记录哈希归档于 [r2 交接](../../reports/T0018/readiness-r3/prior-contract-r2/handoff.txt)。r3 按用户明确选择冻结原生 Pi 交互交付／预算约定，产品接口和 A1–A8 不变。
-- 状态：**accepted**（2026-09-28 06:18:00 UTC，round 2 / attempt 2）。独立审查关闭 T0018-001–004；控制器 39 项定向／1050 项全量通过。用户随后授权提交并合并，实现已提交为 `40aacbfe23e7f3e8a1d538ba87104fcfe8fa7795` 并快进合入本地 `master`，源码／测试与接受 hash 一致。见 [验收同步](../../reports/T0018/acceptance/README.md)及 [合并记录](../../reports/T0018/integration/README.md)。
-- 本文为 r3 契约的终态同步视图，产品接口和验收条件未变；原发布契约逐字保留于 [r3 原件](../../reports/T0018/acceptance/published-handoff-r3.txt)，SHA-256 `4c5b918bcbe1568ba2fd6f9178f2e32717e70a8e4c18276eb64ab82d08e1a5ee`。下文准备阶段记录按其原日期理解，不改写历史或独立工作树中的冻结文档。
+- 任务编号／修订号：T0018 / r2，2026-09-28；r1 为 2026-09-27 的实施契约，保留于 Git `03bbce2:docs/handoffs/T0018-heldout-motifs.md`。r2 只补充发布环境、启动方式与真实预检记录，产品接口和 A1–A8 不变。
+- 状态：**draft**。独立工作树、解释器、manifest、基线回归和两个指定模型的连通性均已准备／核验。仅待确定运行模式的时间预算：原生 Pi 交互模式不强制执行原契约的总任务／Pi 进程上限，详见下文 r2 记录。预算选择落实后由 Codex 改为 `ready`；尚未发布或启动 T0018。
 - 所属阶段与协议：M1 数据审计前置操作；研究计划 v0.1.3、E0 `e0_v2`、E1 `e1_v3`、`proof_identity_v1`、`proof_motif_v1` 均不变；工程决策 [D37](../decisions.md#d37指定查询批次与参考证明的结构命中审计)。本项不冻结正式数据准入／划分规则。
 - 规划者／独立验收者：Codex + `gpt-6-astra`／`xhigh`；执行者：Pi + `bonsai2-27b`／`xhigh`。模型身份以实际运行元数据记录，不能用自述代替后端权重证明。
 - 基线：r1 规划基线为 `8571d0646dfe6fd2f2ad91f839a011094dc20f49`；r2 准备及独立工作树 HEAD 为 `03bbce2a401097f8ce78a9a13a07457e8753e797`。两次准备开始时各自的 `git status --short` 均为空；当前基线已提交 r1 规划及控制器名称更正。
-- 发布时未提交规划改动：`AGENTS.md`、本交接、`docs/decisions.md`、`docs/implementation_status.md`、`reports/T0018/task.json`、`reports/T0018/preparation-r2/`、`reports/T0018/readiness-r3/`。这些是 Codex 规划材料，Pi 不得编辑；最终清单和哈希由准备记录留存，实际发布时控制器再次整体快照。此处描述发布基线，不因后续授权提交改写历史。
+- 本轮未提交规划改动：本交接、`docs/decisions.md`、`docs/implementation_status.md`、`reports/T0018/task.json`、`reports/T0018/preparation-r2/`。这些是 Codex 规划材料，Pi 不得编辑；最终清单和哈希由准备记录留存，实际发布时控制器再次整体快照。无需自动 commit。
 - 独立分支／工作区：`T0018-heldout-motifs`／`/home/mye/data/kmesh-worktrees/T0018-heldout-motifs`，2026-09-28 已创建；`.venv` 为该工作树专用解释器。
 - 前置验收：[T0014 单树 motif](T0014-proof-motif.md)和 [T0017 全部证明子树联集](T0017-query-motifs.md)；其间接依赖保持原契约。T0017 的 [接受摘要](../../reports/T0017/acceptance/summary.json)记录控制器 51 项定向／1011 项全量及独立 51 项通过。
 - 必读：[AGENTS §8](../../AGENTS.md#8-codinator-自动交接自-t0016-起)、研究计划 §4.5／§5.2–5.4、[motif 规范](../motif_identity_v1.md)、上述两份交接、`src/kmesh/logic/motif.py`、`query_motifs.py`、`types.py`。
@@ -17,7 +16,7 @@
 
 最终问题是：LLM 训练中大多数更新能否限制在少量参数内，并在达到同等质量时降低**包括读取、路由、维护和必要全局更新在内的总成本**。当前先做 E0 读取／组合、E1a 无梯度内容更新和 E1b 局部参数学习；真正的 LLM 训练对照属于另立协议的 E4。
 
-截至本基线，T0001–T0017 的成果是已验收的工程基础：环境诊断／模型结构配置、逻辑类型、两个独立闭包求解器、证明核验与完整枚举、最短深度、同世界证明身份／计数、跨世界 motif 及全部证明的完整子树联集。r1 研究回顾中的 1011 项回归来自 T0017 的控制器记录；r2 已在本任务新环境独立重跑 1011 项，证据单列于下文。小世界交叉检查和手算／错误实现守卫支持这些接口的正确性，不能当作神经模型的实验证据。
+截至本基线，T0001–T0017 的成果是已验收的工程基础：环境诊断／模型结构配置、逻辑类型、两个独立闭包求解器、证明核验与完整枚举、最短深度、同世界证明身份／计数、跨世界 motif 及全部证明的完整子树联集。最近的 1011 项回归来自 T0017 的控制器记录，**不是本轮重新运行的结果**。小世界交叉检查和手算／错误实现守卫支持这些接口的正确性，不能当作神经模型的实验证据。
 
 M0 仍未闭环，M1 尚无正式生成器、冻结保留目录、family 划分及完整数据审计；模型、训练、更新收益和成本实验均为 `not_run`。本项将已有结构原语接成一个能回答“哪些指定查询命中了哪些保留结构”的离线操作，为后续组合划分提供可用接口。
 
@@ -32,7 +31,7 @@ Pi 只允许新增／修改：
 1. `src/kmesh/logic/heldout_motifs.py`
 2. `tests/test_heldout_motifs.py`
 
-不改前置产品／测试、包初始化、依赖、配置、交接或报告。本任务通过原生 Pi 界面的 `codex_submit_review` 工具提交 Markdown 执行总结，由控制器生成仓外 `submission.md`／`review.md` 及审查所需内部记录；Pi 不自行写 delivery 或 completion 文件。控制器 SQLite 为运行真值，终态后由主会话 Codex 同步本文。
+不改前置产品／测试、包初始化、依赖、配置、交接或报告。自动任务中只向控制器指定的外部 `delivery/summary.md` 和 `completion.json` 写本轮交付；控制器状态为运行真值，终态后由主会话 Codex 同步本文。
 
 本项不做正式 heldout 清单／split 配额、生成器、world 准入总开关、证明唯一性／深度汇总、持久 JSON 格式、CLI、模型或训练。也不实现任意裁剪片段／带开放边界的结构匹配。返回空命中只说明**本批查询、给定参考目录、完整子树口径**下未命中，不能宣称整个数据集无泄漏。
 
@@ -45,19 +44,19 @@ Pi 只允许新增／修改：
 - r2 独立工作树 `.venv` 基于 `/opt/anaconda3/bin/python` 离线建立，Python 3.13.5、pytest 8.3.4、setuptools 72.1.0、wheel 0.45.1；通过 `--system-site-packages` 复用现有依赖，并执行 `--no-index --no-build-isolation --no-deps --no-cache-dir -e .`。`kmesh` 导入 realpath 已核对属于该工作树。主仓库仍无 `.venv`，历史 T0017 环境记录不改写。完整版本见 [环境记录](../../reports/T0018/preparation-r2/environment-summary.json)。
 - Codex 已以已验收 T0014／T0017 核对本交接的六个参考证明、九个手算查询命中关系，以及 W_C 的 C/D/S/O 精确边界。见 [规划探针](../../reports/T0018/planning_probe.py)、[stdout](../../reports/T0018/planning-probe-r1.stdout)及 [stderr](../../reports/T0018/planning-probe-r1.stderr)。这只检验 fixture 与依赖接口一致性，不是 T0018 产品／测试实现，也不是独立证明依赖的完整性。
 
-### 发布条件与访问边界
+### 待满足条件与访问边界
 
 - r2 已通过 `codinator doctor`、工作树导入检查、只读沙箱内 1011 项基线回归及独立目录中的 fixture 探针。控制器入口为 `/home/mye/.local/bin/codinator`，源码 HEAD 为 `15690b10ed1169fb8ba6749a6e1a4caa2f47d0b1`。版本变化不改写旧证据；后续规定回归失败先调查。
-- r2 已核验 Pi `bonsai/bonsai2-27b/xhigh` 的 RPC 身份和真实最小响应，以及 `gpt-6-astra/xhigh` 的 CLI 调用、退出 0 和 `turn.completed`。Pi 使用仓外 T0018 专用配置，启动时必须带上 r3 启动说明中的 `PI_CODING_AGENT_DIR`；全局配置未改。身份来源、失败尝试与限制见 [模型预检摘要](../../reports/T0018/preparation-r2/model-connectivity.json)。这不是 T0018 实施或验收，也不是后端权重证明；正式原生 Pi 会话记录其实际客户端元数据，不标作 RPC 运行。
-- 已建立 [manifest](../../reports/T0018/task.json)：版本 1、上述 id／workspace／handoff、精确两条 allowed_paths、下文两项 checks、`max_rounds=4`、`max_seconds=14400`、`attempt_seconds=7200`、excludes 为 `.venv/` 和 `.pytest_cache/`。r3 准备时尚未发布，随后按用户选择进入原生 Pi 闭环并验收；[原发布 manifest](../../reports/T0018/acceptance/published-manifest.json)另存。未配置通知线程，避免沿用其他任务会话。Pi 不自行创建或修改 manifest。
+- r2 已核验 Pi `bonsai/bonsai2-27b/xhigh` 的 RPC 身份和真实最小响应，以及 `gpt-6-astra/xhigh` 的 CLI 调用、退出 0 和 `turn.completed`。Pi 使用仓外 T0018 专用配置，启动时必须带上准备说明中的 `PI_CODING_AGENT_DIR`；全局配置未改。身份来源、失败尝试与限制见 [模型预检摘要](../../reports/T0018/preparation-r2/model-connectivity.json)。这不是 T0018 实施或验收，也不是后端权重证明。
+- 已建立 [manifest](../../reports/T0018/task.json)：版本 1、上述 id／workspace／handoff、精确两条 allowed_paths、下文两项 checks、`max_rounds=4`、`max_seconds=14400`、`attempt_seconds=7200`、excludes 为 `.venv/` 和 `.pytest_cache/`。尚未发布；没有配置通知线程，避免沿用其他任务会话。Pi 不自行创建或修改 manifest。
 - 数据仅为本文合成内存 fixture；seed 为 N/A（确定性）。不读正式或锁定数据，不导入旧 tests／reports 作 oracle，不访问网络、GPU或教师，不下载依赖／模型，不启动训练。
-- 用户于2026-09-28明确选择原生 Pi 界面，按 AGENTS §8 的 T0018 例外执行：最多四轮，每个必需检查180秒，单次独立Codex审查7200秒；Pi进程及任务总时长无控制器上限。manifest 的 `max_seconds=14400` 仅保留格式兼容，在本模式不生效；`attempt_seconds=7200` 只限制Codex。CPU检查、CUDA隐藏，无研究GPU预算。资源／连接故障、越界、轮次耗尽或用户介入时保留现场并停止自动派发；按实际控制器状态记 paused／blocked，检查原因后显式 `/codex-resume` 或 `codinator pi T0018-heldout-motifs --resume`，不盲目重放不确定提交。
+- 单 Pi／Codex 进程 7200 秒，总任务 14400 秒含检查，最多四轮；每个必需检查 180 秒。CPU 执行、CUDA 隐藏，无 GPU 预算。预算不是完成保证；超时、基础设施问题或越界进入 blocked，保留原 attempt，由 Codex 明确处理后才 resume。
 
 ## 具体实施步骤
 
 ### 1. 核对发布快照
 
-仅在用户按 r3 启动命令明确发布、控制器派发本轮后执行。核对控制器 intake 的 HEAD、dirty 清单、只读交接与 manifest；首次 attempt 确认两目标文件原本不存在，返工则使用控制器指定的上一轮快照。发现依赖 hash 或契约有影响任务的变化先反馈，不回滚他人文件。
+仅在 Codex 完成发布准备并明确分配后执行。核对控制器 intake 的 HEAD、dirty 清单、只读交接与 manifest；首次 attempt 确认两目标文件原本不存在，返工则使用控制器指定的上一轮快照。发现依赖 hash 或契约有影响任务的变化先反馈，不回滚他人文件。
 
 预期结果：执行汇总可追溯到真实基线、解释器和控制器 attempt；无需修改本文状态。
 
@@ -166,7 +165,7 @@ return tuple(hits)
 
 按下文先定向后全量。开发检查从首次尝试起由 Pi 原始工具事件留证，每次使用新的 `/tmp` basetemp；失败也保留。控制器另独立录制必需检查和提交快照，旧 `record_check.py` 不适用于本自动任务。
 
-自检完成且其他工具均已结束后，单独调用 `codex_submit_review`，不与其他工具同批调用；`summary` 参数为 Markdown，分列实际改动、命令／退出码、失败修复、未运行项、模型来源、范围偏差及证据路径，未运行填 `not_run`。提交后等待控制器冻结／检查及独立 Codex 正式意见；返工仅按原契约执行，下一轮重新提交。实现完成不自填 accepted，独立 Codex 依据冻结 diff、实际测试质量及控制器证据验收。不得自动 commit/push/merge。
+外部 delivery 分列实际改动、命令／退出码、失败修复、未运行项、模型来源和范围偏差；未运行填 `not_run`。实现完成不自填 accepted，独立 Codex 依据冻结 diff、实际测试质量及控制器证据验收。不得自动 commit/push/merge。
 
 ## 验证方法
 
@@ -189,20 +188,18 @@ env CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src /opt/anaconda
 
 ## 验收标准
 
-- [x] A1：仅两个允许的产品／测试文件；接口、公开名、导入和只读材料边界符合发布契约。
-- [x] A2：H0–H3 及仅 CJ／仅 J 目录的完整结果与手算一致；内部复合子树、替代证明、重复查询和重复参考索引均覆盖。
-- [x] A3：参考只表示整棵合法证明；既不信任手填未验证键，也不把其子树自动纳入目录；重命名／前提交换不改变语义，目录重排正确改变索引。
-- [x] A4：局部校验顺序与全文、所有依赖的原对象／预算／调用次数、先参考后目标均有有效测试；生成器未消费。
-- [x] A5：真实预算边界、后部失败、异常身份及消息快照正确；全部成功才返回，无早停或部分成功。
-- [x] A6：原输入纯度、真实输出类型、可 hash、跨调用稳定性和硬导入隔离通过；模型可见信息未增加。
-- [x] A7：控制器两项检查通过，结果绑定正确快照；独立 Codex 审阅实现和行为测试，并针对实际风险核验能捕捉关键违约，不仅依据 Pi 报告验收。
-- [x] A8：保留失败尝试与原发布契约；报告明确本项仅是给定查询／目录／完整子树口径的匹配，不能称作正式 split、world 无泄漏或局部更新研究结果。
+- [ ] A1：仅两个允许的产品／测试文件；接口、公开名、导入和只读材料边界符合发布契约。
+- [ ] A2：H0–H3 及仅 CJ／仅 J 目录的完整结果与手算一致；内部复合子树、替代证明、重复查询和重复参考索引均覆盖。
+- [ ] A3：参考只表示整棵合法证明；既不信任手填未验证键，也不把其子树自动纳入目录；重命名／前提交换不改变语义，目录重排正确改变索引。
+- [ ] A4：局部校验顺序与全文、所有依赖的原对象／预算／调用次数、先参考后目标均有有效测试；生成器未消费。
+- [ ] A5：真实预算边界、后部失败、异常身份及消息快照正确；全部成功才返回，无早停或部分成功。
+- [ ] A6：原输入纯度、真实输出类型、可 hash、跨调用稳定性和硬导入隔离通过；模型可见信息未增加。
+- [ ] A7：控制器两项检查通过，结果绑定正确快照；独立 Codex 审阅实现和行为测试，并针对实际风险核验能捕捉关键违约，不仅依据 Pi 报告验收。
+- [ ] A8：保留失败尝试与原发布契约；报告明确本项仅是给定查询／目录／完整子树口径的匹配，不能称作正式 split、world 无泄漏或局部更新研究结果。
 
 ## Pi 执行记录
 
-发布前历史为 `not_run`：r1 完成研究回顾和交接设计，r2 完成环境准备，r3 根据用户选择确定原生 Pi 运行约定并标 ready；最小模型连通性探针不算 Pi 产品实施。
-
-2026-09-28 终态同步：Pi 通过原生界面实施及 `codex_submit_review` 提交，客户端元数据为 `bonsai/bonsai2-27b/xhigh`，不是 RPC 运行或后端权重证明。基线 HEAD `03bbce2a401097f8ce78a9a13a07457e8753e797`；新增两个允许文件。首次提交遇 bytecode 越界，先保留失败现场、清理派生缓存，Pi 将隔离子进程改为 `-I -B`。正式首轮 31／1042 项通过但仍须补强测试；第二轮仅改测试，39／1050 项通过，两项规定检查均退出 0。准确命令／stdout／stderr、接受 hash、原件路径与更正见 [验收摘要](../../reports/T0018/acceptance/README.md)及 [机器可读记录](../../reports/T0018/acceptance/summary.json)。正式数据、训练和性能实验未运行；原始会话及全部失败证据留在仓外，未覆盖。
+`not_run`：r1 完成研究回顾和交接设计，r2 完成环境及发布材料准备，尚未发布或启动实施。最小模型连通性探针不算 Pi 产品实施。实际交付方式须与选定入口一致；本段由主会话 Codex 在终态后同步，保留实际执行者、基线、命令／退出码、产物 hash、偏差和未运行项。
 
 ## Codex 验收记录
 
@@ -212,7 +209,7 @@ env CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src /opt/anaconda
 
 上述为 r1 规划记录，当时发布环境未满足，状态为 **draft**。实施后的 accepted／needs_changes／blocked 结论只由独立验收产生，并绑定实际快照及原发布契约 hash。
 
-### r2 发布准备记录（2026-09-28，Codex；以下为选择前历史）
+### r2 发布准备记录（2026-09-28，Codex）
 
 - 已完成工作树、离线 editable 安装、环境核验和 manifest。独立只读沙箱的基线全量检查退出 0：**1011 passed in 18.76s**，无 skip／xfail；r2 fixture 探针退出 0，保持 6 参考／5 不同键／9 查询和 S/O 拒绝边界。产物见 [准备目录](../../reports/T0018/preparation-r2/README.md)；不是 T0018 新实现测试。
 - `codinator doctor` 通过；Pi 0.87.1、Codex CLI 0.157.1。Codex 最小探针通过（44.55 秒）；Pi 经专用 provider 别名和显式 xhigh 配置后通过（4.12 秒）。原 provider 缺失、客户端 high 不匹配以及准备脚本断言失败均保留，未把失败改记为成功。
@@ -220,27 +217,5 @@ env CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src /opt/anaconda
 - **唯一待定项为运行预算／入口。** 当前交接的交付方式与单进程 7200 秒、总任务 14400 秒仍描述 `submit/run` 流程。原生 `codinator pi` 改为由 Pi 调用 `codex_submit_review` 提交 Markdown，控制器生成 `submission.md`／`review.md`，不要求 Pi 写 completion 文件；它不执行 `max_seconds`，`attempt_seconds` 只限制单次 Codex 审查，Pi 无控制器时间上限。不能把 manifest 中存在预算数字等同于已强制执行。
 - 已向用户明确列出“采用交互模式并记录预算变化”与“保留原预算使用后台模式”两种选择；答复前不默许扩大预算，不发布。选择后由 Codex 对齐本文的交付／预算段及 AGENTS §8 适用说明，记录到 decisions，并改为 `ready`；不得交由 Pi 猜测。
 - 当前 **draft** 仅保留上述待定项；产品／测试两个目标文件不存在，实施、独立验收、commit／push／merge 均未运行。
-
-### r3 运行方式确定（2026-09-28，Codex）
-
-- 用户明确答复：“运行方式用推荐的原生Pi界面”。此前已明确列出预算差异，因此按该选择记录本任务的交互交付及时间约定；不再要求重复确认。
-- 当前状态改为 **ready**；产品接口、步骤2–5、A1–A8和两项检查不变，研究协议版本不变。r2 原交接、决策和状态文档按当时哈希归档，预检日志与失败材料不覆盖。
-- 已对齐 AGENTS §8 的任务例外、本文及 [D38](../decisions.md#d38t0018-发布环境与交互运行约定准备)。启动入口为 `codinator pi`，不预先执行后台 `submit/run`，不启动后台服务接管本任务。
-- 本轮只更新协议／发布材料及核验同步，沿用 r2 的1011项基线回归与模型预检，未把历史结果记作新测试。准确命令与状态见 [r3 启动说明](../../reports/T0018/readiness-r3/README.md)及准备快照；实施和产品独立验收仍为 `not_run`。
-
-### r3 终态验收同步（2026-09-28，Codex）
-
-- 控制器 SQLite 为 `accepted / done`，round 2 / attempt 2；[独立审查结论](../../reports/T0018/acceptance/review.md)无遗留问题。接受快照 `bcf5afa94762ffba858b4de591d70e43edefdb4da92a2a9dcaafa62c4c6fca4c`，当前独立工作树与之相同；仅两条允许路径有实现变化。A1–A8 按原条件勾选，未改契约。
-- [首轮审查](../../reports/T0018/acceptance/review-round1.md)的 T0018-001–004 为测试缺口：重复调用、异常身份／优先级、预算独立失败／后续停止、后部 list 条目提前校验。Pi 仅补强测试后全部关闭，产品源码 hash 未变。
-- 控制器定向 **39 passed in 0.27s**／全量 **1050 passed in 19.15s**，退出 0、无 skip／xfail。独立审查实际运行 39 项定向，并确认 10 个针对性错误实现被拒绝；启动模型 `gpt-6-astra/xhigh`，进程退出 0 且有 `turn.completed`。
-- 主会话核对控制器状态、提交／检查证据 hash、正式 verdict 与实际差异，再在只读沙箱独立复跑 **39 passed in 0.27s**，退出 0；复核后工作树／原检查证据未变，源码无 `.pyc`。本轮未再跑 full，沿用已核验的控制器全量原件；命令与验证脚本见 [本轮复核记录](../../reports/T0018/acceptance/closeout/)。
-- Pi 最终总结中畸形源码 hash 与“此前已接受”措辞不作为事实：正确 hash 见 [summary.json](../../reports/T0018/acceptance/summary.json)，首轮实际为 `needs_changes`，第二轮才 `accepted`。旧总结、缓存故障及探针失败原件保留，不回写成成功。
-- 本次仅同步主仓库文档和必要验收摘要，独立工作树及其原发布契约不改；接受代码仍在独立工作树，未 commit／push／merge。验收仅针对给定查询／参考目录／完整有根支持子树口径，不证明正式数据划分或整体 world 无泄漏。
-
-### 用户授权提交与合并（2026-09-28，Codex）
-
-- 用户明确要求“提交并合并到主仓库”。提交前重新核对控制器 `accepted`、原接受快照及检查证据、两个目标文件 hash，均一致；任务分支只提交两个已验收实现／测试文件。
-- 实现提交 `40aacbfe23e7f3e8a1d538ba87104fcfe8fa7795` 已从 `T0018-heldout-motifs` 快进合入本地 `master`。提交的 Git blob 与两份接受 SHA-256 完全一致，合并保留主仓库现有规划／验收文档；原任务工作树的文件内容未改，原始 state 和失败记录未动。
-- Git HEAD／索引因授权提交发生变化，不再要求提交后的整个工作树 digest 等于提交前验收快照；原 digest 与实现提交的对应关系见 [合并记录](../../reports/T0018/integration/merge.json)。验收报告中的“未提交／未合并”为验收时点历史，本段记录后续状态。未执行 push。
 
 后续依赖方向（未分配编号、未授权实施）：先冻结正式 motif 目录与匹配覆盖规则，再落实单世界准入和 family／split 审计、生成器及 M0 剩余检查；随后才进入模型 smoke 和 E0。是否将完整子树作为正式唯一匹配口径仍需单独研究决策，不能在本任务中悄悄缩窄计划的“子结构”含义。

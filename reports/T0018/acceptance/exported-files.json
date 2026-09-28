@@ -1,0 +1,102 @@
+{
+  "cache-recovery.json": {
+    "sha256": "58cab195e23d60b394c5a960836a1c68797ab5f7188855d8b970821cc9503b41",
+    "source": "/home/mye/data/kmesh-T0018-recovery-cache-f37g9nlf/cleanup-result.json"
+  },
+  "closeout/before.json": {
+    "sha256": "fa6dc68c11e30bd14c0fca857111c474165e0fa029ea3b01a1c839c2c326d29a",
+    "source": "/tmp/kmesh-T0018-closeout-qw2cjygo/before.json"
+  },
+  "closeout/focused/launch.json": {
+    "sha256": "468db995459aedefb72878cc8a32e643add78dc9e92347bffbbf199a9dba9fd9",
+    "source": "/tmp/kmesh-T0018-closeout-qw2cjygo/focused/launch.json"
+  },
+  "closeout/focused/result.json": {
+    "sha256": "83bcfff86a41c4b967e7c31cd1580da31168ecc2dab3df55b818d2121e2716e3",
+    "source": "/tmp/kmesh-T0018-closeout-qw2cjygo/focused/result.json"
+  },
+  "closeout/focused/stderr.txt": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source": "/tmp/kmesh-T0018-closeout-qw2cjygo/focused/stderr.txt"
+  },
+  "closeout/focused/stdout.txt": {
+    "sha256": "952e2eb2bcc64b50675094495d0c93078c5d96be9627afd26903aa8099cba022",
+    "source": "/tmp/kmesh-T0018-closeout-qw2cjygo/focused/stdout.txt"
+  },
+  "closeout/verify.py": {
+    "sha256": "be064482fb475df271b6743a4adf1b1bdc632a18686f41e621118a28de47dcab",
+    "source": "/tmp/kmesh-T0018-closeout-qw2cjygo/verify.py"
+  },
+  "controller-checks/focused/launch.json": {
+    "sha256": "db9298545fc9fa43494e907b2f710fffdb579dbf89697ee97287128a25a37ce7",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/checks/focused/launch.json"
+  },
+  "controller-checks/focused/result.json": {
+    "sha256": "9a7195c6bf7408a82279f5a388ba6aa6367181f58143636391898b7e65d1de2a",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/checks/focused/result.json"
+  },
+  "controller-checks/focused/stderr.txt": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/checks/focused/stderr.txt"
+  },
+  "controller-checks/focused/stdout.txt": {
+    "sha256": "952e2eb2bcc64b50675094495d0c93078c5d96be9627afd26903aa8099cba022",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/checks/focused/stdout.txt"
+  },
+  "controller-checks/full/launch.json": {
+    "sha256": "f908cf15153f86f81b958f1f15d3b3788027a4a31e9822a08086c38754940c57",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/checks/full/launch.json"
+  },
+  "controller-checks/full/result.json": {
+    "sha256": "4c6a460b2e509db3fb3e795f0a2afeea466d061805ae9f060fefd0a6831fbdbf",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/checks/full/result.json"
+  },
+  "controller-checks/full/stderr.txt": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/checks/full/stderr.txt"
+  },
+  "controller-checks/full/stdout.txt": {
+    "sha256": "934e9f931cbc6e8f41d319caac3f1dc3919fd7d4074a95fc1ad1394e335e3b9f",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/checks/full/stdout.txt"
+  },
+  "published-handoff-r3.txt": {
+    "sha256": "4c5b918bcbe1568ba2fd6f9178f2e32717e70a8e4c18276eb64ab82d08e1a5ee",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/handoff.md"
+  },
+  "published-manifest.json": {
+    "sha256": "35382226eb20a06d9293c6d15c752bafe5e02a121ce6f286976133bfaafdca89",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/manifest.json"
+  },
+  "review-round1.md": {
+    "sha256": "8d539bc9f2253280ed57aaae982d1a5f07b35963186c4f0794219348cd7b07f8",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0001/review.md"
+  },
+  "review.md": {
+    "sha256": "41e91ee316eaf216112acdd549471e227ca43e6f6cd287960eef6eb16dc67669",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/review.md"
+  },
+  "reviewer-result.json": {
+    "sha256": "50962590a757edd79144de473b8b1fd420e88ffd43a5f591451044b55482313b",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/codex/result.json"
+  },
+  "reviewer-verification.json": {
+    "sha256": "0c5e7efd29246f334e223561fecd0c6a26a120c18bbcfe6000c49e9ea9f0d318",
+    "source": "derived verified summary"
+  },
+  "summary.json": {
+    "sha256": "ab7f9d5bbbba3c635e62e63e6bea7967034e48ff08d9070703c05c11291df83b",
+    "source": "derived verified summary"
+  },
+  "verdict.json": {
+    "sha256": "33e41748edb0307d2dc83aee68ee611a637818d9fe7c0e7e4f27271f13562b37",
+    "source": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs/attempt-0002/review-delivery/verdict.json"
+  },
+  "README.md": {
+    "sha256": "dea5cd4722f9b69df57fef64d8bc54f2d24df3e231a75c03d1107a61baa24800",
+    "source": "derived verified summary"
+  },
+  "document-validation.json": {
+    "sha256": "e1f4abb4db14459d88aaa27c4926cb614e506d5696f6653b2c79373a9abae75d",
+    "source": "derived verified summary"
+  }
+}

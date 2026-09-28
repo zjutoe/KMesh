@@ -1,0 +1,173 @@
+{
+  "kind": "Model connectivity preflight; not T0018 implementation or independent acceptance",
+  "raw_evidence_root": "/home/mye/data/kmesh-T0018-preparation-s9w7eg0x",
+  "pi": {
+    "status": "pass",
+    "acknowledgement": "T0018_PREFLIGHT_OK",
+    "runtime": {
+      "provider": "bonsai",
+      "model": "bonsai2-27b",
+      "thinking": "xhigh",
+      "source": "Pi RPC get_state; client runtime identity, not server-weight attestation"
+    },
+    "process_result": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790565742.7380662,
+      "finished": 1790565746.860466,
+      "elapsed_seconds": 4.122400283813477,
+      "streams": {
+        "stdout.jsonl": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "b6dc5a6b127c2f4bf039a9e1817182c5b7dc61d758c56b84734b0a01402d4b0e",
+          "size": 20773
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size": 0
+        }
+      }
+    }
+  },
+  "codex": {
+    "status": "pass",
+    "requested_model": "gpt-6-astra",
+    "requested_reasoning": "xhigh",
+    "identity_source": "CLI invocation and successful turn; not server-weight attestation",
+    "acknowledgement": "T0018_PREFLIGHT_OK",
+    "proxy": "http://127.0.0.1:8888",
+    "result": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790565210.6391158,
+      "finished": 1790565255.1851513,
+      "elapsed_seconds": 44.54603600502014,
+      "streams": {
+        "stdout.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "d7e0b5e736283ff47fdeec6336991ee98e05a90f619413a79a37c4c9ea0d0269",
+          "size": 376
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "size": 39
+        }
+      }
+    }
+  },
+  "preserved_failures": [
+    {
+      "attempt": "models-r1/pi",
+      "cause": "Unknown provider bonsai; only bonsai-local configured",
+      "model_prompt_sent": false,
+      "result": {
+        "exit_code": 1,
+        "failure": "Problem: Pi did not complete successfully: settled=False, stopReason=None, error=None",
+        "started": 1790565210.6382556,
+        "finished": 1790565211.198361,
+        "elapsed_seconds": 0.560105562210083,
+        "streams": {
+          "stdout.jsonl": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size": 0
+          },
+          "stderr.txt": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "cf4045d2179023cc675f8c28895288a7ab4757e6d2480c4065ae8094c50b4ca2",
+            "size": 87
+          }
+        }
+      }
+    },
+    {
+      "attempt": "pi-model-r2",
+      "cause": "RPC thinkingLevel was high; rejected before prompt. Existing mapping high->xhigh did not expose xhigh client level",
+      "model_prompt_sent": false,
+      "result": {
+        "status": "failed",
+        "error_type": "Problem",
+        "error": "Pi runtime thinking level does not match xhigh",
+        "process_result": {
+          "exit_code": null,
+          "failure": "Problem: Pi runtime thinking level does not match xhigh",
+          "started": 1790565538.7649007,
+          "finished": 1790565541.3901584,
+          "elapsed_seconds": 2.625258207321167,
+          "streams": {
+            "stdout.jsonl": {
+              "kind": "file",
+              "mode": 384,
+              "sha256": "278584fd6be9488a5b374b92bfac749a6cb09b4bef43ff36f8df36356d6eaeab",
+              "size": 933
+            },
+            "stderr.txt": {
+              "kind": "file",
+              "mode": 384,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "size": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "attempt": "pi-config-r3",
+      "exit_code": 1,
+      "error": "AssertionError: preparation expected no thinkingLevelMap; existing configuration actually maps off->none, high->xhigh",
+      "model_prompt_sent": false,
+      "retained": "/home/mye/data/kmesh-T0018-preparation-s9w7eg0x/pi-config-r3",
+      "correction": "Preserve existing mappings and explicitly add xhigh->xhigh in a new configuration directory"
+    }
+  ],
+  "configuration": {
+    "source": "/home/mye/data/kmesh-T0018-preparation-s9w7eg0x/pi-config-r2/launch-pi",
+    "launch_pi_config": "/home/mye/data/kmesh-T0018-preparation-s9w7eg0x/pi-config-r4/launch-pi",
+    "change": {
+      "provider": "bonsai",
+      "model": "bonsai2-27b",
+      "thinkingLevelMap": {
+        "off": "none",
+        "high": "xhigh",
+        "xhigh": "xhigh"
+      }
+    },
+    "purpose": "Declare xhigh and transmit xhigh without mapping it to high; validate via RPC and live request",
+    "global_configuration_modified": false,
+    "backend_weight_attestation": false
+  },
+  "configuration_source_alias": {
+    "source_provider": "bonsai-local",
+    "launch_provider": "bonsai",
+    "same_configuration_except_provider_alias": true,
+    "global_configuration_modified": false,
+    "launch_pi_config": "/home/mye/data/kmesh-T0018-preparation-s9w7eg0x/pi-config-r2/launch-pi",
+    "model": "bonsai2-27b",
+    "base_url": "http://127.0.0.1:8080/v1"
+  },
+  "endpoint_check": {
+    "health_http": 200,
+    "models_http": 200,
+    "reported_id": "bonsai2-27b",
+    "base_url": "http://127.0.0.1:8080/v1",
+    "server_weight_attestation": false
+  },
+  "tools": {
+    "pi": "0.87.1",
+    "codex": "0.157.1",
+    "codinator_head": "15690b10ed1169fb8ba6749a6e1a4caa2f47d0b1"
+  },
+  "limitations": [
+    "Pi RPC identity and backend model-list response do not attest server weights",
+    "No real-model native TUI implementation/review loop run in this preparation",
+    "pi-config-r3 failure was captured in the session tool output; the JSON is a later correction, not a reconstructed original log"
+  ]
+}

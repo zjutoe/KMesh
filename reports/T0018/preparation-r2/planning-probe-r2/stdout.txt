@@ -1,0 +1,14 @@
+{
+  "scope": "T0014/T0017 planning checks only",
+  "reference_proofs": 6,
+  "distinct_reference_keys": 5,
+  "hand_specified_query_cases": 9,
+  "exact_C_D_S_O": [
+    2,
+    4,
+    6,
+    2
+  ],
+  "S_5_and_O_1_rejected": true,
+  "T0018_implementation": "not_run"
+}

@@ -1,0 +1,274 @@
+{
+  "task_id": "T0018-heldout-motifs",
+  "state": "accepted",
+  "round": 2,
+  "attempt": 2,
+  "accepted_at_epoch": 1790576280.381167,
+  "workspace": "/home/mye/data/kmesh-worktrees/T0018-heldout-motifs",
+  "head": "03bbce2a401097f8ce78a9a13a07457e8753e797",
+  "submission_digest": "bcf5afa94762ffba858b4de591d70e43edefdb4da92a2a9dcaafa62c4c6fca4c",
+  "check_evidence_digest": "b74af15e70134b13b4ce2649de0c50d320e1ecedabd02f5001315188cd9ceb99",
+  "controller_checks": {
+    "focused": {
+      "result": {
+        "exit_code": 0,
+        "failure": null,
+        "started": 1790575860.0441213,
+        "finished": 1790575860.5386841,
+        "elapsed_seconds": 0.49456310272216797,
+        "streams": {
+          "stdout.txt": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "952e2eb2bcc64b50675094495d0c93078c5d96be9627afd26903aa8099cba022",
+            "size": 99
+          },
+          "stderr.txt": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size": 0
+          }
+        }
+      },
+      "pytest_summary": "39 passed in 0.27s"
+    },
+    "full": {
+      "result": {
+        "exit_code": 0,
+        "failure": null,
+        "started": 1790575860.5394385,
+        "finished": 1790575879.9351873,
+        "elapsed_seconds": 19.39574933052063,
+        "streams": {
+          "stdout.txt": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "934e9f931cbc6e8f41d319caac3f1dc3919fd7d4074a95fc1ad1394e335e3b9f",
+            "size": 1222
+          },
+          "stderr.txt": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size": 0
+          }
+        }
+      },
+      "pytest_summary": "1050 passed in 19.15s"
+    }
+  },
+  "files": {
+    "src/kmesh/logic/heldout_motifs.py": "5c785ef250b26daecb9b09606cfa67bd5ef71bf60c96ba565b0af85eaa48e91e",
+    "tests/test_heldout_motifs.py": "a0c7ffc33f3090bfdfc920155e32b1fc8f0e63bfba17d4349c972ee520115339"
+  },
+  "published_handoff_sha256": "4c5b918bcbe1568ba2fd6f9178f2e32717e70a8e4c18276eb64ab82d08e1a5ee",
+  "published_manifest_sha256": "35382226eb20a06d9293c6d15c752bafe5e02a121ce6f286976133bfaafdca89",
+  "reviewer_focused": {
+    "event_id": "item_20",
+    "exit_code": 0,
+    "stdout": ".......................................\n39 passed in 0.26s\n"
+  },
+  "reviewer_mutants": [
+    {
+      "mutant": "T0018-001_duplicate_query_cache",
+      "exit": 1,
+      "evidence": [
+        "E   AssertionError: assert ['canon', 'ca...canon', 'qsm'] == ['canon', 'ca... 'qsm', 'qsm']",
+        "E     ",
+        "E     Right contains one more item: 'qsm'",
+        "E     Use -v to get more diff",
+        "FAILED tests/test_heldout_motifs.py::test_delegation_order_identity_nondefault",
+        "1 failed in 0.16s"
+      ]
+    },
+    {
+      "mutant": "T0018-001_reference_dedup",
+      "exit": 1,
+      "evidence": [
+        "E   AssertionError: assert ['canon', 'ca... 'qsm', 'qsm'] == ['canon', 'ca... 'qsm', 'qsm']",
+        "E     ",
+        "E     At index 2 diff: 'qsm' != 'canon'",
+        "E     Right contains one more item: 'qsm'",
+        "E     Use -v to get more diff",
+        "FAILED tests/test_heldout_motifs.py::test_delegation_order_identity_nondefault",
+        "1 failed in 0.16s"
+      ]
+    },
+    {
+      "mutant": "T0018-002_rebuild_ProofLimitError",
+      "exit": 1,
+      "evidence": [
+        "E   AssertionError: assert ProofLimitError('t0018-ref2-ProofLimitError') is ProofLimitError('t0018-ref2-ProofLimitError')",
+        "FAILED tests/test_heldout_motifs.py::test_exception_identity_second_reference[ProofLimitError]",
+        "1 failed in 0.16s"
+      ]
+    },
+    {
+      "mutant": "T0018-002_rebuild_DerivationLimitError",
+      "exit": 1,
+      "evidence": [
+        "E   AssertionError: assert DerivationLimitError('t0018-q2-DerivationLimitError') is DerivationLimitError('t0018-q2-DerivationLimitError')",
+        "FAILED tests/test_heldout_motifs.py::test_exception_identity_second_query[DerivationLimitError]",
+        "1 failed in 0.16s"
+      ]
+    },
+    {
+      "mutant": "T0018-002_rebuild_ProofEnumerationLimitError",
+      "exit": 1,
+      "evidence": [
+        "E   AssertionError: assert ProofEnumerationLimitError('proofs.max_proof_steps exhausted before enumeration completed') is ProofEnumerationLimitError('proofs.max_proof_steps exhausted before enumeration completed')",
+        "FAILED tests/test_heldout_motifs.py::test_exception_identity_second_query[ProofEnumerationLimitError]",
+        "1 failed in 0.17s"
+      ]
+    },
+    {
+      "mutant": "T0018-002_C0_before_reference",
+      "exit": 1,
+      "evidence": [
+        "E   kmesh.logic.types.LogicValidationError: proofs.max_fact_checks must be a non-bool positive integer; got int",
+        "FAILED tests/test_heldout_motifs.py::test_reference_dependency_failure_precedes_target_c0",
+        "1 failed in 0.18s"
+      ]
+    },
+    {
+      "mutant": "T0018-003_D_exhaustion_empty_hits",
+      "exit": 1,
+      "evidence": [
+        "E   Failed: DID NOT RAISE <class 'kmesh.logic.derivations.DerivationLimitError'>",
+        "FAILED tests/test_heldout_motifs.py::test_w_c_d_exhaustion - Failed: DID NOT ...",
+        "1 failed in 0.16s"
+      ]
+    },
+    {
+      "mutant": "T0018-003_S_failure_continue_to_third",
+      "exit": 1,
+      "evidence": [
+        "E   AssertionError: assert 3 == 2",
+        "E    +  where 3 = len([((Clause(body=(), head=Atom(pred='q', args=('a', 'c'))), Clause(body=(), head=Atom(pred='p', args=('a', 'b'))), Claus...'?y')), Atom(pred='r', args=('?y', '?z'))), head=Atom(pred='q', args=('?x', '?z')))), Atom(pred='z', args=('a', 'b')))])",
+        "FAILED tests/test_heldout_motifs.py::test_w_c_s5_second_query_fails_third_not_called",
+        "1 failed in 0.17s"
+      ]
+    },
+    {
+      "mutant": "T0018-004_accept_list_triples",
+      "exit": 1,
+      "evidence": [
+        "E   Failed: DID NOT RAISE <class 'kmesh.logic.types.LogicValidationError'>",
+        "FAILED tests/test_heldout_motifs.py::test_reference_list_entry_zero_dependency_calls",
+        "1 failed in 0.16s"
+      ]
+    },
+    {
+      "mutant": "T0018-004_key_before_later_shape_check",
+      "exit": 1,
+      "evidence": [
+        "E   AssertionError: assert not [((Clause(body=(), head=Atom(pred='p', args=('a', 'b'))),), Atom(pred='p', args=('a', 'b')), (ProofStep(clause_index=0, premise_steps=(), conclusion=Atom(pred='p', args=('a', 'b'))),))]",
+        "FAILED tests/test_heldout_motifs.py::test_reference_list_entry_zero_dependency_calls",
+        "1 failed in 0.16s"
+      ]
+    }
+  ],
+  "review_result": {
+    "exit_code": 0,
+    "failure": null,
+    "started": 1790575880.3893564,
+    "finished": 1790576279.9414785,
+    "elapsed_seconds": 399.552122592926,
+    "streams": {
+      "stdout.txt": {
+        "kind": "file",
+        "mode": 420,
+        "sha256": "f58231a6e46eb487619591d74f01dcafbdc805acfe0765356b0c5e1ab3de3c6f",
+        "size": 248191
+      },
+      "stderr.txt": {
+        "kind": "file",
+        "mode": 420,
+        "sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+        "size": 39
+      }
+    }
+  },
+  "closeout_focused": {
+    "result": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790576824.3827388,
+      "finished": 1790576824.8701174,
+      "elapsed_seconds": 0.4873790740966797,
+      "streams": {
+        "stdout.txt": {
+          "kind": "file",
+          "mode": 420,
+          "sha256": "952e2eb2bcc64b50675094495d0c93078c5d96be9627afd26903aa8099cba022",
+          "size": 99
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 420,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size": 0
+        }
+      }
+    },
+    "stdout": ".......................................                                  [100%]\n39 passed in 0.27s\n"
+  },
+  "workspace_and_controller_evidence_unchanged": true,
+  "no_bytecode_in_source": true,
+  "new_full_rerun": "not_run: verified controller full run and independent focused coverage are sufficient",
+  "raw_state": "/home/mye/.local/state/codinator/interactive/tasks/T0018-heldout-motifs",
+  "closeout_raw": "/tmp/kmesh-T0018-closeout-qw2cjygo",
+  "accepted_at_utc": "2026-09-28T06:18:00.381167+00:00",
+  "identity": {
+    "pi": {
+      "provider": "bonsai",
+      "model": "bonsai2-27b",
+      "thinking": "xhigh"
+    },
+    "pi_evidence": "Native Pi extension runtime metadata in attempt-0002/request.json; not RPC execution or backend weight attestation",
+    "reviewer": {
+      "model": "gpt-6-astra",
+      "reasoning_effort": "xhigh",
+      "evidence": "attempt-0002/codex/launch.json; process exit 0 and turn.completed verified"
+    }
+  },
+  "history": {
+    "pre_submission_cache_block": {
+      "preserved_at": "/home/mye/data/kmesh-T0018-recovery-cache-f37g9nlf",
+      "cleanup": "14 derived .pyc files and 2 empty directories removed after preservation; source/test bytes unchanged; scope gate passed",
+      "fix": "Pi isolation subprocess now explicitly uses -I -B"
+    },
+    "round_1": {
+      "verdict": "needs_changes",
+      "focused": 31,
+      "full": 1042,
+      "findings": [
+        "T0018-001",
+        "T0018-002",
+        "T0018-003",
+        "T0018-004"
+      ]
+    },
+    "round_2": {
+      "verdict": "accepted",
+      "all_four_findings_closed": true,
+      "changes_from_round_1": "tests only; 8 additional collected cases; product hash unchanged"
+    }
+  },
+  "corrections": [
+    "The final Pi submission contains a malformed source hash; use the verified 64-character SHA-256 values in files.",
+    "The final Pi submission claims prior acceptance; round 1 was needs_changes and only round 2 was accepted."
+  ],
+  "limitations": [
+    "Acceptance covers specified queries/references and complete rooted support subtrees only; not formal split, whole-world leakage freedom, training, or update-cost results.",
+    "Code remains uncommitted in the dedicated worktree; no product/test integration into the main worktree and no commit/push/merge performed.",
+    "Raw native sessions, prior failures, reviewer probes and controller state remain outside Git. A reviewer boundary probe initially failed because its Atom subclass proof fixture violated inherited dependency validation; subsequent probes corrected the fixture. Historical failures were not rewritten."
+  ],
+  "closeout_environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "PYTHONPATH": "removed"
+  }
+}

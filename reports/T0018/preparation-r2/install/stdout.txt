@@ -1,0 +1,13 @@
+Obtaining file:///home/mye/data/kmesh-worktrees/T0018-heldout-motifs
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: kmesh
+  Building editable for kmesh (pyproject.toml): started
+  Building editable for kmesh (pyproject.toml): finished with status 'done'
+  Created wheel for kmesh: filename=kmesh-0.1.0-0.editable-py3-none-any.whl size=2348 sha256=2259889d8adbe4fbbd6d5488e0f56f07110d526542312a78978d1490642802a6
+  Stored in directory: /tmp/pip-ephem-wheel-cache-whqqkxt6/wheels/44/c7/23/450dc7c2a41f0e5988e41f106ffb77b17125fb775ae98cbe09
+Successfully built kmesh
+Installing collected packages: kmesh
+Successfully installed kmesh-0.1.0
