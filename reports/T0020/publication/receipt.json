@@ -1,0 +1,41 @@
+{
+  "task_id": "T0020-motif-split-catalogue",
+  "revision": "r3",
+  "mode": "background",
+  "state_after_submit": "ready",
+  "round": 1,
+  "attempt": 0,
+  "head": "ffd1bdf4276c4347de6964627863a1368d5ff857",
+  "intake_digest": "357125fb7920156cdc94a393f71b6cee31501e8dd1b12ae52357695628af19fb",
+  "handoff_sha256": "64e797347ed4b280837bf400c49a958b519c01dc5de5cb33714feb388632c831",
+  "manifest_sha256": "d2696e3b9041c0ddd8705c8319fe52860ebf25ae7cdb282fb4747cc7d9f4f73a",
+  "integration": {
+    "target_workspace": "/home/mye/src/llm/KMesh",
+    "target_branch": "master",
+    "base_commit": "ffd1bdf4276c4347de6964627863a1368d5ff857",
+    "planning_paths": [
+      "AGENTS.md",
+      "KMesh_Research_Plan_v0.1.md",
+      "README.md",
+      "docs/",
+      "reports/T0018/",
+      "reports/T0019/",
+      "reports/T0020/"
+    ]
+  },
+  "controller_evidence": "/home/mye/.local/state/codinator/tasks/T0020-motif-split-catalogue",
+  "service": {
+    "MainPID": "738013",
+    "NRestarts": "0",
+    "ActiveState": "active",
+    "SubState": "running",
+    "UnitFileState": "enabled"
+  },
+  "codinator_base_commit": "32c187ec41b3484e6de3ef22ef4dd9499929ba36",
+  "codinator_uncommitted_feature": true,
+  "controller_deployment_sha256": "8bec92740dedd3fa4d85baf6840846492be7a30cee896f2185700462bfc83530",
+  "baseline_passed": 1082,
+  "publication_checks_passed": true,
+  "no_push": true,
+  "scope": "Only T0020; Pi commit/ff-only merge to master after independent Codex acceptance, no next task."
+}

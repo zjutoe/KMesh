@@ -1,0 +1,239 @@
+# T0019：深度 2–3 候选 motif 目录审计
+
+## 任务信息
+
+- 任务编号／修订号：T0019 / r2，2026-09-28。r2 补充独立环境、已运行预检及原生 Pi 交付／预算；产品接口、构造、schema 和 A1–A7 不变。[r1 原交接](../../reports/T0019/preparation-r2/prior-contract-r1/handoff.txt)及原规划输出保留。
+- 状态：**ready**。独立工作树、离线解释器、1050 项基线回归、七个规划 witness 及两个指定模型连接已核验，[manifest](../../reports/T0019/task.json)已准备。按 [启动说明](../../reports/T0019/preparation-r2/README.md)从用户原生 Pi 界面发布；本轮尚未发布或实施。
+- 所属阶段与协议：E0-D／M1 正式目录冻结前的候选审计；研究计划 v0.1.3、E0 `e0_v2`、E1 `e1_v3`、`proof_identity_v1`、`proof_motif_v1` 不变。本项报告版本为 `motif_candidate_audit_v1`，不构成正式数据划分协议；见 [D39](../decisions.md#d39正式保留目录冻结前的有限候选审计)。
+- 规划者／验收者：Codex + `gpt-6-astra`／`xhigh`；实施与自检：Pi + `bonsai/bonsai2-27b/xhigh`。客户端模型元数据和后端权重证明分开记录，不使用模型自述作证明。
+- 基线：`master@e04706b2fa0541672c15a1ed5d6940784d9d43ae`。规划开始时主仓库干净；已含 T0018 接受实现 `40aacbfe23e7f3e8a1d538ba87104fcfe8fa7795`。本轮规划改动仅本交接、`docs/decisions.md`、`docs/implementation_status.md`、T0018 的后续任务引用及 `reports/T0019/`；均非 Pi 可编辑材料。
+- 独立任务／工作树：`T0019-motif-candidate-audit`／`/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit`，2026-09-28 已创建，HEAD 与上述基线一致。`.venv/bin/python` 专属此工作树；本轮新增未提交材料包括 AGENTS 的 T0019 约定、r2 文档、manifest、启动脚本和 `reports/T0019/preparation-r2/`，由 Codex 同步并在发布时整体快照。
+- 前置验收：[T0010 最短深度](T0010-minimum-depth.md)、[T0013 规范证明计数](T0013-proof-count.md)、[T0014 整树 motif](T0014-proof-motif.md)、[T0018 命中审计](T0018-heldout-motifs.md)，以及其既有间接依赖。T0018 [合并记录](../../reports/T0018/integration/README.md)与 [接受摘要](../../reports/T0018/acceptance/summary.json)已核对。
+- 必读：[AGENTS](../../AGENTS.md)、研究计划 §4.1／§4.3–4.5／§5.1–5.4、[证明身份](../proof_identity_v1.md)、[motif 规范](../motif_identity_v1.md)、上述四个产品模块及本交接。规划探针可用于理解证据，不能作为产品／测试的导入来源或 expected oracle。
+
+## 目标、范围与交付物
+
+**单一目标：** 对下文固定的 80 个最小候选世界，产出一份可重建 witness、核验规范证明数和深度、比较完整 motif 键、查询包含关系的确定性审计报告，为 Codex 后续选择正式保留目录提供证据。
+
+T0018 已能回答给定目录是否命中，但没有可冻结的目录。直接写 train/dev/test 分配会把“候选是否有效、哪些结构会相互包含”当成未经核验的前提。本任务先给出这份有限目录的证据；不再增加一个仅包装既有返回值的逻辑原语。
+
+Pi 只允许新增／修改：
+
+1. `src/kmesh/logic/motif_candidates.py`：固定候选构造、审计函数及同模块 JSON 输出入口。
+2. `tests/test_motif_candidates.py`：独立手写锚点、目录完整性、真实依赖核验和报告测试。
+
+公开 Python 接口仅为 `audit_motif_candidates() -> dict`，`__all__ == ["audit_motif_candidates"]`。无输入参数，不设计通用生成器、配置系统、公共候选类型或解析器；私有构造／序列化辅助函数按需使用。`python -m kmesh.logic.motif_candidates` 向 stdout 输出该报告的 JSON，供控制器留证，不改现有 `kmesh` CLI。
+
+报告不直接写入工作树。控制器规定检查的 stdout 保存机器可读结果，终态由 Codex 导出必要摘要。已有模块、测试、包初始化、依赖、配置、研究计划和交接均只读。
+
+原生 Pi 通过 `codex_submit_review` 的 Markdown 参数提交执行记录；控制器生成仓外 `submission.md`／`review.md`，Pi 无需另写 `delivery/summary.md`／`completion.json`。SQLite 为运行状态唯一来源，Pi 不编辑本交接；终态由 Codex 同步必要摘要。
+
+不包含：正式 train/dev/test motif 分配或配额、随机世界／干扰生成、family、负例／反事实、world 准入、模型输入数据文件、训练、GPU及成本实验。这里的 80 个候选**不是所有深度 2–3 证明结构**；完整有根支持子树也未因此成为正式协议唯一允许的匹配口径。
+
+## 前提与假设
+
+### 已验证事实
+
+- 当前 T0018 产品 SHA-256 为 `5c785ef250b26daecb9b09606cfa67bd5ef71bf60c96ba565b0af85eaa48e91e`，测试为 `a0c7ffc33f3090bfdfc920155e32b1fc8f0e63bfba17d4349c972ee520115339`，与接受摘要一致。
+- T0014 产品 SHA-256 为 `23d175e8865b3ace1d4ffd4094b67fcb18c8c36ae986f3b44b2e148fde80476f`；T0013 为 `ac710fd17731bde66e90e8d7737a5eac59486b65454f6bd0fbe9d1ca270eec6d`；T0010 为 `0361a37e8fbfcceb69ac55336c8578176ab96f1c94a86fa50a98aaa2a839bf5d`。
+- r1 使用 T0018 控制器 **1050 项通过**及合并后 39 项定向结果作为历史依据；r2 已在 T0019 独立环境新跑基线：**1050 passed in 19.34s**，退出 0、无 skip／xfail、stderr 空。见 [新基线原件](../../reports/T0019/preparation-r2/baseline-full/stdout.txt)，不重标历史结果。
+- Codex 已用上述已验收 API 核对七个明确写出的 witness：`CC, II, CJ, JC, CJC, JJ, TTT`。均为合法证明、规范计数 1、手定深度／步数成立，七个完整键互异；`CJC` 命中 `CJ`，不命中 `JC`。见 [规划探针](../../reports/T0019/planning_probe.py)、[运行输出](../../reports/T0019/planning-r1/stdout.txt)和 [退出记录](../../reports/T0019/planning-r1/result.json)。完整 80 项审计仍为 `not_run`，由 Pi 实施。
+- r2 专用环境为 Python 3.13.5／pytest 8.3.4，离线 `--system-site-packages` 建立并 editable 安装，`kmesh` realpath 属于此工作树；`codinator doctor` 通过。r2 在新解释器重跑七个规划 witness 退出 0；两项只读检查前后工作树快照一致、源码无 `.pyc`。详见 [环境摘要](../../reports/T0019/preparation-r2/environment-summary.json)。
+- 指定 Pi 的 RPC 预检身份及真实最小响应、Codex `gpt-6-astra/xhigh` 的 CLI 最小响应均通过；Pi 直连本机 Bonsai，Codex 经既有本机代理。身份来源与一次启动脚本路径错误的留证见 [模型摘要](../../reports/T0019/preparation-r2/model-connectivity.json)。预检不是产品实施、原生 TUI 审查闭环或后端权重证明。
+
+### 待验证条件与处理方式
+
+- 下文 80 个候选的逐项合法性、规范唯一性、完整键和包含矩阵须实际运行。数量表与前缀关系是根据构造推导的验收预期，不得直接填成“实测”字段；若实际不符，保留结果并检查构造／依赖，不硬编码结果或替换候选。
+- 正式划分所需的独立结构数量、模板覆盖和更一般的边界匹配是否足够，仍未验证。本任务成功也不等于研究目录已经足够；不足可成为后续设计结论，不得由 Pi 擅自扩大构造族。
+- 独立工作树／`.venv`、1050 项基线回归及指定模型已完成预检。启动使用 [专用配置与启动脚本](../../reports/T0019/preparation-r2/README.md)，不修改全局设置或临时换模型；之后连接或环境变化按控制器实际状态留证处理。T0018 解释器仅用于 r1 规划，正式实施使用 T0019 专用解释器。
+- 数据为本契约固定合成 witness；seed 为 N/A，无随机采样。仅访问任务工作树及新建 `/tmp`，不访问正式／锁定数据、网络、GPU、教师或其他会话凭据。
+- [manifest](../../reports/T0019/task.json)固定上述两条 allowed_paths、三项规定检查各 180 秒及最多四轮。沿用用户原生 Pi 偏好，本轮在 [AGENTS §8](../../AGENTS.md#8-codinator-自动交接自-t0016-起)／[D40](../decisions.md#d40t0019-独立环境与原生-pi-发布准备)明确记录 T0019：`codinator pi` 的单次 Codex 审查 7200 秒，Pi 会话和任务总时长无控制器上限；manifest `max_seconds=14400` 为格式兼容字段，在本模式不生效，`attempt_seconds=7200` 仅约束 Codex。后台默认值及研究比较预算不变。不配置未知通知线程。
+- 无 GPU 资源预算；无新依赖。控制器只读检查，临时文件写 `/tmp`。超时、依赖异常或证据写入失败都不能记作完整审计成功，保留失败 attempt。
+
+## 具体实施步骤
+
+### 1. 核对冻结基线和输出边界
+
+只在 Codex 完成发布前置并派发 `ready` 后执行。核对 HEAD、已冻结规划文件和上列依赖 hash；不修改已有实现或原材料。发布时以实际新快照为准，有影响任务的基线变化交回 Codex。
+
+预期结果：明确两个允许文件、正确解释器和只读契约；执行汇总可追溯到该轮快照。
+
+### 2. 构造固定候选目录，生成可重建的完整 witness
+
+候选 ID 是操作词，字符顺序固定为 `C,I,J,T`，分别代表 COPY、INV、JOIN、INTER。字符从叶向根执行。先按该字符顺序枚举全部长度 2 的词，再枚举全部长度 3 的词；即 16 + 64 = 80 项。可以使用 `itertools.product`，不按集合迭代次序排序，也不靠运行结果挑选子集。`CC` 是首项，`TTT` 是末项；长短词不能混排。
+
+每个候选重新创建一个互相独立的最小世界：
+
+1. 初始唯一 clause 为事实 `[] -> p0(e0,e1)`，初始 proof 为 `ProofStep(0, (), p0(e0,e1))`；当前根为该 proof 的最后一步。
+2. 第 i 个字符中 i 从 1 开始，当前 ground 根记为 `p{i-1}(u,v)`。新 head 谓词总是 `p{i}`。局部变量拼写固定 `?x,?y,?z`，作用域仅该 clause。
+3. 按下表追加 clause 及对应 proof。每个新增 clause 都恰好产生本 witness 的一个新步骤，clause_index 为新 clause 的真实位置，premise_steps 引用已存在的真实步骤位置。
+
+| 字符 | 新侧事实（先追加） | 追加规则 | 新 ground 根 | 规则步骤前提顺序 |
+|---|---|---|---|---|
+| C | 无 | `p{i-1}(?x,?y) -> p{i}(?x,?y)` | `p{i}(u,v)` | 原根 |
+| I | 无 | `p{i-1}(?x,?y) -> p{i}(?y,?x)` | `p{i}(v,u)` | 原根 |
+| J | `s{i}(v,e{i+1})` | `p{i-1}(?x,?y), s{i}(?y,?z) -> p{i}(?x,?z)` | `p{i}(u,e{i+1})` | 原根、新侧事实 |
+| T | `s{i}(u,v)` | `p{i-1}(?x,?y), s{i}(?x,?y) -> p{i}(?x,?y)` | `p{i}(u,v)` | 原根、新侧事实 |
+
+J 的 `e{i+1}` 是此前未出现的实体；缺号不补齐。C/I/T 不新建实体。`s{i}` 只在对应二前提步骤出现，不能复用以前的 side predicate。先保存原根步骤位置再追加侧事实，避免把侧事实误当为主前提。每个 clause／proof 保持追加顺序，最后一步的 conclusion 就是 query。
+
+使用已有 `Atom`、`Clause`、`ProofStep`；clauses 和 proof 为 tuple。不靠 solver 自动生成 witness，不加入原推导的结论事实、干扰条款、常量规则、复用关系或循环。分支构造固定为“已有证明在第一个前提、另一前提是新事实”，不枚举其他树形。
+
+手算锚点（编号是本 witness 中的 clause／proof 位置）：
+
+```text
+CJ:
+0 [] -> p0(e0,e1)
+1 p0(?x,?y) -> p1(?x,?y)
+2 [] -> s2(e1,e3)
+3 p1(?x,?y),s2(?y,?z) -> p2(?x,?z)
+proof = [(0,(),p0(e0,e1)), (1,(0,),p1(e0,e1)),
+         (2,(),s2(e1,e3)), (3,(1,2),p2(e0,e3))]
+query = p2(e0,e3)
+
+JC:
+0 [] -> p0(e0,e1)
+1 [] -> s1(e1,e2)
+2 p0(?x,?y),s1(?y,?z) -> p1(?x,?z)
+3 p1(?x,?y) -> p2(?x,?y)
+proof premises = [(), (), (0,1), (2,)]
+query = p2(e0,e2)
+```
+
+预期结果：80 个明确的 `(id, clauses, query, proof)`；每个二前提都保留两个实际发生。CJC 在 CJ 后追加 COPY，query 为 `p3(e0,e3)`，共有 5 步。`CC` 与 `II` 都以 `p2(e0,e1)` 为 query，但不能因端点相同而合并结构。
+
+### 3. 用已验收接口测量目录与包含关系
+
+四个预算固定且全部为真实 int `100_000`：C=`max_fact_checks`、D=`max_derivations`、S=`max_proof_steps`、O=`max_orientations`。它们是每次依赖调用的预算，不是本次审计的总运算预算。
+
+直接按名导入下列公开 API，供测试在实际绑定处观察调用。对每个 candidate 依次完成：
+
+- `canonical_motif_key(clauses, query, proof, max_steps=S, max_orientations=O)`：给定 witness 完整键，并通过其既有验证路径验证合法性。
+- `count_canonical_proofs(clauses, query, max_fact_checks=C, max_derivations=D, max_proof_steps=S)`：实际规范证明数；不能将手写 witness 数量 1 当成枚举结果。
+- `minimum_proof_depth(clauses, query, max_fact_checks=C, max_derivations=D)`：实际最短深度；不能用 ID 长度替代调用结果。
+
+全部候选上述记录成功后，把所有原 `(clauses, query, proof)` 按目录顺序组成一次 references tuple。逐候选调用：
+
+```python
+heldout_motif_hits(
+    clauses, (query,), references,
+    max_fact_checks=C, max_derivations=D,
+    max_proof_steps=S, max_orientations=O,
+)
+```
+
+将唯一返回项中的 reference 位置映射为 ID，并按原目录顺序列出。边 `source -> target` 表示 source 的 query 全部有效证明中存在 target 的完整有根支持子树；包含自身。不能反转边，也不能从操作词前缀直接填报告，前缀仅是独立验收预期。
+
+依赖异常原实例传播，不捕获为 0／空集合／未命中、不重试、不输出部分成功 JSON。允许 traceback 到 stderr。给定 witness 非法、其他 API 拒绝或预算不足时整次执行失败，保留原异常。无本层新增异常类或输入校验框架。
+
+无需直接调用闭包 solver、重写证明枚举、规范键或匹配。T0018 每次重新验证整个目录是本版已知开销，80 次调用会有 6400 次参考键计算；不擅自改前置接口、缓存或改成只看给定 witness 的子树。此规模仅作离线参考审计，不声称可扩展生成性能。
+
+### 4. 返回固定 schema 并通过模块入口输出 JSON
+
+`audit_motif_candidates()` 无文件 IO，无 stdout 输出，返回新的普通 dict；嵌套容器只用普通 dict／list，叶为 str／int。真实完整 motif 键转成嵌套 list 仅用于 JSON 表示，保留所有版本标签和标量类型；比较和去重使用原 tuple 完整键，不使用哈希摘要、repr 或 ID 代替键。所有报告字段必须由本次构造或真实调用得到。
+
+顶层字段固定为：
+
+```text
+schema_version = "motif_candidate_audit_v1"
+candidate_family = "left_spine_ops_v1"
+matching = "complete_rooted_support_subtree"
+budgets = {max_fact_checks:100000, max_derivations:100000,
+           max_proof_steps:100000, max_orientations:100000}
+candidates = [CandidateRow, ...]        # 固定目录顺序
+buckets = [BucketRow, ...]              # (depth, proof_steps) 升序
+summary = {candidate_count, distinct_motif_count,
+           containment_edges, proper_containment_edges}
+```
+
+`CandidateRow` 字段固定：`id, clauses, query, proof, motif_key, minimum_depth, canonical_proof_count, proof_steps, contained_ids`。`proof_steps` 为该 witness 步骤数，不是 C/D/S/O 或最短深度。对象序列化如下，不新增 ID／模板字段到 clause 或 Atom：
+
+```text
+Atom  -> {"pred": str, "args": [str, str]}
+Clause -> {"body": [Atom, ...], "head": Atom}
+ProofStep -> {"clause_index": int, "premise_steps": [int, ...], "conclusion": Atom}
+```
+
+`BucketRow` 固定为 `depth, proof_steps, candidate_count, distinct_motif_count`；按实际 depth 和 witness 步数分桶。候选数按行数计算，独立 motif 数按完整键集合计算。两类 edge count 分别统计全部 contained_ids 项数和其中 target ID 不等于 source ID 的项数。
+
+`python -m kmesh.logic.motif_candidates` 在完整计算成功后输出一个 JSON 文档：UTF-8、`ensure_ascii=False, sort_keys=True, indent=2`、末尾一个换行。stdout 不夹进度／模型解释；不输出时间戳、耗时、绝对路径、环境信息或随机 run ID。两次成功运行应逐字节相同，运行时间等由控制器另行留证。不得在模块 import 时执行审计或输出报告，不新增 console script／文件格式解析 API。
+
+预期结果：完整报告可用标准 `json.loads` 读取并据 witness 重建原逻辑对象，且保留离线审计与模型输入的边界。
+
+### 5. 写真实行为测试，并对照手算完整性预期
+
+以下是**待实测的预期**，不允许写死为观测字段：
+
+| 最短深度 | witness 总步数（包含事实） | 候选数／独立完整键数 |
+|---|---|---|
+| 2 | 3 | 4／4 |
+| 2 | 4 | 8／8 |
+| 2 | 5 | 4／4 |
+| 3 | 4 | 8／8 |
+| 3 | 5 | 24／24 |
+| 3 | 6 | 24／24 |
+| 3 | 7 | 8／8 |
+
+推导：设词长为 d，二前提字符数为 b，则步数是 `1+d+b`；每一步新增一个不同 head 谓词并只有一个已实例化支持，最短深度应为 d，规范计数应为 1。节点的 COPY／INV／JOIN／INTER schema 可区分，沿唯一非事实主分支逐级恢复操作词，因此不同词的完整键应不同。整个目录共 80 个不同完整键；这不等于全体深度 2–3 motifs。
+
+包含关系预期：长度 2 的词只命中自身；长度 3 的词恰命中其前两个字符组成的词和自身。其它完整子树深度最多 1，不在目录里。故总边数 `16 + 64*2 = 144`，非自身边数 64，同深度没有不同 ID 之间的边。`CJC -> CJ`，但 `CJC` 不指向 `JC`；这也具体展示完整子树与上层裁剪片段的区别。
+
+测试至少覆盖下列独立行为，不按测试条数验收：
+
+- **构造锚点：** 在测试内独立手写 `CC, II, CJ, JC, CJC, JJ, TTT` 的完整 clauses/query/proof 或明确全文结构；至少 CJ、JC、CJC 比较全部序列与引用，覆盖字母方向、side predicate、fresh entity 和最后 query。不能导入 `reports/T0019/planning_probe.py` 或调用私有构造器生成 expected。
+- **完整目录与真实 witness：** 精确检查 80 个 ID 及顺序；从 JSON 对象重建全部 witness，逐项通过既有独立 `verify_proof`，不得只检查最后一步。用已有 API 复核报告 key／证明数／深度；这些核验与手写锚点结合，不能只比较两次被测函数返回。可共享一次报告 fixture，避免每个断言重新跑整个审计。
+- **结构与包含：** 完整键的独立集合大小、七个 bucket、全部 80 行的精确 contained_ids 与上述前缀预期一致，验证边方向／self／总计。明确断言 CC 与 II 的 query 相同而 key 不同，CJ 与 JC 等长等深而 key 不同，CJC 不命中 JC。
+- **真实依赖与观测字段：** 在本模块实际绑定处用 wrapping spy 检查四个 API 均对每个候选调用、规定预算准确、T0018 的完整 80 参考顺序及 query 单项批次正确。再用受控返回值证明 count、depth、motif key、hit 结果参与输出／汇总，而不是调用后忽略、改报固定 1／词长／词数／前缀。例如把首行 hit 改为最后 reference，报告应相应映射为 `TTT`；把两个 root key 改为相同完整键，distinct 统计应随之变化。此类 fake 只用于依赖委托测试，不替代真实 80 项审计；深度 fake 仍用有效 int 以避免引入未定义输入。
+- **失败不伪装成功：** 对 count、depth、key、hit 的真实绑定分别注入依赖支持的异常哨兵，在较后候选抛出，保存调用前消息／cause／context，确认同一实例传播、后续调用不继续。CLI 的失败路径 stdout 没有半份 JSON，异常仍到 stderr、非零退出；不用修改产品代码来注入测试故障。
+- **确定性与隔离：** 函数调用没有 stdout；新进程模块入口两次 JSON 字节一致，结构等于函数结果；改动一次返回值不污染下次报告。子进程一律显式 `-I -B`，在代码中插入本测试对应仓库的 src 并断言 import realpath。导入和一次真实完整审计期间禁止 `torch`、`yaml`、`kmesh.logic.engine`、`kmesh.logic.reference_engine` 根名与点前缀；finder 全程保留并自检，末尾扫描 sys.modules。允许本任务列明 API 的既有间接依赖。不得生成源码 `.pyc` 或把测试／报告当产品输入。
+
+变换测试可用 CJ/CJC 手写 witness 做全局关系／实体双射、局部变量双射及同步 body／premise 交换，核验结构键保持；不把单独反转 ground 端点当作 COPY／INV 的替代证据。不必复制前置模块整个输入矩阵或另实现同构算法。
+
+预期结果：测试能拒绝只枚举长度 2、把 I 当 C、复用侧事实、伪造恒定证明数、把 step 数当深度、按端点归并、仅整树匹配、反转包含边、忽略真实匹配返回值、异常改为成功等关键错误。
+
+### 6. 运行检查并提交完整证据
+
+先定向、后全量、最后报告检查。开发检查从首次尝试起由 Pi 原始工具事件留证，每次新 `/tmp`；控制器另录制规定检查。不得删除失败尝试、反复覆盖输出，或把有序管道末端的退出码当 pytest 退出码。
+
+自检和全部工具结束后，单独调用 `codex_submit_review`，不与其他工具同批调用；Markdown summary 包含真实命令／退出状态、报告摘要、失败修复及未运行项。候选目录和模型身份都不得仅靠自然语言自述。提交后等控制器冻结和独立 Codex；不自行改 accepted，不改范围或验收表，不 commit／push／merge。退出／暂停后按启动说明显式恢复，不盲目重放提交不确定的提示。
+
+## 验证方法
+
+以下为实施后的规定命令，当前新产品三项检查均 `not_run`。工作目录固定为 `/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit`；r2 已建好并核验 `.venv`，同一 argv 已固定进 manifest：
+
+```bash
+env CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit/.venv/bin/python -B -m pytest -q -p no:cacheprovider --basetemp /tmp/kmesh-T0019-focused tests/test_motif_candidates.py
+env CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit/.venv/bin/python -B -m pytest -q -p no:cacheprovider --basetemp /tmp/kmesh-T0019-full tests
+env CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 /home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit/.venv/bin/python -B -m kmesh.logic.motif_candidates
+```
+
+每项 180 秒，CPU、只读工作树及独立临时目录；成功应退出 0，pytest 无 skip／xfail，stderr 空。基线 full 1050 项，新增 N 项则为 1050+N，数量差异须解释不能凑数。第三项 stdout 必须是完整 schema 报告；由独立审查解析原件、复建 witness 并核对数量／包含关系，不仅看退出码。报告的规模不等于正式数据量。
+
+Codex 本轮规划核验在主仓库用 T0018 的已安装解释器、主仓库 `PYTHONPATH=src`、只读 sandbox 与 `-B` 完成，60 秒上限，退出 0；准确 argv 见 [launch.json](../../reports/T0019/planning-r1/launch.json)。只运行七个明确写出的样例，没有实现新模块或生成完整目录。旧规划输出不能再次重定向覆盖，后续检查另编号。
+
+## 验收标准
+
+- [ ] A1：仅两个允许文件；单一无参数报告接口和模块 JSON 入口，既有依赖／契约未改。
+- [ ] A2：固定 80 候选及顺序、规则实例化／fresh 符号／proof 引用与契约一致；手写正反锚点覆盖实际构造错误。
+- [ ] A3：全部 witness 合法，真实规范证明数与最短深度可复核；完整键及独立结构数来自既有 API，未以计划证明代替完整审计。
+- [ ] A4：完整键、七个 bucket 和全部有向包含关系符合构造推导；没有按端点或词标签代替 motif 匹配，保留完整子树边界反例。
+- [ ] A5：JSON schema 可重建、值来源可观察、顺序稳定且逐字节可复现；无输入数据泄漏、重型导入、bytecode 或运行时副作用。
+- [ ] A6：失败原实例传播，输出无部分成功，实际检查和完整报告绑定正确快照；关键错误实现能被行为断言拒绝。
+- [ ] A7：三项规定检查和独立审阅通过，成功／失败原件保留；明确只审计指定候选族，未宣称正式划分、world 无泄漏、M1 完成或训练收益。
+
+## Pi 执行记录
+
+`not_run`：r1 分解任务，r2 准备独立环境／发布材料并验证模型连接；尚未发布或实施。按 AGENTS §8，发布后的运行状态以控制器为准；Pi 不编辑冻结交接。真实模型、检查、报告及失败由控制器留证，终态后 Codex 同步摘要。
+
+## Codex 验收记录
+
+2026-09-28 r1 规划记录：主仓库起始干净；T0018 已合入 master，关键接受文件 hash 一致。七个手写 witness／计数／深度／结构和包含反例由既有 API 核验通过，退出 0；这是设计前置核验，不是 T0019 实施或验收。完整候选报告、产品测试、模型调用和全量回归本轮均 `not_run`。
+
+### r2 环境与发布准备（2026-09-28，Codex）
+
+- 新建独立工作树，离线建立专用解释器；环境、doctor、1050 项基线和七 witness 探针全部退出 0。两个新产品／测试文件仍不存在，未代写实现或生成完整 80 项报告。
+- 专用 Pi 配置从 T0018 已验证设置逐文件复制到新的仓外目录，保留 `bonsai/bonsai2-27b/xhigh` 与本机端点；没有复制旧会话或修改全局配置。Pi RPC 最小响应约 5.64 秒，Codex `gpt-6-astra/xhigh` 约 45.99 秒，均协议完成并退出 0。
+- 首次模型预检脚本误保留旧任务路径后缀，在 snapshot 阶段退出、未发任何模型 prompt；原脚本和工具错误留存，新建 models-r2 后通过。补充说明明确不是重建的原始 run_process 日志，不覆盖失败原件。
+- 沿用用户原生 Pi 运行偏好并记录本任务实际预算，r1 交接／规划材料按原 hash 归档。manifest 只允许两个文件，准备完成后标为 ready；实际发布由用户终端启动触发，本轮未 submit、未启动 Pi 实施、未 commit／push／merge。详见 [准备记录](../../reports/T0019/preparation-r2/README.md)。
+
+本任务验收后，由 Codex 依据实测候选及局限决定正式目录数量、train/dev/test 互斥要求和完整子树／开放边界匹配范围，再冻结版本化数据协议；如需更一般结构，另拆明确任务，不能将本族扩大或缩窄研究范围的决定交给 Pi。随后才安排单世界准入、family／split 审计及有界生成。后续任务未编号、未发布，不自动启动。

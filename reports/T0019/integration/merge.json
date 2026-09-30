@@ -1,0 +1,20 @@
+{
+  "old_master_head": "e04706b2fa0541672c15a1ed5d6940784d9d43ae",
+  "implementation_commit": "ffd1bdf4276c4347de6964627863a1368d5ff857",
+  "merge_mode": "fast-forward",
+  "accepted_snapshot_digest": "0750811878ce82fb4bd14992810ecedb09c74f23ed0c2c5d7fe27b1000de3852",
+  "check_evidence_digest": "67aa23f8a4ffa69adb096c1aab0fcfbd7a1412e1c0933966d10313e24106517b",
+  "accepted_files": {
+    "src/kmesh/logic/motif_candidates.py": "177e475c750041bcbc422a35ffebb57c7bdf5fbf9a82c0d6ea43de4f3bc1dae4",
+    "tests/test_motif_candidates.py": "6ca43057bed506a54d4ff5d915b43d6f852601158dcacd33a714b1772012aa06"
+  },
+  "git_blobs_match_accepted_files": true,
+  "preserved_main_working_files": 80,
+  "preserved_original_evidence_files": 135,
+  "accepted_worktree_file_entries_unchanged": true,
+  "post_commit_worktree_digest": "e7883feb5aaa2d4a52d387618e9e2e11709d8acf7e6db64243025ce4f3d465c8",
+  "digest_change_reason": "User-authorized Git HEAD/index update; file entries remain identical.",
+  "raw_evidence": "/tmp/kmesh-T0019-integration-jjnb9750",
+  "pushed": false,
+  "accepted_whitespace_warning": "tests/test_motif_candidates.py:869 contains a whitespace-only line; accepted bytes preserved."
+}

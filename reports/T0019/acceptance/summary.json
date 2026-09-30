@@ -1,0 +1,44 @@
+{
+  "task_id": "T0019-motif-candidate-audit",
+  "state": "accepted",
+  "round": 3,
+  "attempt": 3,
+  "accepted_at_epoch": 1790606066.950974,
+  "submission_digest": "0750811878ce82fb4bd14992810ecedb09c74f23ed0c2c5d7fe27b1000de3852",
+  "check_evidence_digest": "67aa23f8a4ffa69adb096c1aab0fcfbd7a1412e1c0933966d10313e24106517b",
+  "workspace_matches_accepted_snapshot": true,
+  "published_handoff_sha256": "3622be65e75dec49d4820cbeb2d38e2a0ddc0df526034ad101d8706b5d42a61f",
+  "manifest_sha256": "94cbe24e162692ede7bbb61537aa25483a685e2729086c41f1b397577b4c8946",
+  "accepted_files": {
+    "src/kmesh/logic/motif_candidates.py": "177e475c750041bcbc422a35ffebb57c7bdf5fbf9a82c0d6ea43de4f3bc1dae4",
+    "tests/test_motif_candidates.py": "6ca43057bed506a54d4ff5d915b43d6f852601158dcacd33a714b1772012aa06"
+  },
+  "checks": {
+    "focused": {
+      "exit_code": 0,
+      "elapsed_seconds": 15.434135913848877,
+      "stdout_sha256": "d977572caf32d04302d4b86a176d93c82c5f3a48db2603e6c314e36d0f45c4c2"
+    },
+    "full": {
+      "exit_code": 0,
+      "elapsed_seconds": 34.202404260635376,
+      "stdout_sha256": "8c903e38c05e5797a6c872159035ad482bb99a61611589e0a0d9c9ee9f9fe372"
+    },
+    "catalogue": {
+      "exit_code": 0,
+      "elapsed_seconds": 0.9621913433074951,
+      "stdout_sha256": "0e84e0ee386d046664c54c88b5ae798bc492cce101e666d6cbfc389481d9c5b4"
+    }
+  },
+  "catalogue_summary": {
+    "candidate_count": 80,
+    "containment_edges": 144,
+    "distinct_motif_count": 80,
+    "proper_containment_edges": 64
+  },
+  "main_repository_head": "e04706b2fa0541672c15a1ed5d6940784d9d43ae",
+  "integrated_into_main": false,
+  "source_evidence": "/home/mye/.local/state/codinator/interactive/tasks/T0019-motif-candidate-audit/attempt-0003",
+  "exported_at": "2026-09-29",
+  "new_product_tests_run": false
+}

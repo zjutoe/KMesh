@@ -1,0 +1,51 @@
+{
+  "scope": "Seven hand-written witnesses checked with accepted dependencies only",
+  "witnesses": [
+    {
+      "id": "CC",
+      "depth": 2,
+      "proof_steps": 3,
+      "canonical_proof_count": 1
+    },
+    {
+      "id": "II",
+      "depth": 2,
+      "proof_steps": 3,
+      "canonical_proof_count": 1
+    },
+    {
+      "id": "CJ",
+      "depth": 2,
+      "proof_steps": 4,
+      "canonical_proof_count": 1
+    },
+    {
+      "id": "JC",
+      "depth": 2,
+      "proof_steps": 4,
+      "canonical_proof_count": 1
+    },
+    {
+      "id": "CJC",
+      "depth": 3,
+      "proof_steps": 5,
+      "canonical_proof_count": 1
+    },
+    {
+      "id": "JJ",
+      "depth": 2,
+      "proof_steps": 5,
+      "canonical_proof_count": 1
+    },
+    {
+      "id": "TTT",
+      "depth": 3,
+      "proof_steps": 7,
+      "canonical_proof_count": 1
+    }
+  ],
+  "distinct_motif_keys": 7,
+  "CJC_hits_CJ_but_not_JC": true,
+  "CC_and_II_have_equal_endpoints_but_distinct_keys": true,
+  "full_80_candidate_audit": "not_run: assigned to Pi in T0019"
+}

@@ -1,0 +1,7 @@
+{
+  "task_id": "T0020-motif-split-catalogue",
+  "submission_digest": "5c41015c5318efee6b8bb1ca1fdc5b0cb26e494c8f9b27e05328ebc78f6d2632",
+  "verdict": "accepted",
+  "summary": "R1–R3 resolved. Verified the exact frozen snapshot and controller checks: 42 focused tests, 1124 full tests, and catalogue output. Independent focused rerun and boundary probes passed; revised tests rejected cross-split, hardcoded-summary/matrix, and stale-key mutants. All six subprocesses executed the required origin assertions. Confirmed all 80 witnesses/keys and literal splits, buckets, and matrix. Workspace remained unchanged.",
+  "issues": []
+}

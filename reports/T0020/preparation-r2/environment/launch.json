@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "/usr/bin/bwrap",
+    "--die-with-parent",
+    "--new-session",
+    "--unshare-pid",
+    "--unshare-ipc",
+    "--unshare-uts",
+    "--ro-bind",
+    "/",
+    "/",
+    "--proc",
+    "/proc",
+    "--dev",
+    "/dev",
+    "--tmpfs",
+    "/tmp",
+    "--chdir",
+    "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue",
+    "--",
+    "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue/.venv/bin/python",
+    "-B",
+    "-c",
+    "import importlib.metadata as m, json, pathlib, sys, kmesh\nimport kmesh.logic.motif_candidates as candidate\nroot = pathlib.Path.cwd()\nassert pathlib.Path(kmesh.__file__).resolve() == root/'src/kmesh/__init__.py'\nassert pathlib.Path(candidate.__file__).resolve() == root/'src/kmesh/logic/motif_candidates.py'\nnames = ('pytest','setuptools','wheel','torch','numpy','PyYAML')\nprint(json.dumps({'python':sys.version,'executable':sys.executable,'kmesh_realpath':str(pathlib.Path(kmesh.__file__).resolve()),\n'candidate_realpath':str(pathlib.Path(candidate.__file__).resolve()),'packages':{n:m.version(n) for n in names}},indent=2))\n"
+  ],
+  "cwd": "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue",
+  "started": 1790677187.9179895,
+  "timeout_seconds": 180
+}

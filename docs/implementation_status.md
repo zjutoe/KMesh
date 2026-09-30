@@ -1,7 +1,10 @@
 # KMesh 实现状态
 
-- 截至 2026-09-28，M0（最小可运行环境）`in_progress`；M1 的逻辑与数据审计基础按小任务推进，尚未完成可信数据验收。
-- 本次研究回顾：最终目标仍是验证大多数 LLM 训练更新能否局部化，并实测同等质量的总成本。T0001–T0018 支持的是工程接口正确性；正式数据／划分、模型训练、E0 读取组合、E1a 内容更新、E1b 局部学习和 E4 成本对照尚无实验结果。不能用通过测试的数量替代这些研究证据。
+- 截至 2026-09-30，原 M0（最小可运行环境）仍为 `in_progress`；原 M1 的逻辑与数据审计基础已推进至 T0020，尚未完成可信数据验收。
+- 当前研究优先级已更新为[多专家独立知识构建与组合计划 v0.2](../KMesh_Multi_Expert_Knowledge_Construction_Research_Plan.md)：先 ME0 正确内容读取诊断，再 ME1 真实专家 patch 组合；后续 latent、单侧更新与自然任务按结果推进。`me0_v1`/`me1_v1` 仍待实施冻结，下一项建议 T0021，本次未创建/发布任务、未训练。见 [D45](decisions.md#d45多专家独立知识构建与组合优先)。
+- 最终目标仍是验证大多数 LLM 训练更新能否局部化，并实测同等质量的总成本。T0001–T0020 支持的是工程接口正确性；完整生成数据／准入、模型训练、ME 独立知识组合、原 E0 读取组合、E1a 内容更新、E1b 局部学习和 E4 成本对照尚无实验结果。不能用通过测试的数量替代这些研究证据。
+- [T0019：深度 2–3 候选 motif 目录审计](handoffs/T0019-motif-candidate-audit.md) 已 **accepted / round 3 / attempt 3**，2026-09-29 核对接受快照及证据后，经用户授权提交为 `ffd1bdf4276c4347de6964627863a1368d5ff857` 并快进合入本地 master，未 push。合并后只读复跑32项定向测试通过；原控制器32定向／1082全量及 catalogue 通过，独立审查关闭 R1–R3。80 个不同完整键、七桶、144包含边；所有原证据保留，见 [合并记录](../reports/T0019/integration/README.md)及 [接受摘要](../reports/T0019/acceptance/README.md)。
+- [T0020：版本化 motif 划分目录](handoffs/T0020-motif-split-catalogue.md) 已 **accepted / done**（2026-09-29，round 2 / attempt 2，集成 attempt 1）：独立审查关闭 R1–R3；控制器42定向／1124全量与目录检查通过。80键按40/20/20、8/4/4组划分，七桶配平，144包含边且六个跨集合方向均为0。Pi提交 `7859a01c820bf7a152e4133b8f07b8b04a6a18a3` 后由控制器快进合入本地master，未push；主会话核对冻结源、接受证据和Git blob一致。见 [验收与合并摘要](../reports/T0020/acceptance/README.md)。仍不代表生成world准入、M1完成或神经训练结果。
 - [T0018：指定查询批次的保留结构命中审计](handoffs/T0018-heldout-motifs.md) **accepted / r3**（2026-09-28，round 2 / attempt 2）：原生 Pi `bonsai/bonsai2-27b/xhigh` 实施，独立 Codex `gpt-6-astra/xhigh` 验收；首轮四项测试缺口全部关闭，产品未改。控制器 **39 项定向／1050 项全量**、独立审查 **39 项及 10 个错误实现守卫**通过；主会话另复跑 39 项、核对当前工作树和获准快照一致。源码 `5c785ef2…48e91e`、测试 `a0c7ffc3…115339`。缓存故障及此前失败证据保留；Pi 总结中的错误 hash 和首轮状态已追加更正。经用户授权，实现已提交为 `40aacbfe23e7f3e8a1d538ba87104fcfe8fa7795`，快进合入本地 `master`；源码／测试 hash 与接受值一致，未 push。见 [合并记录](../reports/T0018/integration/README.md)。见 [验收摘要](../reports/T0018/acceptance/README.md)及 [D38](decisions.md#d38t0018-发布环境与交互运行约定准备)。仅针对给定查询／参考目录／完整子树，不表示正式 split 或 world 无泄漏。
 - T0001（最小 Python 包与环境诊断命令）：Codex 第 2 轮复验通过，状态 `accepted`，接受实现提交 `39dabc73e035c8c2627a1e5db4deab31055a9c6d`。R1–R3 已关闭；独立复跑 25 个测试和关键回归检查通过。记录见 [交接文档](handoffs/T0001-bootstrap-doctor.md)，[Pi 第 2 轮证据](../reports/T0001/pi-r2/)与 [Codex 第 2 轮证据](../reports/T0001/review-r2/)分别保留。
 - T0002（模型结构配置的读取与校验）：Codex 第 3 轮复验通过（2026-09-15），状态 **`accepted`**，R1–R5 全部关闭。独立复跑 **99 个测试、规定驱动和四个原始 YAML 反例均通过**；接受实现提交 **`35572f2f8426ab7a8f36cf0961a0f4ec0c68c897`**，已核对其文件哈希与第 3 轮冻结工作树一致。该提交说明中的 `awaiting_review` 已过时，文档和验收证据均为 `accepted`。当前 Pi 第 3 轮 43 项哈希全部匹配，旧证据完整核对未变；丢失历史和开发 stderr 留存限制仍明确保留。**仅涉及 model 的九个字段，不代表完整实验配置已校验。** 见 [T0002 交接文档](handoffs/T0002-model-config.md)、[Pi 第 3 轮证据](../reports/T0002/pi-r3/)与 [Codex 第 3 轮证据](../reports/T0002/review-r3/)。
@@ -58,6 +61,8 @@
 | 完整有根子树的逐发生 motif 目录 | T0016 `accepted`；自动返工后26项定向／960项回归通过，独立26项及异常路径守卫复验通过；仍为离线审计前置原语 |
 | 单查询全部证明的完整子树 motif 联集 | T0017 `accepted`；51项定向／1011项回归及独立审查通过，遍历所有原始证明并汇总每个完整子树键；不表示world泄漏审计完成 |
 | 指定查询批次的保留结构命中审计 | T0018 `accepted`；39项定向／1050项回归及独立审查通过；输出给定参考整树结构的逐查询命中索引，已随 `40aacbf` 合入本地 master；不代表正式 split 或 world 无泄漏 |
+| 正式保留目录的有限候选审计 | T0019 accepted；32定向／1082全量与独立审查通过，80键／七桶／144边；已随 ffd1bdf 合入本地 master，合并后32定向通过 |
+| 版本化组合保留目录 | T0020 accepted；42定向／1124全量及独立审查通过，Pi已提交并合入本地master `7859a01`，未push；有限目录不等于world隔离完成 |
 | 数据/求解器与 CPU forward/backward 验证 | `not_run`，尚未实现 |
 | 20-step smoke | `not_run`，尚未实现 |
 | GPU 训练 | `not_run`，尚未实现，也未经本任务授权 |

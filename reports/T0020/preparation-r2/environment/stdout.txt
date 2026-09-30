@@ -1,0 +1,14 @@
+{
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:09:02) [GCC 11.2.0]",
+  "executable": "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue/.venv/bin/python",
+  "kmesh_realpath": "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue/src/kmesh/__init__.py",
+  "candidate_realpath": "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue/src/kmesh/logic/motif_candidates.py",
+  "packages": {
+    "pytest": "8.3.4",
+    "setuptools": "72.1.0",
+    "wheel": "0.45.1",
+    "torch": "2.9.0+cu130",
+    "numpy": "2.1.3",
+    "PyYAML": "6.0.2"
+  }
+}

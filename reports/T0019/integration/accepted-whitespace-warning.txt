@@ -1,0 +1,2 @@
+tests/test_motif_candidates.py:869: trailing whitespace.
++    

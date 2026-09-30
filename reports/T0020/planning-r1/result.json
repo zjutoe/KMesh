@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit/.venv/bin/python",
+    "-B",
+    "reports/T0020/planning_probe.py",
+    "reports/T0019/acceptance/catalogue.json"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "exit_code": 0,
+  "elapsed_seconds": 0.06453204154968262,
+  "role": "Codex planning analysis; no new product implementation or model calls"
+}

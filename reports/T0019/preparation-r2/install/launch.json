@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit/.venv/bin/python",
+    "-B",
+    "-m",
+    "pip",
+    "install",
+    "--no-index",
+    "--no-build-isolation",
+    "--no-deps",
+    "--no-cache-dir",
+    "-e",
+    "."
+  ],
+  "cwd": "/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit",
+  "started": 1790579307.0669374,
+  "timeout_seconds": 180
+}

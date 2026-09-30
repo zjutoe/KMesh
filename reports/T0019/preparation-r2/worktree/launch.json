@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "git",
+    "worktree",
+    "add",
+    "-b",
+    "T0019-motif-candidate-audit",
+    "/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit",
+    "e04706b2fa0541672c15a1ed5d6940784d9d43ae"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "started": 1790579303.8375437,
+  "timeout_seconds": 180
+}

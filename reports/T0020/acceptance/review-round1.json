@@ -1,0 +1,32 @@
+{
+  "task_id": "T0020-motif-split-catalogue",
+  "submission_digest": "1f433676276478e2cafe827accdf0e203d9e69ec1330656d46a47881d959eb2e",
+  "verdict": "needs_changes",
+  "summary": "Verified frozen file hashes and passing controller checks: 40 focused tests, 1122 full tests, and catalogue output. Independent production probes and the focused rerun passed. Required regression and subprocess-isolation guards remain incomplete; two faulty implementations passed all 40 tests.",
+  "issues": [
+    {
+      "id": "R1",
+      "priority": "P2",
+      "path": "tests/test_motif_split.py:597",
+      "description": "All three cross-split containment fixtures also violate global ID ordering. Removing only motif_split.py's cross-split rejection leaves all 40 tests passing because ordering validation rejects these fixtures instead. The duplicate-key test at line 617 also covers only train-to-train duplication, omitting the explicitly required cross-split case.",
+      "required_change": "Keep cross-split edge fixtures otherwise valid: use CJC contained_ids=['CC','CJ','CJC'], CCC=['CC','CI','CCC'], and CIC=['CC','CI','CIC']. Add a duplicate complete-key rejection case spanning two splits.",
+      "validation": "The corrected tests must pass against the submitted implementation and fail when the cross-split rejection is removed. Cross-split duplicate keys must raise the exact contracted RuntimeError."
+    },
+    {
+      "id": "R2",
+      "priority": "P2",
+      "path": "tests/test_motif_split.py:743",
+      "description": "Changing only upstream summary/buckets leaves every measured edge unchanged, so this test cannot distinguish computation from constants. An in-memory mutant fixing containment_edges=144 and the matrix to 72/36/36 passed all 40 tests, contrary to the required fixed-summary regression guard.",
+      "required_change": "Add an explicitly synthetic dependency fixture with otherwise valid rows but changed same-split containment. For example, replace CJC's contained_ids with ['CJC']; assert the returned list, total edges 143, proper edges 63, and train diagonal 71, with other cells unchanged.",
+      "validation": "The new test must pass against the current implementation and fail against hardcoded edge-summary and matrix mutants. Retain the real-report checks for 144/64 and 72/36/36."
+    },
+    {
+      "id": "R3",
+      "priority": "P3",
+      "path": "tests/test_motif_split.py:775",
+      "description": "Step 5 requires every test subprocess to verify both kmesh and target-module realpaths. The shared child helper checks types and motif_split but never kmesh; the standalone scripts at lines 528 and 545 also omit kmesh, and the latter checks no target origin.",
+      "required_change": "Add explicit current-worktree realpath assertions for kmesh.__file__ and motif_split's origin in every subprocess script, preferably through a shared helper. Preserve explicit -B.",
+      "validation": "Verify these assertions execute in each subprocess, including failure-path tests, and rerun all three required controller checks."
+    }
+  ]
+}

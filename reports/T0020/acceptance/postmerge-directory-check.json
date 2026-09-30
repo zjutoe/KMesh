@@ -1,0 +1,38 @@
+{
+  "unrelated_changes_since_promotion": [
+    {
+      "path": ".agents",
+      "before": null,
+      "after": {
+        "kind": "directory",
+        "mode": 365
+      },
+      "mtime": "2026-09-29T13:34:02.193580+00:00"
+    },
+    {
+      "path": ".aws",
+      "before": null,
+      "after": {
+        "kind": "directory",
+        "mode": 365
+      },
+      "mtime": "2026-09-29T13:34:02.194580+00:00"
+    },
+    {
+      "path": ".codex",
+      "before": null,
+      "after": {
+        "kind": "directory",
+        "mode": 365
+      },
+      "mtime": "2026-09-29T13:34:02.194580+00:00"
+    }
+  ],
+  "completion": [
+    {
+      "time": "2026-09-29T12:50:42.599308+00:00",
+      "state": "accepted",
+      "reason": "Accepted changes committed by Pi and fast-forwarded to target"
+    }
+  ]
+}

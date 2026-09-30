@@ -1,0 +1,67 @@
+{
+  "kind": "connectivity only; no implementation or acceptance",
+  "results": {
+    "pi": {
+      "status": "pass",
+      "runtime": {
+        "provider": "bonsai",
+        "model": "bonsai2-27b",
+        "thinking": "xhigh",
+        "session_id": "01a0ecae-e9aa-7111-8d80-f682bf175709",
+        "source": "Pi RPC get_state; client runtime identity, not server-weight attestation"
+      },
+      "acknowledgement": "T0020_PREFLIGHT_OK",
+      "proxy": "removed; direct local Bonsai",
+      "result": {
+        "exit_code": 0,
+        "failure": null,
+        "started": 1790677280.722073,
+        "finished": 1790677284.5265179,
+        "elapsed_seconds": 3.8044450283050537,
+        "streams": {
+          "stdout.jsonl": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "4b55cbdc2b61cbe90f4cac4e1c49c0059901a1ff62ba57eba51e9420cd5ea5ed",
+            "size": 14834
+          },
+          "stderr.txt": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "size": 0
+          }
+        }
+      }
+    },
+    "codex": {
+      "status": "pass",
+      "requested_model": "gpt-6-astra",
+      "requested_reasoning": "xhigh",
+      "identity_source": "CLI invocation and successful turn; not server-weight attestation",
+      "acknowledgement": "T0020_PREFLIGHT_OK",
+      "proxy": "http://127.0.0.1:8888",
+      "result": {
+        "exit_code": 0,
+        "failure": null,
+        "started": 1790677280.7217946,
+        "finished": 1790677323.4795308,
+        "elapsed_seconds": 42.757736682891846,
+        "streams": {
+          "stdout.txt": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "0b54602ed89a8c3d3ec871f3c4e10f8047f8a3108fddadee28100336f6048143",
+            "size": 376
+          },
+          "stderr.txt": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+            "size": 39
+          }
+        }
+      }
+    }
+  }
+}

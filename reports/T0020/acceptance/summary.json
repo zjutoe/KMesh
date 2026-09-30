@@ -1,0 +1,81 @@
+{
+  "task_id": "T0020-motif-split-catalogue",
+  "state": "accepted",
+  "phase": "done",
+  "round": 2,
+  "attempt": 2,
+  "completed_at": "2026-09-29T12:50:42.599308+00:00",
+  "verified_at": "2026-09-29T13:35:19.049983+00:00",
+  "review": {
+    "task_id": "T0020-motif-split-catalogue",
+    "submission_digest": "5c41015c5318efee6b8bb1ca1fdc5b0cb26e494c8f9b27e05328ebc78f6d2632",
+    "verdict": "accepted",
+    "summary": "R1–R3 resolved. Verified the exact frozen snapshot and controller checks: 42 focused tests, 1124 full tests, and catalogue output. Independent focused rerun and boundary probes passed; revised tests rejected cross-split, hardcoded-summary/matrix, and stale-key mutants. All six subprocesses executed the required origin assertions. Confirmed all 80 witnesses/keys and literal splits, buckets, and matrix. Workspace remained unchanged.",
+    "issues": []
+  },
+  "acceptance_checkpoint": {
+    "review_attempt": 2,
+    "source_attempt": 2,
+    "submission_digest": "5c41015c5318efee6b8bb1ca1fdc5b0cb26e494c8f9b27e05328ebc78f6d2632",
+    "evidence_digest": "485db0834d72e900f27c2586286ce84cda7aa1d3d3cd67aa414d24c6da43850e"
+  },
+  "published_handoff_sha256": "64e797347ed4b280837bf400c49a958b519c01dc5de5cb33714feb388632c831",
+  "published_manifest_sha256": "d2696e3b9041c0ddd8705c8319fe52860ebf25ae7cdb282fb4747cc7d9f4f73a",
+  "accepted_files": {
+    "src/kmesh/logic/motif_split.py": "77ce591aa10bd1b5175e91f745a513e60a1424a8eb2fda7b8074d5735a42fd42",
+    "tests/test_motif_split.py": "c9894e4e0f5fefe557e001d2b37c784b3fdb7ccf1cda7287785ddd840340d435"
+  },
+  "checks": {
+    "focused": {
+      "exit_code": 0,
+      "elapsed_seconds": 32.80420207977295,
+      "stdout_sha256": "69be850e047249ccf0ecb947e936b2401fbf3aa60e392f2c53f517cee993c23a"
+    },
+    "full": {
+      "exit_code": 0,
+      "elapsed_seconds": 67.2512686252594,
+      "stdout_sha256": "3d4559723048f10fd3d9b0aecbee00e27d359dfaf4c8db43844326d09a9a15a7"
+    },
+    "catalogue": {
+      "exit_code": 0,
+      "elapsed_seconds": 0.9761998653411865,
+      "stdout_sha256": "bbea73db85147020a5ff2228f4ad3e8dbd9b487333c062a4595a28b28964a8f1"
+    }
+  },
+  "focused_passed": 42,
+  "full_passed": 1124,
+  "catalogue_summary": {
+    "candidate_count": 80,
+    "containment_edges": 144,
+    "cross_split_edges": 0,
+    "distinct_motif_count": 80,
+    "proper_containment_edges": 64
+  },
+  "source_frozen_snapshot_matches": true,
+  "integration_attempt": 1,
+  "integration_evidence_matches": true,
+  "merged_commit": "7859a01c820bf7a152e4133b8f07b8b04a6a18a3",
+  "master_matches_commit": true,
+  "git_blobs_match_accepted_bytes": true,
+  "project_files_match_promotion_intent_before_closeout_docs": true,
+  "verification_note": "Initial strict target snapshot comparison refused three added empty protected directories (.agents/.aws/.codex), with mtimes after completion. Follow-up comparison confirms these are the only unrelated entries; no project-file drift. Original frozen source and integration evidence match exactly.",
+  "implementation_pi": {
+    "provider": "bonsai",
+    "model": "bonsai2-27b",
+    "thinking": "xhigh",
+    "session_id": "01a0ed18-d13a-71ab-9fff-84af0b39346c",
+    "source": "Pi RPC get_state; client runtime identity, not server-weight attestation"
+  },
+  "integration_pi": {
+    "provider": "bonsai",
+    "model": "bonsai2-27b",
+    "thinking": "xhigh",
+    "session_id": "01a0ed35-e615-7150-a4a6-f2a3d82f1636",
+    "source": "Pi RPC get_state; client runtime identity, not server-weight attestation"
+  },
+  "source_evidence": "/home/mye/.local/state/codinator/tasks/T0020-motif-split-catalogue",
+  "new_product_tests_run": false,
+  "verification_scope": "Read-only evidence, source snapshot, commit tree and main file hashes; no product test rerun.",
+  "origin_master_local_ref": "e04706b2fa0541672c15a1ed5d6940784d9d43ae",
+  "push_performed": false
+}

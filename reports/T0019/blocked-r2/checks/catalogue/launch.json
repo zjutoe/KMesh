@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "/usr/bin/bwrap",
+    "--die-with-parent",
+    "--new-session",
+    "--unshare-pid",
+    "--unshare-ipc",
+    "--unshare-uts",
+    "--ro-bind",
+    "/",
+    "/",
+    "--proc",
+    "/proc",
+    "--dev",
+    "/dev",
+    "--tmpfs",
+    "/tmp",
+    "--chdir",
+    "/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit",
+    "--",
+    "env",
+    "CUDA_VISIBLE_DEVICES=",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit/.venv/bin/python",
+    "-B",
+    "-m",
+    "kmesh.logic.motif_candidates"
+  ],
+  "cwd": "/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit",
+  "started": 1790589958.1421077,
+  "timeout_seconds": 180
+}

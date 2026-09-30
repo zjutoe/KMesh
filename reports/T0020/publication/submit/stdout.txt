@@ -1,0 +1,1 @@
+ready: T0020-motif-split-catalogue

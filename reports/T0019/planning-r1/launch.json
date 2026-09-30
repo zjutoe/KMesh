@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "/usr/bin/bwrap",
+    "--die-with-parent",
+    "--new-session",
+    "--unshare-pid",
+    "--unshare-ipc",
+    "--unshare-uts",
+    "--ro-bind",
+    "/",
+    "/",
+    "--proc",
+    "/proc",
+    "--dev",
+    "/dev",
+    "--tmpfs",
+    "/tmp",
+    "--chdir",
+    "/home/mye/src/llm/KMesh",
+    "--",
+    "/home/mye/data/kmesh-worktrees/T0018-heldout-motifs/.venv/bin/python",
+    "-B",
+    "reports/T0019/planning_probe.py"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "started": 1790578009.4041617,
+  "timeout_seconds": 60
+}

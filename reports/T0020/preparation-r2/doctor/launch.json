@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/home/mye/.local/bin/codinator",
+    "--state-dir",
+    "/home/mye/data/kmesh-T0020-preparation-ksjxvn_u/doctor-state",
+    "doctor"
+  ],
+  "cwd": "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue",
+  "started": 1790677188.036816,
+  "timeout_seconds": 180
+}

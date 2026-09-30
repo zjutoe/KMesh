@@ -1,0 +1,155 @@
+{
+  "kind": "T0020 preparation, not implementation",
+  "evidence_root": "/home/mye/data/kmesh-T0020-preparation-ksjxvn_u",
+  "workspace": "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue",
+  "head": "ffd1bdf4276c4347de6964627863a1368d5ff857",
+  "environment": {
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:09:02) [GCC 11.2.0]",
+    "executable": "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue/.venv/bin/python",
+    "kmesh_realpath": "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue/src/kmesh/__init__.py",
+    "candidate_realpath": "/home/mye/data/kmesh-worktrees/T0020-motif-split-catalogue/src/kmesh/logic/motif_candidates.py",
+    "packages": {
+      "pytest": "8.3.4",
+      "setuptools": "72.1.0",
+      "wheel": "0.45.1",
+      "torch": "2.9.0+cu130",
+      "numpy": "2.1.3",
+      "PyYAML": "6.0.2"
+    }
+  },
+  "dependency_sha256": {
+    "src/kmesh/logic/motif_candidates.py": "177e475c750041bcbc422a35ffebb57c7bdf5fbf9a82c0d6ea43de4f3bc1dae4",
+    "tests/test_motif_candidates.py": "6ca43057bed506a54d4ff5d915b43d6f852601158dcacd33a714b1772012aa06"
+  },
+  "checks": {
+    "worktree": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790677181.6784506,
+      "finished": 1790677181.9650495,
+      "elapsed_seconds": 0.28659963607788086,
+      "streams": {
+        "stdout.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "1a702bfe5d90abe953705a07969b5cc2b981a6565691ca038a49321997e651e7",
+          "size": 70
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "7ae597f55b86dfd60d74cefccec864c05004afc92db217322a83f86455888554",
+          "size": 62
+        }
+      }
+    },
+    "venv": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790677181.9881299,
+      "finished": 1790677184.9719043,
+      "elapsed_seconds": 2.9837749004364014,
+      "streams": {
+        "stdout.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size": 0
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size": 0
+        }
+      }
+    },
+    "install": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790677184.9726253,
+      "finished": 1790677187.9172156,
+      "elapsed_seconds": 2.9445905685424805,
+      "streams": {
+        "stdout.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "ef3b9813f15b6e3c6d1dc54387b70c0a35bb6a814f9bb32934a30efec6fc8a61",
+          "size": 909
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size": 0
+        }
+      }
+    },
+    "environment": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790677187.9179895,
+      "finished": 1790677188.0362656,
+      "elapsed_seconds": 0.11827659606933594,
+      "streams": {
+        "stdout.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "e515c21f64bea87213dbdfa91c4574b085697efb3b941aaeb673bfb3e313da97",
+          "size": 587
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size": 0
+        }
+      }
+    },
+    "doctor": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790677188.036816,
+      "finished": 1790677188.1104808,
+      "elapsed_seconds": 0.07366538047790527,
+      "streams": {
+        "stdout.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "9399f3bafb25f8fc183e20f38b8be1e615e4b61aab17346022f4223e36ebd4c6",
+          "size": 90
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size": 0
+        }
+      }
+    },
+    "baseline-full": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790677188.5588214,
+      "finished": 1790677222.6841037,
+      "elapsed_seconds": 34.125282526016235,
+      "streams": {
+        "stdout.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "29c6cfa0554792cc4d312d0615ea53adabad2e5044851c59995d109a5319b77a",
+          "size": 1302
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size": 0
+        }
+      }
+    }
+  },
+  "baseline_stdout": "........................................................................ [  6%]\n........................................................................ [ 13%]\n........................................................................ [ 19%]\n........................................................................ [ 26%]\n........................................................................ [ 33%]\n........................................................................ [ 39%]\n........................................................................ [ 46%]\n........................................................................ [ 53%]\n........................................................................ [ 59%]\n........................................................................ [ 66%]\n........................................................................ [ 73%]\n........................................................................ [ 79%]\n........................................................................ [ 86%]\n........................................................................ [ 93%]\n........................................................................ [ 99%]\n..                                                                       [100%]\n1082 passed in 33.88s\n",
+  "readonly_checks_left_snapshot_unchanged": true,
+  "source_bytecode_absent": true
+}

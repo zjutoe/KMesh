@@ -1,0 +1,7 @@
+Updating e04706b..ffd1bdf
+Fast-forward
+ src/kmesh/logic/motif_candidates.py | 283 +++++++++++
+ tests/test_motif_candidates.py      | 937 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 1220 insertions(+)
+ create mode 100644 src/kmesh/logic/motif_candidates.py
+ create mode 100644 tests/test_motif_candidates.py

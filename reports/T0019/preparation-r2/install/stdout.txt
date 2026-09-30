@@ -1,0 +1,13 @@
+Obtaining file:///home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: kmesh
+  Building editable for kmesh (pyproject.toml): started
+  Building editable for kmesh (pyproject.toml): finished with status 'done'
+  Created wheel for kmesh: filename=kmesh-0.1.0-0.editable-py3-none-any.whl size=2355 sha256=2ffb93dbc99d2ae3390d4e3181f674084f8265a7a6cf37aaf09b62ce9a2354a3
+  Stored in directory: /tmp/pip-ephem-wheel-cache-hyc19wlp/wheels/ff/56/17/c8d16c0991909262faeed4299ba445c5398bf4a296157365ed
+Successfully built kmesh
+Installing collected packages: kmesh
+Successfully installed kmesh-0.1.0

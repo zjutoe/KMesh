@@ -1,0 +1,27 @@
+{
+  "task_id": "T0019-motif-candidate-audit",
+  "handoff_revision": "r1",
+  "state": "draft",
+  "baseline": "e04706b2fa0541672c15a1ed5d6940784d9d43ae",
+  "local_links_checked": 124,
+  "git_diff_check_exit": 0,
+  "accepted_T0018_hashes_match": true,
+  "product_tests_and_research_plan_unchanged": true,
+  "planning_probe": {
+    "result": "exit 0",
+    "hand_written_witnesses": 7,
+    "full_80_candidate_audit": "not_run"
+  },
+  "implementation": "not_run",
+  "publication": "not_run",
+  "dedicated_environment": "not_prepared",
+  "new_full_regression": "not_run",
+  "files_sha256": {
+    "docs/handoffs/T0019-motif-candidate-audit.md": "940ea00e59d804d3f716650b505fbebc2f2004593f129a29044a79af4ef6452d",
+    "docs/decisions.md": "29cbaff108422ac86b91b52552f409d784640a4807cdb42824283f7e6543e4b0",
+    "docs/implementation_status.md": "e8f04daed223a15ab4ae54512c22cfc8fe245df1042cdfcb3edaf9f9a2107db5",
+    "docs/handoffs/T0018-heldout-motifs.md": "1c2cace134e90cc1ccc06dbe769d57158f838f3606f19039895a7de18b3a42ca",
+    "reports/T0019/README.md": "8b61f67abf488dc5b02a5162797f8b8365249b7370b96d01790f52601ca0faaa",
+    "reports/T0019/planning_probe.py": "8f3ce3df26cf2a89d18f40dd9b3db778b0606133aab3f30e3a56115c4466bbe9"
+  }
+}

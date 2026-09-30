@@ -1,0 +1,421 @@
+{
+  "connected_components": [
+    [
+      "CC",
+      "CCC",
+      "CCI",
+      "CCJ",
+      "CCT"
+    ],
+    [
+      "CI",
+      "CIC",
+      "CII",
+      "CIJ",
+      "CIT"
+    ],
+    [
+      "CJ",
+      "CJC",
+      "CJI",
+      "CJJ",
+      "CJT"
+    ],
+    [
+      "CT",
+      "CTC",
+      "CTI",
+      "CTJ",
+      "CTT"
+    ],
+    [
+      "IC",
+      "ICC",
+      "ICI",
+      "ICJ",
+      "ICT"
+    ],
+    [
+      "II",
+      "IIC",
+      "III",
+      "IIJ",
+      "IIT"
+    ],
+    [
+      "IJ",
+      "IJC",
+      "IJI",
+      "IJJ",
+      "IJT"
+    ],
+    [
+      "IT",
+      "ITC",
+      "ITI",
+      "ITJ",
+      "ITT"
+    ],
+    [
+      "JC",
+      "JCC",
+      "JCI",
+      "JCJ",
+      "JCT"
+    ],
+    [
+      "JI",
+      "JIC",
+      "JII",
+      "JIJ",
+      "JIT"
+    ],
+    [
+      "JJ",
+      "JJC",
+      "JJI",
+      "JJJ",
+      "JJT"
+    ],
+    [
+      "JT",
+      "JTC",
+      "JTI",
+      "JTJ",
+      "JTT"
+    ],
+    [
+      "TC",
+      "TCC",
+      "TCI",
+      "TCJ",
+      "TCT"
+    ],
+    [
+      "TI",
+      "TIC",
+      "TII",
+      "TIJ",
+      "TIT"
+    ],
+    [
+      "TJ",
+      "TJC",
+      "TJI",
+      "TJJ",
+      "TJT"
+    ],
+    [
+      "TT",
+      "TTC",
+      "TTI",
+      "TTJ",
+      "TTT"
+    ]
+  ],
+  "cross_split_edges": 0,
+  "edge_matrix": {
+    "dev_composition": {
+      "dev_composition": 36,
+      "test_composition": 0,
+      "train": 0
+    },
+    "test_composition": {
+      "dev_composition": 0,
+      "test_composition": 36,
+      "train": 0
+    },
+    "train": {
+      "dev_composition": 0,
+      "test_composition": 0,
+      "train": 72
+    }
+  },
+  "scope": "Accepted finite left_spine_ops_v1 catalogue only; not generated-world isolation",
+  "source_schema": "motif_candidate_audit_v1",
+  "source_sha256": "0e84e0ee386d046664c54c88b5ae798bc492cce101e666d6cbfc389481d9c5b4",
+  "source_summary": {
+    "candidate_count": 80,
+    "containment_edges": 144,
+    "distinct_motif_count": 80,
+    "proper_containment_edges": 64
+  },
+  "splits": [
+    {
+      "buckets": [
+        {
+          "count": 2,
+          "depth": 2,
+          "proof_steps": 3
+        },
+        {
+          "count": 4,
+          "depth": 2,
+          "proof_steps": 4
+        },
+        {
+          "count": 2,
+          "depth": 2,
+          "proof_steps": 5
+        },
+        {
+          "count": 4,
+          "depth": 3,
+          "proof_steps": 4
+        },
+        {
+          "count": 12,
+          "depth": 3,
+          "proof_steps": 5
+        },
+        {
+          "count": 12,
+          "depth": 3,
+          "proof_steps": 6
+        },
+        {
+          "count": 4,
+          "depth": 3,
+          "proof_steps": 7
+        }
+      ],
+      "component_count": 8,
+      "ids": [
+        "CJ",
+        "CT",
+        "IC",
+        "II",
+        "JC",
+        "JI",
+        "TJ",
+        "TT",
+        "CJC",
+        "CJI",
+        "CJJ",
+        "CJT",
+        "CTC",
+        "CTI",
+        "CTJ",
+        "CTT",
+        "ICC",
+        "ICI",
+        "ICJ",
+        "ICT",
+        "IIC",
+        "III",
+        "IIJ",
+        "IIT",
+        "JCC",
+        "JCI",
+        "JCJ",
+        "JCT",
+        "JIC",
+        "JII",
+        "JIJ",
+        "JIT",
+        "TJC",
+        "TJI",
+        "TJJ",
+        "TJT",
+        "TTC",
+        "TTI",
+        "TTJ",
+        "TTT"
+      ],
+      "motif_count": 40,
+      "root_position_operation_counts": [
+        {
+          "C": 2,
+          "I": 2,
+          "J": 2,
+          "T": 2
+        },
+        {
+          "C": 2,
+          "I": 2,
+          "J": 2,
+          "T": 2
+        }
+      ],
+      "roots": [
+        "CJ",
+        "CT",
+        "IC",
+        "II",
+        "JC",
+        "JI",
+        "TJ",
+        "TT"
+      ],
+      "split": "train"
+    },
+    {
+      "buckets": [
+        {
+          "count": 1,
+          "depth": 2,
+          "proof_steps": 3
+        },
+        {
+          "count": 2,
+          "depth": 2,
+          "proof_steps": 4
+        },
+        {
+          "count": 1,
+          "depth": 2,
+          "proof_steps": 5
+        },
+        {
+          "count": 2,
+          "depth": 3,
+          "proof_steps": 4
+        },
+        {
+          "count": 6,
+          "depth": 3,
+          "proof_steps": 5
+        },
+        {
+          "count": 6,
+          "depth": 3,
+          "proof_steps": 6
+        },
+        {
+          "count": 2,
+          "depth": 3,
+          "proof_steps": 7
+        }
+      ],
+      "component_count": 4,
+      "ids": [
+        "CC",
+        "IJ",
+        "JT",
+        "TI",
+        "CCC",
+        "CCI",
+        "CCJ",
+        "CCT",
+        "IJC",
+        "IJI",
+        "IJJ",
+        "IJT",
+        "JTC",
+        "JTI",
+        "JTJ",
+        "JTT",
+        "TIC",
+        "TII",
+        "TIJ",
+        "TIT"
+      ],
+      "motif_count": 20,
+      "root_position_operation_counts": [
+        {
+          "C": 1,
+          "I": 1,
+          "J": 1,
+          "T": 1
+        },
+        {
+          "C": 1,
+          "I": 1,
+          "J": 1,
+          "T": 1
+        }
+      ],
+      "roots": [
+        "CC",
+        "IJ",
+        "JT",
+        "TI"
+      ],
+      "split": "dev_composition"
+    },
+    {
+      "buckets": [
+        {
+          "count": 1,
+          "depth": 2,
+          "proof_steps": 3
+        },
+        {
+          "count": 2,
+          "depth": 2,
+          "proof_steps": 4
+        },
+        {
+          "count": 1,
+          "depth": 2,
+          "proof_steps": 5
+        },
+        {
+          "count": 2,
+          "depth": 3,
+          "proof_steps": 4
+        },
+        {
+          "count": 6,
+          "depth": 3,
+          "proof_steps": 5
+        },
+        {
+          "count": 6,
+          "depth": 3,
+          "proof_steps": 6
+        },
+        {
+          "count": 2,
+          "depth": 3,
+          "proof_steps": 7
+        }
+      ],
+      "component_count": 4,
+      "ids": [
+        "CI",
+        "IT",
+        "JJ",
+        "TC",
+        "CIC",
+        "CII",
+        "CIJ",
+        "CIT",
+        "ITC",
+        "ITI",
+        "ITJ",
+        "ITT",
+        "JJC",
+        "JJI",
+        "JJJ",
+        "JJT",
+        "TCC",
+        "TCI",
+        "TCJ",
+        "TCT"
+      ],
+      "motif_count": 20,
+      "root_position_operation_counts": [
+        {
+          "C": 1,
+          "I": 1,
+          "J": 1,
+          "T": 1
+        },
+        {
+          "C": 1,
+          "I": 1,
+          "J": 1,
+          "T": 1
+        }
+      ],
+      "roots": [
+        "CI",
+        "IT",
+        "JJ",
+        "TC"
+      ],
+      "split": "test_composition"
+    }
+  ]
+}

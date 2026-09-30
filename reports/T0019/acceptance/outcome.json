@@ -1,0 +1,7 @@
+{
+  "task_id": "T0019-motif-candidate-audit",
+  "submission_digest": "0750811878ce82fb4bd14992810ecedb09c74f23ed0c2c5d7fe27b1000de3852",
+  "verdict": "accepted",
+  "summary": "T0019-R1, R2, and R3 are resolved; independent probes reject all previously reported faulty behaviors. Submission and evidence hashes match. All required controller checks passed: 32 focused tests, 1082 full tests, and catalogue generation. Independent reconstruction confirmed 80 valid witnesses, 80 distinct motifs, seven buckets, and 144 containment edges. Acceptance is limited to the contracted candidate family.",
+  "issues": []
+}

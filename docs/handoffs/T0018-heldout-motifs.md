@@ -244,3 +244,7 @@ env CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src /opt/anaconda
 - Git HEAD／索引因授权提交发生变化，不再要求提交后的整个工作树 digest 等于提交前验收快照；原 digest 与实现提交的对应关系见 [合并记录](../../reports/T0018/integration/merge.json)。验收报告中的“未提交／未合并”为验收时点历史，本段记录后续状态。未执行 push。
 
 后续依赖方向（未分配编号、未授权实施）：先冻结正式 motif 目录与匹配覆盖规则，再落实单世界准入和 family／split 审计、生成器及 M0 剩余检查；随后才进入模型 smoke 和 E0。是否将完整子树作为正式唯一匹配口径仍需单独研究决策，不能在本任务中悄悄缩窄计划的“子结构”含义。
+
+2026-09-28 后续分解追加：用户要求分解下一项后，已安排 [T0019：深度 2–3 候选 motif 目录审计](T0019-motif-candidate-audit.md)。正式目录冻结之前，先对固定 80 个最小候选核验独立结构、规范唯一性、深度和包含关系；不预设候选族足以覆盖研究目标，不直接分配 train/dev/test。T0019 当前 draft，未发布；本任务原契约与验收结果不变。
+
+2026-09-28 T0019 准备追加：独立环境、1050 项基线和模型预检已通过，T0019 已升为 ready / r2，发布清单和原生 Pi [启动说明](../../reports/T0019/preparation-r2/README.md)已就绪；尚未启动实施，上条 draft 记录保留为分解时点。

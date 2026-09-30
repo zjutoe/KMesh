@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "codinator",
+    "--state-dir",
+    "/home/mye/data/kmesh-T0019-preparation-cwn8wlo4/doctor-state",
+    "doctor"
+  ],
+  "cwd": "/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit",
+  "started": 1790579309.7213378,
+  "timeout_seconds": 180
+}

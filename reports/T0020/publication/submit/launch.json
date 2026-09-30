@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "/home/mye/.local/bin/codinator",
+    "submit",
+    "/home/mye/src/llm/KMesh/reports/T0020/task.json"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "started": 1790679813.6631775,
+  "timeout_seconds": 60
+}

@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "/usr/bin/bwrap",
+    "--die-with-parent",
+    "--new-session",
+    "--unshare-pid",
+    "--unshare-ipc",
+    "--unshare-uts",
+    "--ro-bind",
+    "/",
+    "/",
+    "--proc",
+    "/proc",
+    "--dev",
+    "/dev",
+    "--tmpfs",
+    "/tmp",
+    "--chdir",
+    "/home/mye/src/llm/KMesh",
+    "--",
+    "/home/mye/data/kmesh-worktrees/T0019-motif-candidate-audit/.venv/bin/python",
+    "-B",
+    "-c",
+    "import pathlib, kmesh, kmesh.logic.motif_candidates as m, pytest; root=pathlib.Path.cwd(); assert pathlib.Path(kmesh.__file__).resolve()==root/'src/kmesh/__init__.py'; assert pathlib.Path(m.__file__).resolve()==root/'src/kmesh/logic/motif_candidates.py'; print('verified master import:', pathlib.Path(m.__file__).resolve(), flush=True); raise SystemExit(pytest.main(['-q','-p','no:cacheprovider','--basetemp','/tmp/kmesh-T0019-main-integration-focused','tests/test_motif_candidates.py']))"
+  ],
+  "cwd": "/home/mye/src/llm/KMesh",
+  "started": 1790676833.7005715,
+  "timeout_seconds": 180
+}

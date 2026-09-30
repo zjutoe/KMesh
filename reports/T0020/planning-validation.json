@@ -1,0 +1,30 @@
+{
+  "validated_at": "2026-09-29T09:17:41.237906+00:00",
+  "role": "Codex planning and document verification",
+  "checks": {
+    "accepted_catalogue_input_hash": "pass",
+    "protocol_literal_ids_match_measured_catalogue": "pass",
+    "seven_bucket_literal_quotas_match_measurements": "pass",
+    "component_sizes_and_all_nine_edge_cells": "pass",
+    "local_links_and_heading_anchors": {
+      "result": "pass",
+      "count": 57
+    },
+    "handoff_sections_steps_acceptance_and_no_implementation": "pass",
+    "T0019_frozen_workspace_evidence_exports_and_client_identity": "pass",
+    "git_diff_check": "pass"
+  },
+  "file_sha256": {
+    "docs/handoffs/T0020-motif-split-catalogue.md": "9b8ff5bd415e8ae015dd8837d013240de0cdebd3fbec17433d2097025d354e21",
+    "docs/motif_split_v1.md": "200836d7fbeef02e1eea380a46e3f624f2d9e9c31dfafbb326dd1f795c9078ef",
+    "KMesh_Research_Plan_v0.1.md": "97ac3e2216de96a2a79d26118c87fec4101a81611b76ad819e11bc9c75121bcb",
+    "AGENTS.md": "b4fdb8d7a5181bf25767a129b7298809cc47382ad5f0a9823c5a78625818da97",
+    "docs/decisions.md": "03d38c5c45d6e4077b41f4d319743db2549913691c3c98eee9c2a7ccc706fcbf",
+    "reports/T0020/planning_probe.py": "a2d3316f6fc09c2bb44221a9e91d985548d9c5749580150691e6532970328a6d",
+    "reports/T0020/planning-r1/stdout.json": "08607ca8cb0ef030e4d6c777f43fcab19090fd802bbe87bd0f78feede45c459d"
+  },
+  "T0020_state": "draft",
+  "new_product_tests_run": false,
+  "models_called": false,
+  "task_submitted": false
+}

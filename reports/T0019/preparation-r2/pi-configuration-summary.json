@@ -1,0 +1,15 @@
+{
+  "source": "/home/mye/data/kmesh-T0018-preparation-s9w7eg0x/pi-config-r4/launch-pi",
+  "launch_pi_config": "/home/mye/data/kmesh-T0019-preparation-cwn8wlo4/launch-pi",
+  "copied_files": [
+    "settings.json",
+    "models.json",
+    "auth.json"
+  ],
+  "provider": "bonsai",
+  "model": "bonsai2-27b",
+  "thinking": "xhigh",
+  "base_url": "http://127.0.0.1:8080/v1",
+  "global_configuration_modified": false,
+  "backend_weight_attestation": false
+}

@@ -1,0 +1,9 @@
+{
+  "stage": "precommit whitespace check",
+  "exit_code": 1,
+  "commit_created": false,
+  "merge_performed": false,
+  "check_exit_code": 2,
+  "check_stdout": "tests/test_motif_candidates.py:869: trailing whitespace.\n+    \n",
+  "resolution": "Preserve the exact accepted bytes, record the existing cosmetic warning, and proceed with the explicit two-file stage."
+}

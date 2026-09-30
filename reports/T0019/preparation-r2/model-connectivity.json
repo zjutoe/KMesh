@@ -1,0 +1,99 @@
+{
+  "kind": "T0019 connectivity preflight only; no implementation or independent acceptance",
+  "raw_evidence_root": "/home/mye/data/kmesh-T0019-preparation-cwn8wlo4",
+  "pi": {
+    "status": "pass",
+    "runtime": {
+      "provider": "bonsai",
+      "model": "bonsai2-27b",
+      "thinking": "xhigh",
+      "source": "Pi RPC get_state; client runtime identity, not server-weight attestation"
+    },
+    "acknowledgement": "T0019_PREFLIGHT_OK",
+    "proxy": "removed; direct local Bonsai",
+    "result": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790579517.9103868,
+      "finished": 1790579523.5501196,
+      "elapsed_seconds": 5.63973331451416,
+      "streams": {
+        "stdout.jsonl": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "cbb7cf9da983ef7c7bcc8bb3bb6af81731e611a911de6c7d2a1d197898a9a914",
+          "size": 20902
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size": 0
+        }
+      }
+    }
+  },
+  "codex": {
+    "status": "pass",
+    "requested_model": "gpt-6-astra",
+    "requested_reasoning": "xhigh",
+    "identity_source": "CLI invocation and successful turn; not server-weight attestation",
+    "acknowledgement": "T0019_PREFLIGHT_OK",
+    "proxy": "http://127.0.0.1:8888",
+    "result": {
+      "exit_code": 0,
+      "failure": null,
+      "started": 1790579517.9118493,
+      "finished": 1790579563.8988113,
+      "elapsed_seconds": 45.98696279525757,
+      "streams": {
+        "stdout.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "20941e6309512164247f521f263f8337e13e3d05917d5c7067ac5e0218432d45",
+          "size": 376
+        },
+        "stderr.txt": {
+          "kind": "file",
+          "mode": 384,
+          "sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "size": 39
+        }
+      }
+    }
+  },
+  "configuration": {
+    "source": "/home/mye/data/kmesh-T0018-preparation-s9w7eg0x/pi-config-r4/launch-pi",
+    "launch_pi_config": "/home/mye/data/kmesh-T0019-preparation-cwn8wlo4/launch-pi",
+    "copied_files": [
+      "settings.json",
+      "models.json",
+      "auth.json"
+    ],
+    "provider": "bonsai",
+    "model": "bonsai2-27b",
+    "thinking": "xhigh",
+    "base_url": "http://127.0.0.1:8080/v1",
+    "global_configuration_modified": false,
+    "backend_weight_attestation": false
+  },
+  "preserved_failures": [
+    {
+      "exit_code": 1,
+      "cause": "Prepared probe retained obsolete worktree suffix: T0019-heldout-motifs; snapshot failed because directory does not exist",
+      "original_traceback_source": "Session exec tool output; this JSON is a later summary, not an original run_process record",
+      "model_prompt_sent": false,
+      "recovery": "New models-r2 attempt uses T0019-motif-candidate-audit; original script retained unchanged"
+    }
+  ],
+  "tools": {
+    "pi": "0.87.1",
+    "codex": "0.157.1",
+    "codinator_head": "15690b10ed1169fb8ba6749a6e1a4caa2f47d0b1"
+  },
+  "limitations": [
+    "Pi RPC get_state is only preflight client metadata, not native TUI execution or backend weight attestation",
+    "The first startup failure was recorded in session tool output; supplemental JSON is explicitly a later summary",
+    "No product implementation or real-model native implementation/review loop was started"
+  ]
+}
